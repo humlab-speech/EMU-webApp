@@ -219,8 +219,13 @@ class WebSocketHandlerService{
 	
 	// ws getProtocol
 	public getDoUserManagement() {
+		const params = new URLSearchParams(window.location.search);
+		
 		var request = {
-			type: 'GETDOUSERMANAGEMENT'
+			type: 'GETDOUSERMANAGEMENT',
+			data: {
+				projectId: params.get("projectId"),
+			}
 		};
 		// Storing in a variable for clarity on what sendRequest returns
 		var promise = this.sendRequest(request);
