@@ -412,17 +412,23 @@
 													"xContourNr": {
 														"type": "integer"
 													},
+													"xJstfField": {
+														"type": "string"
+													},
 													"ySsffTrack": {
 														"type": "string"
 													},
 													"yContourNr": {
 														"type": "integer"
 													},
+													"yJstfField": {
+														"type": "string"
+													},
 													"color": {
 														"type": "string"
 													}
 												},
-												"required": ["name", "xSsffTrack", "xContourNr", "ySsffTrack", "yContourNr"],
+												"required": ["name", "xSsffTrack", "ySsffTrack"],
 												"additionalProperties": false
 											}
 										},

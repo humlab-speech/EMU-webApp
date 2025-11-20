@@ -19,6 +19,7 @@ class DbObjLoadSaveService{
 	private HistoryService;
 	private LoadedMetaDataService;
 	private SsffDataService;
+	private JstfDataService;
 	private IoHandlerService;
 	private BinaryDataManipHelperService;
 	private WavParserService;
@@ -30,8 +31,8 @@ class DbObjLoadSaveService{
 	private ConfigProviderService;
 	private AppStateService;
 	private StandardFuncsService;
-	
-	constructor($log, $q, $http, DataService, ViewStateService, HistoryService, LoadedMetaDataService, SsffDataService, IoHandlerService, BinaryDataManipHelperService, WavParserService, SoundHandlerService, SsffParserService, ValidationService, LevelService, ModalService, ConfigProviderService, AppStateService, StandardFuncsService){
+
+	constructor($log, $q, $http, DataService, ViewStateService, HistoryService, LoadedMetaDataService, SsffDataService, JstfDataService, IoHandlerService, BinaryDataManipHelperService, WavParserService, SoundHandlerService, SsffParserService, ValidationService, LevelService, ModalService, ConfigProviderService, AppStateService, StandardFuncsService){
 		this.$log = $log;
 		this.$q = $q;
 		this.$http = $http;
@@ -40,6 +41,7 @@ class DbObjLoadSaveService{
 		this.HistoryService = HistoryService;
 		this.LoadedMetaDataService = LoadedMetaDataService;
 		this.SsffDataService = SsffDataService;
+		this.JstfDataService = JstfDataService;
 		this.IoHandlerService = IoHandlerService;
 		this.BinaryDataManipHelperService = BinaryDataManipHelperService;
 		this.WavParserService = WavParserService;
@@ -97,10 +99,11 @@ class DbObjLoadSaveService{
 						bundleData.ssffFiles[i].data = res[i];
 					}
 				}
-				// set all ssff files
-				this.ViewStateService.somethingInProgressTxt = 'Parsing SSFF files...';
-				this.SsffParserService.asyncParseSsffArr(bundleData.ssffFiles).then((ssffJso) => {
-					this.SsffDataService.data = ssffJso.data;
+				// set all ssff/jstf files
+				this.ViewStateService.somethingInProgressTxt = 'Parsing SSFF/JSTF files...';
+				this.SsffParserService.asyncParseSsffArr(bundleData.ssffFiles).then((parseResult) => {
+					this.SsffDataService.data = parseResult.ssffData;
+					this.JstfDataService.setData(parseResult.jstfData);
 					// set annotation
 					this.DataService.setData(bundleData.annotation);
 					this.LoadedMetaDataService.setCurBndl(bndl);
@@ -353,4 +356,4 @@ class DbObjLoadSaveService{
 }
 
 angular.module('emuwebApp')
-.service('DbObjLoadSaveService', ['$log', '$q', '$http', 'DataService', 'ViewStateService', 'HistoryService', 'LoadedMetaDataService', 'SsffDataService', 'IoHandlerService', 'BinaryDataManipHelperService', 'WavParserService', 'SoundHandlerService', 'SsffParserService', 'ValidationService', 'LevelService', 'ModalService', 'ConfigProviderService', 'AppStateService', 'StandardFuncsService', DbObjLoadSaveService]);
+.service('DbObjLoadSaveService', ['$log', '$q', '$http', 'DataService', 'ViewStateService', 'HistoryService', 'LoadedMetaDataService', 'SsffDataService', 'JstfDataService', 'IoHandlerService', 'BinaryDataManipHelperService', 'WavParserService', 'SoundHandlerService', 'SsffParserService', 'ValidationService', 'LevelService', 'ModalService', 'ConfigProviderService', 'AppStateService', 'StandardFuncsService', DbObjLoadSaveService]);

@@ -112,6 +112,29 @@ class ConfigProviderService {
 	};
 
 	/**
+	 * Check if a track is JSTF format
+	 * @param trackName - Track name to check
+	 * @returns true if track format is JSTF, false otherwise
+	 */
+	public isJstfTrack(trackName): boolean {
+		const trackConfig = this.getSsffTrackConfig(trackName);
+		return trackConfig?.format === 'JSTF';
+	};
+
+	/**
+	 * Get JSTF field names from track configuration
+	 * @param trackName - Track name
+	 * @returns Array of field names or undefined if not a JSTF track
+	 */
+	public getJstfFieldsOfTrack(trackName): string[] | undefined {
+		const trackConfig = this.getSsffTrackConfig(trackName);
+		if (trackConfig && trackConfig.format === 'JSTF') {
+			return trackConfig.fields;
+		}
+		return undefined;
+	};
+
+	/**
 	 *
 	 */
 	public getValueLimsOfTrack(trackName) {

@@ -20,13 +20,14 @@ let DotsCanvasComponent = {
         viewPortSampleEnd: '<'
     },
     controller: [
-        '$scope', 
-        '$element', 
-        'ViewStateService', 
-        'ConfigProviderService', 
-        'SoundHandlerService', 
-        'SsffDataService', 
-        'FontScaleService', 
+        '$scope',
+        '$element',
+        'ViewStateService',
+        'ConfigProviderService',
+        'SoundHandlerService',
+        'SsffDataService',
+        'JstfDataService',
+        'FontScaleService',
         'MathHelperService',
         class DotsCanvasController {
         private $scope;
@@ -35,6 +36,7 @@ let DotsCanvasComponent = {
         private ConfigProviderService
         private SoundHandlerService;
         private SsffDataService;
+        private JstfDataService;
         private FontScaleService;
         private MathHelperService;
 
@@ -48,16 +50,17 @@ let DotsCanvasComponent = {
         private startPoint;
         private endPoint;
 
-        private _inited; 
+        private _inited;
 
         constructor(
-            $scope, 
-            $element, 
-            ViewStateService, 
-            ConfigProviderService, 
-            SoundHandlerService, 
-            SsffDataService, 
-            FontScaleService, 
+            $scope,
+            $element,
+            ViewStateService,
+            ConfigProviderService,
+            SoundHandlerService,
+            SsffDataService,
+            JstfDataService,
+            FontScaleService,
             MathHelperService
             ){
             this.$scope = $scope;
@@ -66,6 +69,7 @@ let DotsCanvasComponent = {
             this.ConfigProviderService = ConfigProviderService
             this.SoundHandlerService = SoundHandlerService;
             this.SsffDataService = SsffDataService;
+            this.JstfDataService = JstfDataService;
             this.FontScaleService = FontScaleService;
             this.MathHelperService = MathHelperService;
 
@@ -110,27 +114,69 @@ let DotsCanvasComponent = {
         private setGlobalMinMaxVals (): number {
             var dD = this.ConfigProviderService.vals.perspectives[this.ViewStateService.curPerspectiveIdx].twoDimCanvases.twoDimDrawingDefinitions[0]; // SIC SIC SIC hardcoded
             for (var i = 0; i < dD.dots.length; i++) {
-                // get xCol
-                var trConf = this.ConfigProviderService.getSsffTrackConfig(dD.dots[i].xSsffTrack);
-                var xCol = this.SsffDataService.getColumnOfTrack(trConf.name, trConf.columnName);
-                if (typeof xCol === 'undefined'){
-                    return(1)
-                }
-                if (xCol._minVal < this.globalMinX) {
-                    this.globalMinX = xCol._minVal;
-                }
-                if (xCol._maxVal > this.globalMaxX) {
-                    this.globalMaxX = xCol._maxVal;
+                // Check if X track is JSTF or SSFF
+                var xTrackConf = this.ConfigProviderService.getSsffTrackConfig(dD.dots[i].xSsffTrack);
+
+                if (this.ConfigProviderService.isJstfTrack(dD.dots[i].xSsffTrack)) {
+                    // JSTF track - get field min/max
+                    const xFieldName = dD.dots[i].xJstfField;
+                    if (!xFieldName) {
+                        console.error(`JSTF track ${dD.dots[i].xSsffTrack} requires xJstfField property`);
+                        return(1);
+                    }
+                    const xMinMax = this.JstfDataService.getFieldMinMax(xTrackConf.name, xFieldName);
+                    if (!xMinMax) {
+                        return(1);
+                    }
+                    if (xMinMax.min < this.globalMinX) {
+                        this.globalMinX = xMinMax.min;
+                    }
+                    if (xMinMax.max > this.globalMaxX) {
+                        this.globalMaxX = xMinMax.max;
+                    }
+                } else {
+                    // SSFF track - existing logic
+                    var xCol = this.SsffDataService.getColumnOfTrack(xTrackConf.name, xTrackConf.columnName);
+                    if (typeof xCol === 'undefined'){
+                        return(1)
+                    }
+                    if (xCol._minVal < this.globalMinX) {
+                        this.globalMinX = xCol._minVal;
+                    }
+                    if (xCol._maxVal > this.globalMaxX) {
+                        this.globalMaxX = xCol._maxVal;
+                    }
                 }
 
-                // get yCol
-                trConf = this.ConfigProviderService.getSsffTrackConfig(dD.dots[i].ySsffTrack);
-                var yCol = this.SsffDataService.getColumnOfTrack(trConf.name, trConf.columnName);
-                if (yCol._minVal < this.globalMinY) {
-                    this.globalMinY = yCol._minVal;
-                }
-                if (yCol._maxVal > this.globalMaxY) {
-                    this.globalMaxY = yCol._maxVal;
+                // Check if Y track is JSTF or SSFF
+                var yTrackConf = this.ConfigProviderService.getSsffTrackConfig(dD.dots[i].ySsffTrack);
+
+                if (this.ConfigProviderService.isJstfTrack(dD.dots[i].ySsffTrack)) {
+                    // JSTF track - get field min/max
+                    const yFieldName = dD.dots[i].yJstfField;
+                    if (!yFieldName) {
+                        console.error(`JSTF track ${dD.dots[i].ySsffTrack} requires yJstfField property`);
+                        return(1);
+                    }
+                    const yMinMax = this.JstfDataService.getFieldMinMax(yTrackConf.name, yFieldName);
+                    if (!yMinMax) {
+                        return(1);
+                    }
+                    if (yMinMax.min < this.globalMinY) {
+                        this.globalMinY = yMinMax.min;
+                    }
+                    if (yMinMax.max > this.globalMaxY) {
+                        this.globalMaxY = yMinMax.max;
+                    }
+                } else {
+                    // SSFF track - existing logic
+                    var yCol = this.SsffDataService.getColumnOfTrack(yTrackConf.name, yTrackConf.columnName);
+                    if (yCol._minVal < this.globalMinY) {
+                        this.globalMinY = yCol._minVal;
+                    }
+                    if (yCol._maxVal > this.globalMaxY) {
+                        this.globalMaxY = yCol._maxVal;
+                    }
                 }
             }
 
@@ -327,33 +373,92 @@ let DotsCanvasComponent = {
             var allDots = [];
 
             for (var i = 0; i < dD.dots.length; i++) {
+                let xValue, yValue;
+                var xTrackConf = this.ConfigProviderService.getSsffTrackConfig(dD.dots[i].xSsffTrack);
+                var yTrackConf = this.ConfigProviderService.getSsffTrackConfig(dD.dots[i].ySsffTrack);
 
-                // get xCol
-                trConf = this.ConfigProviderService.getSsffTrackConfig(dD.dots[i].xSsffTrack);
-                xCol = this.SsffDataService.getColumnOfTrack(trConf.name, trConf.columnName);
+                // Check if this is a JSTF track or SSFF track
+                const isXJstf = this.ConfigProviderService.isJstfTrack(dD.dots[i].xSsffTrack);
+                const isYJstf = this.ConfigProviderService.isJstfTrack(dD.dots[i].ySsffTrack);
 
-                // get yCol
-                trConf = this.ConfigProviderService.getSsffTrackConfig(dD.dots[i].ySsffTrack);
-                var yCol = this.SsffDataService.getColumnOfTrack(trConf.name, trConf.columnName);
+                if (isXJstf || isYJstf) {
+                    // At least one track is JSTF - use time-based lookup
+                    const curTimeInSeconds = curMousePosTime;
 
-                // check if x and why have the same amount of cols
-                if (xCol.values.length !== yCol.values.length) {
-                    alert('columns do not have same length or length of one not 1');
-                    return;
+                    if (isXJstf && isYJstf && dD.dots[i].xSsffTrack === dD.dots[i].ySsffTrack) {
+                        // Both from same JSTF track - get both values in one call
+                        const fieldValues = this.JstfDataService.getFieldValuesAtTime(
+                            xTrackConf.name,
+                            [dD.dots[i].xJstfField, dD.dots[i].yJstfField],
+                            curTimeInSeconds
+                        );
+
+                        if (!fieldValues) {
+                            // No data at this time - skip drawing (blank)
+                            continue;
+                        }
+
+                        xValue = fieldValues[dD.dots[i].xJstfField];
+                        yValue = fieldValues[dD.dots[i].yJstfField];
+                    } else {
+                        // Mixed or different JSTF tracks - get individually
+                        if (isXJstf) {
+                            xValue = this.JstfDataService.getFieldValueAtTime(
+                                xTrackConf.name,
+                                dD.dots[i].xJstfField,
+                                curTimeInSeconds
+                            );
+                            if (xValue === undefined) {
+                                continue; // No data
+                            }
+                        } else {
+                            // X is SSFF
+                            xCol = this.SsffDataService.getColumnOfTrack(xTrackConf.name, xTrackConf.columnName);
+                            xValue = xCol.values[curFrame][dD.dots[i].xContourNr];
+                        }
+
+                        if (isYJstf) {
+                            yValue = this.JstfDataService.getFieldValueAtTime(
+                                yTrackConf.name,
+                                dD.dots[i].yJstfField,
+                                curTimeInSeconds
+                            );
+                            if (yValue === undefined) {
+                                continue; // No data
+                            }
+                        } else {
+                            // Y is SSFF
+                            var yCol = this.SsffDataService.getColumnOfTrack(yTrackConf.name, yTrackConf.columnName);
+                            yValue = yCol.values[curFrame][dD.dots[i].yContourNr];
+                        }
+                    }
+                } else {
+                    // Both SSFF - existing logic
+                    xCol = this.SsffDataService.getColumnOfTrack(xTrackConf.name, xTrackConf.columnName);
+                    yCol = this.SsffDataService.getColumnOfTrack(yTrackConf.name, yTrackConf.columnName);
+
+                    // check if x and y have the same amount of cols
+                    if (xCol.values.length !== yCol.values.length) {
+                        alert('columns do not have same length or length of one not 1');
+                        return;
+                    }
+
+                    xsRaSt = this.SsffDataService.getSampleRateAndStartTimeOfTrack(dD.dots[i].xSsffTrack);
+                    ysRaSt = this.SsffDataService.getSampleRateAndStartTimeOfTrack(dD.dots[i].ySsffTrack);
+
+                    // check if sampleRate and startTime is the same
+                    if (xsRaSt.sampleRate !== ysRaSt.sampleRate || xsRaSt.startSample !== ysRaSt.startSample) {
+                        alert('xsRaSt.sampleRate !== ysRaSt.sampleRate || xsRaSt.startSample !== ysRaSt.startSample');
+                        return;
+                    }
+
+                    xValue = xCol.values[curFrame][dD.dots[i].xContourNr];
+                    yValue = yCol.values[curFrame][dD.dots[i].yContourNr];
                 }
 
-                xsRaSt = this.SsffDataService.getSampleRateAndStartTimeOfTrack(dD.dots[i].xSsffTrack);
-                ysRaSt = this.SsffDataService.getSampleRateAndStartTimeOfTrack(dD.dots[i].ySsffTrack);
-
-                // check if sampleRate and startTime is the same
-                if (xsRaSt.sampleRate !== ysRaSt.sampleRate || xsRaSt.startSample !== ysRaSt.startSample) {
-                    alert('xsRaSt.sampleRate !== ysRaSt.sampleRate || xsRaSt.startSample !== ysRaSt.startSample');
-                    return;
-                }
-
-
-                var x = ((xCol.values[curFrame][dD.dots[i].xContourNr] - this.globalMinX) / (this.globalMaxX - this.globalMinX) * this.canvas.width);
-                var y = this.canvas.height - ((yCol.values[curFrame][dD.dots[i].yContourNr] - this.globalMinY) / (this.globalMaxY - this.globalMinY) * this.canvas.height);
+                // Now draw using xValue and yValue (works for both SSFF and JSTF)
+                var x = ((xValue - this.globalMinX) / (this.globalMaxX - this.globalMinX) * this.canvas.width);
+                var y = this.canvas.height - ((yValue - this.globalMinY) / (this.globalMaxY - this.globalMinY) * this.canvas.height);
 
                 ctx.strokeStyle = dD.dots[i].color;
                 ctx.beginPath();

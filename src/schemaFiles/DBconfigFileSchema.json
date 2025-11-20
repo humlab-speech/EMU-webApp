@@ -25,11 +25,21 @@
 					"fileFormat": {
 						"enum": ["ssff", "Rda"]
 					},
+					"format": {
+						"type": "string",
+						"enum": ["SSFF", "JSTF"]
+					},
+					"fields": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
 					"name": {
 						"type": "string"
 					}
 				},
-				"required": ["name", "columnName", "fileExtension"],
+				"required": ["name", "fileExtension"],
 				"additionalProperties": false
 			}
 		},

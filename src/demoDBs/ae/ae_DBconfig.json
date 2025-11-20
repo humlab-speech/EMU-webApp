@@ -14,6 +14,11 @@
 		"name": "dftSpec",
 		"columnName": "dft",
 		"fileExtension": "dft"
+	}, {
+		"name": "VOICE_QUALITY",
+		"fileExtension": "vat",
+		"format": "JSTF",
+		"fields": ["jitter_local", "shimmer_local", "hnr", "cepstral_peak"]
 	}],
 	"levelDefinitions": [{
 		"name": "Utterance",
@@ -166,6 +171,34 @@
 			},
 			"twoDimCanvases": {
 				"order": []
+			}
+		}, {
+			"name": "voiceQuality2D",
+			"signalCanvases": {
+				"order": ["OSCI", "SPEC"],
+				"assign": [{
+					"signalCanvasName": "SPEC",
+					"ssffTrackName": "FORMANTS"
+				}]
+			},
+			"levelCanvases": {
+				"order": ["Phonetic"]
+			},
+			"twoDimCanvases": {
+				"order": ["VOICE2D"],
+				"twoDimDrawingDefinitions": [{
+					"name": "VOICE2D",
+					"dots": [{
+						"name": "Jitter/Shimmer",
+						"xSsffTrack": "VOICE_QUALITY",
+						"ySsffTrack": "VOICE_QUALITY",
+						"xJstfField": "jitter_local",
+						"yJstfField": "shimmer_local",
+						"color": "rgb(0,192,0)"
+					}],
+					"connectLines": [],
+					"staticDots": []
+				}]
 			}
 		}],
 		"restrictions": {
