@@ -16,6 +16,7 @@
 		"fileExtension": "dft"
 	}, {
 		"name": "VOICE_QUALITY",
+		"columnName": "voice_quality",
 		"fileExtension": "vat",
 		"format": "JSTF",
 		"fields": ["jitter_local", "shimmer_local", "hnr", "cepstral_peak"]

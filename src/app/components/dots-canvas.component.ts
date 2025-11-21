@@ -171,6 +171,9 @@ let DotsCanvasComponent = {
                 } else {
                     // SSFF track - existing logic
                     var yCol = this.SsffDataService.getColumnOfTrack(yTrackConf.name, yTrackConf.columnName);
+                    if (typeof yCol === 'undefined') {
+                        return(1);
+                    }
                     if (yCol._minVal < this.globalMinY) {
                         this.globalMinY = yCol._minVal;
                     }

@@ -127,17 +127,30 @@ class JstfDataService {
         }
 
         // Scan all slices for min/max
+        if (jstfFile.slices.length === 0) {
+            return undefined;
+        }
+
         let min = Infinity;
         let max = -Infinity;
 
         for (const slice of jstfFile.slices) {
             const value = slice.values[fieldIndex];
+            // Only consider finite numeric values
+            if (!Number.isFinite(value)) {
+                continue;
+            }
             if (value < min) {
                 min = value;
             }
             if (value > max) {
                 max = value;
             }
+        }
+
+        // If all values were invalid
+        if (min === Infinity || max === -Infinity) {
+            return undefined;
         }
 
         return { min, max };

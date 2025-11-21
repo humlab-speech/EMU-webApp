@@ -49,13 +49,17 @@ class JstfParserService {
      */
     public parseJstf(jsonString: string, fileExtension: string): IJstfParsedData {
         try {
-            // Parse JSON
-            const jstfFile: IJstfFile = JSON.parse(jsonString);
+            // Parse JSON (type unknown until validated)
+            const parsed: unknown = JSON.parse(jsonString);
 
-            // Validate structure
-            this.validateJstfStructure(jstfFile);
+            // Validate structure (acts as runtime type guard)
+            this.validateJstfStructure(parsed);
+
+            // Now safe to cast after validation
+            const jstfFile = parsed as IJstfFile;
 
             // Extract ordered field names from field_schema
+            // Note: Relies on modern JavaScript maintaining object key insertion order
             const fieldNames = Object.keys(jstfFile.field_schema);
 
             // Create time index for efficient binary search
@@ -82,7 +86,8 @@ class JstfParserService {
             };
 
         } catch (e) {
-            throw new Error(`Failed to parse JSTF file: ${e.message}`);
+            const message = e instanceof Error ? e.message : String(e);
+            throw new Error(`Failed to parse JSTF file: ${message}`);
         }
     }
 

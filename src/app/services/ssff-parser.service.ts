@@ -29,7 +29,8 @@ class SsffParserService{
 	* @returns promise with {ssffData: [...], jstfData: [...]}
 	*/
 	public asyncParseSsffArr(fileArray) {
-		this.defer = this.$q.defer();
+		// Use local defer to avoid concurrency issues
+		const mainDefer = this.$q.defer();
 
 		// Separate SSFF and JSTF files
 		const ssffFiles = [];
@@ -60,6 +61,8 @@ class SsffParserService{
 				} else {
 					ssffDefer.reject(e);
 				}
+				// Clean up: terminate worker after use to prevent memory leak
+				ssffWorker.terminate();
 			}, false);
 
 			ssffWorker.tell({
@@ -81,16 +84,16 @@ class SsffParserService{
 
 		// Wait for both to complete
 		this.$q.all(promises).then((results) => {
-			this.defer.resolve({
+			mainDefer.resolve({
 				status: {type: 'SUCCESS'},
 				ssffData: results[0],
 				jstfData: results[1]
 			});
 		}, (error) => {
-			this.defer.reject(error);
+			mainDefer.reject(error);
 		});
 
-		return this.defer.promise;
+		return mainDefer.promise;
 	};
 	
 	
