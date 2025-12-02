@@ -1,5 +1,27 @@
 # What's New
 
+## Version 1.5.3
+
+### new features / performance tweaks / improvements
+
+### bug fixes
+
+- Fix build error from 1.5.2
+
+## Version 1.5.2
+
+### new features / performance tweaks / improvements
+
+- New query parameter: disableBundleListSidebar
+- In EMBEDDED mode, publish all changes to parent window without saving
+- Allow wav files with floating-point samples
+- Support Extensible Wave files
+
+### bug fixes
+
+- Improve focus detection with regard to undo stack
+- Minor corrections in wav parser
+
 ## Version 1.5.1
 
 ### new features / performance tweaks / improvements

@@ -1,6 +1,6 @@
 {
   "name": "emuwebapp",
-  "version": "1.5.1-humlab-1.1.0",
+  "version": "1.5.3-humlab-1.2.0",
   "description": "The EMU-webApp is an online and offline Web-App for labeling, visualizing and correcting speech and derived speech data.",
   "main": "app/scripts/app.js",
   "author": "Raphael Winkelmann, Georg Raess, Markus Jochim",
@@ -38,6 +38,7 @@
     "comlink": "^4.2.0",
     "core-js": "^2.4.1",
     "d3": "^5.0.0",
+    "http-server": "^14.1.1",
     "jquery": "^3.5.0",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.0.0",
@@ -94,6 +95,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.dev.js",
+    "start:iframe-demo": "http-server iframe-demo --cors -p 7283 -c-1",
     "build": "rimraf dist/* && webpack --config webpack.prod.js",
     "build-docker-image": "docker build --no-cache -t visp-emu-webapp ../",
     "build-start": "rimraf dist/* && webpack --config webpack.prod.js && serve -l 9000 ./dist/",

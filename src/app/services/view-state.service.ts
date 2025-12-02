@@ -34,6 +34,7 @@ class ViewStateService{
 	private cursorInTextField;
 	private saving;
 	private bundleListSideBarOpen;
+	private bundleListSideBarDisabled;
 	private rightSubmenuOpen;
 	private curClickItems
 	private curMousePosSample;
@@ -57,7 +58,6 @@ class ViewStateService{
 	private curTaskPercCompl;
 	private curPerspectiveIdx;
 	private mouseInEmuWebApp;
-	private focusOnEmuWebApp;
 	private lastKeyCode;
 	private lastUpdate;
 	private url;
@@ -189,6 +189,7 @@ class ViewStateService{
 		this.cursorInTextField = false;
 		this.saving = true;
 		this.bundleListSideBarOpen = false;
+		this.bundleListSideBarDisabled = false;
 		this.rightSubmenuOpen = false;
 		this.curClickItems = [];
 		this.curMousePosSample = 0;
@@ -211,7 +212,6 @@ class ViewStateService{
 		this.curTaskPercCompl = 0;
 		this.curPerspectiveIdx = -1;
 		this.mouseInEmuWebApp = false;
-		this.focusOnEmuWebApp = true;
 		this.lastKeyCode = undefined;
 		this.lastUpdate = undefined;
 		this.url = undefined;
@@ -755,6 +755,7 @@ class ViewStateService{
 	* toggle boolean if left submenu is open
 	*/
 	public toggleBundleListSideBar(time) {
+        if (this.bundleListSideBarDisabled) return;
 		this.bundleListSideBarOpen = !this.bundleListSideBarOpen;
 		// hack to call $apply post animation
 		this.$timeout(() => {
@@ -774,6 +775,7 @@ class ViewStateService{
 	* set boolean if left submenu is open
 	*/
 	public setBundleListSideBarOpen(s) {
+        if (this.bundleListSideBarDisabled) return;
 		this.bundleListSideBarOpen = s;
 	};
 	

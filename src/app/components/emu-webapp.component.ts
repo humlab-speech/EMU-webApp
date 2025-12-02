@@ -19,8 +19,8 @@ let EmuWebAppComponent = {
 		></new-version-hint>
         <!-- end: hint -->
         <!-- start: left side menu bar -->
-		<!-- ng-if="$ctrl.ViewStateService.bundleListSideBarOpen" -->
 		<bundle-list-side-bar 
+		ng-if="!$ctrl.ViewStateService.bundleListSideBarDisabled"
 		open="$ctrl.ViewStateService.bundleListSideBarOpen">
 		</bundle-list-side-bar>
         <!-- end: left side menu bar -->
@@ -39,9 +39,15 @@ let EmuWebAppComponent = {
             <div class="emuwebapp-top-menu">
                 <button class="emuwebapp-button-icon" 
                 id="bundleListSideBarOpen" 
-                ng-show="$ctrl.ConfigProviderService.vals.activeButtons.openMenu" 
+                ng-show="$ctrl.ConfigProviderService.vals.activeButtons.openMenu && !$ctrl.ViewStateService.bundleListSideBarDisabled"
                 ng-click="$ctrl.ViewStateService.toggleBundleListSideBar($ctrl.styles.animation.period);" 
                 style="float:left"><i class="material-icons">menu</i></button>
+
+                <button class="emuwebapp-mini-btn left"
+                ng-show="$ctrl.ConfigProviderService.vals.activeButtons.saveBundle && $ctrl.ViewStateService.bundleListSideBarDisabled"
+                ng-click="$ctrl.DbObjLoadSaveService.saveBundle();"
+                ng-style="$ctrl.getUnsavedChangesColor()"
+                style="float:left"><i class="material-icons">save</i> Save</button>
                 
                 <button class="emuwebapp-mini-btn left" 
                 ng-show="$ctrl.ConfigProviderService.vals.activeButtons.addLevelSeg" 
@@ -491,6 +497,9 @@ let EmuWebAppComponent = {
                     ConfigProviderService.embeddedVals.labelType = searchObject.labelType;
                     ConfigProviderService.embeddedVals.fromUrlParams = true;
                 }
+                if (searchObject.hasOwnProperty("disableBundleListSidebar")) {
+                    this.ViewStateService.bundleListSideBarDisabled = true;
+                }
 
                 // call function on init
 		        this.loadDefaultConfig();
@@ -530,26 +539,6 @@ let EmuWebAppComponent = {
 						this.$scope.$digest();
 					}
 				}
-            });
-
-            // bind focus check for mouse on window and document ( mouse inside )
-            angular.element(this.$window).bind('blur', () => {
-                this.ViewStateService.focusOnEmuWebApp = false;
-            });
-
-            // bind focus check for mouse on window and document ( mouse inside )
-            angular.element(this.$document).bind('blur', () => {
-                this.ViewStateService.focusOnEmuWebApp = false;
-            });
-
-            // bind blur check for mouse on window and document ( mouse outside )
-            angular.element(this.$window).bind('focus', () => {
-                this.ViewStateService.focusOnEmuWebApp = true;
-            });
-
-            // bind blur check for mouse on window and document ( mouse outside )
-            angular.element(this.$document).bind('focus', () => {
-                this.ViewStateService.focusOnEmuWebApp = true;
             });
 
             // Take care of preventing navigation out of app (only if something is loaded, not in embedded mode and not developing (auto connecting))
@@ -1098,6 +1087,15 @@ let EmuWebAppComponent = {
 		private cursorOutOfTextField() {
 			this.ViewStateService.setcursorInTextField(false);
 		};
+
+		private getUnsavedChangesColor() {
+			if (this.HistoryService.movesAwayFromLastSave !== 0) {
+				return {
+					'background-color': '#f00',
+					'color': 'white'
+				};
+			}
+		}
 
 		/////////////////////////////////////////
 		// handle button clicks
