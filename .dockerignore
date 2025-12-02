@@ -1,0 +1,9 @@
+# Don't copy node_modules - we install it fresh with npm ci
+node_modules/
+
+# Don't copy existing dist - we build it fresh
+dist/
+
+# Don't copy git metadata
+.git/
+.gitignore
