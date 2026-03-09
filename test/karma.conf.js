@@ -1,7 +1,12 @@
 // Karma configuration
 // Generated on 2016-10-19
+const fs = require('fs');
 const puppeteer = require('puppeteer');
-process.env.CHROME_BIN = puppeteer.executablePath();
+const systemChrome = '/usr/bin/google-chrome';
+const puppeteerChrome = puppeteer.executablePath();
+
+process.env.CHROME_BIN = process.env.CHROME_BIN ||
+  (puppeteerChrome && fs.existsSync(puppeteerChrome) ? puppeteerChrome : systemChrome);
 
 module.exports = function (config) {
   'use strict';
@@ -11,7 +16,7 @@ module.exports = function (config) {
     autoWatch: true,
 
     // base path, that will be used to resolve files and exclude
-    basePath: '../dist',
+    basePath: '..',
 
     // testing framework to use (jasmine/mocha/qunit/...)
     frameworks: [
@@ -23,53 +28,10 @@ module.exports = function (config) {
     // NOTE: these are injected by wiredep and somehow
     // the bootstrap jquery dep
     files: [
-      'dist/emuwebapp.bundle.js',
-      '../node_modules/jquery/dist/jquery.js',
-      '../node_modules/jasmine-jquery/lib/jasmine-jquery.js',
-      '../node_modules/angular-mocks/angular-mocks.js',
-      // 'test/spec/**/*.js',
-      // try to get it to work on a single file first
-      '../test/spec/mockedData.js',
-      '../test/spec/controllers/bundlelistsidebar.spec.js',
-      '../test/spec/controllers/export.spec.js',
-      '../test/spec/controllers/login.spec.js',
-      '../test/spec/controllers/emuwebapp.spec.js',
-      //include the directory where directive templates are stored.
-      'views/**/*.html',
-      'img/*.svg',
-      '*.html',
-
-      // demoDBs JSON fixtures
-      {
-        pattern: 'demoDBs/*/*.json',
-        watched: true,
-        served: true,
-        included: false
-      },
-
-      // configFiles JSON fixtures
-      {
-        pattern: 'configFiles/*.json',
-        watched: true,
-        served: true,
-        included: false
-      },
-
-      // schemaFiles fixtures
-      {
-        pattern: 'schemaFiles/*.json',
-        watched: true,
-        served: true,
-        included: false
-      },
-      // fixtures
-      {
-        pattern: '../app/testData/oldFormat/msajc003/*',
-        watched: true,
-        served: true,
-        included: false
-      }
-
+      'dist/dist/emuwebapp.bundle.js',
+      'node_modules/jquery/dist/jquery.js',
+      'node_modules/angular-mocks/angular-mocks.js',
+      'test/spec/services/Websockethandler.spec.js'
     ],
 
     // list of files / patterns to exclude
@@ -87,12 +49,18 @@ module.exports = function (config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
-    browsers: ['ChromeHeadless'],
+    browsers: ['ChromeHeadlessNoSandbox'],
+
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', '--disable-dev-shm-usage']
+      }
+    },
 
 
     // Which plugins to enable
     plugins: [
-      'karma-phantomjs-launcher',
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-jasmine',
