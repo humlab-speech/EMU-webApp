@@ -102,7 +102,7 @@ describe('Service: Websockethandler', function () {
 
     expect(errorMessage).toBe('A malformed websocket URL that does not start with ws:// or wss:// was provided.');
   });
-  
+
   //todo 
 
 });

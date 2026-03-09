@@ -169,7 +169,7 @@ class WebSocketHandlerService{
 	
 	
 	///////////////////////////////////////////
-	// public api
+	// helpers / public api
 	private normalizeWebSocketUrl(url) {
 		if (typeof url !== 'string') {
 			throw new Error('A malformed websocket URL that does not start with ws:// or wss:// was provided.');
