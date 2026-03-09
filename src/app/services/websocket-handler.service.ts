@@ -169,17 +169,37 @@ class WebSocketHandlerService{
 	
 	
 	///////////////////////////////////////////
-	// public api
+	// helpers / public api
+	private normalizeWebSocketUrl(url) {
+		if (typeof url !== 'string') {
+			throw new Error('A malformed websocket URL that does not start with ws:// or wss:// was provided.');
+		}
+		var normalizedUrl = url.trim();
+		if (/^http:\/\//i.test(normalizedUrl)) {
+			normalizedUrl = normalizedUrl.replace(/^http:\/\//i, 'ws://');
+		} else if (/^https:\/\//i.test(normalizedUrl)) {
+			normalizedUrl = normalizedUrl.replace(/^https:\/\//i, 'wss://');
+		}
+		if (!/^wss?:\/\//i.test(normalizedUrl)) {
+			throw new Error('A malformed websocket URL that does not start with ws:// or wss:// was provided.');
+		}
+		if (this.$location.protocol() === 'https' && /^ws:\/\//i.test(normalizedUrl)) {
+			throw new Error('Refusing to open an insecure ws:// connection from an https page. Please use wss:// instead.');
+		}
+		return normalizedUrl;
+	}
+
 	public initConnect (url) {
 		var defer = this.$q.defer();
 		try{
-			this.ws = new WebSocket(url);
+			var normalizedUrl = this.normalizeWebSocketUrl(url);
+			this.ws = new WebSocket(normalizedUrl);
 			this.ws.onopen = this.wsonopen.bind(this);
 			this.ws.onmessage = this.wsonmessage.bind(this);
 			this.ws.onerror = this.wsonerror.bind(this);
 			this.ws.onclose = this.wsonclose.bind(this);
 		}catch (err){
-			return this.$q.reject('A malformed websocket URL that does not start with ws:// or wss:// was provided.');
+			return this.$q.reject(err && err.message ? err.message : 'A malformed websocket URL that does not start with ws:// or wss:// was provided.');
 		}
 		
 		this.conPromise = defer;

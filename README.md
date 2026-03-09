@@ -27,12 +27,17 @@ Visit [this URL](http://ips-lmu.github.io/EMU-webApp/) and click the `open demo 
 * navigate to the freshly cloned repo (the folder is usually named `EMU-webApp`) and install dependencies with the command `npm install`
 * run development server `http://localhost:9000`  with `npm run start`
 * a small websocket data provider server is provided and can be started like this: `cd exampleServers; node nodeEmuProtocolWsServer.js`.
+* websocket connections must use `ws://` or `wss://`; if an `http://` or `https://` server URL is entered in the connect dialog it is automatically converted to the matching websocket URL before connecting
 * navigate to `http://localhost:9000/?autoConnect=true` to have an autoconnecting auto-reloading development version
 * alternatively navigate to `http://localhost:9000/?audioGetUrl=http:%2F%2Flocalhost:9000%2FdemoDBs%2Fae%2Fmsajc003.wav&labelGetUrl=http:%2F%2Flocalhost:9000%2FdemoDBs%2Fae%2Fmsajc003_annot.json&labelType=annotJSON` for a version that loads an audio and an annotation file use GET parameters
 
 ## Tests
-* unit tests: run `npm test` (currently not working)
+* unit tests: run `npm test` (this rebuilds the bundle and runs the targeted `Websockethandler` Karma regression checks in `ChromeHeadless`)
 * end-to-end tests using protractor: run `npm e2e` (currently not working)
+
+## Maintenance notes
+* The current application stack is still based on legacy AngularJS/Angular 5 era packages and Webpack 4. Those dependencies should be treated as technical debt and reviewed before attempting any larger feature work or runtime upgrades.
+* The Karma setup still includes PhantomJS compatibility shims for some older tests, but the active test browser is `ChromeHeadless` because PhantomJS tooling is no longer reliable on current Node.js releases.
 
 ## Create and deploy new release
 
