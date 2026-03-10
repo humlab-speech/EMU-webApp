@@ -2,6 +2,7 @@
 import { WavHeaderInfos } from '../interfaces/wav-header-infos.interface';
 import { WavFileInfos } from '../interfaces/wav-file-infos.interface';
 import { WavRange } from '../interfaces/wav-range.interface';
+import { parseWavHeader } from '../services/wav-header-parser';
 
 // Export as you would in a normal module:
 export class WavRangeReq {
@@ -15,13 +16,18 @@ export class WavRangeReq {
   }
 
   public async setURL(url: string) {
-    // get header and parse it 
-    // (will the header always fit into 200 bytes?
-    // Usually offsetToDataChunk is 44 but who knows)
-    let resp = await fetch(url, { method: 'GET', headers: { Range: `bytes=0-199` } })
+    // Two-step fetch to handle variable-length WAV headers:
+    // 1. Fetch first 28 bytes — enough to read FmtSubchunkSize at offset 16.
+    // 2. Use FmtSubchunkSize to compute where the header ends and fetch exactly that.
+    // Standard PCM header = 44 bytes; extensible = 68 bytes; extra chunks may add more.
+    const probeResp = await fetch(url, { method: 'GET', headers: { Range: 'bytes=0-27' } });
+    const probeBuf = await probeResp.arrayBuffer();
+    const fmtSubchunkSize: number = new Uint32Array(probeBuf, 16, 1)[0];
+    // fmt chunk starts at 12; its data starts at 20; after it comes the data chunk (8 bytes header)
+    const minHeaderBytes = 20 + fmtSubchunkSize + 8;
+    const resp = await fetch(url, { method: 'GET', headers: { Range: `bytes=0-${minHeaderBytes - 1}` } });
     let buffer = await resp.arrayBuffer();
-    // do something with buffer
-    let headerInfos = this.parseWavHeader(buffer);
+    let headerInfos = parseWavHeader(buffer);
     this.wavFileInfo = {
       url: url,
       headerInfos: headerInfos,
@@ -77,148 +83,10 @@ export class WavRangeReq {
 
   }
 
-  public calculatePeaks(audioBuffer: any) {
-    console.log(audioBuffer);
-  }
-
   //////////////////////////
   // private api
   private sampleBlockIdxToByte(sampleBlockIdx: number){
     return(this.wavFileInfo.headerInfos.offsetToDataChunk + sampleBlockIdx * this.wavFileInfo.headerInfos.BlockAlign);
   }
-
-  private parseWavHeader(buf: ArrayBuffer): WavHeaderInfos {
-  
-    // TODO: check on error handling
-    let headerInfos: WavHeaderInfos;
-    let curBinIdx, curBuffer, curBufferView;
-  
-    // ChunkId == RIFF CHECK
-    curBinIdx = 0;
-    curBufferView = new Uint8Array(buf, curBinIdx, 4);
-    const ChunkID: string = String.fromCharCode.apply(null, curBufferView);
-  
-    if (ChunkID !== 'RIFF') {
-      throw new Error('Wav read error: ChunkID not RIFF but ' + ChunkID);
-    }
-  
-    // ChunkSize
-    curBinIdx = 4;
-    curBufferView = new Uint32Array(buf, curBinIdx, 1);
-    const ChunkSize: number = curBufferView[0];
-  
-    // Format == WAVE CHECK
-    curBinIdx = 8;
-    curBufferView = new Uint8Array(buf, curBinIdx, 4);
-    const Format: string = String.fromCharCode.apply(null, curBufferView);
-    if (Format !== 'WAVE') {
-      throw new Error('Wav read error: Format not WAVE but ' + Format);
-    }
-  
-    // look for 'fmt ' sub-chunk as described here: http://soundfile.sapp.org/doc/WaveFormat/
-    let foundChunk = false;
-    let fmtBinIdx = 12; // 12 if first sub-chunk
-    let FmtSubchunkID: string;
-    while(!foundChunk){
-      // curBuffer = buf.subarray(fmtBinIdx, 4);
-      curBufferView = new Uint8Array(buf, fmtBinIdx, 4);
-      let cur4chars = String.fromCharCode.apply(null, curBufferView);
-      if(cur4chars === 'fmt '){
-        // console.log('found fmt chunk at ' + fmtBinIdx);
-        FmtSubchunkID = 'fmt ';
-        foundChunk = true;
-  
-      }else{
-        fmtBinIdx += 1;
-      }
-      if(cur4chars === 'data'){
-        throw new Error('Wav read error: Reached end of header by reaching data sub-chunk without finding "fmt " sub-chunk');
-      }
-  
-    }
-  
-    // FmtSubchunkSize parsing
-    curBinIdx = fmtBinIdx + 4; // 16
-    curBufferView = new Uint32Array(buf, curBinIdx, 4);
-    const FmtSubchunkSize: number = curBufferView[0];
-  
-    // AudioFormat == 1  CHECK
-    curBinIdx = fmtBinIdx + 8; // 20
-    //curBuffer = buf.subarray(curBinIdx, 2);
-    curBufferView = new Uint16Array(buf, curBinIdx, 2);
-    const AudioFormat: number = curBufferView[0];
-    if ([0, 1].indexOf(AudioFormat) === -1) {
-      throw new Error('Wav read error: AudioFormat not 0 or 1 but ' + AudioFormat);
-    }
-  
-    // NumChannels == 1  CHECK
-    curBinIdx = fmtBinIdx + 10; // 22
-    curBufferView = new Uint16Array(buf, curBinIdx, 2);
-    const NumChannels: number = curBufferView[0];
-    if (NumChannels < 1) {
-      throw new Error('Wav read error: NumChannels not greater than 1 but ' + NumChannels);
-    }
-  
-    // SampleRate
-    curBinIdx = fmtBinIdx + 12; // 24
-    curBufferView = new Uint32Array(buf, curBinIdx, 1);
-    const SampleRate: number = curBufferView[0];
-  
-    // ByteRate
-    curBinIdx = fmtBinIdx + 16; // 28
-    curBufferView = new Uint32Array(buf, curBinIdx, 1);
-    const ByteRate: number = curBufferView[0];
-  
-    // BlockAlign
-    curBinIdx = fmtBinIdx + 20; // 32
-    curBufferView = new Uint16Array(buf, curBinIdx, 1);
-    const BlockAlign: number = curBufferView[0];
-  
-    // BitsPerSample
-    curBinIdx = fmtBinIdx + 22; // 34
-    curBufferView = new Uint16Array(buf, curBinIdx, 1);
-    const BitsPerSample: number = curBufferView[0];
-  
-    // look for data chunk size
-    foundChunk = false;
-    let dataBinIdx = fmtBinIdx + 24; // 36
-    
-    let dataChunkSizeIdx: number;
-    let dataChunkSize: number;
-    let offsetToDataChunk: number;
-
-    while(!foundChunk){
-      //curBuffer = buf.subarray(dataBinIdx, 4);
-      curBufferView = new Uint8Array(buf, dataBinIdx, 4);
-      let cur4chars = String.fromCharCode.apply(null, curBufferView);
-      if(cur4chars === 'data'){
-        foundChunk = true;
-        curBufferView = new Uint32Array(buf, dataBinIdx + 4, 1);
-        dataChunkSizeIdx = dataBinIdx + 4;
-        dataChunkSize = curBufferView[0];
-        offsetToDataChunk = dataBinIdx + 8;
-      } else {
-        dataBinIdx += 1;
-      }
-    }
-    return {
-      ChunkID: ChunkID,
-      ChunkSize: ChunkSize,
-      Format: Format,
-      FmtSubchunkID: FmtSubchunkID,
-      FmtSubchunkSize: FmtSubchunkSize,
-      AudioFormat: AudioFormat,
-      NumChannels: NumChannels,
-      SampleRate: SampleRate,
-      ByteRate: ByteRate,
-      BlockAlign: BlockAlign,
-      BitsPerSample: BitsPerSample,
-      dataChunkSizeIdx: dataChunkSizeIdx,
-      dataChunkSize: dataChunkSize,
-      offsetToDataChunk: offsetToDataChunk,
-      origBinaryHeader: new Uint8Array(buf, 0, offsetToDataChunk) // copy original
-  };
-  
-  };
 
 }

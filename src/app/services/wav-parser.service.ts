@@ -1,4 +1,5 @@
 import * as angular from 'angular';
+import { parseWavHeader as parseWavHeaderShared } from './wav-header-parser';
 
 class WavParserService{
     private $q;
@@ -12,181 +13,21 @@ class WavParserService{
     }
 
     /**
-    * convert binary values to strings
-    * (currently duplicate of function in wavParserWorkerClass)
-    * SIC this should be in an external service shouldn't it?
-    * @param ab array buffer containing string binary values
-    */
-    public ab2str(ab) {
-        var unis = [];
-        for (var i = 0; i < ab.length; i++) {
-            unis.push(ab[i]);
-        }
-        return String.fromCharCode.apply(null, unis);
-    };
-
-
-    /**
     * parse header of wav file
-    * (currently duplicate of function in wavParserWorkerClass)
     * @param buf ArrayBuffer containing entire wav file
+    * @returns headerInfos object, or { status: { type: 'ERROR', message } } on failure
     */
-    public parseWavHeader(buf){
-
-        var headerInfos = {} as any;
-
-        var curBinIdx, curBufferView;
-
-        var extensibleWave = false;
-
-        // ChunkId == RIFF CHECK
-        curBinIdx = 0;
-        curBufferView = new Uint8Array(buf, curBinIdx, 4);
-        headerInfos.ChunkID = this.ab2str(curBufferView);
-
-        if (headerInfos.ChunkID !== 'RIFF') {
-            // console.error('Wav read error: ChunkID not RIFF. Got ' + headerInfos.ChunkID);
+    public parseWavHeader(buf): any {
+        try {
+            return parseWavHeaderShared(buf);
+        } catch (e) {
             return ({
                 'status': {
                     'type': 'ERROR',
-                    'message': 'Wav read error: ChunkID not RIFF but ' + headerInfos.ChunkID
+                    'message': e.message
                 }
             });
         }
-
-
-        // ChunkSize
-        curBinIdx = 4;
-        curBufferView = new Uint32Array(buf, curBinIdx, 1);
-        headerInfos.ChunkSize = curBufferView[0];
-
-        // Format == WAVE CHECK
-        curBinIdx = 8;
-        curBufferView = new Uint8Array(buf, curBinIdx, 4);
-        headerInfos.Format = this.ab2str(curBufferView);
-        if (headerInfos.Format !== 'WAVE') {
-            // console.error('Wav read error: Format not WAVE. Got ' + headerInfos.Format);
-            return ({
-                'status': {
-                    'type': 'ERROR',
-                    'message': 'Wav read error: Format not WAVE but ' + headerInfos.Format
-                }
-            });
-        }
-
-        // look for 'fmt ' sub-chunk as described here: http://soundfile.sapp.org/doc/WaveFormat/
-        var foundChunk = false;
-        var fmtBinIdx = 12; // 12 if first sub-chunk
-        while(!foundChunk){
-            curBufferView = new Uint8Array(buf, fmtBinIdx, 4);
-            var cur4chars = this.ab2str(curBufferView);
-            if(cur4chars === 'fmt '){
-                // console.log('found fmt chunk at' + fmtBinIdx);
-                headerInfos.FmtSubchunkID = 'fmt ';
-                foundChunk = true;
-
-            }else{
-                fmtBinIdx += 1;
-            }
-            if(cur4chars === 'data'){
-                return ({
-                    'status': {
-                        'type': 'ERROR',
-                        'message': 'Wav read error: Reached end of header by reaching data sub-chunk without finding "fmt " sub-chunk   '
-                    }
-                });
-            }
-
-        }
-
-        // FmtSubchunkSize parsing
-        curBinIdx = fmtBinIdx + 4; // 16
-        curBufferView = new Uint32Array(buf, curBinIdx, 1);
-        headerInfos.FmtSubchunkSize = curBufferView[0];
-
-        // AudioFormat == 1  CHECK
-        curBinIdx = fmtBinIdx + 8; // 20
-        curBufferView = new Uint16Array(buf, curBinIdx, 1);
-        headerInfos.AudioFormat = curBufferView[0];
-        if (headerInfos.AudioFormat === 65534) { // 65534 means this is a Extensible Wave-Format and we have to look somewhere else for the actual format
-            extensibleWave = true;
-            curBinIdx = fmtBinIdx + 24; // 36
-            curBufferView = new Uint16Array(buf, curBinIdx, 1);
-            const sizeOfExtensibleWavHeader = curBufferView[0];
-            if (sizeOfExtensibleWavHeader >= 22) {
-                curBinIdx = fmtBinIdx + 32; // 44;
-                curBufferView = new Uint16Array(buf, curBinIdx, 1);
-                headerInfos.AudioFormat = curBufferView[0];
-                // There is a 16-byte GUID; but like SoX, we only look at the first two bytes.
-                // Looking at Chapter 4 of RFC 2361 [0], we could also check
-                // that the last bytes translate to a GUID template like this:
-                // {XXXXXXXX-0000-0010-8000-00AA00389B71}. But being more
-                // thorough than SoX seems unnecessary here.
-                // [0] https://www.rfc-editor.org/rfc/rfc2361
-            }
-        }
-        if ([0, 1, 3].indexOf(headerInfos.AudioFormat) === -1) { // 1 is int/PCM, 3 is IEEE754, 0 is unknown. Why do we support unknown?
-            // console.error('Wav read error: AudioFormat not 1');
-            return ({
-                'status': {
-                    'type': 'ERROR',
-                    'message': 'Wav read error: AudioFormat not 0 or 1 or 3 but ' + headerInfos.AudioFormat
-                }
-            });
-        }
-
-        // NumChannels == 1  CHECK
-        curBinIdx = fmtBinIdx + 10; // 22
-        curBufferView = new Uint16Array(buf, curBinIdx, 1);
-        headerInfos.NumChannels = curBufferView[0];
-        if (headerInfos.NumChannels < 1) {
-            return ({
-                'status': {
-                    'type': 'ERROR',
-                    'message': 'Wav read error: NumChannels not greater than 1 but ' + headerInfos.NumChannels
-                }
-            });
-        }
-
-        // SampleRate
-        curBinIdx = fmtBinIdx + 12; // 24
-        curBufferView = new Uint32Array(buf, curBinIdx, 1);
-        headerInfos.SampleRate = curBufferView[0];
-
-        // ByteRate
-        curBinIdx = fmtBinIdx + 16; // 28
-        curBufferView = new Uint32Array(buf, curBinIdx, 1);
-        headerInfos.ByteRate = curBufferView[0];
-
-        // BlockAlign
-        curBinIdx = fmtBinIdx + 20; // 32
-        curBufferView = new Uint16Array(buf, curBinIdx, 1);
-        headerInfos.BlockAlign = curBufferView[0];
-
-        // BitsPerSample
-        curBinIdx = fmtBinIdx + 22; // 34
-        curBufferView = new Uint16Array(buf, curBinIdx, 1);
-        headerInfos.BitsPerSample = curBufferView[0];
-
-        // console.log(headerInfos);
-
-        // look for data chunk size
-        var foundChunk = false;
-        var dataBinIdx = fmtBinIdx + 24; // 36 // if extensibleWave == true, we could skip a few more bytes. but let's keep the code simpler, instead.
-        while(!foundChunk){
-            curBufferView = new Uint8Array(buf, dataBinIdx, 4);
-            var cur4chars = this.ab2str(curBufferView);
-            if(cur4chars === 'data'){
-                foundChunk = true;
-                curBufferView = new Uint32Array(buf, dataBinIdx + 4, 1);
-                headerInfos.dataChunkSize = curBufferView[0];
-            }else{
-                dataBinIdx += 1;
-            }
-        }
-
-        return headerInfos;
-
     };
 
 
