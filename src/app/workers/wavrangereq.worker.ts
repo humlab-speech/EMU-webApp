@@ -36,7 +36,7 @@ export class WavRangeReq {
 
   public async getRange(startSampleBlockIdx: number, endSampleBlockIdx: number){
     if(startSampleBlockIdx < 0 || endSampleBlockIdx > this.wavFileInfo.lastSampleBlockIdx){
-      throw "startSample or endSample out of range"; // sic this doesn't work!
+      throw new Error("startSample or endSample out of range");
     }
 
     let firstByte = this.sampleBlockIdxToByte(startSampleBlockIdx);
