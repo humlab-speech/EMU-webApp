@@ -9,7 +9,7 @@
 			"type": "string"
 		},
 		"mediafileExtension": {
-			"enum": ["wav"]
+			"type": "string"
 		},
 		"ssffTrackDefinitions": {
 			"type": "array",
@@ -27,6 +27,21 @@
 					},
 					"name": {
 						"type": "string"
+					},
+					"producer": {
+						"type": "string"
+					},
+					"defaults": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"key": { "type": "string" },
+								"value": {}
+							},
+							"required": ["key", "value"],
+							"additionalProperties": false
+						}
 					}
 				},
 				"required": ["name", "columnName", "fileExtension"],
