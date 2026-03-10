@@ -30,6 +30,21 @@ Visit [this URL](http://ips-lmu.github.io/EMU-webApp/) and click the `open demo 
 * navigate to `http://localhost:9000/?autoConnect=true` to have an autoconnecting auto-reloading development version
 * alternatively navigate to `http://localhost:9000/?audioGetUrl=http:%2F%2Flocalhost:9000%2FdemoDBs%2Fae%2Fmsajc003.wav&labelGetUrl=http:%2F%2Flocalhost:9000%2FdemoDBs%2Fae%2Fmsajc003_annot.json&labelType=annotJSON` for a version that loads an audio and an annotation file use GET parameters
 
+## Supported audio formats
+
+The app decodes audio natively in the browser. WAV files use the original header-based pipeline; other formats fall back to `AudioContext.decodeAudioData()`.
+
+| Format | Chrome | Firefox | Safari | Edge |
+|--------|--------|---------|--------|------|
+| WAV (PCM/float) | Y | Y | Y | Y |
+| MP3 | Y | Y | Y | Y |
+| FLAC | Y | Y | Y | Y |
+| AAC (MP4/M4A) | Y | Y | Y | Y |
+| OGG Vorbis | Y | Y | N | Y |
+| OGG Opus | Y | Y | Y* | Y |
+
+*Safari 16.4+. Note: MP3 decoding may add small silence padding (~50ms) due to encoder delay — this is a browser limitation.
+
 ## Tests
 * unit tests: run `npm test` (currently not working)
 * end-to-end tests using protractor: run `npm e2e` (currently not working)
