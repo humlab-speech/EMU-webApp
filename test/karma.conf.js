@@ -34,6 +34,7 @@ module.exports = function (config) {
       '../test/spec/controllers/export.spec.js',
       '../test/spec/controllers/login.spec.js',
       '../test/spec/controllers/emuwebapp.spec.js',
+      '../test/spec/workers/Wavparserservice.spec.js',
       //include the directory where directive templates are stored.
       'views/**/*.html',
       'img/*.svg',
