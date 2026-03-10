@@ -33,15 +33,43 @@ class WavParserService{
 
 
     /**
-    * parse buffer containing wav file using webworker
-    * @param buf
-    * @returns promise
+    * parse buffer containing audio file
+    * For WAV files: parses header and uses OfflineAudioContext with exact frame count.
+    * For non-WAV files (MP3, FLAC, AAC, OGG): falls back to native AudioContext.decodeAudioData().
+    * @param buf ArrayBuffer containing audio file
+    * @returns promise resolving to AudioBuffer
     */
     public parseWavAudioBuf(buf) {
         var headerInfos = this.parseWavHeader(buf);
         if(typeof headerInfos.status !== 'undefined' && headerInfos.status.type === 'ERROR'){
+            // Not a valid WAV — try native decodeAudioData (supports MP3, FLAC, AAC, OGG, etc.)
             this.defer = this.$q.defer();
-            this.defer.reject(headerInfos); // headerInfos now contains only error message
+            try {
+                var ctx = new (this.$window.AudioContext || this.$window.webkitAudioContext)();
+                ctx.decodeAudioData(buf.slice(0),
+                    (decodedData) => {
+                        ctx.close();
+                        this.defer.resolve(decodedData);
+                    },
+                    (error) => {
+                        ctx.close();
+                        this.defer.reject({
+                            'status': {
+                                'type': 'ERROR',
+                                'message': 'Unsupported audio format. Browser could not decode this file. ' +
+                                    '(WAV parse error: ' + headerInfos.status.message + ')'
+                            }
+                        });
+                    }
+                );
+            } catch (e) {
+                this.defer.reject({
+                    'status': {
+                        'type': 'ERROR',
+                        'message': 'AudioContext not available: ' + e.message
+                    }
+                });
+            }
             return this.defer.promise;
         }else{
             try {

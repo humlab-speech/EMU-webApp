@@ -751,7 +751,7 @@ let EmuWebAppComponent = {
 													this.ViewStateService.setState('labeling');
 
 												}, function (errMess) {
-													this.ModalService.open('views/error.html', 'Error parsing wav file: ' + errMess.status.message);
+													this.ModalService.open('views/error.html', 'Error decoding audio file: ' + errMess.status.message);
 												});
 
 											}, function (errMess) {
@@ -769,7 +769,7 @@ let EmuWebAppComponent = {
 
 
 									}, function (errMess) {
-										this.ModalService.open('views/error.html', 'Error parsing wav file: ' + errMess.status.message);
+										this.ModalService.open('views/error.html', 'Error decoding audio file: ' + errMess.status.message);
 									});
                                 }else{
                                     this.DbObjLoadSaveService.loadBundle({name: 'fromURLparams'}, searchObject.bndlJsonGetUrl);
