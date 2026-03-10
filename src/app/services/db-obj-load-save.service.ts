@@ -187,17 +187,6 @@ class DbObjLoadSaveService{
 					if (validRes === true) {
 						
 						var arrBuff;
-						// set wav file
-						// const wavUrl = new URL("http://localhost:17890?session=0000&bundle=fraubovary&fileExtension=wav");
-						// console.log(wavUrl);
-						// construct class
-  						// const wavrangereq = await new WavRangeReq();
-  						// using setter for now
-						// await wavrangereq.setURL(wavUrl.href);
-						// get info about the wav file (most importantly )
-  						// let fileInfo = await wavrangereq.getWavFileInfo();
-  						// console.log("fileInfo:");
-  						// console.log(fileInfo);
 
 						if(bundleData.mediaFile.encoding === 'BASE64'){
 							arrBuff = this.BinaryDataManipHelperService.base64ToArrayBuffer(bundleData.mediaFile.data);

@@ -56,14 +56,17 @@ class HandleGlobalKeyStrokes{
      * to document
      */
     public bindGlobalKeys (){
-        $(document).on('keyup', (e) => {
+        // Remove any previous bindings first to prevent accumulation on re-init
+        $(document).off('.emuGlobalKeys');
+
+        $(document).on('keyup.emuGlobalKeys', (e) => {
             var code = (e.keyCode ? e.keyCode : e.which);
             if (this.ViewStateService.isEditing() && !this.ViewStateService.getcursorInTextField()) {
                 this.applyKeyCodeUp(code);
             }
         });
 
-        $(document).on('keydown', (e) => {
+        $(document).on('keydown.emuGlobalKeys', (e) => {
             // if (!this.BrowserDetectorService.isBrowser.Firefox()) {
                 var code = (e.keyCode ? e.keyCode : e.which);
                 if (code === 8 || code === 9 || code === 27 || code === 37 || code === 38 || code === 39 || code === 40 || code === 32) {
@@ -72,9 +75,13 @@ class HandleGlobalKeyStrokes{
             // }
         });
 
-        $(document).on('keypress', (e) => {
+        $(document).on('keypress.emuGlobalKeys', (e) => {
             var code = (e.keyCode ? e.keyCode : e.which);
             this.applyKeyCode(code, e);
+        });
+
+        this.$rootScope.$on('$destroy', () => {
+            $(document).off('.emuGlobalKeys');
         });
     }
 
