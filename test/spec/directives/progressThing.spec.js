@@ -4,7 +4,7 @@ describe('Directive: progressBar', function() {
 
     var elm, scope;
     
-    beforeEach(module('emuwebApp', 'emuwebApp.templates'));
+    beforeEach(module('grazer', 'grazer.templates'));
     
     beforeEach(inject(function($rootScope, $compile) {
         scope = $rootScope.$new();
@@ -20,13 +20,13 @@ describe('Directive: progressBar', function() {
 
     it('should have correct css classes', function() {
         compileDirective(true);
-        expect(elm.prop('className')).toContain('emuwebapp-progressBar');
-        expect(elm.prop('className')).toContain('emuwebapp-expandHeightTo20px');
-        expect(elm.prop('className')).not.toContain('emuwebapp-shrinkHeightTo0px');
+        expect(elm.prop('className')).toContain('grazer-progressBar');
+        expect(elm.prop('className')).toContain('grazer-expandHeightTo20px');
+        expect(elm.prop('className')).not.toContain('grazer-shrinkHeightTo0px');
         compileDirective(false);
-        expect(elm.prop('className')).toContain('emuwebapp-progressBar');
-        expect(elm.prop('className')).toContain('emuwebapp-shrinkHeightTo0px');
-        expect(elm.prop('className')).not.toContain('emuwebapp-expandHeightTo20px');
+        expect(elm.prop('className')).toContain('grazer-progressBar');
+        expect(elm.prop('className')).toContain('grazer-shrinkHeightTo0px');
+        expect(elm.prop('className')).not.toContain('grazer-expandHeightTo20px');
     });
 
        

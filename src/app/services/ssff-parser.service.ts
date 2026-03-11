@@ -52,5 +52,5 @@ class SsffParserService{
 	
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('SsffParserService', ['$q', SsffParserService]);

@@ -99,5 +99,5 @@ class ArrayHelperService{
 }
 
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('ArrayHelperService', ArrayHelperService);

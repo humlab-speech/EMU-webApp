@@ -1,8 +1,8 @@
-@import 'EMUwebAppDesign';
+@import 'grazer-design';
 @import 'font';
 @import 'mixins';
 
-.emuwebapp-hierarchy-container{
+.grazer-hierarchy-container{
     width: 100%;
     height: calc(100% - 34px);
 }
@@ -13,7 +13,7 @@
         stroke-width: 1.5px;
     }
     text {
-        @extend .emuwebapp-font-small;
+        @extend .grazer-font-small;
         fill: $color-white;
     }
 }
@@ -35,7 +35,7 @@
     stroke-dasharray: 5 5;
 }
 
-.emuwebapp-modal-select {
+.grazer-modal-select {
   padding: 0;
   margin: 0;
   width: auto;
@@ -45,17 +45,17 @@
   background: url('data:image/gif;base64,R0lGODlhDwAUAIABAAAAAP///yH5BAEAAAEALAAAAAAPABQAAAIXjI+py+0Po5wH2HsXzmw//lHiSJZmUAAAOw==') no-repeat 100% 50%;
 }
 
-#emuwebapp-selection {
+#grazer-selection {
 	width: 100% !important;
 	text-align: center;
 }
 
-#emuwebapp-selection option{
+#grazer-selection option{
 	width: 100% !important;
 	text-align: center;	
 }
 
-.emuwebapp-modal-select select {
+.grazer-modal-select select {
     @include vendor-prefix(appearance, "none");
     border: none;
     //box-shadow: none;
@@ -71,7 +71,7 @@
       outline: none;
     }
 }
-.emuwebapp-modal-select select option {
+.grazer-modal-select select option {
   padding-left: 40px;
   padding-right: 40px;
 }

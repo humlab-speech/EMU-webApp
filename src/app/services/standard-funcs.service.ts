@@ -40,6 +40,6 @@ class StandardFuncsService{
 * EMU components.
 */
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('StandardFuncsService', StandardFuncsService);
 

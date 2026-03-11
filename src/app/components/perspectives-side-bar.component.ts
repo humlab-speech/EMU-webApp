@@ -3,7 +3,7 @@ import * as angular from 'angular';
 let PerspectivesSideBarComponent = {
     selector: "perspectivesSideBar",
     template: /*html*/`
-    <nav class="emuwebapp-right-menu" ng-show="$ctrl.ConfigProviderService.vals.restrictions.showPerspectivesSidebar">
+    <nav class="grazer-right-menu" ng-show="$ctrl.ConfigProviderService.vals.restrictions.showPerspectivesSidebar">
     <button ng-click="$ctrl.ViewStateService.setPerspectivesSideBarOpen(!$ctrl.ViewStateService.getPerspectivesSideBarOpen()); $ctrl.toggleShow();">
         <i class="material-icons">menu</i>
       <!-- <img src="img/menu.svg" ="_20px _inverted" /> -->
@@ -81,9 +81,9 @@ let PerspectivesSideBarComponent = {
 		private getPerspectiveColor (persp) {
 			var cl;
 			if (this.ViewStateService.curPerspectiveIdx === -1 || persp.name === this.ConfigProviderService.vals.perspectives[this.ViewStateService.curPerspectiveIdx].name) {
-				cl = 'emuwebapp-curSelPerspLi';
+				cl = 'grazer-curSelPerspLi';
 			} else {
-				cl = 'emuwebapp-perspLi';
+				cl = 'grazer-perspLi';
 			}
 			return cl;
         };
@@ -91,15 +91,15 @@ let PerspectivesSideBarComponent = {
         private toggleShow (){
             // console.log("toggleshow")
             if(this.ViewStateService.getPerspectivesSideBarOpen()){
-                this.$animate.addClass(this.$element.find('nav')[0], 'emuwebapp-expandWidthTo200px');
-                this.$animate.removeClass(this.$element.find('nav')[0], 'emuwebapp-shrinkWidthTo0px');
+                this.$animate.addClass(this.$element.find('nav')[0], 'grazer-expandWidthTo200px');
+                this.$animate.removeClass(this.$element.find('nav')[0], 'grazer-shrinkWidthTo0px');
             } else {
-                this.$animate.removeClass(this.$element.find('nav')[0], 'emuwebapp-expandWidthTo200px');
-                this.$animate.addClass(this.$element.find('nav')[0], 'emuwebapp-shrinkWidthTo0px');
+                this.$animate.removeClass(this.$element.find('nav')[0], 'grazer-expandWidthTo200px');
+                this.$animate.addClass(this.$element.find('nav')[0], 'grazer-shrinkWidthTo0px');
             }
         }
     }]
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .component(PerspectivesSideBarComponent.selector, PerspectivesSideBarComponent);

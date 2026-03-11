@@ -5,19 +5,19 @@ describe('Directive: level', function () {
     var elm, tpl, scope, curLvl, curLvlE;
     var lvlName = 'Phonetic';
     var lvlNameE = 'Tone';
-    beforeEach(module('emuwebApp', 'emuwebApp.templates'));
+    beforeEach(module('grazer', 'grazer.templates'));
 
     beforeEach(inject(function ($rootScope, $compile, LevelService, DataService, ConfigProviderService, viewState, fontScaleService) {
         scope = $rootScope.$new();
         scope.lvl = LevelService;
         scope.cps = ConfigProviderService;
-        scope.cps.setVals(defaultEmuwebappConfig);
+        scope.cps.setVals(defaultGrazerConfig);
         scope.cps.curDbConfig = aeDbConfig;
         scope.vs = viewState;
         scope.vs.curPerspectiveIdx = 0;
         scope.data = DataService;
         scope.data.setData(msajc003_bndl.annotation);
-        scope.cps.design = defaultEmuwebappDesign;
+        scope.cps.design = defaultGrazerDesign;
         scope.font = fontScaleService;
         curLvl = scope.lvl.getLevelDetails(lvlName);
         curLvlE = scope.lvl.getLevelDetails(lvlNameE);

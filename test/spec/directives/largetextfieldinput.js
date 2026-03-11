@@ -3,7 +3,7 @@
 describe('Directive: largeTextFieldInput', function () {
 
   // load the directive's module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
 
   var element,
     scope;

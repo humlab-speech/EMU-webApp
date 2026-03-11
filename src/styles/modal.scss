@@ -1,8 +1,8 @@
-@import 'EMUwebAppDesign';
+@import 'grazer-design';
 @import 'font';
 @import 'mixins';
 
-.emuwebapp-modal {
+.grazer-modal {
     position: absolute;
     top: 0;
     right: 0;
@@ -24,7 +24,7 @@
         margin-top: 3%;
         background: #fff;
     }
-    .emuwebapp-close-button {
+    .grazer-close-button {
         background: transparent;
         border: none;
         color: $color-black;
@@ -40,7 +40,7 @@
         }
     }
     
-   .emuwebapp-add-signal {
+   .grazer-add-signal {
    		clear: both;
    		display: inline-block;
     	background: $color-white;
@@ -58,13 +58,13 @@
         }
     }     
     
-   .emuwebapp-delete-signal {
-    	@extend .emuwebapp-add-signal;
+   .grazer-delete-signal {
+    	@extend .grazer-add-signal;
     	float: right;
     }     
     
-    .emuwebapp-delete {
-	    @extend .emuwebapp-font-small;
+    .grazer-delete {
+	    @extend .grazer-font-small;
 	    float: right;
         position: relative;
         top: -10px;
@@ -74,7 +74,7 @@
     }  
       
 
-    .emuwebapp-modal-inner {
+    .grazer-modal-inner {
         position: absolute;
         top:0;
         bottom:0;
@@ -83,7 +83,7 @@
         margin-top: 0;
         margin-bottom: 0;
     }
-    .emuwebapp-signalcanvas {
+    .grazer-signalcanvas {
     	list-style-type: none;
     	width: 50%;
     	margin-left: 25%;	
@@ -96,11 +96,11 @@
     }
 }
 
-.emuwebapp-modal-list {
+.grazer-modal-list {
     width:  300px;
 }
 
-.emuwebapp-modal-wrap {
+.grazer-modal-wrap {
     width:  100%;
     height: 100%;
     position: absolute;
@@ -109,9 +109,9 @@
     left:0;
     right:0;
     margin: auto;
-    @extend .emuwebapp-font-small;
+    @extend .grazer-font-small;
 
-    > .emuwebapp-modal-header {
+    > .grazer-modal-header {
 		position: absolute;
 		background-color: $color-blue;
 		height: 60px;
@@ -121,28 +121,28 @@
 		h2 {
 			padding-top: 17px;
 			color: $color-black;
-			@extend .emuwebapp-font-large;
+			@extend .grazer-font-large;
 		}
 		h3 {
 			padding-top: 17px;
 			color: $color-black;
-			@extend .emuwebapp-font-large;
+			@extend .grazer-font-large;
 		}
 	}
 }
 
-.emuwebapp-modal-open {
+.grazer-modal-open {
 	opacity:1;
 	pointer-events: auto;
 }
 
-.emuwebapp-modal-URL-input {
+.grazer-modal-URL-input {
   min-width: 60%;
   overflow: auto;
 }
 
 
-.emuwebapp-modal-body {
+.grazer-modal-body {
     height: calc(100% - 120px);
     width: 100%;
     top: 60px;
@@ -181,11 +181,11 @@
 	}
 }
 
-.emuwebapp-modal-hierarchy {
+.grazer-modal-hierarchy {
     background: $color-lightGrey;
 }
 
-.emuwebapp-modal-footer {
+.grazer-modal-footer {
     height: 60px;
     width:100%;
     position: absolute;
@@ -198,7 +198,7 @@
 	}
 }
 
-.emuwebapp-inline-modal-footer {
+.grazer-inline-modal-footer {
     position:sticky;
     bottom: 0px;
     padding-bottom: 10px;
@@ -211,7 +211,7 @@
     }
 }
 
-.emuwebapp-exportdata {
+.grazer-exportdata {
     margin-left: 50px;
     margin-right: 50px;
     text-align: left;
@@ -223,6 +223,6 @@
     @include vendor-prefix(tab-size, "5");
 }
 
-.emuwebapp-modalUl{
+.grazer-modalUl{
 	padding: 10px;
 }

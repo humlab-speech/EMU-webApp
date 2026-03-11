@@ -3,16 +3,16 @@ import * as angular from 'angular';
 let SsffTrackComponent = {
     selector: "ssffTrack",
     template: /*html*/`
-    <div class="emuwebapp-timeline">
-    <div class="emuwebapp-timelineCanvasContainer">
+    <div class="grazer-timeline">
+    <div class="grazer-timelineCanvasContainer">
         <canvas 
-        class="emuwebapp-timelineCanvasMain" 
+        class="grazer-timelineCanvasMain" 
         width="4096">
         </canvas>
         
         <!--
         <canvas 
-        class="emuwebapp-timelineCanvasSSFF" 
+        class="grazer-timelineCanvasSSFF" 
         width="4096" 
         drawssff ssff-trackname="{{$ctrl.trackName}}">
         </canvas>
@@ -124,5 +124,5 @@ let SsffTrackComponent = {
 }
 
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .component(SsffTrackComponent.selector, SsffTrackComponent);

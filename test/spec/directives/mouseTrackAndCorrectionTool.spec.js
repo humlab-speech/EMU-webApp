@@ -3,7 +3,7 @@
 describe('Directive: mouseTrackAndCorrectionTool', function () {
 
   // load the directive's module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
 
   var elm, scope;
 
@@ -124,7 +124,7 @@ describe('Directive: mouseTrackAndCorrectionTool', function () {
 
    it('should switchMarkupContext (OSCI)', inject(function ($compile, ConfigProviderService, viewState, Drawhelperservice) {
      compile('OSCI');
-     ConfigProviderService.setVals(defaultEmuwebappConfig);
+     ConfigProviderService.setVals(defaultGrazerConfig);
      ConfigProviderService.curDbConfig = aeDbConfig;
      spyOn(Drawhelperservice, 'drawMovingBoundaryLine');
      spyOn(Drawhelperservice, 'drawViewPortTimes');
@@ -139,7 +139,7 @@ describe('Directive: mouseTrackAndCorrectionTool', function () {
 
    it('should switchMarkupContext (SPEC)', inject(function ($compile, ConfigProviderService, viewState, Drawhelperservice) {
      compile('SPEC');
-     ConfigProviderService.setVals(defaultEmuwebappConfig);
+     ConfigProviderService.setVals(defaultGrazerConfig);
      ConfigProviderService.curDbConfig = aeDbConfig;
      spyOn(Drawhelperservice, 'drawMovingBoundaryLine');
      spyOn(Drawhelperservice, 'drawCurViewPortSelected');
@@ -154,7 +154,7 @@ describe('Directive: mouseTrackAndCorrectionTool', function () {
 
    it('should switchMarkupContext (other)', inject(function ($compile, Ssffdataservice, ConfigProviderService, viewState, Drawhelperservice) {
      compile('other');
-     ConfigProviderService.setVals(defaultEmuwebappConfig);
+     ConfigProviderService.setVals(defaultGrazerConfig);
      ConfigProviderService.curDbConfig = aeDbConfig;
      spyOn(Drawhelperservice, 'drawMovingBoundaryLine');
      spyOn(Drawhelperservice, 'drawCurViewPortSelected');

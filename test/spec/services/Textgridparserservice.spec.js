@@ -4,7 +4,7 @@ describe('Service: Textgridparserservice', function () {
   var scope, deferred;
 
   // load the controller's module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
 
   beforeEach(inject(function (_$rootScope_, $q, Textgridparserservice) {
      scope = _$rootScope_;

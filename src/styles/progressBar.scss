@@ -1,4 +1,4 @@
-@import 'EMUwebAppDesign';
+@import 'grazer-design';
 @import 'font';
 @import 'mixins';
 
@@ -7,12 +7,12 @@
     see: progress thing directive
     ############################### */
 
-.emuwebapp-progressBar {
+.grazer-progressBar {
     background-color: $color-grey;
     color: $color-white;
     width: 100%;
     height: 20px;
-    @extend .emuwebapp-font-input;
+    @extend .grazer-font-input;
     font-weight: 900;
 
     background-image: -webkit-linear-gradient(
@@ -56,7 +56,7 @@
         transparent
     );
     @include vendor-prefix(background-size, "50px 50px");
-    @include vendor-prefix(animation, "emuwebapp-move 2s linear infinite");
+    @include vendor-prefix(animation, "grazer-move 2s linear infinite");
     @include vendor-prefix(box-shadow, "inset 0 6px 6px "+$color-transparent-lightGrey);
     overflow: hidden;
 }
@@ -64,7 +64,7 @@
 /*
 Animate the stripes
 */   
-@-webkit-keyframes emuwebapp-move{
+@-webkit-keyframes grazer-move{
   0% {
     background-position: 0 0;
   }
@@ -72,7 +72,7 @@ Animate the stripes
     background-position: 50px 50px;
   }
 }    
-@-moz-keyframes emuwebapp-move{
+@-moz-keyframes grazer-move{
   0% {
     background-position: 0 0;
   }
@@ -80,7 +80,7 @@ Animate the stripes
     background-position: 50px 50px;
   }
 }    
-@-ms-keyframes emuwebapp-move{
+@-ms-keyframes grazer-move{
   0% {
     background-position: 0 0;
   }
@@ -88,7 +88,7 @@ Animate the stripes
     background-position: 50px 50px;
   }
 }    
-@keyframes emuwebapp-move{
+@keyframes grazer-move{
   0% {
     background-position: 0 0;
   }
@@ -97,10 +97,10 @@ Animate the stripes
   }
 }  
 
-.emuwebapp-animationRunning {
+.grazer-animationRunning {
     @include vendor-prefix(animation-play-state, "running");
 }
 
-.emuwebapp-animationStopped {
+.grazer-animationStopped {
     @include vendor-prefix(animation-play-state, "paused");
 }

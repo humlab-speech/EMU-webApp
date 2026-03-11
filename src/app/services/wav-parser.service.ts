@@ -111,5 +111,5 @@ class WavParserService{
 
         }
 
-        angular.module('emuwebApp')
+        angular.module('grazer')
         .service('WavParserService', ['$q', '$window', WavParserService]);

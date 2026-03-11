@@ -3,7 +3,7 @@
 describe('Controller: MainController', function () {
 
   //load the controller's module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
 
   var emptyObject = {};
 
@@ -54,8 +54,8 @@ describe('Controller: MainController', function () {
     scope.io = IoHandlerService;
     scope.valid = ValidationService;
     scope.shs.audioBuffer.length = testSizeAll;
-    scope.cps.setVals(defaultEmuwebappConfig);
-    scope.cps.design = defaultEmuwebappDesign;
+    scope.cps.setVals(defaultGrazerConfig);
+    scope.cps.design = defaultGrazerDesign;
     scope.cps.curDbConfig = aeDbConfig;
     scope.history = HistoryService;
     scope.txtgrid = TextGridParserService;
@@ -66,7 +66,7 @@ describe('Controller: MainController', function () {
     deferred = $q.defer();
     deferred.resolve('called');
     $httpBackend.whenGET("schemaFiles/annotationFileSchema.json").respond(annotationFileSchema);
-    $httpBackend.whenGET("schemaFiles/emuwebappConfigSchema.json").respond(emuwebappConfigSchema);
+    $httpBackend.whenGET("schemaFiles/grazerConfigSchema.json").respond(grazerConfigSchema);
     $httpBackend.whenGET("schemaFiles/DBconfigFileSchema.json").respond(DBconfigFileSchema);
     $httpBackend.whenGET("schemaFiles/bundleListSchema.json").respond(bundleListSchema);
     $httpBackend.whenGET("schemaFiles/bundleSchema.json").respond(bundleSchema);
@@ -76,8 +76,8 @@ describe('Controller: MainController', function () {
     $httpBackend.whenGET("views/error.html").respond('');
     $httpBackend.whenGET("views/connectModal.html").respond('');
     $httpBackend.whenGET("views/export.html").respond('');
-    $httpBackend.whenGET("configFiles/default_emuwebappConfig.json").respond(defaultEmuwebappConfig);
-    $httpBackend.whenGET("configFiles/default_emuwebappDesign.json").respond(defaultEmuwebappDesign);
+    $httpBackend.whenGET("configFiles/default_grazerConfig.json").respond(defaultGrazerConfig);
+    $httpBackend.whenGET("configFiles/default_emuwebappDesign.json").respond(defaultGrazerDesign);
   }));
 
   it('should react to $broadcast connectionDisrupted', inject(function ($rootScope) {
@@ -351,12 +351,12 @@ describe('Controller: MainController', function () {
   });
 
   it('should getPerspectiveColor', function () {
-    expect(scope.getPerspectiveColor()).toEqual('emuwebapp-curSelPerspLi');
+    expect(scope.getPerspectiveColor()).toEqual('grazer-curSelPerspLi');
     // set curPerspectiveIdx
     scope.vs.curPerspectiveIdx = 0;
     expect(scope.getPerspectiveColor({
       name: 'test'
-    })).toEqual('emuwebapp-perspLi');
+    })).toEqual('grazer-perspLi');
     // reset curPerspectiveIdx
     scope.vs.curPerspectiveIdx = -1;
   });
@@ -634,7 +634,7 @@ describe('Controller: MainController', function () {
      spyOn(scope.data, 'setData');
      scope.cps.embeddedVals.audioGetUrl = 'test.wav';
      scope.loadFilesForEmbeddedApp();
-     ioDeferred.resolve({data: defaultEmuwebappConfig});
+     ioDeferred.resolve({data: defaultGrazerConfig});
      scope.$apply();
      expect(scope.cps.setVals).toHaveBeenCalled();
      wavDeferred.resolve({Data: [1, 2, 3]});

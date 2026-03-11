@@ -3,11 +3,11 @@
 describe('Directive: preview', function () {
 
     var elm, tpl, scope;
-    beforeEach(module('emuwebApp', 'emuwebApp.templates'));
+    beforeEach(module('grazer', 'grazer.templates'));
 
     beforeEach(inject(function ($rootScope, $compile, ConfigProviderService) {
         scope = $rootScope.$new();
-        ConfigProviderService.setVals(defaultEmuwebappConfig);
+        ConfigProviderService.setVals(defaultGrazerConfig);
     }));
 
     function compileDirective(val) {
@@ -21,8 +21,8 @@ describe('Directive: preview', function () {
     it('should have correct html', inject(function (viewState, Soundhandlerservice, Drawhelperservice) {
         compileDirective('ae');
         expect(elm.find('canvas').length).toBe(2);
-        expect(elm.html()).toContain('emuwebapp-preview-canvas');
-        expect(elm.html()).toContain('emuwebapp-preview-canvas-markup');
+        expect(elm.html()).toContain('grazer-preview-canvas');
+        expect(elm.html()).toContain('grazer-preview-canvas-markup');
     }));
 
     it('should watch curViewPort', inject(function (viewState, Soundhandlerservice, DataService, Drawhelperservice) {

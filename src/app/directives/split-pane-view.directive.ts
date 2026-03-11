@@ -1,6 +1,6 @@
 import * as angular from 'angular';
 
-angular.module('emuwebApp')
+angular.module('grazer')
 	.directive('bgSplitter', ['$rootScope', 'ViewStateService', 
 		function ($rootScope, ViewStateService) {
 		return {
@@ -10,7 +10,7 @@ angular.module('emuwebApp')
 			scope: {
 				showTwoDimCans: '@'
 			},
-			template: '<div class="emuwebapp-split-panes vertical" ng-transclude></div>',
+			template: '<div class="grazer-split-panes vertical" ng-transclude></div>',
 			controller: ['$scope', function ($scope) {
 				$scope.panes = [];
 				$scope.bottomRightResizePane = undefined;
@@ -33,7 +33,7 @@ angular.module('emuwebApp')
 				var dragBottomRightResizePaneCornerResizer = false;
 
 				// create split pane view
-				var handler = angular.element('<div id="emuwebapp-split-handler" class="emuwebapp-split-handler"><span></span></div>');
+				var handler = angular.element('<div id="grazer-split-handler" class="grazer-split-handler"><span></span></div>');
 				var pane1 = scope.panes[0];
 				var pane2 = scope.panes[1];
 				var pane3 = scope.bottomRightResizePane;
@@ -214,7 +214,7 @@ angular.module('emuwebApp')
 			},
 			template: '<div class="{{typeclass}}" ng-transclude></div>',
 			link: function (scope, element, attrs, bgSplitterCtrl) {
-				if (scope.type !== 'emuwebapp-2d-map') {
+				if (scope.type !== 'grazer-2d-map') {
 					scope.elem = element;
 					scope.index = bgSplitterCtrl.addPane(scope);
 					scope.typeclass = 'split-pane' + scope.index;
@@ -222,7 +222,7 @@ angular.module('emuwebApp')
 				} else {
 					scope.elem = element;
 					scope.index = 3;
-					scope.typeclass = 'emuwebapp-2d-map';
+					scope.typeclass = 'grazer-2d-map';
 					bgSplitterCtrl.setBottomRightResizePane(scope);
 
 				}

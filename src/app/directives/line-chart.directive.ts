@@ -8,7 +8,7 @@ import * as d3 from 'd3';
  * @description
  * # lineChart
  */
-angular.module('emuwebApp')
+angular.module('grazer')
 	.directive('lineChart', function () {
 		return {
 			restrict: 'E',

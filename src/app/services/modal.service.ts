@@ -143,7 +143,7 @@ class ModalService{
 * # ModalService
 * Service in the emuwebApp.
 */
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('ModalService', [
 	'$q', 
 	'ArrayHelperService', 

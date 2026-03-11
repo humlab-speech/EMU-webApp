@@ -1,8 +1,8 @@
-@import 'EMUwebAppDesign';
+@import 'grazer-design';
 @import 'font';
 @import 'mixins';
 
-.emuwebapp-tabbed {
+.grazer-tabbed {
     margin: 0;
     padding: 0;
     text-align: center;
@@ -11,7 +11,7 @@
     top: 0;
     left: 0;
     height: 100%;
-    .emuwebapp-tabbed-menu {
+    .grazer-tabbed-menu {
       height: 100%;
       width: 240px !important;
       background: $color-grey;
@@ -32,12 +32,12 @@
         text-decoration: underline;
         cursor: pointer;
     }
-    .emuwebapp-tabbed-link {
+    .grazer-tabbed-link {
       color: $color-white;
       text-decoration: none;
       cursor: pointer;
       background: transparent;
-      @extend .emuwebapp-font-input;
+      @extend .grazer-font-input;
     }
 /*    ::-webkit-scrollbar {
       width: 15px;
@@ -53,7 +53,7 @@
     ::-webkit-scrollbar-thumb {
         background: $color-transparent-black;
     }*/
-    .emuwebapp-tabbed-view {
+    .grazer-tabbed-view {
         border: 0;
         clear: both;
         overflow-y: -moz-scrollbars-vertical;
@@ -68,13 +68,13 @@
         top: 0;
         right: 0;
     }
-    .emuwebapp-tabbed-error {
+    .grazer-tabbed-error {
         color: $color-red;
         margin-left: 10px;
         width: 100%;
         font-size: 1.1em;
     }
-    .emuwebapp-tabbed-rounded {
+    .grazer-tabbed-rounded {
         border: 0;
         border-radius: 10px;
         text-align: left;
@@ -94,7 +94,7 @@
         border-style: dashed;
         padding-top: 25px;
     }
-    .emuwebapp-tabbed-button {
+    .grazer-tabbed-button {
         background: $color-blue;
         color: $color-white;
         line-height: 18px;
@@ -106,8 +106,8 @@
         @include vendor-prefix(box-shadow, "1px 1px 3px " + $color-blue);
         z-index: 99999;
     }
-    .emuwebapp-tabbed-close {
-        @extend .emuwebapp-tabbed-button;
+    .grazer-tabbed-close {
+        @extend .grazer-tabbed-button;
         position: absolute;
         right: -9px;
         top: -9px;
@@ -121,8 +121,8 @@
             text-decoration: none;
         }
     }
-    .emuwebapp-tabbed-delete {
-        @extend .emuwebapp-tabbed-button;
+    .grazer-tabbed-delete {
+        @extend .grazer-tabbed-button;
         display: inline-block;
         margin-left: 20px;
         &:hover {
@@ -135,65 +135,65 @@
             text-decoration: none;
         }
     }
-    .emuwebapp-tabbed-delete-small {
-        @extend .emuwebapp-tabbed-button;
+    .grazer-tabbed-delete-small {
+        @extend .grazer-tabbed-button;
         display: inline-block;
         margin-left: 10px;
         width: 9px;
         line-height: 9px;
         font-size: 0.5em;
     }
-    .emuwebapp-tabbed-add {
-        @extend .emuwebapp-tabbed-button;
+    .grazer-tabbed-add {
+        @extend .grazer-tabbed-button;
         display: inline-block;
     }
-    .emuwebapp-tabbed-add-small {
-        @extend .emuwebapp-tabbed-button;
+    .grazer-tabbed-add-small {
+        @extend .grazer-tabbed-button;
         display: inline-block;
         width: 9px;
         line-height: 9px;
         font-size: 0.5em;
     }
-    .emuwebapp-tabbed-border {
+    .grazer-tabbed-border {
         position: absolute;
         top: -12px;
         left: 5px;
         background-color: $color-white;
     }
-    .emuwebapp-tabbed-table {
+    .grazer-tabbed-table {
         display:table;
         width: 100%;
-        .emuwebapp-tabbed-row {
+        .grazer-tabbed-row {
             display:table-row;
             width: 100%;
             vertical-align: top;
         }
-        .emuwebapp-tabbed-cell {
+        .grazer-tabbed-cell {
             display:table-cell;
             width: 50%;
             vertical-align: top;
         }
-        .emuwebapp-tabbed-cell3 {
+        .grazer-tabbed-cell3 {
             display:table-cell;
             width: 33%;
             vertical-align: top;
         }
-        .emuwebapp-tabbed-cell4 {
+        .grazer-tabbed-cell4 {
             display:table-cell;
             width: 25%;
             vertical-align: top;
         }
-        .emuwebapp-tabbed-cell5 {
+        .grazer-tabbed-cell5 {
             display:table-cell;
             width: 20%;
             vertical-align: top;
         }
-        .emuwebapp-align-right {
+        .grazer-align-right {
             text-align: right;
             padding-right: 10px;
         }
     }
-    .emuwebapp-tabbed-rowframe {
+    .grazer-tabbed-rowframe {
         border: 0;
         border-radius: 10px;
         text-align: left;
@@ -201,7 +201,7 @@
         margin-bottom: 5px;
         padding: 5px;
     }
-    .emuwebapp-tabbed-orderitem {
+    .grazer-tabbed-orderitem {
         background: $color-white;
         border: 1px solid $color-blue;
         margin: 4px;
@@ -209,30 +209,30 @@
         cursor: move;
         width: 300px !important;
     }
-    .emuwebapp-tabbed-order {
+    .grazer-tabbed-order {
         @include vendor-prefix(box-sizing, "border-box");
         padding: 2px;
         width: 100%;
     }
-    .emuwebapp-tabbed-text {
+    .grazer-tabbed-text {
         overflow: hidden;
         @include vendor-prefix(box-sizing, "border-box");
         padding: 2px;
         background: $color-white;
     }
-    .emuwebapp-tabbed-input-small {
-        @extend .emuwebapp-tabbed-text;
+    .grazer-tabbed-input-small {
+        @extend .grazer-tabbed-text;
         width: 50%;
         font-size: 75%;
         border: 1px solid $color-grey;
     }
-    .emuwebapp-tabbed-input {
-        @extend .emuwebapp-tabbed-text;
+    .grazer-tabbed-input {
+        @extend .grazer-tabbed-text;
         font-size: 90%;
         border: 1px solid $color-grey;
     }
-    .emuwebapp-tabbed-input-bold {
-        @extend .emuwebapp-tabbed-text;
+    .grazer-tabbed-input-bold {
+        @extend .grazer-tabbed-text;
         font-size: 115%;
         border: 1px solid $color-blue;
     }

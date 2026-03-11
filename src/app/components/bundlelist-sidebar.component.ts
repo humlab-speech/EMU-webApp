@@ -3,17 +3,17 @@ import * as angular from 'angular';
 let BundleListSideBarComponent = {
 	selector: "bundleListSideBar",
 	template: /*html*/`
-	<div class="emuwebapp-bundle-outer">
+	<div class="grazer-bundle-outer">
 	<div>
 		<h3>
 			<div>
-				<input type="text" ng-model="$ctrl.filterText" placeholder="&#x1f50d; Bundle Filter" ng-focus="$ctrl.ViewStateService.setcursorInTextField(true)" ng-blur="$ctrl.ViewStateService.setcursorInTextField(false)" class="emuwebapp-filter"/>
+				<input type="text" ng-model="$ctrl.filterText" placeholder="&#x1f50d; Bundle Filter" ng-focus="$ctrl.ViewStateService.setcursorInTextField(true)" ng-blur="$ctrl.ViewStateService.setcursorInTextField(false)" class="grazer-filter"/>
 			</div>
 		</h3>
 		<my-drop-zone ng-if="$ctrl.ViewStateService.showDropZone && $ctrl.open"></my-drop-zone>
-		<div id="emuwebapp-bundleListContainer" class="emuwebapp-bundle-container" ng-if="!$ctrl.ViewStateService.showDropZone">
-			<ul ng-repeat="(key, value) in $ctrl.LoadedMetaDataService.getRendOptBndlList()" ng-class="{'emuwebapp-bundle-last':$last}">
-				<div class="emuwebapp-bundle-session" ng-if="$ctrl.isSessionDefined(key)" ng-click="$ctrl.LoadedMetaDataService.toggleCollapseSession(key)">
+		<div id="grazer-bundleListContainer" class="grazer-bundle-container" ng-if="!$ctrl.ViewStateService.showDropZone">
+			<ul ng-repeat="(key, value) in $ctrl.LoadedMetaDataService.getRendOptBndlList()" ng-class="{'grazer-bundle-last':$last}">
+				<div class="grazer-bundle-session" ng-if="$ctrl.isSessionDefined(key)" ng-click="$ctrl.LoadedMetaDataService.toggleCollapseSession(key)">
 					<div ng-if="$ctrl.LoadedMetaDataService.getSessionCollapseState(key)">
 						▷{{key}}
 					</div>
@@ -21,8 +21,8 @@ let BundleListSideBarComponent = {
 						▽{{key}}
 					</div>
 				</div>
-				<div class="emuwebapp-bundleListSessionBndlsContainer" ng-if="!$ctrl.LoadedMetaDataService.getSessionCollapseState(key)">
-					<div class="emuwebapp-bundleListSessionPager" ng-if="value.length > $ctrl.ViewStateService.pageSize">
+				<div class="grazer-bundleListSessionBndlsContainer" ng-if="!$ctrl.LoadedMetaDataService.getSessionCollapseState(key)">
+					<div class="grazer-bundleListSessionPager" ng-if="value.length > $ctrl.ViewStateService.pageSize">
 						<button ng-disabled="$ctrl.ViewStateService.currentPage == 0" ng-click="$ctrl.turn(false);">
 							←
 						</button>
@@ -32,9 +32,9 @@ let BundleListSideBarComponent = {
 						</button>
 					</div>
 					<div ng-repeat="bundle in value | startFrom:$ctrl.ViewStateService.currentPage*$ctrl.ViewStateService.pageSize | limitTo:$ctrl.ViewStateService.pageSize | regex:$ctrl.filterText track by $index">
-						<div class="emuwebapp-bundle-item" id="uttListItem" ng-style="$ctrl.getBndlColor(bundle);" ng-click="$ctrl.DbObjLoadSaveService.loadBundle(bundle);" dragout draggable="true" name="{{bundle.name}}">
+						<div class="grazer-bundle-item" id="uttListItem" ng-style="$ctrl.getBndlColor(bundle);" ng-click="$ctrl.DbObjLoadSaveService.loadBundle(bundle);" dragout draggable="true" name="{{bundle.name}}">
 							<b>{{bundle.name}}</b>
-							<button ng-if="$ctrl.ConfigProviderService.vals.activeButtons.saveBundle && $ctrl.isCurBndl(bundle)" class="emuwebapp-saveBundleButton" ng-click="$ctrl.DbObjLoadSaveService.saveBundle();"><i class="material-icons">save</i></button>
+							<button ng-if="$ctrl.ConfigProviderService.vals.activeButtons.saveBundle && $ctrl.isCurBndl(bundle)" class="grazer-saveBundleButton" ng-click="$ctrl.DbObjLoadSaveService.saveBundle();"><i class="material-icons">save</i></button>
 							<!---->
 							<!--regulate finished editing display-->
 							<!--display checkbox if current-->
@@ -68,7 +68,7 @@ let BundleListSideBarComponent = {
 
 							<!---->
 							<!--timeAnchors controlls-->
-							<div class="emuwebapp-bundleListSessionPager" ng-if="bundle.timeAnchors.length > 0 && $ctrl.isCurBndl(bundle)">
+							<div class="grazer-bundleListSessionPager" ng-if="bundle.timeAnchors.length > 0 && $ctrl.isCurBndl(bundle)">
 								<button ng-disabled="$ctrl.ViewStateService.curTimeAnchorIdx == 0" ng-click="$ctrl.nextPrevAnchor(false);">
 									←
 								</button>
@@ -80,7 +80,7 @@ let BundleListSideBarComponent = {
 
 						</div>
 					</div>
-					<div class="emuwebapp-bundleListSessionPager" ng-if="value.length > $ctrl.ViewStateService.pageSize">
+					<div class="grazer-bundleListSessionPager" ng-if="value.length > $ctrl.ViewStateService.pageSize">
 						<button ng-disabled="$ctrl.ViewStateService.currentPage == 0" ng-click="$ctrl.turn(false);">
 							←
 						</button>
@@ -163,11 +163,11 @@ controller: [
 			if(changes.open){
 				// console.log(changes.open.currentValue);
 				if(changes.open.currentValue){
-					this.$animate.removeClass(this.$element.find('div')[0], 'emuwebapp-shrinkBundleListSidebarWidthTo0px');
-					this.$animate.addClass(this.$element.find('div')[0], 'emuwebapp-expandBundleListSidebarWidthTo200px');
+					this.$animate.removeClass(this.$element.find('div')[0], 'grazer-shrinkBundleListSidebarWidthTo0px');
+					this.$animate.addClass(this.$element.find('div')[0], 'grazer-expandBundleListSidebarWidthTo200px');
 				} else {
-					this.$animate.removeClass(this.$element.find('div')[0], 'emuwebapp-expandBundleListSidebarWidthTo200px');
-					this.$animate.addClass(this.$element.find('div')[0], 'emuwebapp-shrinkBundleListSidebarWidthTo0px');
+					this.$animate.removeClass(this.$element.find('div')[0], 'grazer-expandBundleListSidebarWidthTo200px');
+					this.$animate.addClass(this.$element.find('div')[0], 'grazer-shrinkBundleListSidebarWidthTo0px');
 				}
 			}
 		}
@@ -297,5 +297,5 @@ controller: [
 
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .component(BundleListSideBarComponent.selector, BundleListSideBarComponent);

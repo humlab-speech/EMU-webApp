@@ -4,7 +4,7 @@ describe('Factory: browserDetector', function () {
 
   var $window;
   // load the controller's module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
 
   beforeEach(inject(function(_$window_) {
       $window = _$window_;

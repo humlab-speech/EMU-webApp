@@ -175,5 +175,5 @@ class DataService{
 	
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('DataService', DataService);

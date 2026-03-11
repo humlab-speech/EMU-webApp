@@ -1,6 +1,6 @@
 import * as angular from 'angular';
 
-angular.module('emuwebApp')
+angular.module('grazer')
 	.controller('ExportCtrl', ['$scope', '$window', 'ModalService', 'BrowserDetectorService', 'ViewStateService', 'HistoryService', 
 		function ($scope, $window, ModalService, BrowserDetectorService, ViewStateService, HistoryService) {
 

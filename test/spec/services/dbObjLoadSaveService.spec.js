@@ -4,7 +4,7 @@ describe('Service: dbObjLoadSaveService', function () {
   var scope, deferred, deferred2, deferred3, deferred4;
 
   // load the controller's module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
 
   beforeEach(inject(function (_$rootScope_, $q, dbObjLoadSaveService, viewState, ConfigProviderService) {
      scope = _$rootScope_;
@@ -15,7 +15,7 @@ describe('Service: dbObjLoadSaveService', function () {
      scope.dbo = dbObjLoadSaveService;
      scope.vs = viewState;
      scope.cps = ConfigProviderService;
-     scope.cps.setVals(defaultEmuwebappConfig);
+     scope.cps.setVals(defaultGrazerConfig);
      scope.cps.curDbConfig = aeDbConfig;   
      scope.vs.curPerspectiveIdx = 0;
   }));

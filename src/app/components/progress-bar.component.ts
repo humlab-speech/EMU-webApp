@@ -35,15 +35,15 @@ let ProgressBarComponent = {
                 if(changes.open){
                     // console.log(changes.open.currentValue);
                     if(changes.open.currentValue){
-                        this.$animate.removeClass(this.$element, 'emuwebapp-shrinkHeightTo0px');
-                        this.$animate.removeClass(this.$element, 'emuwebapp-animationStopped');
-                        this.$animate.addClass(this.$element, 'emuwebapp-expandHeightTo20px');
-                        this.$animate.addClass(this.$element, 'emuwebapp-animationRunning');
+                        this.$animate.removeClass(this.$element, 'grazer-shrinkHeightTo0px');
+                        this.$animate.removeClass(this.$element, 'grazer-animationStopped');
+                        this.$animate.addClass(this.$element, 'grazer-expandHeightTo20px');
+                        this.$animate.addClass(this.$element, 'grazer-animationRunning');
                     } else {
-                        this.$animate.removeClass(this.$element, 'emuwebapp-expandHeightTo20px');
-                        this.$animate.removeClass(this.$element, 'emuwebapp-animationRunning');
-                        this.$animate.addClass(this.$element, 'emuwebapp-shrinkHeightTo0px');
-                        this.$animate.addClass(this.$element, 'emuwebapp-animationStopped');
+                        this.$animate.removeClass(this.$element, 'grazer-expandHeightTo20px');
+                        this.$animate.removeClass(this.$element, 'grazer-animationRunning');
+                        this.$animate.addClass(this.$element, 'grazer-shrinkHeightTo0px');
+                        this.$animate.addClass(this.$element, 'grazer-animationStopped');
                     }
                 }
             }
@@ -51,5 +51,5 @@ let ProgressBarComponent = {
 
     }]
 }
-angular.module('emuwebApp')
+angular.module('grazer')
 .component(ProgressBarComponent.selector, ProgressBarComponent);

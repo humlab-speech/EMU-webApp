@@ -3,7 +3,7 @@
 describe('Directive: showMenu', function() {
 
     var elm, tpl, scope;
-    beforeEach(module('emuwebApp'));
+    beforeEach(module('grazer'));
 
     beforeEach(inject(function($rootScope, $compile) {
         scope = $rootScope.$new();
@@ -19,10 +19,10 @@ describe('Directive: showMenu', function() {
 
     it('should have correct css values', function() {
         compileDirective(true);
-        expect(elm.prop('className')).toContain('emuwebapp-expandWidthTo200px');
-        expect(elm.prop('className')).not.toContain('emuwebapp-shrinkWidthTo0px');
+        expect(elm.prop('className')).toContain('grazer-expandWidthTo200px');
+        expect(elm.prop('className')).not.toContain('grazer-shrinkWidthTo0px');
         compileDirective(false);
-        expect(elm.prop('className')).toContain('emuwebapp-shrinkWidthTo0px');
-        expect(elm.prop('className')).not.toContain('emuwebapp-expandWidthTo200px');
+        expect(elm.prop('className')).toContain('grazer-shrinkWidthTo0px');
+        expect(elm.prop('className')).not.toContain('grazer-expandWidthTo200px');
     });
 });

@@ -1,11 +1,11 @@
 import * as angular from 'angular';
 
-import styles from '../../styles/EMUwebAppDesign.scss';
+import styles from '../../styles/grazer-design.scss';
 
 let EpgGridCanvasComponent = {
     selector: "epgGridCanvas",
     template: /*html*/`
-    <div class="emuwebapp-twoDimCanvasContainer">
+    <div class="grazer-twoDimCanvasContainer">
         <canvas width="512" height="512">
     </canvas></div>'
     `,
@@ -120,5 +120,5 @@ let EpgGridCanvasComponent = {
     }]
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .component(EpgGridCanvasComponent.selector, EpgGridCanvasComponent);

@@ -65,5 +65,5 @@ class EspsParserService{
 }
 
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('EspsParserService', ['$q', 'LevelService', 'SoundHandlerService', EspsParserService]);

@@ -3,7 +3,7 @@
 describe('Service: HistoryService', function () {
 
   // load the controller's module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
 
   var item, cur;
 

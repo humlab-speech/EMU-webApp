@@ -1,6 +1,6 @@
 import * as angular from 'angular';
 
-angular.module('emuwebApp')
+angular.module('grazer')
 	.directive('myDropZoneInput', function () {
 		return {
 			template: '<span></span>',

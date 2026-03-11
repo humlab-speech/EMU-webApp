@@ -3,14 +3,14 @@
 describe('Directive: drawssff', function() {
 
     var elm, scope, worker;
-    beforeEach(module('emuwebApp'));
+    beforeEach(module('grazer'));
 
     beforeEach(inject(function($rootScope, $compile, viewState, DataService, ConfigProviderService, LevelService, Ssffdataservice) {
         scope = $rootScope.$new();
         scope.lvl = LevelService;
         scope.cps = ConfigProviderService;
-        scope.cps.setVals(defaultEmuwebappConfig);
-        scope.cps.design = defaultEmuwebappDesign;
+        scope.cps.setVals(defaultGrazerConfig);
+        scope.cps.design = defaultGrazerDesign;
         scope.vs = viewState;
         scope.data = DataService;
         scope.ssffds = Ssffdataservice; 

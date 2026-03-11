@@ -1,6 +1,6 @@
 import * as angular from 'angular';
 
-angular.module('emuwebApp')
+angular.module('grazer')
 	.controller('TabbedCtrl', ['$scope', '$timeout', 'ConfigProviderService', 'ValidationService', 'ViewStateService', 'ModalService',
 		function ($scope, $timeout, ConfigProviderService, ValidationService, ViewStateService, ModalService) {
 		$scope.cps = ConfigProviderService;
@@ -20,7 +20,7 @@ angular.module('emuwebApp')
 
 		$scope.cps = ConfigProviderService;
 		$scope.modal = ModalService;
-		$scope.schema = ValidationService.getSchema('emuwebappConfigSchema').data.properties;
+		$scope.schema = ValidationService.getSchema('grazerConfigSchema').data.properties;
 		$scope.modal.dataOut = angular.copy(ConfigProviderService.vals);
 		$scope.warning = '';
 

@@ -104,8 +104,8 @@
         "drawCrossHairs": true,
         "drawSampleNrs": false,
         "drawZeroLine": true,
-        "bundleComments": false,
-        "bundleFinishedEditing": false,
+        "bundleComments": true,
+        "bundleFinishedEditing": true,
         "showPerspectivesSidebar": false,
         "useLargeTextInputField": false
     },

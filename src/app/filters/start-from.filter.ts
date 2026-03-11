@@ -8,7 +8,7 @@ import * as angular from 'angular';
  * # startFromFilter
  * Filter in the emuwebApp.
  */
-angular.module('emuwebApp')
+angular.module('grazer')
 	.filter('startFrom', function () {
 		return function (input, start) {
 			start = +start; //parse to int

@@ -10,7 +10,7 @@ describe('E2E: spectrogram settings', function () {
 		element(by.id('spectSettingsBtn')).click();
         var select = element(by.model('selWindowInfo.name'));
         select.$('[label="BARTLETT"]').click();
-		element(by.id('emuwebapp-modal-save')).click();
+		element(by.id('grazer-modal-save')).click();
 		browser.sleep(90);
 	});
 
@@ -18,7 +18,7 @@ describe('E2E: spectrogram settings', function () {
 		element(by.id('spectSettingsBtn')).click();
         var select = element(by.model('selWindowInfo.name'));
         select.$('[label="BARTLETTHANN"]').click();
-        element(by.id('emuwebapp-modal-save')).click();
+        element(by.id('grazer-modal-save')).click();
 		browser.sleep(90);
 	});
 
@@ -26,7 +26,7 @@ describe('E2E: spectrogram settings', function () {
 		element(by.id('spectSettingsBtn')).click();
         var select = element(by.model('selWindowInfo.name'));
         select.$('[label="BLACKMAN"]').click();
-        element(by.id('emuwebapp-modal-save')).click();
+        element(by.id('grazer-modal-save')).click();
 		browser.sleep(90);
 	});
 
@@ -34,7 +34,7 @@ describe('E2E: spectrogram settings', function () {
 		element(by.id('spectSettingsBtn')).click();
         var select = element(by.model('selWindowInfo.name'));
         select.$('[label="COSINE"]').click();
-        element(by.id('emuwebapp-modal-save')).click();
+        element(by.id('grazer-modal-save')).click();
 		browser.sleep(90);
 	});
 
@@ -42,7 +42,7 @@ describe('E2E: spectrogram settings', function () {
 		element(by.id('spectSettingsBtn')).click();
         var select = element(by.model('selWindowInfo.name'));
         select.$('[label="HAMMING"]').click();
-        element(by.id('emuwebapp-modal-save')).click();
+        element(by.id('grazer-modal-save')).click();
 		browser.sleep(90);
 	});
 
@@ -50,7 +50,7 @@ describe('E2E: spectrogram settings', function () {
 		element(by.id('spectSettingsBtn')).click();
         var select = element(by.model('selWindowInfo.name'));
         select.$('[label="HANN"]').click();
-        element(by.id('emuwebapp-modal-save')).click();
+        element(by.id('grazer-modal-save')).click();
 		browser.sleep(90);
 	});
 
@@ -58,7 +58,7 @@ describe('E2E: spectrogram settings', function () {
 		element(by.id('spectSettingsBtn')).click();
         var select = element(by.model('selWindowInfo.name'));
         select.$('[label="LANCZOS"]').click();
-		element(by.id('emuwebapp-modal-save')).click();
+		element(by.id('grazer-modal-save')).click();
 		browser.sleep(90);
 	});
 
@@ -66,7 +66,7 @@ describe('E2E: spectrogram settings', function () {
 		element(by.id('spectSettingsBtn')).click();
         var select = element(by.model('selWindowInfo.name'));
         select.$('[label="RECTANGULAR"]').click();
-        element(by.id('emuwebapp-modal-save')).click();
+        element(by.id('grazer-modal-save')).click();
 		browser.sleep(90);
 	});
 
@@ -74,7 +74,7 @@ describe('E2E: spectrogram settings', function () {
 		element(by.id('spectSettingsBtn')).click();
         var select = element(by.model('selWindowInfo.name'));
         select.$('[label="TRIANGULAR"]').click();
-        element(by.id('emuwebapp-modal-save')).click();
+        element(by.id('grazer-modal-save')).click();
 		browser.sleep(90);
 	});
 
@@ -88,21 +88,21 @@ describe('E2E: spectrogram settings', function () {
 		element(by.id('spectSettingsBtn')).click();
 		element(by.model('modalVals.windowSizeInSecs')).clear();
 		element(by.model('modalVals.windowSizeInSecs')).sendKeys('0.001');
-		element(by.id('emuwebapp-modal-save')).click();
+		element(by.id('grazer-modal-save')).click();
 	});
 
 	it('should be able to set window size to 0.005', function () {
 		element(by.id('spectSettingsBtn')).click();
 		element(by.model('modalVals.windowSizeInSecs')).clear();
 		element(by.model('modalVals.windowSizeInSecs')).sendKeys('0.005');
-		element(by.id('emuwebapp-modal-save')).click();
+		element(by.id('grazer-modal-save')).click();
 	});
 
 	it('should be able to set window size to 0.1', function () {
 		element(by.id('spectSettingsBtn')).click();
 		element(by.model('modalVals.windowSizeInSecs')).clear();
 		element(by.model('modalVals.windowSizeInSecs')).sendKeys('0.1');
-		element(by.id('emuwebapp-modal-save')).click();
+		element(by.id('grazer-modal-save')).click();
 	});
 
 	// end: test different window sizes
@@ -114,7 +114,7 @@ describe('E2E: spectrogram settings', function () {
 		element(by.id('spectSettingsBtn')).click();
 		element(by.model('modalVals.rangeTo')).clear();
 		element(by.model('modalVals.rangeTo')).sendKeys('8000');
-		element(by.id('emuwebapp-modal-save')).click();
+		element(by.id('grazer-modal-save')).click();
 		var ele = by.model('filterText');
 		expect(browser.isElementPresent(ele)).toBe(true);
 	});
@@ -123,7 +123,7 @@ describe('E2E: spectrogram settings', function () {
 		element(by.id('spectSettingsBtn')).click();
 		element(by.model('modalVals.rangeFrom')).clear();
 		element(by.model('modalVals.rangeFrom')).sendKeys('1000');
-		element(by.id('emuwebapp-modal-save')).click();
+		element(by.id('grazer-modal-save')).click();
 		var ele = by.model('filterText');
 		expect(browser.isElementPresent(ele)).toBe(true);
 	});
@@ -136,7 +136,7 @@ describe('E2E: spectrogram settings', function () {
 		element(by.id('spectSettingsBtn')).click();
 		element(by.model('modalVals.dynamicRange')).clear();
 		element(by.model('modalVals.dynamicRange')).sendKeys('50');
-		element(by.id('emuwebapp-modal-save')).click();
+		element(by.id('grazer-modal-save')).click();
 		var ele = by.model('filterText');
 		expect(browser.isElementPresent(ele)).toBe(true);
 	});
@@ -145,7 +145,7 @@ describe('E2E: spectrogram settings', function () {
 		element(by.id('spectSettingsBtn')).click();
 		element(by.model('modalVals.dynamicRange')).clear();
 		element(by.model('modalVals.dynamicRange')).sendKeys('90');
-		element(by.id('emuwebapp-modal-save')).click();
+		element(by.id('grazer-modal-save')).click();
 		var ele = by.model('filterText');
 		expect(browser.isElementPresent(ele)).toBe(true);
 	});

@@ -3,7 +3,7 @@
 describe('Directive: emuhierarchy', function() {
 
     var elm, scope, tpl;
-    beforeEach(module('emuwebApp'));
+    beforeEach(module('grazer'));
 
     beforeEach(inject(function($rootScope, viewState, HierarchyLayoutService, ConfigProviderService) {
         scope = $rootScope.$new();

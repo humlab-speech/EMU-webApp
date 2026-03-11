@@ -1,6 +1,6 @@
 import * as angular from 'angular';
 
-angular.module('emuwebApp')
+angular.module('grazer')
 	.directive('dragout', ['$window', 'DataService', 'LoadedMetaDataService', 'BrowserDetectorService', 'ConfigProviderService', 
 		function ($window, DataService, LoadedMetaDataService, BrowserDetectorService, ConfigProviderService) {
 		return {

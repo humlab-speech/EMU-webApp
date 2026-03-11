@@ -1,8 +1,8 @@
-@import 'EMUwebAppDesign';
+@import 'grazer-design';
 @import 'font';
 @import 'mixins';
 
-.emuwebapp-text {
+.grazer-text {
   margin-left: 50px;
   margin-right: 50px;
   margin-top: 50px;
@@ -13,20 +13,20 @@
   input.ng-invalid.ng-touched {
     background-color: $color-red;
   }
-  @extend .emuwebapp-font-small;
+  @extend .grazer-font-small;
   .red {
   	color: #f00;
   }
-  .emuwebapp-sort-line {
+  .grazer-sort-line {
    border: 0;
     border-bottom: 1px dashed #ccc;
     background: #999;
   }
-    .emuwebapp-sortOuter {
+    .grazer-sortOuter {
       list-style-type: none;
       text-align: left;
     }
-    .emuwebapp-sort {
+    .grazer-sort {
       list-style-type: none;
       	width: 60%;
       	margin-top: 15px;
@@ -41,7 +41,7 @@
       }
     }
     input {
-        @extend .emuwebapp-font-input;
+        @extend .grazer-font-input;
         @include vendor-prefix(user-select, "none");
         @include vendor-prefix(box-sizing, "content-box");
         outline: none;
@@ -60,7 +60,7 @@
         }
         span {
             text-align: center;
-            @extend .emuwebapp-font-small;
+            @extend .grazer-font-small;
         }
     }
     img[alt=icon] {
@@ -74,7 +74,7 @@
       line-height: 1.255;
       display: block;
       //text-align: left;
-      @extend .emuwebapp-font-large;
+      @extend .grazer-font-large;
     }
     h1{
       font-size: $font-large-size * 1.7;
@@ -97,7 +97,7 @@
       display: block;
       text-align: left;
       font-weight: bold !important;
-      @extend .emuwebapp-font-large;
+      @extend .grazer-font-large;
     }
     h4 {
       position: relative;
@@ -108,7 +108,7 @@
       border-bottom: 1px solid #eee;
       display: block;
       text-align: left;
-      @extend .emuwebapp-font-large;
+      @extend .grazer-font-large;
     }
     pre {
 		padding: 16px;
@@ -118,7 +118,7 @@
 		border-radius: 3px;
 		word-wrap: normal;
 		font-size: 0.9em;
-		@extend .emuwebapp-font-code;
+		@extend .grazer-font-code;
     }
     img {
 		display: block;
@@ -163,7 +163,7 @@
 	    line-height: 0.85;
 	}
 	small {
-		@extend .emuwebapp-font-small;
+		@extend .grazer-font-small;
 		text-align: center;
 		font-size: 0.7em;
 	}
@@ -189,7 +189,7 @@
       text-align: center;
       text-decoration: underline;
       padding: 10px;
-      @extend .emuwebapp-font-large;
+      @extend .grazer-font-large;
     }
     tr{
       width: 500px !important;
@@ -206,7 +206,7 @@
       }
     }
     td {
-      @extend .emuwebapp-font-large;
+      @extend .grazer-font-large;
       padding: 10px;
       &:nth-child(even) {
         text-align: right;
@@ -216,6 +216,6 @@
   }
 
 }
-.emuwebapp-link {
+.grazer-link {
     cursor: pointer;
 }

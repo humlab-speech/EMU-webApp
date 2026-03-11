@@ -3,7 +3,7 @@
 describe('Directive: delete', function() {
 
     var elm, scope;
-    beforeEach(module('emuwebApp'));
+    beforeEach(module('grazer'));
 
     beforeEach(inject(function($rootScope, $compile, viewState) {
         scope = $rootScope.$new();

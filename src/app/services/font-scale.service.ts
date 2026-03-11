@@ -66,5 +66,5 @@ class FontScaleService{
 	
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('FontScaleService', FontScaleService);

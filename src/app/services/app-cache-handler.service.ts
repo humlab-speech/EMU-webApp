@@ -74,5 +74,5 @@ class AppcacheHandlerService{
 
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 	.service('AppcacheHandlerService', ['$http', 'ModalService', AppcacheHandlerService]);

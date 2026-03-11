@@ -1,11 +1,11 @@
 import * as angular from 'angular';
 
-import styles from '../../styles/EMUwebAppDesign.scss';
+import styles from '../../styles/grazer-design.scss';
 
 let SignalCanvasMarkupCanvasComponent = {
     selector: "signalCanvasMarkupCanvas",
     template:  /*html*/`
-    <canvas class="emuwebapp-timelineCanvasMarkup" 
+    <canvas class="grazer-timelineCanvasMarkup" 
     width="4096" 
     ></canvas>
     `,
@@ -371,5 +371,5 @@ let SignalCanvasMarkupCanvasComponent = {
     }]
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .component(SignalCanvasMarkupCanvasComponent.selector, SignalCanvasMarkupCanvasComponent);

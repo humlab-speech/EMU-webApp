@@ -1,10 +1,10 @@
-@import 'EMUwebAppDesign';
+@import 'grazer-design';
 @import 'font';
 @import 'mixins';
 
-.emuwebapp-grid {
+.grazer-grid {
     display: flex;
-    .emuwebapp-grid-button {
+    .grazer-grid-button {
         height: 30px;
         padding-top: 5px;
         border: 0;
@@ -17,11 +17,11 @@
             border-right: 0;
         }
     }
-    .emuwebapp-grid-center {
+    .grazer-grid-center {
         align-self: center;
     }
 }
-.emuwebapp-timeline-flexcontainer {
+.grazer-timeline-flexcontainer {
     padding: 0;
     margin: 0;
     height: 100%;
@@ -46,18 +46,18 @@
         position: relative;
     }
 }
-.emuwebapp-grid-cell {
+.grazer-grid-cell {
   flex: 1;
-  .emuwebapp-grid-head {
+  .grazer-grid-head {
     border: 0;
     margin-bottom: 12px;
     margin-top: 12px;
     text-align: left;
     padding: 0;
     text-decoration: underline;
-    @extend .emuwebapp-font-large;
+    @extend .grazer-font-large;
   }
-  .emuwebapp-grid-dotted {
+  .grazer-grid-dotted {
     overflow: auto;
     &:nth-child(even) {
         background: $color-white;
@@ -72,7 +72,7 @@
       padding-bottom: 4px;
       text-align: left;
       padding-left: 8%;
-      @extend .emuwebapp-font-small;
+      @extend .grazer-font-small;
       white-space: nowrap;
     }
 }

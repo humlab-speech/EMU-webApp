@@ -126,5 +126,5 @@ class SoundHandlerService{
 	
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('SoundHandlerService', ['$window', SoundHandlerService]);

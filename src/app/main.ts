@@ -31,7 +31,7 @@ import "../styles/font.scss";
 import "../styles/text.scss";
 import "../styles/button.scss";
 import "../styles/media-query.scss";
-import "../styles/emuwebapp.scss";
+import "../styles/grazer.scss";
 import "../styles/preview.scss";
 import "../styles/modal.scss";
 import "../styles/bundleListSideBar.scss";

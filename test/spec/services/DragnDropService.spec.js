@@ -5,7 +5,7 @@ describe('Service: DragnDropService', function () {
   var $q;
 
   // load the controller's module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
 
   beforeEach(inject(function(_$rootScope_, _$q_) {
     $q = _$q_;
@@ -103,7 +103,7 @@ describe('Service: DragnDropService', function () {
     spyOn(Validationservice, 'validateJSO').and.returnValue(true);
     DragnDropService.handleLocalFiles();
     expect(Iohandlerservice.httpGetPath).toHaveBeenCalled();
-    defio.resolve({data: defaultEmuwebappConfig});
+    defio.resolve({data: defaultGrazerConfig});
     $scope.$apply();
   }));
 

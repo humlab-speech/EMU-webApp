@@ -1,4 +1,4 @@
-@import 'EMUwebAppDesign';
+@import 'grazer-design';
 @import 'font';
 @import 'mixins';
 
@@ -29,32 +29,32 @@ div.printTitle {
         padding: 0; 
     }
   
-    .emuwebapp-bundleListSideBarOuter,
-    .emuwebapp-progressBar,
-    .emuwebapp-menuBarTop,
-    .emuwebapp-menuBarBottom,
-    .emuwebapp-split-handler,
-    .emuwebapp-filter,
-    .emuwebapp-bundle-outer,
-    .emuwebapp-top-menu,
-    .emuwebapp-right-menu,
-    .emuwebapp-bottom-menu,
-    .emuwebapp-timelineCanvasButtons,
-    .emuwebapp-rightSideMenuOpenBtn,
-    .emuwebapp-levelButtonsContainer,
-    .emuwebapp-canvasSelectors,
-    .emuwebapp-levelResizeBtn,
-    .emuwebapp-levelButtonsContainer { 
+    .grazer-bundleListSideBarOuter,
+    .grazer-progressBar,
+    .grazer-menuBarTop,
+    .grazer-menuBarBottom,
+    .grazer-split-handler,
+    .grazer-filter,
+    .grazer-bundle-outer,
+    .grazer-top-menu,
+    .grazer-right-menu,
+    .grazer-bottom-menu,
+    .grazer-timelineCanvasButtons,
+    .grazer-rightSideMenuOpenBtn,
+    .grazer-levelButtonsContainer,
+    .grazer-canvasSelectors,
+    .grazer-levelResizeBtn,
+    .grazer-levelButtonsContainer { 
         display: none !important; 
         height: 0 !important;
         width: 0 !important;
     } 
   
-    .emuwebapp-timeline-flexitem { 
+    .grazer-timeline-flexitem { 
         margin-bottom: 3px;
     }  
    
-    .emuwebapp-bottomPane { 
+    .grazer-bottomPane { 
         margin-top: 0;
         background-color: pink;
     }

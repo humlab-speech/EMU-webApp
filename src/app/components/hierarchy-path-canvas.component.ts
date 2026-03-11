@@ -3,7 +3,7 @@ import { fromEvent, Observable, Subscription } from "rxjs";
 import { debounceTime, map } from 'rxjs/operators';
 
 import { HierarchyWorker } from '../workers/hierarchy.worker';
-import styles from '../../styles/EMUwebAppDesign.scss';
+import styles from '../../styles/grazer-design.scss';
 
 let HierarchyPathCanvasComponent = {
     selector: "hierarchyPathCanvas",
@@ -11,12 +11,12 @@ let HierarchyPathCanvasComponent = {
     template: /*html*/`
     <!-- non editable hierarchy path which includes times -->
     <div 
-    class="emuwebapp-level" 
+    class="grazer-level" 
     style="height: 256px"
     ng-show="$ctrl.selectedCanvasIdx == 0">
-    <div class="emuwebapp-level-container">
+    <div class="grazer-level-container">
     <canvas 
-    class="emuwebapp-level-canvas" 
+    class="grazer-level-canvas" 
     id="levelCanvas" 
     width="4096" 
     height="1024" 
@@ -24,7 +24,7 @@ let HierarchyPathCanvasComponent = {
     ></canvas>
     
     <canvas 
-    class="emuwebapp-level-markup"
+    class="grazer-level-markup"
     style="background-color: rgba(200, 200, 200, 0.3); filter: blur(1px);"
     id="levelMarkupCanvas" 
     width="4096" 
@@ -54,7 +54,7 @@ let HierarchyPathCanvasComponent = {
     <!-- selectors -->
     <!-- <div 
     ng-if="true" 
-    class="emuwebapp-canvasSelectors"
+    class="grazer-canvasSelectors"
     >
     <div>
         <ul>
@@ -631,5 +631,5 @@ let HierarchyPathCanvasComponent = {
                                         }]
                                     };
                                     
-                                    angular.module('emuwebApp')
+                                    angular.module('grazer')
                                     .component(HierarchyPathCanvasComponent.selector, HierarchyPathCanvasComponent);

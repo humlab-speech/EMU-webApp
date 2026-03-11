@@ -1,22 +1,22 @@
 import * as angular from 'angular';
 import { SpectroDrawingWorker } from '../workers/spectro-drawing.worker';
 
-import styles from '../../styles/EMUwebAppDesign.scss';
+import styles from '../../styles/grazer-design.scss';
 
 
 let SpectrogramComponent = {
     selector: "spectro",
     template: /*html*/`
-    <div class="emuwebapp-timeline">
+    <div class="grazer-timeline">
     <!-- width is now up to 4k -->
-    <div class="emuwebapp-timelineCanvasContainer">
+    <div class="grazer-timelineCanvasContainer">
         <canvas 
-        class="emuwebapp-timelineCanvasMain" 
+        class="grazer-timelineCanvasMain" 
         width="4096"></canvas>
         
        <!-- 
        <canvas 
-        class="emuwebapp-timelineCanvasSSFF" 
+        class="grazer-timelineCanvasSSFF" 
         width="4096" 
         drawssff 
         ssff-trackname="{{$ctrl.trackName}}"></canvas>
@@ -302,5 +302,5 @@ let SpectrogramComponent = {
 }]
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .component(SpectrogramComponent.selector, SpectrogramComponent);

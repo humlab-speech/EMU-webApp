@@ -23,7 +23,7 @@ module.exports = function (config) {
     // NOTE: these are injected by wiredep and somehow
     // the bootstrap jquery dep
     files: [
-      'dist/emuwebapp.bundle.js',
+      'dist/grazer.bundle.js',
       '../node_modules/jquery/dist/jquery.js',
       '../node_modules/jasmine-jquery/lib/jasmine-jquery.js',
       '../node_modules/angular-mocks/angular-mocks.js',
@@ -135,7 +135,7 @@ module.exports = function (config) {
       prependPrefix: '',
 
       // the name of the Angular module to create
-      moduleName: 'emuwebApp.templates'
+      moduleName: 'grazer.templates'
     },
 
 

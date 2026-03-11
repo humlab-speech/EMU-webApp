@@ -1,17 +1,17 @@
 import * as angular from 'angular';
 
-angular.module('emuwebApp')
+angular.module('grazer')
 	.directive('modal', ['$animate', 'ModalService', 
 		function ($animate, ModalService) {
 		return {
 			restrict: 'E',
 			template: /*html*/`
-			<div id="modalDialog" class="emuwebapp-modal">
+			<div id="modalDialog" class="grazer-modal">
 				<div ng-if="modal.isOpen">
-					<button title="Close" id="modal-close" class="emuwebapp-close-button" ng-click="modal.close()" ng-hide="force">
+					<button title="Close" id="modal-close" class="grazer-close-button" ng-click="modal.close()" ng-hide="force">
 						<i class="material-icons">cancel</i>
 					</button>
-					<p class="emuwebapp-modal-inner" ng-include="templateUrl"></p>
+					<p class="grazer-modal-inner" ng-include="templateUrl"></p>
 				</div>
 			</div>
 			`,
@@ -29,10 +29,10 @@ angular.module('emuwebApp')
 						scope.dataIn = ModalService.dataIn;
 						scope.force = ModalService.force;
 						if (newValue) {
-							element[0].classList.add('emuwebapp-modal-open');
+							element[0].classList.add('grazer-modal-open');
 						}
 						else {
-							element[0].classList.remove('emuwebapp-modal-open');
+							element[0].classList.remove('grazer-modal-open');
 						}
 					}
 				});

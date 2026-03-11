@@ -11,7 +11,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>EMU-webApp</title>
+	<title>grazer</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, user-scalable=no" >
     <meta name="mobile-web-app-capable" content="yes">
@@ -38,22 +38,22 @@
 
 
     <!-- set basedir for angular app change if not running in root of server-->
-    <base href="/EMU-webApp/">
+    <base href="/">
 </head>
-<body ng-app="emuwebApp">
+<body ng-app="grazer">
 
     <!-- use this div if you want to run the embedded version
     <div style="position: relative; height:75%; width:50%; margin-left: 25%; margin-top: 4%;">
-        <emuwebapp class="emuwebapp" audio-get-url="/testData/oldFormat/msajc003/msajc003.wav" label-get-url="/testData/oldFormat/msajc003/msajc003.TextGrid" label-type="TEXTGRID"></emuwebapp>
+        <grazer class="grazer" audio-get-url="/testData/oldFormat/msajc003/msajc003.wav" label-get-url="/testData/oldFormat/msajc003/msajc003.TextGrid" label-type="TEXTGRID"></grazer>
     </div>
     -->
 
     <!-- use this div to run the regular (standalone+client) version -->
-    <emuwebapp class="emuwebapp"></emuwebapp>
+    <grazer class="grazer"></grazer>
 
 		<!-- use this div to run the embedded version (wav and label auto load) -->
 		<!--
-		<emuwebapp class="emuwebapp" audio-get-url="/testData/oldFormat/msajc003/msajc003.wav" label-get-url="/testData/newFormat/ae/0000_ses/msajc003_bndl/msajc003_annot.json" label-type="annotJSON"></emuwebapp>
+		<grazer class="grazer" audio-get-url="/testData/oldFormat/msajc003/msajc003.wav" label-get-url="/testData/newFormat/ae/0000_ses/msajc003_bndl/msajc003_annot.json" label-type="annotJSON"></grazer>
 		-->
 
 
@@ -74,7 +74,7 @@
     <!-- End Matomo - Code -->
     
     <!-- webpack bundled code -->
-    <script src="dist/emuwebapp.bundle.js"></script>
+    <script src="dist/grazer.bundle.js"></script>
 
 </body>
 </html>

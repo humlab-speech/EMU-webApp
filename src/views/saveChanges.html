@@ -1,17 +1,17 @@
-<div class="emuwebapp-modal-wrap" ng-controller="ModalCtrl">
-    <div class="emuwebapp-modal-header-large emuwebapp-modal-header">
+<div class="grazer-modal-wrap" ng-controller="ModalCtrl">
+    <div class="grazer-modal-header-large grazer-modal-header">
         <h3 id="modalHeading">
             Save changes
         </h3>
 	</div>
-	<div class="emuwebapp-modal-body">
+	<div class="grazer-modal-body">
 	    <div>
 	        <p>Changes made to: "{{dataIn}}". Do you wish to save them ?</p>
 	    </div>
 	</div>
-	<div class="emuwebapp-modal-footer">
-	    <button ng-click="modal.closeAndResolve('saveChanges');" class="emuwebapp-mini-btn">Save Changes</button>
-	    <button ng-click="modal.closeAndResolve('discardChanges');" class="emuwebapp-mini-btn">Discard Changes</button>
-	    <button ng-click="modal.close();" id="modalCancelBtn" class="emuwebapp-mini-btn">Cancel</button>
+	<div class="grazer-modal-footer">
+	    <button ng-click="modal.closeAndResolve('saveChanges');" class="grazer-mini-btn">Save Changes</button>
+	    <button ng-click="modal.closeAndResolve('discardChanges');" class="grazer-mini-btn">Discard Changes</button>
+	    <button ng-click="modal.close();" id="modalCancelBtn" class="grazer-mini-btn">Cancel</button>
 	</div>
 </div>

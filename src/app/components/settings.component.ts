@@ -4,7 +4,7 @@ import { type } from 'jquery';
 let SettingsComponent = {
     selector: "settings",
 	template: /*html*/`
-	<div class="emuwebapp-text">
+	<div class="grazer-text">
 		<div ng-if="$ctrl.ConfigProviderService.curDbConfig.linkDefinitions.length > 0">
 		<h1>Hierarchy Settings</h1>
 
@@ -12,18 +12,18 @@ let SettingsComponent = {
 
 		<h2>Visable Path</h2>
 		<select 
-		id="emuwebapp-selection" 
-		name="emuwebapp-selection" 
+		id="grazer-selection" 
+		name="grazer-selection" 
 		ng-model="$ctrl.hierarchySettings.paths.selected" 
 		ng-options="value for value in $ctrl.hierarchySettings.paths.possibleAsStr"
 		ng-change="$ctrl.getCurVisAttributes()"></select>
 		
 		<h2>Visable Attribute Definitions</h2>
-		<div class="emuwebapp-nav-wrap" ng-repeat="(key, levelName) in $ctrl.StandardFuncsService.reverseCopy($ctrl.hierarchySettings.paths.possible[$ctrl.getSelHierarchyPathIdx()])">
+		<div class="grazer-nav-wrap" ng-repeat="(key, levelName) in $ctrl.StandardFuncsService.reverseCopy($ctrl.hierarchySettings.paths.possible[$ctrl.getSelHierarchyPathIdx()])">
 		{{levelName}}: 
 			<select 
-			id="emuwebapp-selection" 
-			name="emuwebapp-selection"
+			id="grazer-selection" 
+			name="grazer-selection"
 			ng-options="attrDef as attrDef for attrDef in $ctrl.ConfigProviderService.getAttrDefsNames(levelName)"
 			ng-model="$ctrl.hierarchySettings.paths.curVisAttributeDefs[levelName]"
 			>
@@ -106,7 +106,7 @@ let SettingsComponent = {
     <div>
         <h2>Color Options</h2>
         <span>Draw spectrogram in heat map colors: <input type="checkbox" ng-model="$ctrl.modalVals.drawHeatMapColors"></span>
-        <table class='emuwebapp-modalTable' ng-style="$ctrl.cssError(8)">
+        <table class='grazer-modalTable' ng-style="$ctrl.cssError(8)">
             <tr>
                 <th></th>
                 <th>red</th>
@@ -117,17 +117,17 @@ let SettingsComponent = {
 
             <tr>
                 <td>First spectrogram color anchor:</td>
-				<td>r: <input type="text" class="emuwebapp-rgbTextInput" 
+				<td>r: <input type="text" class="grazer-rgbTextInput" 
 				ng-keyup="$ctrl.checkSpectroSettings()"  
 				ng-model="$ctrl.modalVals.heatMapColorAnchors[0][0]" 
 				ng-focus="$ctrl.cursorInTextField();" 
 				ng-blur="$ctrl.cursorOutOfTextField();"/></td>
-				<td>g: <input type="text" class="emuwebapp-rgbTextInput"
+				<td>g: <input type="text" class="grazer-rgbTextInput"
 				ng-keyup="$ctrl.checkSpectroSettings()" 
 				ng-model="$ctrl.modalVals.heatMapColorAnchors[0][1]" 
 				ng-focus="$ctrl.cursorInTextField();" 
 				ng-blur="$ctrl.cursorOutOfTextField();"/></td>
-				<td>b: <input type="text" class="emuwebapp-rgbTextInput"
+				<td>b: <input type="text" class="grazer-rgbTextInput"
 				ng-keyup="$ctrl.checkSpectroSettings()" 
 				ng-model="$ctrl.modalVals.heatMapColorAnchors[0][2]" 
 				ng-focus="$ctrl.cursorInTextField();" 
@@ -136,17 +136,17 @@ let SettingsComponent = {
             </tr>
             <tr>
                 <td>Second spectrogram color anchor: </td>
-				<td>r: <input  type="text" class="emuwebapp-rgbTextInput" 
+				<td>r: <input  type="text" class="grazer-rgbTextInput" 
 				ng-keyup="$ctrl.checkSpectroSettings()" 
 				ng-model="$ctrl.modalVals.heatMapColorAnchors[1][0]" 
 				ng-focus="$ctrl.cursorInTextField();" 
 				ng-blur="$ctrl.cursorOutOfTextField();"/></td>
-				<td>g: <input  type="text" class="emuwebapp-rgbTextInput" 
+				<td>g: <input  type="text" class="grazer-rgbTextInput" 
 				ng-keyup="$ctrl.checkSpectroSettings()" 
 				ng-model="$ctrl.modalVals.heatMapColorAnchors[1][1]" 
 				ng-focus="$ctrl.cursorInTextField();" 
 				ng-blur="$ctrl.cursorOutOfTextField();"/></td>
-				<td>b: <input  type="text" class="emuwebapp-rgbTextInput" 
+				<td>b: <input  type="text" class="grazer-rgbTextInput" 
 				ng-keyup="$ctrl.checkSpectroSettings()" 
 				ng-model="$ctrl.modalVals.heatMapColorAnchors[1][2]" 
 				ng-focus="$ctrl.cursorInTextField();" 
@@ -155,17 +155,17 @@ let SettingsComponent = {
             </tr>
             <tr>
                 <td>Third spectrogram color anchor: </td>
-				<td>r: <input  type="text" class="emuwebapp-rgbTextInput" 
+				<td>r: <input  type="text" class="grazer-rgbTextInput" 
 				ng-keyup="$ctrl.checkSpectroSettings()" 
 				ng-model="$ctrl.modalVals.heatMapColorAnchors[2][0]" 
 				ng-focus="$ctrl.cursorInTextField();" 
 				ng-blur="$ctrl.cursorOutOfTextField();"/></td>
-				<td>g: <input  type="text" class="emuwebapp-rgbTextInput" 
+				<td>g: <input  type="text" class="grazer-rgbTextInput" 
 				ng-keyup="$ctrl.checkSpectroSettings()" 
 				ng-model="$ctrl.modalVals.heatMapColorAnchors[2][1]" 
 				ng-focus="$ctrl.cursorInTextField();" 
 				ng-blur="$ctrl.cursorOutOfTextField();"/></td>
-				<td>b: <input  type="text" class="emuwebapp-rgbTextInput" 
+				<td>b: <input  type="text" class="grazer-rgbTextInput" 
 				ng-keyup="$ctrl.checkSpectroSettings()" 
 				ng-model="$ctrl.modalVals.heatMapColorAnchors[2][2]" 
 				ng-focus="$ctrl.cursorInTextField();" 
@@ -176,9 +176,9 @@ let SettingsComponent = {
         <div ng-show="$ctrl.htmlError(8)"><b style="color: #f00;">Error:</b> Only Integers allowed.</div>
     </div>
 </div>
-<div class="emuwebapp-inline-modal-footer">
-	<button class="emuwebapp-mini-btn" ng-click="$ctrl.reset()"><i class="material-icons">cancel</i>Cancel</button>
-	<button id="emuwebapp-modal-save" class="emuwebapp-mini-btn" ng-click="$ctrl.saveSettings()"><i class="material-icons">save</i>Save</button>
+<div class="grazer-inline-modal-footer">
+	<button class="grazer-mini-btn" ng-click="$ctrl.reset()"><i class="material-icons">cancel</i>Cancel</button>
+	<button id="grazer-modal-save" class="grazer-mini-btn" ng-click="$ctrl.saveSettings()"><i class="material-icons">save</i>Save</button>
 </div>
 `,
 bindings: {},
@@ -520,5 +520,5 @@ controller: [
    
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .component(SettingsComponent.selector, SettingsComponent);

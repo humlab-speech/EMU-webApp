@@ -52,5 +52,5 @@ class MathHelperService{
 * # mathHelperService
 * Service in the emuwebApp.
 */
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('MathHelperService', MathHelperService)

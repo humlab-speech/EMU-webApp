@@ -1,6 +1,6 @@
 import * as angular from 'angular';
 
-import styles from '../../styles/EMUwebAppDesign.scss';
+import styles from '../../styles/grazer-design.scss';
 
 
 /**
@@ -10,7 +10,7 @@ import styles from '../../styles/EMUwebAppDesign.scss';
  * # ManualctrlCtrl
  * Controller of the emuwebApp
  */
-angular.module('emuwebApp')
+angular.module('grazer')
 	.controller('ManualCtrl', ['$scope', 'ConfigProviderService', 
 	function ($scope, ConfigProviderService) {
 		$scope.listOfMarkdownFiles = [{

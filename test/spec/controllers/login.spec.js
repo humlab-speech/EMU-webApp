@@ -7,13 +7,13 @@ describe('Controller: LoginCtrl', function () {
   var errorStr = 'ERR1';
   
     // load the controller's module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
   
      //Initialize the controller and a mock scope
      beforeEach(inject(function ($controller, $rootScope, $q, ConfigProviderService, ModalService, ViewStateService, IoHandlerService) {
        scope = $rootScope.$new();
        scope.cps = ConfigProviderService;
-       scope.cps.setVals(defaultEmuwebappConfig);
+       scope.cps.setVals(defaultGrazerConfig);
        scope.cps.curDbConfig = aeDbConfig;
        scope.modal = ModalService;
        scope.vs = ViewStateService;

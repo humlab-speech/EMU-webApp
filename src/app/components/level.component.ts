@@ -2,16 +2,16 @@ import * as angular from 'angular';
 import { fromEvent, Observable, Subscription } from "rxjs";
 import { debounceTime, map } from 'rxjs/operators';
 
-import styles from '../../styles/EMUwebAppDesign.scss';
+import styles from '../../styles/grazer-design.scss';
 
 let LevelComponent = {
     selector: "level",
     // inline HTML
     template: /*html*/`
-<div class="emuwebapp-level">
-<div class="emuwebapp-level-container">
+<div class="grazer-level">
+<div class="grazer-level-container">
     <canvas 
-    class="emuwebapp-level-canvas" 
+    class="grazer-level-canvas" 
     id="levelCanvas" 
     width="4096" 
     height="256" 
@@ -38,7 +38,7 @@ let LevelComponent = {
 
 <div 
 ng-if="$ctrl.levelDef.attributeDefinitions.length > 1" 
-class="emuwebapp-canvasSelectors"
+class="grazer-canvasSelectors"
 >
 <div>
     <ul>
@@ -301,11 +301,11 @@ class="emuwebapp-canvasSelectors"
                 // curAttrDef = attrDefName;
                 this.ViewStateService.setCurAttrDef(this.level.name, attrDefName, index);
 
-                if (!this.$element.hasClass('emuwebapp-level-animation')) {
+                if (!this.$element.hasClass('grazer-level-animation')) {
                     this.ViewStateService.setEditing(false);
                     this.LevelService.deleteEditArea();
-                    this.$animate.addClass(this.levelCanvasContainer, 'emuwebapp-level-animation').then(() => {
-                        this.$animate.removeClass(this.levelCanvasContainer, 'emuwebapp-level-animation');
+                    this.$animate.addClass(this.levelCanvasContainer, 'grazer-level-animation').then(() => {
+                        this.$animate.removeClass(this.levelCanvasContainer, 'grazer-level-animation');
                         // redraw
                         this.drawLevelDetails();
                         this.drawLevelMarkup();
@@ -668,5 +668,5 @@ class="emuwebapp-canvasSelectors"
     }]
 };
 
-angular.module('emuwebApp')
+angular.module('grazer')
     .component(LevelComponent.selector, LevelComponent);

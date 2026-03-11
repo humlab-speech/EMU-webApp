@@ -183,5 +183,5 @@ let LineChartComponent = {
     ]
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .component(LineChartComponent.selector, LineChartComponent);

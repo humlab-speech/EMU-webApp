@@ -4,10 +4,10 @@ import { version } from "../../../package.json";
 let NewVersionHintComponent = {
     selector: "newVersionHint",
     template: `
-    <div class="emuwebapp-aboutHint">
-    <button class="emuwebapp-aboutHint-hidden" ng-click="$ctrl.aboutBtnOverlayClick()"></button>
+    <div class="grazer-aboutHint">
+    <button class="grazer-aboutHint-hidden" ng-click="$ctrl.aboutBtnOverlayClick()"></button>
     Welcome to the EMU-webApp Version {{version}}
-    <div class="emuwebapp-aboutHint-arrow">click here for more information ⇧</div>
+    <div class="grazer-aboutHint-arrow">click here for more information ⇧</div>
     </div>
     `,
     bindings: {
@@ -22,5 +22,5 @@ let NewVersionHintComponent = {
 
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
     .component(NewVersionHintComponent.selector, NewVersionHintComponent);

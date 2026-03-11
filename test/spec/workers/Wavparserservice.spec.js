@@ -139,7 +139,7 @@ function buildWavWithExtraChunk(opts) {
 
 describe('Service: WavParserService', function () {
 
-    beforeEach(module('emuwebApp'));
+    beforeEach(module('grazer'));
 
     // ----------------------------------------------------------
     // parseWavHeader — successful parses

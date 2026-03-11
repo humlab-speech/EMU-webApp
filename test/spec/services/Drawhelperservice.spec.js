@@ -3,7 +3,7 @@
 describe('Service: Drawhelperservice', function () {
 
   // load the controller's module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
   
   var scope;
 
@@ -13,7 +13,7 @@ describe('Service: Drawhelperservice', function () {
     scope.dhs = Drawhelperservice;
     scope.vs = viewState;
     scope.cps = ConfigProviderService;
-    scope.cps.design = defaultEmuwebappDesign;    
+    scope.cps.design = defaultGrazerDesign;    
     scope.cps.vals = {};
     scope.cps.vals.restrictions = {};
     scope.cps.vals.colors = {};

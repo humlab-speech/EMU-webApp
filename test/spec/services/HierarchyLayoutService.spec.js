@@ -5,7 +5,7 @@ describe('Service: HierarchyLayoutService', function () {
   var scope;
 
    // load the service's module
-   beforeEach(module('emuwebApp'));
+   beforeEach(module('grazer'));
 
   // instantiate service
     beforeEach(inject(function ($rootScope,
@@ -19,7 +19,7 @@ describe('Service: HierarchyLayoutService', function () {
         scope = $rootScope.$new();
         scope.data = DataService;
         scope.cps = ConfigProviderService;
-        scope.cps.setVals(defaultEmuwebappConfig);
+        scope.cps.setVals(defaultGrazerConfig);
         scope.cps.curDbConfig = aeDbConfig;
         scope.data.setData(msajc003_bndl.annotation);
         scope.hierarchy = HierarchyLayoutService;

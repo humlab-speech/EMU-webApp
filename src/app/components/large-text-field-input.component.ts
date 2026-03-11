@@ -8,7 +8,7 @@ import * as angular from 'angular';
 let LargeTextFieldInputComponent = {
     selector: "largeTextFieldInput",
     template: /*html*/`
-    <div class="emuwebapp-largetextinputfield" ng-show="$ctrl.ViewStateService.largeTextFieldInputFieldVisable" ng-focus="vs.largeTextFieldInputFieldVisable"><textarea ng-model="vs.largeTextFieldInputFieldCurLabel"></textarea></div>
+    <div class="grazer-largetextinputfield" ng-show="$ctrl.ViewStateService.largeTextFieldInputFieldVisable" ng-focus="vs.largeTextFieldInputFieldVisable"><textarea ng-model="vs.largeTextFieldInputFieldCurLabel"></textarea></div>
     `,
     bindings: {
 
@@ -20,5 +20,5 @@ let LargeTextFieldInputComponent = {
     ]
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .component(LargeTextFieldInputComponent.selector, LargeTextFieldInputComponent);

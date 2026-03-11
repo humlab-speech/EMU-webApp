@@ -6,7 +6,7 @@ describe('Directive: spectro', function () {
 
     var elm, tpl, scope, curLvl;
     var lvlName = 'Phonetic';
-    beforeEach(module('emuwebApp', 'emuwebApp.templates'));
+    beforeEach(module('grazer', 'grazer.templates'));
     
     beforeEach(inject(function ($rootScope, $compile, Drawhelperservice, DataService, LevelService, ConfigProviderService, viewState, Soundhandlerservice) {
         scope = $rootScope.$new();
@@ -15,9 +15,9 @@ describe('Directive: spectro', function () {
         scope.cps = ConfigProviderService;
         scope.shs = Soundhandlerservice;
         scope.dhs = Drawhelperservice;
-        scope.cps.setVals(defaultEmuwebappConfig);
+        scope.cps.setVals(defaultGrazerConfig);
         scope.cps.curDbConfig = aeDbConfig;
-        scope.cps.design = defaultEmuwebappDesign;
+        scope.cps.design = defaultGrazerDesign;
         scope.vs = viewState;
         scope.data.setData(msajc003_bndl.annotation);
         scope.level = curLvl;           

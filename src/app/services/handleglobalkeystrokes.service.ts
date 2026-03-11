@@ -1,6 +1,6 @@
 import * as angular from 'angular';
 
-import styles from '../../styles/EMUwebAppDesign.scss';
+import styles from '../../styles/grazer-design.scss';
 
 class HandleGlobalKeyStrokes{
 
@@ -1276,7 +1276,7 @@ class HandleGlobalKeyStrokes{
 
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('HandleGlobalKeyStrokes', [
     '$rootScope', 
     '$timeout',  

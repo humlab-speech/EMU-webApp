@@ -1,20 +1,20 @@
 import * as angular from 'angular';
 
-import styles from '../../styles/EMUwebAppDesign.scss';
+import styles from '../../styles/grazer-design.scss';
 
 let OsciComponent = {
     selector: "osci",
     template: /*html*/`
-    <div class="emuwebapp-timeline">
-    <div class="emuwebapp-timelineCanvasContainer">
+    <div class="grazer-timeline">
+    <div class="grazer-timelineCanvasContainer">
     
     <canvas 
-    class="emuwebapp-timelineCanvasMain" 
+    class="grazer-timelineCanvasMain" 
     width="4096"></canvas>
     
     <!--
     <canvas 
-    class="emuwebapp-timelineCanvasSSFF" 
+    class="grazer-timelineCanvasSSFF" 
     width="4096" 
     drawssff 
     ssff-trackname="{{$ctrl.trackName}}"></canvas>
@@ -148,5 +148,5 @@ let OsciComponent = {
     }]
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .component(OsciComponent.selector, OsciComponent);

@@ -5,13 +5,13 @@ describe('Controller: TabbedCtrl', function () {
   var TabbedCtrl, scope, deferred, deferred2;
   
     // load the controller's module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
   
      //Initialize the controller and a mock scope
      beforeEach(inject(function ($controller, $rootScope, ConfigProviderService, ModalService, ViewStateService, ValidationService) {
        // initiate the controller and mock the scope
-       var tmpEmuwebappConfig = angular.copy(defaultEmuwebappConfig);
-       var tmpEmuwebappDesign = angular.copy(defaultEmuwebappDesign);
+       var tmpGrazerConfig = angular.copy(defaultGrazerConfig);
+       var tmpGrazerDesign = angular.copy(defaultGrazerDesign);
        var tmpaeDbConfig = angular.copy(aeDbConfig);
        scope = $rootScope.$new();
        scope.valid = ValidationService;
@@ -20,9 +20,9 @@ describe('Controller: TabbedCtrl', function () {
          $scope: scope
        });
        scope.cps = ConfigProviderService;
-       scope.cps.setVals(tmpEmuwebappConfig);
+       scope.cps.setVals(tmpGrazerConfig);
        scope.cps.curDbConfig = tmpaeDbConfig;
-       scope.cps.design = tmpEmuwebappDesign;
+       scope.cps.design = tmpGrazerDesign;
        scope.modal = ModalService;
        scope.vs = ViewStateService;
      }));  

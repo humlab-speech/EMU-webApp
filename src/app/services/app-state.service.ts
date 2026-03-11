@@ -89,5 +89,5 @@ class AppStateService{
 }
 
 
-angular.module('emuwebApp')
+angular.module('grazer')
 	.service('AppStateService', ['$log', '$rootScope', '$location', 'DragnDropService', 'DragnDropDataService', 'ViewStateService', 'IoHandlerService', 'LoadedMetaDataService', 'SoundHandlerService', 'DataService', 'SsffDataService', 'HistoryService', AppStateService]);

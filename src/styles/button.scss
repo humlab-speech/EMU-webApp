@@ -1,10 +1,10 @@
-@import 'EMUwebAppDesign';
+@import 'grazer-design';
 @import 'font';
 @import 'mixins';
 
-.emuwebapp-nav-wrap {
+.grazer-nav-wrap {
 	z-index: 99999;
-	.emuwebapp-dropdown-container:hover .emuwebapp-mini-btn {
+	.grazer-dropdown-container:hover .grazer-mini-btn {
 	    background: $color-black;
 	    color: $color-white;
 	}
@@ -41,7 +41,7 @@
 	}
 }
 
-.emuwebapp-label-edit {
+.grazer-label-edit {
 	z-index:9999;
 	position: absolute;
 	font-size: 0.8em;
@@ -60,7 +60,7 @@
 	overflow-y: hidden;
 }
 
-.emuwebapp-mini-btn {
+.grazer-mini-btn {
 	display: inline-block;
     background: transparent;
     border-radius: 0;
@@ -73,7 +73,7 @@
     width: 120px;
     height: 30px;
     outline: none;
-    @extend .emuwebapp-font-small;
+    @extend .grazer-font-small;
     &:hover:enabled {
 		background-color: $color-black;
 		color: $color-white;
@@ -90,8 +90,8 @@
     }
 }
 
-.emuwebapp-mini-btn-save {
-    @extend .emuwebapp-mini-btn;
+.grazer-mini-btn-save {
+    @extend .grazer-mini-btn;
     width: 40px;
     height: 22px;
     position: relative;
@@ -106,7 +106,7 @@
     }    
 }
 
-.emuwebapp-button-icon {
+.grazer-button-icon {
     display:inline-block;
     position: relative;
 	background: transparent;

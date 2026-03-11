@@ -341,5 +341,5 @@ class DbObjLoadSaveService{
 	
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('DbObjLoadSaveService', ['$log', '$q', '$http', 'DataService', 'ViewStateService', 'HistoryService', 'LoadedMetaDataService', 'SsffDataService', 'IoHandlerService', 'BinaryDataManipHelperService', 'WavParserService', 'SoundHandlerService', 'SsffParserService', 'ValidationService', 'LevelService', 'ModalService', 'ConfigProviderService', 'AppStateService', 'StandardFuncsService', DbObjLoadSaveService]);

@@ -501,7 +501,7 @@ class LevelService{
 		}
 		element.prepend($('<textarea>').attr({
 			id: textid,
-			'class': textid + ' emuwebapp-label-edit',
+			'class': textid + ' grazer-label-edit',
 			'ng-model': 'message',
 			'autofocus': 'true'
 		}).css(cssObj).text(label));
@@ -1718,5 +1718,5 @@ class LevelService{
 	
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('LevelService', ['$q', 'DataService', 'LinkService', 'ConfigProviderService', 'SoundHandlerService', 'ViewStateService', LevelService])

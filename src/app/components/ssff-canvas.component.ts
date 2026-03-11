@@ -1,12 +1,12 @@
 import * as angular from 'angular';
 
-import styles from '../../styles/EMUwebAppDesign.scss';
+import styles from '../../styles/grazer-design.scss';
 
 let SsffCanvasComponent = {
     selector: "ssffCanvas",
     template:  /*html*/`
     <canvas 
-    class="emuwebapp-timelineCanvasSSFF" 
+    class="grazer-timelineCanvasSSFF" 
     width="4096"
     ></canvas>
     `,
@@ -267,5 +267,5 @@ let SsffCanvasComponent = {
     }]
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .component(SsffCanvasComponent.selector, SsffCanvasComponent);

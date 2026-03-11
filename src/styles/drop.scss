@@ -1,8 +1,8 @@
-@import 'EMUwebAppDesign';
+@import 'grazer-design';
 @import 'font';
 @import 'mixins';
 
-.emuwebapp-dropzone {
+.grazer-dropzone {
     height: 80%;
     border: 1px dashed $color-black;
     border-radius: 8px;
@@ -11,7 +11,7 @@
     padding: 15px;
     margin: 15px;
     line-height: 1.5;
-    @extend .emuwebapp-font-small;
+    @extend .grazer-font-small;
     &.not-available {
         background-color: #f00;
     }

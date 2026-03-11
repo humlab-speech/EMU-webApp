@@ -46,5 +46,5 @@ class BinaryDataManipHelperService{
 	
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('BinaryDataManipHelperService', BinaryDataManipHelperService);

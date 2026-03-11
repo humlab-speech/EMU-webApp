@@ -5,7 +5,7 @@ describe('Controller: bundleListSideBarCtrl', function () {
   var $scope, $controller, $rootScope;
   
   // load the controller's module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
   
   //Initialize the controller and a mock scope
   beforeEach(inject(function (_$controller_, _$rootScope_, ViewStateService, LoadedMetaDataService, DbObjLoadSaveService, ConfigProviderService, HistoryService) {
@@ -18,7 +18,7 @@ describe('Controller: bundleListSideBarCtrl', function () {
     $scope = $rootScope.$new();
     $scope.$index = 1;
     $scope.cps = ConfigProviderService;
-    $scope.cps.setVals(defaultEmuwebappConfig);
+    $scope.cps.setVals(defaultGrazerConfig);
     $scope.cps.curDbConfig = aeDbConfig;
     $scope.vs = ViewStateService;
     $scope.lmds = LoadedMetaDataService;

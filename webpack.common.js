@@ -3,7 +3,7 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: {
-        emuwebapp: "./src/app/main.ts"
+        grazer: "./src/app/main.ts"
     },
     output: {
         filename: "./dist/[name].bundle.js",

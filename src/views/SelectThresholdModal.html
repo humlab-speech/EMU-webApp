@@ -1,22 +1,22 @@
-<div class="emuwebapp-modal-wrap" ng-controller="ModalCtrl">
-    <div class="emuwebapp-modal-header-large emuwebapp-modal-header">
+<div class="grazer-modal-wrap" ng-controller="ModalCtrl">
+    <div class="grazer-modal-header-large grazer-modal-header">
         <h3 id="modalHeading">
             Please select a threshold
         </h3>
 	</div>
-	<div class="emuwebapp-modal-body">
+	<div class="grazer-modal-body">
 		<b>{{dataIn.description}}</b><br />&nbsp;<br />
 		<p>find threshold options are: 
-			<ul class="emuwebapp-modalUl">
+			<ul class="grazer-modalUl">
 				<li>minimum value: {{dataIn.minVal}}</li>
 				<li>maximum value: {{dataIn.maxVal}}</li>
 				<li>threshold value: {{dataIn.threshold}}</li>
 			</ul>
 		</p>
 		<b>Please select one of the following options:</b>
-		<ul class="emuwebapp-modalUl">
+		<ul class="grazer-modalUl">
 			<li ng-repeat="(key, curOpt) in dataIn.options">
-				<div class="emuwebapp-card" ng-click="modal.select($index)">
+				<div class="grazer-card" ng-click="modal.select($index)">
 					<div class="row">
 						<div class="col-md-6">
 							<line-chart 
@@ -25,7 +25,7 @@
 							></line-chart>
 						</div>
 						<div class="col-md-6">
-							<ul class="emuwebapp-modalUl">
+							<ul class="grazer-modalUl">
 								<li>Threshold index: {{curOpt.thresholdIdx}}</li> 
 								<li>Threshold value: {{curOpt.thresholdValue}}</li> 
 							</ul>
@@ -35,7 +35,7 @@
 			</li>
 		</ul>
 	</div>
-	<div class="emuwebapp-modal-footer">
-	  <!-- <button ng-click="modal.close();" id="modalCancelBtn" class="emuwebapp-mini-btn">Cancel</button> -->
+	<div class="grazer-modal-footer">
+	  <!-- <button ng-click="modal.close();" id="modalCancelBtn" class="grazer-mini-btn">Cancel</button> -->
 	</div>
 </div>

@@ -5,13 +5,13 @@ describe('Controller: ShowhierarchyCtrl', function () {
   var ShowhierarchyCtrl, scope;
   
     // load the controller's module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
   
      //Initialize the controller and a mock scope
      beforeEach(inject(function ($controller, $rootScope, DataService, viewState, modalService, ConfigProviderService, LevelService, HierarchyLayoutService) {
        scope = $rootScope.$new();
        scope.cps = ConfigProviderService;
-       scope.cps.setVals(defaultEmuwebappConfig);
+       scope.cps.setVals(defaultGrazerConfig);
        scope.cps.curDbConfig = aeDbConfig;
        scope.modal = modalService;
        scope.vs = viewState;

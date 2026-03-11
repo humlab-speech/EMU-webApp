@@ -98,5 +98,5 @@ class BrowserDetectorService{
 	
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('BrowserDetectorService', BrowserDetectorService);

@@ -198,7 +198,7 @@
 				}
 			}
 		},
-		"EMUwebAppConfig": { "$ref": "emuwebappConfigSchema.json"}
+		"EMUwebAppConfig": { "$ref": "grazerConfigSchema.json"}
 	},
 	"required": ["name", "UUID", "mediafileExtension", "ssffTrackDefinitions", "levelDefinitions", "linkDefinitions", "EMUwebAppConfig"],
 	"additionalProperties": false

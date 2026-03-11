@@ -3,7 +3,7 @@
 describe('Directive: save', function() {
 
     var elm, scope;
-    beforeEach(module('emuwebApp'));
+    beforeEach(module('grazer'));
 
     beforeEach(inject(function($rootScope, $compile, viewState, modalService, DataService) {
         scope = $rootScope.$new();

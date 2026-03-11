@@ -3,7 +3,7 @@
 describe('Directive: myDropZone', function() {
 
     var $window, elm, scope, mockObject, mockObjectgrid, mockObjectother, mockObjectannot, mockDir;
-    beforeEach(module('emuwebApp', 'emuwebApp.templates'));
+    beforeEach(module('grazer', 'grazer.templates'));
     
     beforeEach(inject(function($rootScope, _$window_) {
         scope = $rootScope.$new();

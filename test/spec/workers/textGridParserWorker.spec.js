@@ -4,7 +4,7 @@ describe('Worker: TextGridParserWorker', function() {
 
   var worker, mockGlobal, wavData;
   
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
   
   var data;
   var parsed;

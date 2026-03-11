@@ -1,12 +1,12 @@
 import * as angular from 'angular';
 import * as d3 from 'd3';
 
-import styles from '../../styles/EMUwebAppDesign.scss';
+import styles from '../../styles/grazer-design.scss';
 
 
 let EmuHierarchyComponent = {
 	selector: "emuhierarchy",
-	template: `<div class="emuwebapp-hierarchy-container" ng-mousemove="$ctrl.checkLink($event)"></div>`,
+	template: `<div class="grazer-hierarchy-container" ng-mousemove="$ctrl.checkLink($event)"></div>`,
 	bindings: {
 		vertical: '<',
 		playing: '<',
@@ -1733,5 +1733,5 @@ let EmuHierarchyComponent = {
 }
 
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .component(EmuHierarchyComponent.selector, EmuHierarchyComponent);

@@ -256,13 +256,13 @@ class DragnDropService{
 		// reset history
 		this.ViewStateService.somethingInProgress = true;
 		this.ViewStateService.somethingInProgressTxt = 'Loading local File: ' + this.DragnDropDataService.convertedBundles[this.DragnDropDataService.sessionDefault].name;
-		this.IoHandlerService.httpGetPath('configFiles/standalone_emuwebappConfig.json').then((resp) => {
+		this.IoHandlerService.httpGetPath('configFiles/standalone_grazerConfig.json').then((resp) => {
 			// first element of perspectives is default perspective
 			this.ViewStateService.curPerspectiveIdx = 0;
 			this.ConfigProviderService.setVals(resp.data.EMUwebAppConfig);
 			delete resp.data.EMUwebAppConfig; // delete to avoid duplicate
 			var validRes;
-			validRes = this.ValidationService.validateJSO('emuwebappConfigSchema', this.ConfigProviderService.vals);
+			validRes = this.ValidationService.validateJSO('grazerConfigSchema', this.ConfigProviderService.vals);
 			if (validRes === true) {
 				this.ConfigProviderService.curDbConfig = resp.data;
 				this.ViewStateService.somethingInProgressTxt = 'Parsing WAV file...';
@@ -327,5 +327,5 @@ class DragnDropService{
 	
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('DragnDropService', ['$q', '$rootScope', '$window', 'ModalService', 'DataService', 'ValidationService', 'ConfigProviderService', 'DragnDropDataService', 'IoHandlerService', 'ViewStateService', 'SoundHandlerService', 'BinaryDataManipHelperService', 'BrowserDetectorService', 'WavParserService', 'TextGridParserService', 'LoadedMetaDataService', 'LevelService', DragnDropService]);

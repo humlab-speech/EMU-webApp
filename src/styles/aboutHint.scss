@@ -1,7 +1,7 @@
-@import 'EMUwebAppDesign';
+@import 'grazer-design';
 @import 'mixins';
 
-.emuwebapp-aboutHint {
+.grazer-aboutHint {
     position: absolute;
     top: 0;
     right: 0;
@@ -26,7 +26,7 @@
       border-right: 26px solid red;
       border-bottom: 13px solid transparent;
     }
-    .emuwebapp-aboutHint-content {
+    .grazer-aboutHint-content {
         position: relative;
         margin: 0 auto;
         padding-top: 80px;
@@ -67,7 +67,7 @@
         }
     }
     }
-    .emuwebapp-aboutHint-arrow {
+    .grazer-aboutHint-arrow {
         position: absolute;
         color: $color-blue;
         font-size: 200%;
@@ -75,7 +75,7 @@
         right: 8px;
         @include animation('wiggleUpDown 0.5s infinite');
     }
-    .emuwebapp-aboutHint-hidden {
+    .grazer-aboutHint-hidden {
         position: absolute;
         background: 
           linear-gradient(to right, rgb(255,255,255), 2%, transparent),
@@ -88,7 +88,7 @@
         height: 40px;
         border: 0;
     }
-    .emuwebapp-aboutHint-overlay {
+    .grazer-aboutHint-overlay {
         position: absolute;
         top: 40%;
         text-align: center;

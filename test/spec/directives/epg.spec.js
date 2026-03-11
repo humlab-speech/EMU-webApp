@@ -5,14 +5,14 @@
 describe('Directive: epg', function () {
 
     var elm, scope, tpl;
-    beforeEach(module('emuwebApp'));
+    beforeEach(module('grazer'));
 
     beforeEach(inject(function ($rootScope, $compile, viewState, fontScaleService, ConfigProviderService, Ssffdataservice, Soundhandlerservice) {
         scope = $rootScope.$new();
         scope.cps = ConfigProviderService;
         scope.ssffds = Ssffdataservice;
-        scope.cps.setVals(defaultEmuwebappConfig);
-        scope.cps.design = defaultEmuwebappDesign;
+        scope.cps.setVals(defaultGrazerConfig);
+        scope.cps.design = defaultGrazerDesign;
         scope.shs = Soundhandlerservice;
         scope.shs.audioBuffer.sampleRate = 1000;
         scope.fontImage = fontScaleService;

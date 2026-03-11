@@ -352,5 +352,5 @@ class ConfigProviderService {
 
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 	.service('ConfigProviderService', ['$q', 'ViewStateService', ConfigProviderService]);

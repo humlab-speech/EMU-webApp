@@ -1,7 +1,7 @@
-@import 'EMUwebAppDesign';
+@import 'grazer-design';
 @import 'mixins';
 
-.emuwebapp-preview {
+.grazer-preview {
     position: relative;
     width:calc(100% - 30px); 
     height: 38px !important; 
@@ -9,11 +9,11 @@
     margin-top:5px;
     cursor: pointer;
     
-	> .emuwebapp-preview-canvas {
+	> .grazer-preview-canvas {
 		position: absolute;
 	}
 	
-	> .emuwebapp-preview-canvas-markup {
+	> .grazer-preview-canvas-markup {
 		position: absolute;
 		background-color: transparent;
 		width: 100%;

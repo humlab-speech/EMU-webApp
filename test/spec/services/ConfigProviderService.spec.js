@@ -4,7 +4,7 @@ describe('Service: ConfigProviderService', function () {
 
   // load the controller's module
   beforeEach(function () {
-    module('emuwebApp');
+    module('grazer');
   });
 
   /**
@@ -26,16 +26,16 @@ describe('Service: ConfigProviderService', function () {
    *
    */
   it('check if initial set of vals works', inject(function (ConfigProviderService) {
-    ConfigProviderService.setVals(defaultEmuwebappConfig);
+    ConfigProviderService.setVals(defaultGrazerConfig);
     expect($.isEmptyObject(ConfigProviderService.vals)).toBe(false);
-    expect(JSON.stringify(ConfigProviderService.vals, undefined, 0)).toEqual(JSON.stringify(defaultEmuwebappConfig, undefined, 0));
+    expect(JSON.stringify(ConfigProviderService.vals, undefined, 0)).toEqual(JSON.stringify(defaultGrazerConfig, undefined, 0));
   }));
 
   /**
    *
    */
   it('check if vals overwrite works', inject(function (ConfigProviderService) {
-    ConfigProviderService.setVals(defaultEmuwebappConfig);
+    ConfigProviderService.setVals(defaultGrazerConfig);
     // single value
     var newVals = {
       'labelCanvasConfig': {
@@ -61,7 +61,7 @@ describe('Service: ConfigProviderService', function () {
    *
    */
   it('should getContourLimsOfTrack', inject(function (viewState, ConfigProviderService) {
-    ConfigProviderService.setVals(defaultEmuwebappConfig);
+    ConfigProviderService.setVals(defaultGrazerConfig);
     viewState.curPerspectiveIdx = 0;
     ConfigProviderService.vals.perspectives[viewState.curPerspectiveIdx].levelCanvases = aeDbConfig.EMUwebAppConfig.perspectives[0].levelCanvases;
     expect(ConfigProviderService.getContourLimsOfTrack('SPEC')).toEqual({ });
@@ -71,7 +71,7 @@ describe('Service: ConfigProviderService', function () {
    *
    */
   it('should getAssignment', inject(function (viewState, ConfigProviderService) {
-    ConfigProviderService.setVals(defaultEmuwebappConfig);
+    ConfigProviderService.setVals(defaultGrazerConfig);
     viewState.curPerspectiveIdx = 0;
     // set
     ConfigProviderService.vals.perspectives[viewState.curPerspectiveIdx].signalCanvases.assign = [{signalCanvasName: 'SPEC', ssffTrackName: 'FORMANTS'}];

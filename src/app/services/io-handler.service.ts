@@ -46,7 +46,7 @@ class IoHandlerService{
 	* default config is always loaded from same origin
 	*/
 	public httpGetDefaultConfig() {
-		var prom = this.$http.get('configFiles/default_emuwebappConfig.json');
+		var prom = this.$http.get('configFiles/default_grazerConfig.json');
 		return prom;
 	};
 	
@@ -402,5 +402,5 @@ public parseLabelFile(string, annotates, name, fileType) {
 
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('IoHandlerService', ['$rootScope', '$http', '$location', '$q', '$window', 'HistoryService', 'ViewStateService', 'SoundHandlerService', 'SsffParserService', 'WavParserService', 'TextGridParserService', 'ConfigProviderService', 'EspsParserService', 'SsffDataService', 'WebSocketHandlerService', 'DragnDropDataService', 'LoadedMetaDataService', IoHandlerService]);

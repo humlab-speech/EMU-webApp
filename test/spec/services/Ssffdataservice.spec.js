@@ -4,7 +4,7 @@ describe('Service: Ssffdataservice', function () {
   var scope, deferred;
 
   // load the controller's module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
 
   beforeEach(inject(function (_$rootScope_, $q, Ssffdataservice) {
     scope = _$rootScope_;

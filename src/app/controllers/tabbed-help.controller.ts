@@ -2,7 +2,7 @@ import * as angular from 'angular';
 import * as showdown from 'showdown';
 import { version } from "../../../package.json";
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .controller('TabbedHelpCtrl', ['$scope', '$sce', 'ConfigProviderService', 'IoHandlerService',
 	function ($scope, $sce, ConfigProviderService, IoHandlerService) {
 	$scope.cps = ConfigProviderService;

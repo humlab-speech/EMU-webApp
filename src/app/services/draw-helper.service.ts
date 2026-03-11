@@ -1,6 +1,6 @@
 import * as angular from 'angular';
 
-import styles from '../../styles/EMUwebAppDesign.scss';
+import styles from '../../styles/grazer-design.scss';
 
 class DrawHelperService{
 
@@ -847,5 +847,5 @@ class DrawHelperService{
 
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 	.service('DrawHelperService', ['ViewStateService', 'ConfigProviderService', 'SoundHandlerService', 'FontScaleService', 'SsffDataService', 'MathHelperService', DrawHelperService]);

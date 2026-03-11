@@ -4,7 +4,7 @@ describe('Directive: myDropZoneInput', function() {
 
     var elm, scope;
     
-    beforeEach(module('emuwebApp', 'emuwebApp.templates'));
+    beforeEach(module('grazer', 'grazer.templates'));
     
     beforeEach(inject(function($rootScope) {
         scope = $rootScope.$new();

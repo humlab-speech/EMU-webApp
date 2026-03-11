@@ -83,5 +83,5 @@ class SsffDataService{
 	
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('SsffDataService', ['SoundHandlerService', 'ConfigProviderService', SsffDataService]);

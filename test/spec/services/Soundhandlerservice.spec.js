@@ -4,7 +4,7 @@ describe('Service: Soundhandlerservice', function () {
     var scope;
 
     // load the controller's module
-    beforeEach(module('emuwebApp'));
+    beforeEach(module('grazer'));
 
     beforeEach(inject(function ($rootScope) {
         scope = $rootScope.$new();

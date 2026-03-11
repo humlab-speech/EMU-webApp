@@ -4,16 +4,16 @@ describe('Service: LevelService', function () {
 
   // load the controller's module
 
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
 
   var item;
-  var aetmpDBconfig, epgdorsaltmpDbConfig, ematmpDbConfig, defaultEmuwebappConfigTmp;
+  var aetmpDBconfig, epgdorsaltmpDbConfig, ematmpDbConfig, defaultGrazerConfigTmp;
 
   beforeEach(inject(function (Soundhandlerservice) {
       aetmpDBconfig = angular.copy(aeDbConfig);
       epgdorsaltmpDbConfig = angular.copy(epgdorsalDbConfig);
       ematmpDbConfig = angular.copy(emaDbConfig);
-      defaultEmuwebappConfigTmp = angular.copy(defaultEmuwebappConfig);
+      defaultGrazerConfigTmp = angular.copy(defaultGrazerConfig);
 
   }));
 
@@ -433,7 +433,7 @@ describe('Service: LevelService', function () {
    */
   it('should delete a level', inject(function (DataService, LevelService, ConfigProviderService) {
     // test on msajc003_bndl.annotation
-    ConfigProviderService.setVals(defaultEmuwebappConfigTmp);
+    ConfigProviderService.setVals(defaultGrazerConfigTmp);
     DataService.setData(msajc003_bndl.annotation);
     expect(DataService.getLevelData().length).toEqual(9);
     LevelService.deleteLevel(0, 0);
@@ -457,7 +457,7 @@ describe('Service: LevelService', function () {
    */
   it('should add a level', inject(function (DataService, LevelService, ConfigProviderService) {
     // test on msajc003_bndl.annotation
-    ConfigProviderService.setVals(defaultEmuwebappConfigTmp);
+    ConfigProviderService.setVals(defaultGrazerConfigTmp);
     DataService.setData(msajc003_bndl.annotation);
     expect(DataService.getLevelData().length).toEqual(9);
     LevelService.insertLevel({
@@ -545,7 +545,7 @@ describe('Service: LevelService', function () {
   it('should rename a level', inject(function (DataService, LevelService, ConfigProviderService) {
     // test on msajc003_bndl.annotation
     DataService.setData(msajc003_bndl.annotation);
-    ConfigProviderService.setVals(defaultEmuwebappConfigTmp);
+    ConfigProviderService.setVals(defaultGrazerConfigTmp);
     LevelService.renameLevel('Phonetic', 'test', 0);
     expect(LevelService.getLevelDetails('test').type).toEqual('SEGMENT');
   }));

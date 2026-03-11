@@ -1,5 +1,5 @@
 import * as angular from 'angular';
-import styles from '../../styles/EMUwebAppDesign.scss';
+import styles from '../../styles/grazer-design.scss';
 
 let HistoryActionPopupComponent = {
     selector: "historyActionPopup",
@@ -52,9 +52,9 @@ let HistoryActionPopupComponent = {
                 //
                 if(changes.historyActionTxt){
                     if (this.historyActionTxt !== '') {
-                        this.$animate.addClass(this.$element, 'emuwebapp-history-fade').then(() => {
+                        this.$animate.addClass(this.$element, 'grazer-history-fade').then(() => {
                             this.$timeout(() => {
-                                this.$animate.removeClass(this.$element, 'emuwebapp-history-fade').then(() => {
+                                this.$animate.removeClass(this.$element, 'grazer-history-fade').then(() => {
                                     this.$timeout(() => {
                                         this.ViewStateService.historyActionTxt = '';
                                     }, styles.animationPeriod);
@@ -74,5 +74,5 @@ let HistoryActionPopupComponent = {
 
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .component(HistoryActionPopupComponent.selector, HistoryActionPopupComponent);

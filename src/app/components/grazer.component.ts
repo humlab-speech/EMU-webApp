@@ -1,13 +1,13 @@
 import * as angular from 'angular';
 
 import { HierarchyWorker } from '../workers/hierarchy.worker';
-import styles from '../../styles/EMUwebAppDesign.scss';
+import styles from '../../styles/grazer-design.scss';
 
 let EmuWebAppComponent = {
-    selector: "emuwebapp",
+    selector: "grazer",
     template: /*html*/`
     <div
-    class="emuwebapp-main" 
+    class="grazer-main" 
     id="MainCtrl">
         <!-- start: modal -->
         <modal></modal>
@@ -26,9 +26,9 @@ let EmuWebAppComponent = {
         <!-- end: left side menu bar -->
 
         <!-- start: main window -->
-        <div class="emuwebapp-window" id="mainWindow">
+        <div class="grazer-window" id="mainWindow">
 			<progress-bar 
-			class="emuwebapp-progressBar"
+			class="grazer-progressBar"
 			open="$ctrl.ViewStateService.somethingInProgress"
 			txt="$ctrl.ViewStateService.somethingInProgressTxt"
 			></progress-bar>
@@ -36,63 +36,63 @@ let EmuWebAppComponent = {
 			<div class="printTitle">EMU-webApp : {{$ctrl.LoadedMetaDataService.getCurBndlName()}}</div>
 
             <!-- start: top menu bar -->
-            <div class="emuwebapp-top-menu">
-                <button class="emuwebapp-button-icon" 
+            <div class="grazer-top-menu">
+                <button class="grazer-button-icon" 
                 id="bundleListSideBarOpen" 
                 ng-show="$ctrl.ConfigProviderService.vals.activeButtons.openMenu && !$ctrl.ViewStateService.bundleListSideBarDisabled"
                 ng-click="$ctrl.ViewStateService.toggleBundleListSideBar($ctrl.styles.animation.period);" 
                 style="float:left"><i class="material-icons">menu</i></button>
 
-                <button class="emuwebapp-mini-btn left"
+                <button class="grazer-mini-btn left"
                 ng-show="$ctrl.ConfigProviderService.vals.activeButtons.saveBundle && $ctrl.ViewStateService.bundleListSideBarDisabled"
                 ng-click="$ctrl.DbObjLoadSaveService.saveBundle();"
                 ng-style="$ctrl.getUnsavedChangesColor()"
                 style="float:left"><i class="material-icons">save</i> Save</button>
                 
-                <button class="emuwebapp-mini-btn left" 
+                <button class="grazer-mini-btn left" 
                 ng-show="$ctrl.ConfigProviderService.vals.activeButtons.addLevelSeg" 
                 ng-disabled="!$ctrl.ViewStateService.getPermission('addLevelSegBtnClick')" 
                 ng-click="addLevelSegBtnClick();">add level (SEG.)</button>
                 
-                <button class="emuwebapp-mini-btn left" 
+                <button class="grazer-mini-btn left" 
                 ng-show="$ctrl.ConfigProviderService.vals.activeButtons.addLevelEvent" 
                 ng-disabled="!$ctrl.ViewStateService.getPermission('addLevelPointBtnClick')" 
                 ng-click="$ctrl.addLevelPointBtnClick();">add level (EVENT)</button>
                 
-                <button class="emuwebapp-mini-btn left" 
+                <button class="grazer-mini-btn left" 
                 ng-show="$ctrl.ConfigProviderService.vals.activeButtons.renameSelLevel" 
                 ng-disabled="!$ctrl.ViewStateService.getPermission('renameSelLevelBtnClick')" 
                 ng-click="$ctrl.renameSelLevelBtnClick();">rename sel. level</button>
                 
-                <button class="emuwebapp-mini-btn left" 
+                <button class="grazer-mini-btn left" 
                 id="downloadTextgrid" 
                 ng-show="$ctrl.ConfigProviderService.vals.activeButtons.downloadTextGrid" 
                 ng-disabled="!$ctrl.ViewStateService.getPermission('downloadTextGridBtnClick')" 
                 ng-click="$ctrl.downloadTextGridBtnClick();"><i class="material-icons">save</i>TextGrid</button>
                 
-                <button class="emuwebapp-mini-btn left" 
+                <button class="grazer-mini-btn left" 
                 id="downloadAnnotation" 
                 ng-show="$ctrl.ConfigProviderService.vals.activeButtons.downloadAnnotation" 
                 ng-disabled="!$ctrl.ViewStateService.getPermission('downloadAnnotationBtnClick')" 
                 ng-click="$ctrl.downloadAnnotationBtnClick();"><i class="material-icons">save</i>annotJSON</button>
                 
-                <button class="emuwebapp-mini-btn left" 
+                <button class="grazer-mini-btn left" 
                 id="spectSettingsBtn" 
                 ng-show="$ctrl.ConfigProviderService.vals.activeButtons.specSettings" 
                 ng-disabled="!$ctrl.ViewStateService.getPermission('spectSettingsChange')" 
                 ng-click="$ctrl.settingsBtnClick();"><i class="material-icons">settings</i> settings</button>
                 
-                <div class="emuwebapp-nav-wrap" ng-show="$ctrl.ConfigProviderService.vals.activeButtons.openDemoDB">
-                    <ul class="emuwebapp-dropdown-container">
+                <div class="grazer-nav-wrap" ng-show="$ctrl.ConfigProviderService.vals.activeButtons.openDemoDB">
+                    <ul class="grazer-dropdown-container">
                         <li class="left">
                             <button type="button" 
-                            class="emuwebapp-mini-btn full" 
+                            class="grazer-mini-btn full" 
                             id="demoDB" 
                             ng-mouseover="$ctrl.dropdown = true" 
                             ng-mouseleave="$ctrl.dropdown = false" 
                             ng-click="$ctrl.dropdown = !$ctrl.dropdown" 
-                            ng-disabled="!$ctrl.ViewStateService.getPermission('openDemoBtnDBclick')">open demo <span id="emuwebapp-dropdown-arrow"></span></button>
-                            <ul class="emuwebapp-dropdown-menu" 
+                            ng-disabled="!$ctrl.ViewStateService.getPermission('openDemoBtnDBclick')">open demo <span id="grazer-dropdown-arrow"></span></button>
+                            <ul class="grazer-dropdown-menu" 
                             ng-mouseover="$ctrl.dropdown = true" 
                             ng-mouseleave="$ctrl.dropdown = false" 
                             ng-init="$ctrl.dropdown = false" 
@@ -106,29 +106,29 @@ let EmuWebAppComponent = {
                     </ul>
                 </div>
 
-                <button class="emuwebapp-mini-btn left" 
+                <button class="grazer-mini-btn left" 
                 ng-show="$ctrl.ConfigProviderService.vals.activeButtons.connect" 
                 ng-disabled="!$ctrl.ViewStateService.getPermission('connectBtnClick')" 
                 ng-click="$ctrl.connectBtnClick();"><i class="material-icons">input</i>{{connectBtnLabel}}</button>
                 
-                <button class="emuwebapp-mini-btn left" 
+                <button class="grazer-mini-btn left" 
                 id="showHierarchy" 
                 ng-click="$ctrl.showHierarchyBtnClick();" 
                 ng-disabled="!$ctrl.ViewStateService.getPermission('showHierarchyBtnClick')" 
                 ng-show="$ctrl.ConfigProviderService.vals.activeButtons.showHierarchy"><i class="material-icons" style="transform: rotate(180deg)">details</i>hierarchy</button>
           
-                <button class="emuwebapp-mini-btn left" 
+                <button class="grazer-mini-btn left" 
                 ng-show="$ctrl.ConfigProviderService.vals.activeButtons.search" 
                 ng-disabled="!$ctrl.ViewStateService.getPermission('searchBtnClick')" 
                 ng-click="$ctrl.searchBtnClick();"><i class="material-icons">search</i>search</button>
                 
-                <button class="emuwebapp-mini-btn left" 
+                <button class="grazer-mini-btn left" 
                 id="clear" 
                 ng-show="$ctrl.ConfigProviderService.vals.activeButtons.clear" 
                 ng-disabled="!$ctrl.ViewStateService.getPermission('clearBtnClick')" 
                 ng-click="$ctrl.clearBtnClick();"><i class="material-icons">clear_all</i>clear</button>
                 
-                <button class="emuwebapp-button-icon" 
+                <button class="grazer-button-icon" 
                 id="aboutBtn" 
                 style="float: right;" 
                 ng-click="$ctrl.aboutBtnClick();"><img src="assets/EMU-webAppEmu.svg" class="_35px" /></button>
@@ -136,15 +136,15 @@ let EmuWebAppComponent = {
             <!-- top menu bar end -->
 
             <!-- vertical split layout that contains top and bottom pane -->
-            <div class="emuwebapp-canvas">
+            <div class="grazer-canvas">
 				<history-action-popup
-				class="emuwebapp-history"
+				class="grazer-history"
 				history-action-txt="$ctrl.ViewStateService.historyActionTxt">
 				</history-action-popup>
                 <bg-splitter show-two-dim-cans="{{$ctrl.ConfigProviderService.vals.perspectives[$ctrl.ViewStateService.curPerspectiveIdx].twoDimCanvases.order.length > 0}}">
                     <bg-pane type="topPane" min-size="80" max-size="500">
-                        <ul class="emuwebapp-timeline-flexcontainer">
-                            <li class="emuwebapp-timeline-flexitem" ng-style="{'height': getEnlarge($index)}" ng-repeat="curTrack in $ctrl.ConfigProviderService.vals.perspectives[$ctrl.ViewStateService.curPerspectiveIdx].signalCanvases.order track by $index" ng-switch on="curTrack">
+                        <ul class="grazer-timeline-flexcontainer">
+                            <li class="grazer-timeline-flexitem" ng-style="{'height': getEnlarge($index)}" ng-repeat="curTrack in $ctrl.ConfigProviderService.vals.perspectives[$ctrl.ViewStateService.curPerspectiveIdx].signalCanvases.order track by $index" ng-switch on="curTrack">
                                 <osci 
                                 ng-switch-when="OSCI" 
                                 track-name="curTrack"
@@ -245,7 +245,7 @@ let EmuWebAppComponent = {
                             </ul>
                         </div>
                     </bg-pane>
-                    <bg-pane type="emuwebapp-2d-map">
+                    <bg-pane type="grazer-2d-map">
                         <ul>
                             <li ng-repeat="cur2dTrack in $ctrl.ConfigProviderService.vals.perspectives[$ctrl.ViewStateService.curPerspectiveIdx].twoDimCanvases.order" ng-switch on="cur2dTrack">
 								<epg-grid-canvas 
@@ -271,7 +271,7 @@ let EmuWebAppComponent = {
             <!-- end: vertical split layout -->
 
             <!-- start: bottom menu bar -->
-            <div class="emuwebapp-bottom-menu">
+            <div class="grazer-bottom-menu">
                 <div>
                     <osci-overview class="preview" 
 					id="preview"
@@ -282,49 +282,49 @@ let EmuWebAppComponent = {
 					></osci-overview>
                 </div>
 
-                <button class="emuwebapp-mini-btn left"
+                <button class="grazer-mini-btn left"
                 id="zoomInBtn" 
                 ng-click="$ctrl.cmdZoomIn();" 
                 ng-disabled="!$ctrl.ViewStateService.getPermission('zoom')"><i class="material-icons">expand_less</i>in</button>
                 
-                <button class="emuwebapp-mini-btn left"
+                <button class="grazer-mini-btn left"
                 id="zoomOutBtn" 
                 ng-click="$ctrl.cmdZoomOut();" 
                 ng-disabled="!$ctrl.ViewStateService.getPermission('zoom')"><i class="material-icons">expand_more</i>out</button>
                 
-                <button class="emuwebapp-mini-btn left"
+                <button class="grazer-mini-btn left"
                 id="zoomLeftBtn" 
                 ng-click="$ctrl.cmdZoomLeft();" 
                 ng-disabled="!$ctrl.ViewStateService.getPermission('zoom')"><i class="material-icons">chevron_left</i>left</button>
                 
-                <button class="emuwebapp-mini-btn left"
+                <button class="grazer-mini-btn left"
                 id="zoomRightBtn" 
                 ng-click="$ctrl.cmdZoomRight();" 
                 ng-disabled="!$ctrl.ViewStateService.getPermission('zoom')"><i class="material-icons">chevron_right</i>right</button>
                 
-                <button class="emuwebapp-mini-btn left"
+                <button class="grazer-mini-btn left"
                 id="zoomAllBtn" 
                 ng-click="$ctrl.cmdZoomAll();" 
                 ng-disabled="!$ctrl.ViewStateService.getPermission('zoom')"><i class="material-icons" style="transform: rotate(90deg)">unfold_less</i>all</button>
 
-                <button class="emuwebapp-mini-btn left"
+                <button class="grazer-mini-btn left"
                 id="zoomSelBtn" 
                 ng-click="$ctrl.cmdZoomSel();" 
                 ng-disabled="!$ctrl.ViewStateService.getPermission('zoom')"><i class="material-icons" style="transform: rotate(90deg)">unfold_more</i>selection</button>
                 
-                <button class="emuwebapp-mini-btn left"
+                <button class="grazer-mini-btn left"
                 id="playViewBtn" 
                 ng-show="$ctrl.ConfigProviderService.vals.restrictions.playback" 
                 ng-click="$ctrl.cmdPlayView();" 
                 ng-disabled="!$ctrl.ViewStateService.getPermission('playaudio')" ><i class="material-icons">play_arrow</i>in view</button>
                 
-                <button class="emuwebapp-mini-btn left"
+                <button class="grazer-mini-btn left"
                 id="playSelBtn" 
                 ng-show="$ctrl.ConfigProviderService.vals.restrictions.playback" 
                 ng-click="$ctrl.cmdPlaySel();" 
                 ng-disabled="!$ctrl.ViewStateService.getPermission('playaudio')"><i class="material-icons">play_circle_outline</i>selected</button>
                 
-                <button class="emuwebapp-mini-btn left"
+                <button class="grazer-mini-btn left"
                 id="playAllBtn" 
                 ng-show="$ctrl.ConfigProviderService.vals.restrictions.playback" 
                 ng-click="$ctrl.cmdPlayAll();" 
@@ -645,7 +645,7 @@ let EmuWebAppComponent = {
 					if (searchObject.DBconfigGetUrl){
 						DBconfigGetUrl = searchObject.DBconfigGetUrl;
 					}else{
-						DBconfigGetUrl = 'configFiles/embedded_emuwebappConfig.json';
+						DBconfigGetUrl = 'configFiles/embedded_grazerConfig.json';
 					}
 					
 					// then get the DBconfigFile
@@ -653,8 +653,8 @@ let EmuWebAppComponent = {
 						// first element of perspectives is default perspective
 						this.ViewStateService.curPerspectiveIdx = 0;
 						this.ConfigProviderService.setVals(resp.data.EMUwebAppConfig);
-						// validate emuwebappConfigSchema
-						var validRes = this.ValidationService.validateJSO('emuwebappConfigSchema', this.ConfigProviderService.vals);
+						// validate grazerConfigSchema
+						var validRes = this.ValidationService.validateJSO('grazerConfigSchema', this.ConfigProviderService.vals);
 						if (validRes === true) {
 							// turn of keybinding only on mouseover
 							if (this.ConfigProviderService.embeddedVals.fromUrlParams) {
@@ -779,7 +779,7 @@ let EmuWebAppComponent = {
 								this.ModalService.open('views/error.html', 'Error validating / checking DBconfig: ' + JSON.stringify(validRes, null, 4));
 							}
 						} else {
-							this.ModalService.open('views/error.html', 'Error validating ConfigProviderService.vals (emuwebappConfig data) after applying changes of newly loaded config (most likely due to wrong entry...): ' + JSON.stringify(validRes, null, 4));
+							this.ModalService.open('views/error.html', 'Error validating ConfigProviderService.vals (grazerConfig data) after applying changes of newly loaded config (most likely due to wrong entry...): ' + JSON.stringify(validRes, null, 4));
 						}
 
 					}, (errMess) => {
@@ -801,8 +801,8 @@ let EmuWebAppComponent = {
 			this.ValidationService.loadSchemas().then((replies) => {
 				this.ValidationService.setSchemas(replies);
 				this.IoHandlerService.httpGetDefaultConfig().then((response) => {
-					this.ViewStateService.somethingInProgressTxt = 'Validating emuwebappConfig';
-					var validRes = this.ValidationService.validateJSO('emuwebappConfigSchema', response.data);
+					this.ViewStateService.somethingInProgressTxt = 'Validating grazerConfig';
+					var validRes = this.ValidationService.validateJSO('grazerConfigSchema', response.data);
 					if (validRes === true) {
 						this.ConfigProviderService.setVals(response.data);
 						angular.copy(this.ConfigProviderService.vals, this.ConfigProviderService.initDbConfig);
@@ -815,7 +815,7 @@ let EmuWebAppComponent = {
 						// this.openDemoDBbtnClick("ema");
 						this.ViewStateService.somethingInProgress = false;
 					} else {
-						this.ModalService.open('views/error.html', 'Error validating / checking emuwebappConfigSchema: ' + JSON.stringify(validRes, null, 4)).then(() => {
+						this.ModalService.open('views/error.html', 'Error validating / checking grazerConfigSchema: ' + JSON.stringify(validRes, null, 4)).then(() => {
 							this.AppStateService.resetToInitState();
 						});
 					}
@@ -969,7 +969,7 @@ let EmuWebAppComponent = {
 				this.ViewStateService.curPerspectiveIdx = 0;
 				this.ConfigProviderService.setVals(data.EMUwebAppConfig);				
 				
-				var validRes = this.ValidationService.validateJSO('emuwebappConfigSchema', this.ConfigProviderService.vals);
+				var validRes = this.ValidationService.validateJSO('grazerConfigSchema', this.ConfigProviderService.vals);
 				if (validRes === true) {
 					this.ConfigProviderService.curDbConfig = data;
 					this.ViewStateService.setCurLevelAttrDefs(this.ConfigProviderService.curDbConfig.levelDefinitions);
@@ -1031,7 +1031,7 @@ let EmuWebAppComponent = {
 					}
 
 				} else {
-					this.ModalService.open('views/error.html', 'Error validating ConfigProviderService.vals (emuwebappConfig data) after applying changes of newly loaded config (most likely due to wrong entry...): ' + JSON.stringify(validRes, null, 4)).then(() => {
+					this.ModalService.open('views/error.html', 'Error validating ConfigProviderService.vals (grazerConfig data) after applying changes of newly loaded config (most likely due to wrong entry...): ' + JSON.stringify(validRes, null, 4)).then(() => {
 						this.AppStateService.resetToInitState();
 					});
 				}
@@ -1211,7 +1211,7 @@ let EmuWebAppComponent = {
 		 */
 		private downloadAnnotationBtnClick() {
 			if (this.ViewStateService.getPermission('downloadAnnotationBtnClick')) {
-				if(this.ValidationService.validateJSO('emuwebappConfigSchema', this.DataService.getData())) {
+				if(this.ValidationService.validateJSO('grazerConfigSchema', this.DataService.getData())) {
 					this.ModalService.open('views/export.html', this.LoadedMetaDataService.getCurBndl().name + '_annot.json', angular.toJson(this.DataService.getData(), true));
 				}
 			}
@@ -1280,7 +1280,7 @@ let EmuWebAppComponent = {
 					this.ViewStateService.curPerspectiveIdx = 0;
 					this.ConfigProviderService.setVals(data.EMUwebAppConfig);
 
-					var validRes = this.ValidationService.validateJSO('emuwebappConfigSchema', this.ConfigProviderService.vals);
+					var validRes = this.ValidationService.validateJSO('grazerConfigSchema', this.ConfigProviderService.vals);
 					if (validRes === true) {
 						this.ConfigProviderService.curDbConfig = data;
 						this.ViewStateService.setCurLevelAttrDefs(this.ConfigProviderService.curDbConfig.levelDefinitions);
@@ -1315,7 +1315,7 @@ let EmuWebAppComponent = {
 
 
 					} else {
-						this.ModalService.open('views/error.html', 'Error validating ConfigProviderService.vals (emuwebappConfig data) after applying changes of newly loaded config (most likely due to wrong entry...): ' + JSON.stringify(validRes, null, 4)).then(() => {
+						this.ModalService.open('views/error.html', 'Error validating ConfigProviderService.vals (grazerConfig data) after applying changes of newly loaded config (most likely due to wrong entry...): ' + JSON.stringify(validRes, null, 4)).then(() => {
 							this.AppStateService.resetToInitState();
 						});
 					}
@@ -1507,5 +1507,5 @@ let EmuWebAppComponent = {
 
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .component(EmuWebAppComponent.selector, EmuWebAppComponent);

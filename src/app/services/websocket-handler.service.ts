@@ -341,5 +341,5 @@ class WebSocketHandlerService{
 	////////////////////////////
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('WebSocketHandlerService', ['$q', '$rootScope', '$location', '$timeout', 'HistoryService', 'SsffParserService', 'ConfigProviderService', 'ViewStateService', 'WavParserService', 'SoundHandlerService', 'EspsParserService', 'UuidService', 'BinaryDataManipHelperService', 'SsffDataService', 'ModalService', WebSocketHandlerService]);

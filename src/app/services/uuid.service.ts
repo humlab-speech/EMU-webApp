@@ -24,5 +24,5 @@ class UuidService{
 	};
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 	.service('UuidService', UuidService);

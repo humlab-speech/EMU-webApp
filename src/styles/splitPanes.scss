@@ -1,10 +1,10 @@
-@import 'EMUwebAppDesign';
+@import 'grazer-design';
 @import 'font';
 @import 'mixins';
 
-/* emuwebapp-split-panes CSS */
+/* grazer-split-panes CSS */
 
-.emuwebapp-2d-map {
+.grazer-2d-map {
     position: absolute;
     right: 0px;
     top: calc(100% - 200px);
@@ -53,19 +53,19 @@
         cursor: ew-resize;
     }
 }
-.emuwebapp-split-panes {
+.grazer-split-panes {
     left: 0px;
     right: 0px;
     top: 0px;
     bottom: 0px;
     position: absolute;
-    > .emuwebapp-split-handler {
+    > .grazer-split-handler {
         background: $color-grey;
         position: absolute;
         z-index: 999;
     }
 /* Horizontal */
-    &.horizontal > .emuwebapp-split-handler {
+    &.horizontal > .grazer-split-handler {
         width: 4px;
         top: 0px;
         left: 50%;
@@ -85,7 +85,7 @@
         border-left: 1px solid $color-white;
     }
 /* Vertical */
-    &.vertical > .emuwebapp-split-handler {
+    &.vertical > .grazer-split-handler {
         height: 14px !important;
         width: 100%;
         top: 50%;

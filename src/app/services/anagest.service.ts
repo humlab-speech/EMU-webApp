@@ -373,5 +373,5 @@ class AnagestService{
 
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 	.service('AnagestService', ['$q', '$log', 'ViewStateService', 'LevelService', 'LinkService', 'ConfigProviderService', 'SsffDataService', 'ArrayHelperService', 'ModalService', 'HistoryService', 'DataService', AnagestService]);

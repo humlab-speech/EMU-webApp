@@ -3,14 +3,14 @@
 describe('Directive: dots', function() {
 
     var elm, scope, worker;
-    beforeEach(module('emuwebApp'));
+    beforeEach(module('grazer'));
 
     beforeEach(inject(function($rootScope, $compile, Soundhandlerservice, viewState, ConfigProviderService, DataService, LevelService, Ssffdataservice) {
         scope = $rootScope.$new();
         scope.lvl = LevelService;
         scope.cps = ConfigProviderService;
-        scope.cps.design = defaultEmuwebappDesign;
-        scope.cps.setVals(defaultEmuwebappConfig);
+        scope.cps.design = defaultGrazerDesign;
+        scope.cps.setVals(defaultGrazerConfig);
         scope.vs = viewState;
         scope.vs.curPerspectiveIdx = 0;
         scope.data = DataService;
@@ -30,7 +30,7 @@ describe('Directive: dots', function() {
 
     it('should be replaced correctly', function() {
         compileDirective();
-        expect(elm.html()).toContain('<canvas class="emuwebapp-twoDimCanvasStatic" width="512" height="512"></canvas><canvas class="emuwebapp-twoDimCanvasDots" width="512" height="512"></canvas>');
+        expect(elm.html()).toContain('<canvas class="grazer-twoDimCanvasStatic" width="512" height="512"></canvas><canvas class="grazer-twoDimCanvasDots" width="512" height="512"></canvas>');
     });
     
     it('should setGlobalMinMaxVals', function() {

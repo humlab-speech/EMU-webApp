@@ -3,7 +3,7 @@
 describe('Directive: historyActionPopup', function() {
 
     var elm, scope;
-    beforeEach(module('emuwebApp'));
+    beforeEach(module('grazer'));
 
     beforeEach(inject(function($rootScope, $q, $compile, viewState, modalService) {
         scope = $rootScope.$new();
@@ -20,7 +20,7 @@ describe('Directive: historyActionPopup', function() {
 
     it('should be replaced correctly', function() {
         compileDirective(true);
-        expect(elm.hasClass('emuwebapp-history')).toBe(true);
+        expect(elm.hasClass('grazer-history')).toBe(true);
     });
 
 });

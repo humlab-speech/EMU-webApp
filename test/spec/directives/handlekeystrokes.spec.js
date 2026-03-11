@@ -5,7 +5,7 @@ describe('Directive: handleglobalkeystrokes', function() {
     var elm, scope;
     var fakePCMtime = 123;
     var fakePCMclick = 25000;
-    beforeEach(module('emuwebApp'));
+    beforeEach(module('grazer'));
 
     beforeEach(inject(function ($rootScope,
                                 $compile,
@@ -29,8 +29,8 @@ describe('Directive: handleglobalkeystrokes', function() {
         scope.binary = Binarydatamaniphelper;
 
         // load data
-        scope.cps.setVals(defaultEmuwebappConfig);
-        scope.cps.design = defaultEmuwebappDesign;
+        scope.cps.setVals(defaultGrazerConfig);
+        scope.cps.design = defaultGrazerDesign;
         scope.data.setData(msajc003_bndl.annotation);
         scope.shs.audioBuffer.length = 154964;
 

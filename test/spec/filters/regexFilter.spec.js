@@ -21,7 +21,7 @@ describe("Unit Testing: regex filters", function () {
   }];
 
   // load the module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
 
   // load filter function into variable
   beforeEach(inject(function ($filter) {

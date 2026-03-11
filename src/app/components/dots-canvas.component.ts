@@ -1,14 +1,14 @@
 import * as angular from 'angular';
 
-import styles from '../../styles/EMUwebAppDesign.scss';
+import styles from '../../styles/grazer-design.scss';
 
 let DotsCanvasComponent = {
     selector: "dotsCanvas",
     template: /*html*/`
-    <div class="emuwebapp-twoDimCanvasContainer">
-    <canvas class="emuwebapp-twoDimCanvasStatic" width="512" height="512">
+    <div class="grazer-twoDimCanvasContainer">
+    <canvas class="grazer-twoDimCanvasStatic" width="512" height="512">
     </canvas>
-    <canvas class="emuwebapp-twoDimCanvasDots" width="512" height="512">
+    <canvas class="grazer-twoDimCanvasDots" width="512" height="512">
     </canvas>
     </div>
     `,
@@ -438,5 +438,5 @@ let DotsCanvasComponent = {
     }]
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .component(DotsCanvasComponent.selector, DotsCanvasComponent);

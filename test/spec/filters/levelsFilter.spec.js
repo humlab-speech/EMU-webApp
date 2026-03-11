@@ -16,7 +16,7 @@ describe("Unit Testing: regex filters", function () {
   }];
 
   // load the module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
 
   // load filter function into variable
   beforeEach(inject(function ($filter) {
@@ -29,7 +29,7 @@ describe("Unit Testing: regex filters", function () {
 
   // test regex filter
   it('should filter dummyarray with levelsFilter properly: ', inject(function (ConfigProviderService, viewState) {
-    ConfigProviderService.setVals(defaultEmuwebappConfig);
+    ConfigProviderService.setVals(defaultGrazerConfig);
     viewState.curPerspectiveIdx = 0;
     ConfigProviderService.vals.perspectives[viewState.curPerspectiveIdx].levelCanvases = aeDbConfig.EMUwebAppConfig.perspectives[0].levelCanvases;
     expect(filt(dummyList).length).toEqual(2);

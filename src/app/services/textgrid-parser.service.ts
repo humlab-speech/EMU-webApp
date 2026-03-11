@@ -63,5 +63,5 @@ class TextGridParserService{
 	};
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('TextGridParserService', ['$q', 'DataService', 'ViewStateService', 'SoundHandlerService', TextGridParserService]);

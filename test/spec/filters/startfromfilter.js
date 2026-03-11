@@ -19,7 +19,7 @@ describe('Filter: startFromFilter', function () {
   }];
 
   // load the filter's module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
 
   // initialize a new instance of the filter before each test
   var startFromFilter;

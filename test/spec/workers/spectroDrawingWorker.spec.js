@@ -46,7 +46,7 @@ describe('Worker: spectroDrawingWorker', function () {
 	var windowData, samples;
 
 
-	beforeEach(module('emuwebApp'));
+	beforeEach(module('grazer'));
 
 	beforeEach(function () {
 		var DummyWorker = function () {};

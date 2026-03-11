@@ -3,7 +3,7 @@
 describe('Directive: resize', function() {
 
     var elm, form, span, scope;
-    beforeEach(module('emuwebApp'));
+    beforeEach(module('grazer'));
 
     beforeEach(inject(function($rootScope, $compile) {
         scope = $rootScope.$new();
@@ -23,7 +23,7 @@ describe('Directive: resize', function() {
     it('should be clickable (true)', inject(function (ConfigProviderService) {
         scope.cps = ConfigProviderService;
         scope.updateView = function() {};
-        scope.cps.setVals(defaultEmuwebappConfig);
+        scope.cps.setVals(defaultGrazerConfig);
         scope.cps.vals.activeButtons.deleteSingleLevel = true;
         scope.cps.vals.activeButtons.saveSingleLevel = true;
         scope.open = true;
@@ -38,7 +38,7 @@ describe('Directive: resize', function() {
     it('should be clickable (false)', inject(function (ConfigProviderService) {
         scope.cps = ConfigProviderService;
         scope.updateView = function() {};
-        scope.cps.setVals(defaultEmuwebappConfig);
+        scope.cps.setVals(defaultGrazerConfig);
         scope.cps.vals.activeButtons.deleteSingleLevel = true;
         scope.cps.vals.activeButtons.saveSingleLevel = true;
         scope.open = true;

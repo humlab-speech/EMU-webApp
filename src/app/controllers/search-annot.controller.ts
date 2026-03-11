@@ -1,6 +1,6 @@
 import * as angular from 'angular';
 
-angular.module('emuwebApp')
+angular.module('grazer')
 	.controller('searchAnnotCtrl', ['$scope', 'ModalService', 'ViewStateService', 'HierarchyLayoutService', 'LevelService', 'LoadedMetaDataService', 'ConfigProviderService', 'StandardFuncsService', 'DataService',
 		function ($scope, ModalService, ViewStateService, HierarchyLayoutService, LevelService, LoadedMetaDataService, ConfigProviderService, StandardFuncsService, DataService) {
 

@@ -4,7 +4,7 @@ describe('Worker: ssffParserWorker', function() {
 
   var worker, mockGlobal, wavData;
 
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
 
   beforeEach(function(){
     var DummyWorker = function() {};

@@ -105,5 +105,5 @@ export class PublisherService {
     };
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('PublisherService', ['$log', 'SsffDataService', 'SsffParserService', 'BinaryDataManipHelperService', 'ValidationService', 'DataService', 'StandardFuncsService', 'LoadedMetaDataService', 'ConfigProviderService', PublisherService])

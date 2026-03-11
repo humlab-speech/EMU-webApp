@@ -1,6 +1,6 @@
 import * as angular from 'angular';
 
-angular.module('emuwebApp')
+angular.module('grazer')
 	.filter('regex', function () {
 		return (input, regex) => {
 			var patt = new RegExp(regex.toLowerCase());

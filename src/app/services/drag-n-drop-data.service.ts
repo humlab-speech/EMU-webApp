@@ -44,5 +44,5 @@ class DragnDropDataService{
 	
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('DragnDropDataService', ['$q', DragnDropDataService]);

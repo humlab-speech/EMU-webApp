@@ -1479,5 +1479,5 @@ class ViewStateService{
 	
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('ViewStateService', ['$rootScope', '$timeout', '$window', 'SoundHandlerService', 'DataService', 'StandardFuncsService', ViewStateService]);

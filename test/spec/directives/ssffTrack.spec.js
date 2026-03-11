@@ -3,7 +3,7 @@
 describe('Directive: ssffTrack', function () {
 
     var elm, tpl, scope, curLvl;
-    beforeEach(module('emuwebApp', 'emuwebApp.templates'));
+    beforeEach(module('grazer', 'grazer.templates'));
     
     beforeEach(inject(function ($rootScope, $compile, Ssffdataservice, Drawhelperservice, DataService, LevelService, ConfigProviderService, viewState, Soundhandlerservice) {
         scope = $rootScope.$new();
@@ -13,9 +13,9 @@ describe('Directive: ssffTrack', function () {
         scope.shs = Soundhandlerservice;
         scope.dhs = Drawhelperservice;
         scope.ssffds = Ssffdataservice;
-        scope.cps.setVals(defaultEmuwebappConfig);
+        scope.cps.setVals(defaultGrazerConfig);
         scope.cps.curDbConfig = aeDbConfig;
-        scope.cps.design = defaultEmuwebappDesign;
+        scope.cps.design = defaultGrazerDesign;
         scope.vs = viewState;
         scope.data.setData(msajc003_bndl.annotation);
         scope.level = curLvl;           

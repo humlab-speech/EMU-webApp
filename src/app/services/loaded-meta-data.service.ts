@@ -236,5 +236,5 @@ class LoadedMetaDataService{
 * # loadedMetaDataService
 * Service in the emuwebApp.
 */
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('LoadedMetaDataService', ['ValidationService', LoadedMetaDataService]);

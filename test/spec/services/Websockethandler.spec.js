@@ -3,7 +3,7 @@
 describe('Service: Websockethandler', function () {
 
   // load the service's module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
 
   // instantiate service
   var Websockethandler;

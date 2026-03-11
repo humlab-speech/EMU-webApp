@@ -8,7 +8,7 @@ describe('Service: AnagestService', function () {
 
 
 	// load the controller's module
-	beforeEach(module('emuwebApp'));
+	beforeEach(module('grazer'));
 
 	beforeEach(module(function ($provide) {
 		$provide.value('modalService', mockDialogService);

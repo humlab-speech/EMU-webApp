@@ -15,7 +15,7 @@ class ValidationService{
 		this.ConfigProviderService = ConfigProviderService;
 		
 		this.schemasJsos = [];
-		this.names = ['annotationFileSchema', 'emuwebappConfigSchema', 'DBconfigFileSchema', 'bundleListSchema', 'bundleSchema', 'designSchema'];
+		this.names = ['annotationFileSchema', 'grazerConfigSchema', 'DBconfigFileSchema', 'bundleListSchema', 'bundleSchema', 'designSchema'];
 		
 	}
 	
@@ -341,5 +341,5 @@ class ValidationService{
 	
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('ValidationService', ['$http', '$q', 'ConfigProviderService', ValidationService]);

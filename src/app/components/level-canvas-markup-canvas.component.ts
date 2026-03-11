@@ -4,7 +4,7 @@ let LevelCanvasMarkupCanvasComponent = {
     selector: "levelCanvasMarkupCanvas",
     template: /*html*/`
     <canvas 
-    class="emuwebapp-level-markup" 
+    class="grazer-level-markup" 
     id="levelMarkupCanvas" 
     width="4096" 
     height="256" 
@@ -367,5 +367,5 @@ let LevelCanvasMarkupCanvasComponent = {
     }]
 
 }
-angular.module('emuwebApp')
+angular.module('grazer')
 .component(LevelCanvasMarkupCanvasComponent.selector, LevelCanvasMarkupCanvasComponent);

@@ -441,5 +441,5 @@ export class HierarchyLayoutService{
 	};
 };
 
-angular.module('emuwebApp')
+angular.module('grazer')
 	.service('HierarchyLayoutService', ['ViewStateService', 'ConfigProviderService', 'LevelService', 'DataService', 'StandardFuncsService', HierarchyLayoutService]);

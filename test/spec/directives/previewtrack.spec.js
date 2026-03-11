@@ -3,7 +3,7 @@
 describe('Directive: showMenu', function() {
 
     var elm, tpl, scope;
-    beforeEach(module('emuwebApp'));
+    beforeEach(module('grazer'));
 
     beforeEach(inject(function($rootScope, $compile) {
         scope = $rootScope.$new();

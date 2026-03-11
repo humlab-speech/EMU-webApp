@@ -7,7 +7,7 @@ describe('Directive: trackmouseinlevel', function () {
     var lvlName = 'Phonetic';
     var lvlType = 'SEGMENT';
 
-    beforeEach(module('emuwebApp', 'emuwebApp.templates'));
+    beforeEach(module('grazer', 'grazer.templates'));
 
     beforeEach(inject(function (_$compile_, _$rootScope_, Soundhandlerservice, DataService, LevelService, ConfigProviderService, viewState, HistoryService) {
         $compile = _$compile_;
@@ -16,7 +16,7 @@ describe('Directive: trackmouseinlevel', function () {
         scope.lvl = LevelService;
         scope.data = DataService;
         scope.cps = ConfigProviderService;
-        scope.cps.setVals(defaultEmuwebappConfig);
+        scope.cps.setVals(defaultGrazerConfig);
         scope.cps.curDbConfig = aeDbConfig;
         scope.vs = viewState;
         scope.shs = Soundhandlerservice;

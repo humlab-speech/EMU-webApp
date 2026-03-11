@@ -1,5 +1,5 @@
 {
-	"description": "Schema for emuwebappConfig file for the EMU-webApp",
+	"description": "Schema for grazerConfig file for grazer",
 	"type": "object",
 	"properties": {
 		"main": {

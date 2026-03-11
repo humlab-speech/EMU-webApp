@@ -3,7 +3,7 @@
 describe('Service: modalService', function () {
 
   // load the controller's module
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
   
   var scope;
 

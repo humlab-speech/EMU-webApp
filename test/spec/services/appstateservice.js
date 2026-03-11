@@ -2,7 +2,7 @@
 
 describe('Service: appStateService', function () {
 
-  beforeEach(module('emuwebApp'));
+  beforeEach(module('grazer'));
   
   var scope;
   var deferred;

@@ -1,10 +1,10 @@
 import * as angular from 'angular';
 
-angular.module('emuwebApp')
+angular.module('grazer')
 	.directive('myDropZone', [function () {
 		return {
 			template: /*html*/`
-			<div id="dropzone" class="emuwebapp-dropzone">
+			<div id="dropzone" class="grazer-dropzone">
 				<span><br />Connect to a server or use URL parameters to load a database.</span>
 		  	</div>`,
 			restrict: 'E',

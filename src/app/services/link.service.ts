@@ -328,5 +328,5 @@ class LinkService{
 	
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('LinkService', ['DataService', 'ConfigProviderService', LinkService])

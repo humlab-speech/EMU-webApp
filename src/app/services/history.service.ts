@@ -430,5 +430,5 @@ export class HistoryService {
 	
 }
 
-angular.module('emuwebApp')
+angular.module('grazer')
 .service('HistoryService', ['$log', '$compile', '$sce', 'SsffDataService', 'LevelService', 'LinkService', 'ConfigProviderService', 'ViewStateService', 'SoundHandlerService', 'LoadedMetaDataService', 'PublisherService', HistoryService])

@@ -1,6 +1,6 @@
 import * as angular from 'angular';
 
-angular.module('emuwebApp')
+angular.module('grazer')
 	.controller('ShowhierarchyCtrl', [
 		'$scope',
 		'ViewStateService',
