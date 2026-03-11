@@ -138,7 +138,7 @@ class ModalService{
 
 /**
 * @ngdoc service
-* @name emuwebApp.ModalService
+* @name grazer.ModalService
 * @description
 * # ModalService
 * Service in the emuwebApp.

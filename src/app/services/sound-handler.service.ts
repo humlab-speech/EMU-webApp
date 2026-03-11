@@ -28,7 +28,7 @@ class SoundHandlerService{
 			window.AudioContext = this.$window.AudioContext || this.$window.webkitAudioContext;
 			this.audioContext = new AudioContext();
 		} catch (e) {
-			alert('Error loading the AudioContext (could mean your browser does not support the HTML5 webaudio API):' + e);
+			console.error('Error loading AudioContext (browser may not support Web Audio API):', e);
 		}
 	}
 	

@@ -173,7 +173,7 @@ class LevelService{
 			if (level.name === name) {
 				level.items.forEach((element, num) => {
 					if (element.id === id) {
-						ret = level.items[num + 1];
+						ret = (num + 1 < level.items.length) ? level.items[num + 1] : null;
 					}
 				});
 			}

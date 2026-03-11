@@ -33,7 +33,7 @@ let EmuWebAppComponent = {
 			txt="$ctrl.ViewStateService.somethingInProgressTxt"
 			></progress-bar>
 			
-			<div class="printTitle">EMU-webApp : {{$ctrl.LoadedMetaDataService.getCurBndlName()}}</div>
+			<div class="printTitle">grazer : {{$ctrl.LoadedMetaDataService.getCurBndlName()}}</div>
 
             <!-- start: top menu bar -->
             <div class="grazer-top-menu">
@@ -547,7 +547,7 @@ let EmuWebAppComponent = {
                 this.LoadedMetaDataService.getBundleList().length > 0 && 
                 !this.ConfigProviderService.vals.main.autoConnect && 
                 this.HistoryService.movesAwayFromLastSave > 0) {
-                    return 'Do you really wish to leave/reload the EMU-webApp? All unsaved changes will be lost...';
+                    return 'Do you really wish to leave/reload grazer? All unsaved changes will be lost...';
                 }
             };
 
@@ -821,7 +821,7 @@ let EmuWebAppComponent = {
 					}
 
 				}, (response) => { // onError
-					this.ModalService.open('views/error.html', 'Could not get defaultConfig for EMU-webApp: ' + ' status: ' + response.status + ' headers: ' + response.headers + ' config ' + response.config).then(() => {
+					this.ModalService.open('views/error.html', 'Could not get defaultConfig for grazer: ' + ' status: ' + response.status + ' headers: ' + response.headers + ' config ' + response.config).then(() => {
 						this.AppStateService.resetToInitState();
 					});
 				});

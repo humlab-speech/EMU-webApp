@@ -5,7 +5,7 @@ import styles from '../../styles/grazer-design.scss';
 
 /**
  * @ngdoc function
- * @name emuwebApp.controller:ManualctrlCtrl
+ * @name grazer.controller:ManualctrlCtrl
  * @description
  * # ManualctrlCtrl
  * Controller of the emuwebApp

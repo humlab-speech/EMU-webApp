@@ -3,8 +3,8 @@ import * as showdown from 'showdown';
 import { version } from "../../../package.json";
 
 angular.module('grazer')
-.controller('TabbedHelpCtrl', ['$scope', '$sce', 'ConfigProviderService', 'IoHandlerService',
-	function ($scope, $sce, ConfigProviderService, IoHandlerService) {
+.controller('TabbedHelpCtrl', ['$scope', 'ConfigProviderService', 'IoHandlerService',
+	function ($scope, ConfigProviderService, IoHandlerService) {
 	$scope.cps = ConfigProviderService;
 	$scope.tree = [];
 	$scope.converter = new showdown.Converter();
@@ -24,9 +24,9 @@ angular.module('grazer')
 			IoHandlerService.httpGetPath(node.url, undefined, true).then((resp) => {
 				if (node.url.substr(node.url.lastIndexOf('.') + 1).toLowerCase() === 'md') {
 					resp.data = resp.data.replace("@@versionnr", version);
-					$scope.htmlStr = $sce.trustAsHtml($scope.converter.makeHtml(resp.data));
+					$scope.htmlStr = $scope.converter.makeHtml(resp.data);
 				} else {
-					$scope.htmlStr = $sce.trustAsHtml(resp.data);
+					$scope.htmlStr = resp.data;
 				}
 				});
 			}

@@ -43,6 +43,7 @@ let SsffCanvasComponent = {
         private trackName;
         private allSsffData;
         private _inited = false;
+        private _mouseUpdateQueued = false;
 
         constructor(
             $scope, 
@@ -72,7 +73,13 @@ let SsffCanvasComponent = {
                     this.handleUpdate();
                 }
                 if(changes.curMouseX || changes.curMouseY){
-                    this.handleUpdate();
+                    if(!this._mouseUpdateQueued){
+                        this._mouseUpdateQueued = true;
+                        requestAnimationFrame(() => {
+                            this._mouseUpdateQueued = false;
+                            this.handleUpdate();
+                        });
+                    }
                 }
             }
         }

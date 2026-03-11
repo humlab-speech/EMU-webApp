@@ -4,10 +4,10 @@ import { WavRangeReq } from '../workers/wavrangereq.worker';
 
 /**
 * @ngdoc service
-* @name emuwebApp.dbObjLoadSaveService
+* @name grazer.dbObjLoadSaveService
 * @description
 * # dbObjLoadSaveService
-* Service in the emuwebApp.
+* Service in grazer.
 */
 class DbObjLoadSaveService{
 	

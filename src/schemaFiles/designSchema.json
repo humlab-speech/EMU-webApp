@@ -1,6 +1,6 @@
 {
 	"$schema": "http://json-schema.org/draft-04/schema#",
-	"description": "Schema for the Design of the EMU-webApp",
+	"description": "Schema for the Design of grazer",
 	"type": "object",
 	"properties": {
 		"color": {

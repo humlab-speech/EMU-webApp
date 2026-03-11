@@ -6,7 +6,7 @@ let NewVersionHintComponent = {
     template: `
     <div class="grazer-aboutHint">
     <button class="grazer-aboutHint-hidden" ng-click="$ctrl.aboutBtnOverlayClick()"></button>
-    Welcome to the EMU-webApp Version {{version}}
+    Welcome to the grazer Version {{version}}
     <div class="grazer-aboutHint-arrow">click here for more information ⇧</div>
     </div>
     `,

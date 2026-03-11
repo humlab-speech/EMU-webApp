@@ -47,7 +47,7 @@ class MathHelperService{
 
 /**
 * @ngdoc service
-* @name emuwebApp.mathHelperService
+* @name grazer.mathHelperService
 * @description
 * # mathHelperService
 * Service in the emuwebApp.

@@ -52,9 +52,7 @@ angular.module('grazer')
 					return blob;
 				};
 
-				el.addEventListener(
-					'dragstart',
-					function (e) {
+				el._dragstartHandler = function (e) {
 						// console.log('dragstart');
 						if (scope.isActive()) {
 							this.classList.add('drag');
@@ -73,13 +71,10 @@ angular.module('grazer')
 							// console.log('dropping inactive bundles is not allowed');
 						}
 						return false;
-					},
-					false
-				);
+				};
+				el.addEventListener('dragstart', el._dragstartHandler, false);
 
-				el.addEventListener(
-					'dragend',
-					function (e) {
+				el._dragendHandler = function (e) {
 						// console.log('dragend');
 						if (scope.isActive()) {
 							this.classList.remove('drag');
@@ -87,9 +82,13 @@ angular.module('grazer')
 						}
 						return false;
 
-					},
-					false
-				);
+				};
+				el.addEventListener('dragend', el._dragendHandler, false);
+
+				scope.$on('$destroy', function() {
+					el.removeEventListener('dragstart', el._dragstartHandler, false);
+					el.removeEventListener('dragend', el._dragendHandler, false);
+				});
 			}
 		};
 	}]);

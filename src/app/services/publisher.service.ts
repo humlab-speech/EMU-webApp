@@ -99,7 +99,7 @@ export class PublisherService {
             window.parent.postMessage({
                 trigger: "autoSave",
                 data: bundleData,
-            }, '*');
+            }, window.location.origin);
             this.$log.info('Posted to parent (autoSave)', bundleData);
         }
     };

@@ -231,7 +231,7 @@ class LoadedMetaDataService{
 
 /**
 * @ngdoc service
-* @name emuwebApp.loadedMetaDataService
+* @name grazer.loadedMetaDataService
 * @description
 * # loadedMetaDataService
 * Service in the emuwebApp.

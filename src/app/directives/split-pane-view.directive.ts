@@ -107,7 +107,13 @@ angular.module('grazer')
 						pane2.elem.css('top', pos + 'px');
 
 						ViewStateService.setdragBarHeight(pos);
-						$rootScope.$digest();
+						if(!scope._rafQueued){
+							scope._rafQueued = true;
+							requestAnimationFrame(function(){
+								scope._rafQueued = false;
+								$rootScope.$digest();
+							});
+						}
 
 					}
 

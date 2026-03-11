@@ -93,7 +93,7 @@ class WebSocketHandlerService{
 			delete this.callbacks[messageObj.callbackID];
 		} else {
 			if(typeof messageObj.status === 'undefined'){
-				this.ModalService.open('views/error.html', 'Just got JSON message from server that the EMU-webApp does not know how to deal with! This is not allowed!');
+				this.ModalService.open('views/error.html', 'Just got JSON message from server that grazer does not know how to deal with! This is not allowed!');
 			}
 			else if (messageObj.status.type === 'ERROR:TIMEOUT') {
 				// do nothing
@@ -130,7 +130,7 @@ class WebSocketHandlerService{
 	
 	private wsonerror(message) {
 		console.error('WEBSOCKET ERROR!!!!!');
-		this.$rootScope.$apply(this.conPromise.resolve(message));
+		this.$rootScope.$apply(this.conPromise.reject(message));
 	}
 	
 	private wsonclose(message) {
@@ -204,7 +204,7 @@ class WebSocketHandlerService{
 	};
 	
 	////////////////////////////
-	// EMU-webApp protocol begins here
+	// grazer protocol begins here
 	//
 	
 	// ws getProtocol
@@ -337,7 +337,7 @@ class WebSocketHandlerService{
 	};
 	
 	//
-	// EMU-webApp protocol ends here
+	// grazer protocol ends here
 	////////////////////////////
 }
 

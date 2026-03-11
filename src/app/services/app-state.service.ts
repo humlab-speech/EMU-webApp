@@ -2,7 +2,7 @@ import * as angular from 'angular';
 
 /**
  * @ngdoc service
- * @name emuwebApp.AppStateService
+ * @name grazer.AppStateService
  * @description
  * # AppStateService
  * Service in the emuwebApp.

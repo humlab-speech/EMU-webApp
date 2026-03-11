@@ -2,7 +2,7 @@ import * as angular from 'angular';
 
 /**
  * @ngdoc filter
- * @name emuwebApp.filter:startFromFilter
+ * @name grazer.filter:startFromFilter
  * @function
  * @description
  * # startFromFilter

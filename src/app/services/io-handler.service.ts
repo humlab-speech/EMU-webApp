@@ -79,7 +79,7 @@ class IoHandlerService{
 	};
 	
 	////////////////////////////
-	// EMU-webApp protocol begins here
+	// grazer protocol begins here
 	//
 	
 	/**
@@ -331,7 +331,7 @@ class IoHandlerService{
 		}
 		var payload = {
 			branch: "master",
-			commit_message: "EMU-webApp save by user: " + searchObject.bundleListName + "; session: " + bundleData.session + "; bundle: " + bundleData.annotation.name + ";",
+			commit_message: "grazer save by user: " + searchObject.bundleListName + "; session: " + bundleData.session + "; bundle: " + bundleData.annotation.name + ";",
 			actions: actions
 		};
 		
@@ -352,7 +352,7 @@ class IoHandlerService{
 		window.parent.postMessage({
 			trigger: "manualSave",
 			data: bundleData
-		}, '*');
+		}, window.location.origin);
 		def.resolve();
 	}
 	// else if (ConfigProviderService.vals.main.comMode === 'DEMO') {
@@ -379,7 +379,7 @@ public saveConfiguration(configData) {
 };
 
 //
-// EMU-webApp protocol ends here
+// grazer protocol ends here
 ////////////////////////////
 
 /**
