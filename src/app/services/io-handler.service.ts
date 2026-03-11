@@ -22,25 +22,38 @@ class IoHandlerService{
 	private LoadedMetaDataService;
 	
 	constructor($rootScope, $http, $location, $q, $window, HistoryService, ViewStateService, SoundHandlerService, SsffParserService, WavParserService, TextGridParserService, ConfigProviderService, EspsParserService, SsffDataService, WebSocketHandlerService, DragnDropDataService, LoadedMetaDataService) {
-		
+
 		this.$rootScope = $rootScope;
-		this.$http = $http; 
-		this.$location = $location; 
-		this.$q = $q; 
+		this.$http = $http;
+		this.$location = $location;
+		this.$q = $q;
 		this.$window = $window;
-		this.HistoryService = HistoryService; 
-		this.ViewStateService = ViewStateService; 
-		this.SoundHandlerService = SoundHandlerService; 
-		this.SsffParserService = SsffParserService; 
-		this.WavParserService = WavParserService; 
-		this.TextGridParserService = TextGridParserService; 
-		this.ConfigProviderService = ConfigProviderService; 
-		this.EspsParserService = EspsParserService; 
-		this.SsffDataService = SsffDataService; 
-		this.WebSocketHandlerService = WebSocketHandlerService; 
+		this.HistoryService = HistoryService;
+		this.ViewStateService = ViewStateService;
+		this.SoundHandlerService = SoundHandlerService;
+		this.SsffParserService = SsffParserService;
+		this.WavParserService = WavParserService;
+		this.TextGridParserService = TextGridParserService;
+		this.ConfigProviderService = ConfigProviderService;
+		this.EspsParserService = EspsParserService;
+		this.SsffDataService = SsffDataService;
+		this.WebSocketHandlerService = WebSocketHandlerService;
 		this.DragnDropDataService = DragnDropDataService;
 		this.LoadedMetaDataService = LoadedMetaDataService;
-		
+
+		// Move privateToken from URL to sessionStorage to avoid leaking in referrer/logs
+		var searchObject = this.$location.search();
+		if (searchObject.privateToken) {
+			sessionStorage.setItem('grazer_privateToken', searchObject.privateToken);
+			this.$location.search('privateToken', null).replace();
+		}
+	}
+
+	/**
+	* Get GitLab private token from sessionStorage (moved from URL on init).
+	*/
+	private getPrivateToken(): string {
+		return sessionStorage.getItem('grazer_privateToken') || '';
 	}
 	/**
 	* default config is always loaded from same origin
@@ -64,7 +77,7 @@ class IoHandlerService{
 			prom = fetch(path, {
 				method: 'GET',
 				headers: {
-					'PRIVATE-TOKEN': searchObject.privateToken
+					'PRIVATE-TOKEN': this.getPrivateToken()
 				}
 			}).then((resp) => {
 				if(respType === 'json'){
@@ -160,7 +173,7 @@ class IoHandlerService{
 			getProm = fetch(searchObject.gitlabURL + '/api/v4/projects/' + searchObject.projectID + '/repository/files/' + gitlabPath + searchObject.emuDBname + '_DBconfig.json/raw?ref=master', {
 				method: 'GET',
 				headers: {
-					'PRIVATE-TOKEN': searchObject.privateToken
+					'PRIVATE-TOKEN': this.getPrivateToken()
 				}
 			}).then((resp) => { return(resp.json()) });
 			
@@ -187,7 +200,7 @@ class IoHandlerService{
 			getProm = fetch(searchObject.gitlabURL + '/api/v4/projects/' + searchObject.projectID + '/repository/files/' + gitlabPath + 'bundleLists%2F' + searchObject.bundleListName + '_bundleList.json/raw?ref=master', {
 				method: 'GET',
 				headers: {
-					'PRIVATE-TOKEN': searchObject.privateToken
+					'PRIVATE-TOKEN': this.getPrivateToken()
 				}
 			}).then((resp) => { return(resp.json())});
 		}
@@ -250,7 +263,7 @@ class IoHandlerService{
 					fetch(bndlURL + name + '_annot.json/raw?ref=master', {
 						method: 'GET',
 						headers: {
-							'PRIVATE-TOKEN': searchObject.privateToken
+							'PRIVATE-TOKEN': this.getPrivateToken()
 						}
 					}).then((resp) => { return(resp.json()) })
 				]).then((allResponses) => {
@@ -270,7 +283,7 @@ class IoHandlerService{
 					fetch(bndlURL + name + '_annot.json/raw?ref=master', {
 						method: 'GET',
 						headers: {
-							'PRIVATE-TOKEN': searchObject.privateToken
+							'PRIVATE-TOKEN': this.getPrivateToken()
 						}
 					}).then((resp) => { return(resp.json()) })
 				]).then((allResponses) => {
@@ -338,7 +351,7 @@ class IoHandlerService{
 		getProm = fetch(searchObject.gitlabURL + '/api/v4/projects/' + searchObject.projectID + '/repository/commits', {
 			method: 'POST',
 			headers: {
-				'PRIVATE-TOKEN': searchObject.privateToken,
+				'PRIVATE-TOKEN': this.getPrivateToken(),
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(payload)

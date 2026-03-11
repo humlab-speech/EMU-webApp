@@ -107,7 +107,7 @@ class DbObjLoadSaveService{
 					// select first level
 					this.ViewStateService.selectLevel(false, this.ConfigProviderService.vals.perspectives[this.ViewStateService.curPerspectiveIdx].levelCanvases.order, this.LevelService);
 					this.ViewStateService.setState('labeling');
-					
+
 					this.ViewStateService.somethingInProgress = false;
 					this.ViewStateService.somethingInProgressTxt = 'Done!';
 					defer.resolve();
@@ -115,6 +115,10 @@ class DbObjLoadSaveService{
 					this.ModalService.open('views/error.html', 'Error parsing SSFF file: ' + errMess.status.message).then(() => {
 						this.AppStateService.resetToInitState();
 					});
+				});
+			}, (errMess) => {
+				this.ModalService.open('views/error.html', 'Error fetching SSFF files: ' + JSON.stringify(errMess)).then(() => {
+					this.AppStateService.resetToInitState();
 				});
 			});
 		}, (errMess) => {
@@ -197,6 +201,10 @@ class DbObjLoadSaveService{
 									res = res.data;
 								}
 								this.innerLoadBundle(bndl, bundleData, res, defer);
+							}, (errMess) => {
+								this.ModalService.open('views/error.html', 'Error fetching audio file: ' + JSON.stringify(errMess)).then(() => {
+									this.AppStateService.resetToInitState();
+								});
 							});
 						}
 					} else {
