@@ -43,19 +43,7 @@ module.exports = {
                     test: /\.tsx?$/, 
                     loader: "ts-loader" 
                 },
-                {
-                    test: /\.s[ac]ss$/,
-                    loaders: [
-                        // Creates `style` nodes from JS strings
-                        "style-loader", 
-                        // Translates CSS into CommonJS
-                        "css-loader", 
-                        // resolve url in sass files
-                        "resolve-url-loader",
-                        // Compiles Sass to CSS
-                        "sass-loader"
-                    ]
-                },
+                // SCSS rule defined in webpack.dev.js / webpack.prod.js
                 {
                     test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
                     use: [

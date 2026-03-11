@@ -1,6 +1,7 @@
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 const CopyPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
 module.exports = merge(common, {
@@ -9,7 +10,23 @@ module.exports = merge(common, {
         filename: "./dist/[name].bundle.js",
         path: path.resolve(__dirname, 'dist')
     },
+    module: {
+        rules: [
+            {
+                test: /\.s[ac]ss$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    "css-loader",
+                    "resolve-url-loader",
+                    "sass-loader"
+                ]
+            }
+        ]
+    },
     plugins: [
+        new MiniCssExtractPlugin({
+            filename: 'dist/[name].css'
+        }),
         new CopyPlugin([
             { from: 'src/index.html', to: '.' },
             { from: 'src/views', to: 'views' },
@@ -23,6 +40,15 @@ module.exports = merge(common, {
         ]),
     ],
     optimization: {
-        minimize: true 
+        minimize: true,
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendor',
+                    chunks: 'all'
+                }
+            }
+        }
     }
 });
