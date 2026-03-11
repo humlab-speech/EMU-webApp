@@ -1,7 +1,11 @@
 // Karma configuration
 // Generated on 2016-10-19
-const puppeteer = require('puppeteer');
-process.env.CHROME_BIN = puppeteer.executablePath();
+try {
+  const puppeteer = require('puppeteer');
+  process.env.CHROME_BIN = process.env.CHROME_BIN || puppeteer.executablePath();
+} catch (e) {
+  // fallback: CHROME_BIN must be set externally
+}
 
 module.exports = function (config) {
   'use strict';
@@ -23,6 +27,7 @@ module.exports = function (config) {
     // NOTE: these are injected by wiredep and somehow
     // the bootstrap jquery dep
     files: [
+      'dist/vendor.bundle.js',
       'dist/grazer.bundle.js',
       '../node_modules/jquery/dist/jquery.js',
       '../node_modules/jasmine-jquery/lib/jasmine-jquery.js',
