@@ -1,47 +1,38 @@
 'use strict';
 
 describe('Controller: bundleListSideBarCtrl', function () {
-  
-  var $scope, $controller, $rootScope;
-  
+
+  var ctrl, $componentController, $rootScope;
+
   // load the controller's module
   beforeEach(module('grazer'));
-  
+
   //Initialize the controller and a mock scope
-  beforeEach(inject(function (_$controller_, _$rootScope_, ViewStateService, LoadedMetaDataService, DbObjLoadSaveService, ConfigProviderService, HistoryService) {
-    $controller = _$controller_;
+  beforeEach(inject(function (_$componentController_, _$rootScope_, ViewStateService, LoadedMetaDataService, DbObjLoadSaveService, ConfigProviderService, HistoryService) {
+    $componentController = _$componentController_;
     $rootScope = _$rootScope_;
-    
-    $controller('bundleListSideBarCtrl', {
-      $scope: $rootScope
-    });
-    $scope = $rootScope.$new();
-    $scope.$index = 1;
-    $scope.cps = ConfigProviderService;
-    $scope.cps.setVals(defaultGrazerConfig);
-    $scope.cps.curDbConfig = aeDbConfig;
-    $scope.vs = ViewStateService;
-    $scope.lmds = LoadedMetaDataService;
-    $scope.dolss = DbObjLoadSaveService;
-    $scope.history = HistoryService;
+
+    ctrl = $componentController('bundleListSideBar', {$scope: $rootScope, $element: angular.element('<div><div></div></div>')}, {});
+    ConfigProviderService.setVals(defaultGrazerConfig);
+    ConfigProviderService.curDbConfig = aeDbConfig;
   }));
-  
+
   it('should check if isSessionDefined', function () {
-    expect($scope.isSessionDefined('undefined')).toBe(false);
-    expect($scope.isSessionDefined('test')).toBe(true);
-  });  
-  
+    expect(ctrl.isSessionDefined('undefined')).toBe(false);
+    expect(ctrl.isSessionDefined('test')).toBe(true);
+  });
+
   it('should get getBndlColor', function () {
     var res;
-    expect($scope.getBndlColor({name: 'test'})).toBe(undefined);
-    $scope.lmds.setCurBndlName('test1');
-    res = $scope.getBndlColor({name: 'test1'});
+    expect(ctrl.getBndlColor({name: 'test'})).toBe(undefined);
+    ctrl.LoadedMetaDataService.setCurBndlName('test1');
+    res = ctrl.getBndlColor({name: 'test1'});
     expect(res.color).toBe('black');
-    $scope.history.movesAwayFromLastSave = 1;
-    res = $scope.getBndlColor({name: 'test1'});
+    ctrl.HistoryService.movesAwayFromLastSave = 1;
+    res = ctrl.getBndlColor({name: 'test1'});
     expect(res.color).toBe('white');
-    
+
   });
   //TODO add check for isCurBndl function
-  
+
 });

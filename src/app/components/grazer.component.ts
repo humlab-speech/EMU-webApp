@@ -1126,7 +1126,7 @@ let EmuWebAppComponent = {
 							'type': 'string'
 						}
 					};
-					this.ViewStateService.setCurLevelAttrDefs(leveldef);
+					this.ViewStateService.setCurLevelAttrDefs([leveldef]);
 				}
 				this.LevelService.insertLevel(level, length, this.ViewStateService.curPerspectiveIdx);
 				//  Add to history
@@ -1166,7 +1166,7 @@ let EmuWebAppComponent = {
 							type: 'string'
 						}
 					};
-					this.ViewStateService.setCurLevelAttrDefs(leveldef);
+					this.ViewStateService.setCurLevelAttrDefs([leveldef]);
 				}
 				this.LevelService.insertLevel(level, length, this.ViewStateService.curPerspectiveIdx);
 				//  Add to history
