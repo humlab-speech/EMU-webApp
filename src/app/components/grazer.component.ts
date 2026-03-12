@@ -1,5 +1,6 @@
 import * as angular from 'angular';
 
+import { safeGetItem, safeSetItem } from '../util/safe-storage';
 import { HierarchyWorker } from '../workers/hierarchy.worker';
 import styles from '../../styles/grazer-design.scss';
 
@@ -341,6 +342,7 @@ let EmuWebAppComponent = {
         </div>
         <!-- end: main window -->
     </div>
+    <toast-notification></toast-notification>
     <!-- end: container EMU-webApp -->
     `,
     bindings: {
@@ -834,11 +836,11 @@ let EmuWebAppComponent = {
 		};
 
 		private checkIfToShowWelcomeModal() {
-			var curVal = localStorage.getItem('haveShownWelcomeModal');
+			var curVal = safeGetItem('haveShownWelcomeModal');
             var searchObject = this.$location.search();
 
 			if (!this.BrowserDetectorService.isBrowser.PhantomJS() && curVal === null && typeof searchObject.viewer_pane !== 'undefined') {
-				localStorage.setItem('haveShownWelcomeModal', 'true');
+				safeSetItem('haveShownWelcomeModal', 'true');
 				this.internalVars.showAboutHint = true;
 			}
 
@@ -1500,7 +1502,7 @@ let EmuWebAppComponent = {
 		// };
 
 		private showHierarchyPathCanvas (){
-			return(localStorage.getItem('showHierarchyPathCanvas') == 'true')
+			return(safeGetItem('showHierarchyPathCanvas') == 'true')
 		};
 
     }]

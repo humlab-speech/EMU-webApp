@@ -10,15 +10,7 @@ angular.module('grazer')
 		 *
 		 */
 		$scope.getBlob = function () {
-			var blob;
-			try {
-				blob = new Blob([ModalService.dataExport], {type: 'text/plain'});
-			} catch (e) { // Backwards-compatibility
-				blob = new ($window.BlobBuilder || $window.WebKitBlobBuilder || $window.MozBlobBuilder);
-				blob.append($scope.exportData);
-				blob = blob.getBlob();
-			}
-			return blob;
+			return new Blob([ModalService.dataExport], {type: 'text/plain'});
 		};
 
 		/**
@@ -48,12 +40,7 @@ angular.module('grazer')
 		 *
 		 */
 		$scope.export = function () {
-			var objURL;
-			if (typeof URL !== 'object' && typeof webkitURL !== 'undefined') {
-				objURL = webkitURL.createObjectURL($scope.getBlob());
-			} else {
-				objURL = URL.createObjectURL($scope.getBlob());
-			}
+			var objURL = URL.createObjectURL($scope.getBlob());
 			$scope.SaveToDisk(objURL, ModalService.dataIn);
 			ModalService.close();
 		};

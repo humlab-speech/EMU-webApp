@@ -51,7 +51,7 @@ class BrowserDetectorService{
 				return navigator.userAgent.match(/HeadlessChrome/i);
 			},
 			Safari: () => {
-				return Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+				return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 			},
 			any: () => {
 				return (this.isBrowser.Firefox() ||
@@ -81,6 +81,10 @@ class BrowserDetectorService{
 		}
 	};
 	
+	public isSafariOrWebKit() {
+		return !!(this.isBrowser.Safari() || this.isMobile.iOS());
+	}
+
 	public isDesktopDevice () {
 		var data = this.isBrowser.any();
 		if (data === null) {

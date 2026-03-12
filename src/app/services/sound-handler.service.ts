@@ -44,13 +44,21 @@ class SoundHandlerService{
 		if (typeof(this.audioContext) === 'undefined') {
 			this.initAudioContext();
 		}
-		
+
+		if (this.audioContext.state === 'suspended') {
+			this.audioContext.resume().then(() => {
+				this.startPlayback(sampleStart, endSample);
+			});
+		} else {
+			this.startPlayback(sampleStart, endSample);
+		}
+	};
+
+	private startPlayback(sampleStart, endSample) {
 		var startTime = sampleStart / this.audioBuffer.sampleRate;
 		var endTime = endSample / this.audioBuffer.sampleRate;
 		var durTime = endTime - startTime;
-		
-		
-		// audioContext.decodeAudioData(buffer, function (ab) {
+
 		this.curSource = this.audioContext.createBufferSource();
 		this.curSource.buffer = this.audioBuffer;
 		this.curSource.connect(this.audioContext.destination);
@@ -58,10 +66,6 @@ class SoundHandlerService{
 		this.curSource.onended = () => {
 			this.isPlaying = false;
 		};
-		
-		//}, function (e) {
-		//	alert(e);
-		//});
 	};
 	
 	

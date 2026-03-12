@@ -210,7 +210,39 @@ let SignalCanvasMarkupCanvasComponent = {
                     }
                 }
             });
-            
+
+            // Touch support for iOS Safari
+            this.$element.bind('touchstart', (event) => {
+                event.preventDefault();
+                if(!event.shiftKey){
+                    this.ViewStateService.curViewPort.movingS = Math.round(this.ViewStateService.getX(event) * this.ViewStateService.getSamplesPerPixelVal(event) + this.ViewStateService.curViewPort.sS);
+                    this.ViewStateService.curViewPort.movingE = this.ViewStateService.curViewPort.movingS;
+                    this.ViewStateService.select(
+                        this.ViewStateService.curViewPort.movingS,
+                        this.ViewStateService.curViewPort.movingE);
+                    this.drawMarkup();
+                    this.$scope.$apply();
+                }
+            });
+
+            this.$element.bind('touchmove', (event) => {
+                event.preventDefault();
+                var mouseX = this.ViewStateService.getX(event);
+                this.ViewStateService.curMouseX = mouseX;
+                this.curMouseY = this.ViewStateService.getY(event);
+                this.ViewStateService.curMouseY = this.curMouseY;
+                this.ViewStateService.curMouseTrackName = this.trackName;
+                this.ViewStateService.curMousePosSample = Math.round(this.ViewStateService.curViewPort.sS + mouseX / this.canvas.width * (this.ViewStateService.curViewPort.eS - this.ViewStateService.curViewPort.sS));
+                if (!this.ViewStateService.getdragBarActive()) {
+                    this.setSelectDrag(event);
+                }
+                this.$scope.$apply();
+            });
+
+            this.$element.bind('touchend', (event) => {
+                event.preventDefault();
+            });
+
         };
         
         $onChanges (changes) {

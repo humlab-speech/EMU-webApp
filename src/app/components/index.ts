@@ -19,3 +19,4 @@ import "./signal-canvas-markup-canvas.component";
 import "./level-canvas-markup-canvas.component";
 import "./epg-grid-canvas.component";
 import "./dots-canvas.component";
+import "./toast-notification.component";

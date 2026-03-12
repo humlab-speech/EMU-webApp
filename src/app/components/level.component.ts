@@ -2,6 +2,7 @@ import * as angular from 'angular';
 import { fromEvent, Observable, Subscription } from "rxjs";
 import { debounceTime, map } from 'rxjs/operators';
 
+import { safeGetItem } from '../util/safe-storage';
 import styles from '../../styles/grazer-design.scss';
 
 let LevelComponent = {
@@ -343,7 +344,7 @@ class="grazer-canvasSelectors"
                 labelFontFamily = this.ConfigProviderService.vals.perspectives[this.ViewStateService.curPerspectiveIdx].levelCanvases.labelFontFamily;
             }
             // TODO: probably better as input via binding
-            var levelCanvasesFontScalingFactor = Number(localStorage.getItem('levelCanvasesFontScalingFactor'));
+            var levelCanvasesFontScalingFactor = Number(safeGetItem('levelCanvasesFontScalingFactor'));
             if(levelCanvasesFontScalingFactor === 0){
                 levelCanvasesFontScalingFactor = 100;
             }

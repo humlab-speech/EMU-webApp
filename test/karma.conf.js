@@ -11,6 +11,15 @@ module.exports = function (config) {
   'use strict';
 
   config.set({
+    // Edge headless requires --headless=new (not --headless) in karma-chrome-launcher.
+    // NOTE: MDM policy BrowserSignin=2 blocks Edge headless on managed machines.
+    // Usage: CHROME_BIN="/path/to/edge" npx karma start --browsers EdgeHeadless
+    customLaunchers: {
+      EdgeHeadless: {
+        base: 'ChromeHeadless',
+        flags: ['--disable-extensions', '--disable-component-extensions-with-background-pages']
+      }
+    },
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
 

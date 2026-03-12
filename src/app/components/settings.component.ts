@@ -1,5 +1,6 @@
 import * as angular from 'angular';
 import { type } from 'jquery';
+import { safeGetItem, safeSetItem } from '../util/safe-storage';
 
 let SettingsComponent = {
     selector: "settings",
@@ -274,7 +275,7 @@ controller: [
 				selected: '',
 				curVisAttributeDefs: {}
 			},
-			showHierarchyPathCanvas: localStorage.getItem('showHierarchyPathCanvas') == 'true'
+			showHierarchyPathCanvas: safeGetItem('showHierarchyPathCanvas') == 'true'
 		}
 
 		var pathInfo = this.HierarchyLayoutService.findAllNonPartialPaths();
@@ -289,10 +290,10 @@ controller: [
 
 		// counter to get update for EmuHierarchyComponent
 		// this.attributeDefinitionClickCounter = 0;
-		if(Number(localStorage.getItem('levelCanvasesFontScalingFactor')) === 0){
+		if(Number(safeGetItem('levelCanvasesFontScalingFactor')) === 0){
 			this.levelCanvasesFontScalingFactor = 100;
 		} else {
-			this.levelCanvasesFontScalingFactor = Number(localStorage.getItem('levelCanvasesFontScalingFactor'));
+			this.levelCanvasesFontScalingFactor = Number(safeGetItem('levelCanvasesFontScalingFactor'));
 		}
 
 	}
@@ -440,12 +441,12 @@ controller: [
 				});
 
 				if(this.hierarchySettings.showHierarchyPathCanvas){
-					localStorage.setItem('showHierarchyPathCanvas', 'true');
+					safeSetItem('showHierarchyPathCanvas', 'true');
 				} else {
-					localStorage.setItem('showHierarchyPathCanvas', 'false');
+					safeSetItem('showHierarchyPathCanvas', 'false');
 				}
 
-				localStorage.setItem('levelCanvasesFontScalingFactor', this.levelCanvasesFontScalingFactor);
+				safeSetItem('levelCanvasesFontScalingFactor', this.levelCanvasesFontScalingFactor);
 
 				
 				this.reset();

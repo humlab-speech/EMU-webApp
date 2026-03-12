@@ -258,6 +258,109 @@ let LevelCanvasMarkupCanvasComponent = {
                 this.ViewStateService.movingBoundary = false;
                 this.setLastMove(event, true);
             });
+
+            // Touch support for iOS Safari
+            var _touchStartTime = 0;
+            var _touchStartX = 0;
+            var _touchStartY = 0;
+            var _lastTapTime = 0;
+
+            this.$element.bind('touchstart', (event) => {
+                event.preventDefault();
+                _touchStartTime = Date.now();
+                var t = (event.originalEvent || event).touches[0];
+                _touchStartX = t.clientX;
+                _touchStartY = t.clientY;
+                this.ViewStateService.movingBoundary = true;
+                this.setLastMove(event, true);
+            });
+
+            this.$element.bind('touchmove', (event) => {
+                event.preventDefault();
+                if (document.hasFocus()) {
+                    // Replicate mousemove handler logic
+                    if (!this.ViewStateService.getdragBarActive()) {
+                        var samplesPerPixel = this.ViewStateService.getSamplesPerPixelVal(event);
+                        this.curMouseSampleNrInView = this.ViewStateService.getX(event) * samplesPerPixel;
+                        var moveBy = Math.round(this.curMouseSampleNrInView - this.lastPCM);
+
+                        var curMouseItem = this.ViewStateService.getcurMouseItem();
+                        if (this.ConfigProviderService.vals.restrictions.editItemSize && curMouseItem !== undefined) {
+                            this.ViewStateService.movingBoundary = true;
+                            var seg;
+                            if (this.level.type === 'SEGMENT') {
+                                if (this.ViewStateService.getcurMouseisFirst() || this.ViewStateService.getcurMouseisLast()) {
+                                    if (this.ViewStateService.getcurMouseisFirst()) {
+                                        seg = this.LevelService.getItemDetails(this.level.name, 0);
+                                        this.ViewStateService.movingBoundarySample = seg.sampleStart + moveBy;
+                                    } else if (this.ViewStateService.getcurMouseisLast()) {
+                                        seg = this.LevelService.getLastItem(this.level.name);
+                                        this.ViewStateService.movingBoundarySample = seg.sampleStart + seg.sampleDur + moveBy;
+                                    }
+                                } else {
+                                    this.ViewStateService.movingBoundarySample = curMouseItem.sampleStart + moveBy;
+                                    seg = curMouseItem;
+                                }
+                                this.LevelService.moveBoundary(this.level.name, seg.id, moveBy, this.ViewStateService.getcurMouseisFirst(), this.ViewStateService.getcurMouseisLast());
+                                this.HistoryService.updateCurChangeObj({
+                                    'type': 'ANNOT',
+                                    'action': 'MOVEBOUNDARY',
+                                    'name': this.level.name,
+                                    'id': seg.id,
+                                    'movedBy': moveBy,
+                                    'isFirst': this.ViewStateService.getcurMouseisFirst(),
+                                    'isLast': this.ViewStateService.getcurMouseisLast()
+                                });
+                            } else {
+                                seg = curMouseItem;
+                                this.ViewStateService.movingBoundarySample = curMouseItem.samplePoint + moveBy;
+                                this.LevelService.moveEvent(this.level.name, seg.id, moveBy);
+                                this.HistoryService.updateCurChangeObj({
+                                    'type': 'ANNOT',
+                                    'action': 'MOVEEVENT',
+                                    'name': this.level.name,
+                                    'id': seg.id,
+                                    'movedBy': moveBy
+                                });
+                            }
+                            this.lastPCM = this.curMouseSampleNrInView;
+                            this.ViewStateService.setLastPcm(this.lastPCM);
+                            this.ViewStateService.selectBoundary();
+                        }
+                    }
+                    this.setLastMove(event, true);
+                }
+            });
+
+            this.$element.bind('touchend', (event) => {
+                event.preventDefault();
+                this.ViewStateService.movingBoundary = false;
+                var elapsed = Date.now() - _touchStartTime;
+                var t = (event.originalEvent || event).changedTouches[0];
+                var dx = Math.abs(t.clientX - _touchStartX);
+                var dy = Math.abs(t.clientY - _touchStartY);
+
+                if (elapsed < 300 && dx < 10 && dy < 10) {
+                    // Tap detected
+                    var now = Date.now();
+                    if (now - _lastTapTime < 300) {
+                        // Double-tap
+                        this.setLastMove(event, true);
+                        if (this.ConfigProviderService.vals.restrictions.editItemName) {
+                            this.setLastDblClick(event);
+                        } else {
+                            this.setLastClick(event);
+                        }
+                        _lastTapTime = 0;
+                    } else {
+                        // Single tap
+                        this.setLastMove(event, true);
+                        this.setLastClick(event);
+                        _lastTapTime = now;
+                    }
+                }
+                this.setLastMove(event, true);
+            });
         }
 
                //////////////////////////////////////

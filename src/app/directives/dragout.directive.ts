@@ -31,25 +31,11 @@ angular.module('grazer')
 				};
 
 				scope.getURL = function (data) {
-					var objURL;
-					if (typeof URL !== 'object' && typeof webkitURL !== 'undefined') {
-						objURL = webkitURL.createObjectURL(scope.getBlob(data));
-					} else {
-						objURL = URL.createObjectURL(scope.getBlob(data));
-					}
-					return objURL;
+					return URL.createObjectURL(scope.getBlob(data));
 				};
 
 				scope.getBlob = function (data) {
-					var blob;
-					try {
-						blob = new Blob([data], {type: 'text/plain'});
-					} catch (e) { // Backwards-compatibility
-						blob = new ($window.BlobBuilder || $window.WebKitBlobBuilder || $window.MozBlobBuilder);
-						blob.append(data);
-						blob = blob.getBlob();
-					}
-					return blob;
+					return new Blob([data], {type: 'text/plain'});
 				};
 
 				el._dragstartHandler = function (e) {

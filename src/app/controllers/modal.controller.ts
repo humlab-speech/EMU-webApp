@@ -1,4 +1,5 @@
 import * as angular from 'angular';
+import { safeGetItem, safeSetItem } from '../util/safe-storage';
 
 angular.module('grazer')
 	.controller('ModalCtrl', [
@@ -65,7 +66,7 @@ angular.module('grazer')
 			if (currentURLS.indexOf(ModalService.dataOut) === -1) {
 				currentURLS.push(ModalService.dataOut);
 			}
-			localStorage.setItem('urls', JSON.stringify(currentURLS));
+			safeSetItem('urls', JSON.stringify(currentURLS));
 			$scope.myUrls = currentURLS;
 			$scope.mySelect = $scope.myUrls[0];
 		};
@@ -74,7 +75,7 @@ angular.module('grazer')
 		 *  Return all URLs from localStorage
 		 */
 		$scope.getURLs = function () {
-			var curVal = localStorage.getItem('urls');
+			var curVal = safeGetItem('urls');
 			var urlData = [];
 			if (!BrowserDetectorService.isBrowser.PhantomJS() && curVal !== null) {
 				urlData = JSON.parse(curVal);
@@ -98,7 +99,7 @@ angular.module('grazer')
 			if (currentURLS.indexOf(data) !== -1) {
 				currentURLS.splice(currentURLS.indexOf(data), 1);
 			}
-			localStorage.setItem('urls', JSON.stringify(currentURLS));
+			safeSetItem('urls', JSON.stringify(currentURLS));
 			$scope.myUrls = currentURLS;
 			$scope.mySelect = $scope.myUrls[0];
 		};

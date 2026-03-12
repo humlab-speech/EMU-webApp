@@ -1437,14 +1437,38 @@ class ViewStateService{
 	*
 	*/
 	public getX(e) {
-		return (e.offsetX || e.originalEvent.layerX) * (e.originalEvent.target.width / e.originalEvent.target.clientWidth);
+		var event = e.originalEvent || e;
+		var x;
+		if (event.touches && event.touches.length > 0) {
+			var rect = event.target.getBoundingClientRect();
+			x = event.touches[0].clientX - rect.left;
+		} else if (event.changedTouches && event.changedTouches.length > 0) {
+			var rect = event.target.getBoundingClientRect();
+			x = event.changedTouches[0].clientX - rect.left;
+		} else {
+			x = e.offsetX || event.layerX;
+		}
+		var target = event.target;
+		return x * (target.width / target.clientWidth);
 	};
-	
+
 	/**
 	*
 	*/
 	public getY(e) {
-		return (e.offsetY || e.originalEvent.layerY) * (e.originalEvent.target.height / e.originalEvent.target.clientHeight);
+		var event = e.originalEvent || e;
+		var y;
+		if (event.touches && event.touches.length > 0) {
+			var rect = event.target.getBoundingClientRect();
+			y = event.touches[0].clientY - rect.top;
+		} else if (event.changedTouches && event.changedTouches.length > 0) {
+			var rect = event.target.getBoundingClientRect();
+			y = event.changedTouches[0].clientY - rect.top;
+		} else {
+			y = e.offsetY || event.layerY;
+		}
+		var target = event.target;
+		return y * (target.height / target.clientHeight);
 	};
 	
 	/**
@@ -1452,6 +1476,16 @@ class ViewStateService{
 	*/
 	public resetToInitState() {
 		this.initialize();
+	};
+
+	// Toast notification support
+	public _toastCtrl: any;
+
+	public showToast(message: string, durationMs?: number) {
+		if (this._toastCtrl) {
+			this._toastCtrl.show(message, durationMs);
+			this.$rootScope.$applyAsync();
+		}
 	};
 	
 	/**

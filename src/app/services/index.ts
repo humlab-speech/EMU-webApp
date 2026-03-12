@@ -1,3 +1,4 @@
+import "./audio-resampler.service";
 import "./anagest.service";
 import "./app-cache-handler.service";
 import "./app-state.service";

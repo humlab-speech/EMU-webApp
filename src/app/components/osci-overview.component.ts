@@ -142,6 +142,45 @@ let OsciOverviewComponent = {
 					this.startSample = -1;
 				});
 
+				// Touch support for iOS Safari
+				this.$element.bind('touchstart', (event) => {
+					event.preventDefault();
+					if (!$.isEmptyObject(this.SoundHandlerService.audioBuffer)) {
+						this.startSample = this.ViewStateService.getX(event) * (this.SoundHandlerService.audioBuffer.length / (event.originalEvent || event).target.width);
+					}
+				});
+
+				this.$element.bind('touchmove', (event) => {
+					event.preventDefault();
+					if (this.startSample !== -1) {
+						var width = this.ViewStateService.curViewPort.eS - this.ViewStateService.curViewPort.sS;
+						this.startSample = this.ViewStateService.getX(event) * (this.SoundHandlerService.audioBuffer.length / (event.originalEvent || event).target.width);
+						if (!this.ViewStateService.isEditing()) {
+							this.$scope.$apply(() => {
+								this.ViewStateService.setViewPort((this.startSample - (width / 2)), (this.startSample + (width / 2)));
+							});
+						}
+					}
+				});
+
+				this.$element.bind('touchend', (event) => {
+					event.preventDefault();
+					if (!$.isEmptyObject(this.SoundHandlerService.audioBuffer)) {
+						var width = this.ViewStateService.curViewPort.eS - this.ViewStateService.curViewPort.sS;
+						if (this.startSample - (width / 2) < 0) {
+							this.startSample = Math.ceil(width / 2);
+						} else if (this.startSample + (width / 2) > this.SoundHandlerService.audioBuffer.length) {
+							this.startSample = Math.floor(this.SoundHandlerService.audioBuffer.length - (width / 2));
+						}
+						if (!this.ViewStateService.isEditing()) {
+							this.$scope.$apply(() => {
+								this.ViewStateService.setViewPort(this.startSample - (width / 2), this.startSample + (width / 2));
+							});
+						}
+					}
+					this.startSample = -1;
+				});
+
 
         }
 

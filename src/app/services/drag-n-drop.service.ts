@@ -129,28 +129,14 @@ class DragnDropService{
 	};
 	
 	public generateDrop(data) {
-		var objURL;
-		if (typeof URL !== 'object' && typeof webkitURL !== 'undefined') {
-			objURL = webkitURL.createObjectURL(this.getBlob(data));
-		} else {
-			objURL = URL.createObjectURL(this.getBlob(data));
-		}
-		return objURL;
+		return URL.createObjectURL(this.getBlob(data));
 	};
 	
 	/**
 	*
 	*/
 	public getBlob(data) {
-		var blob;
-		try {
-			blob = new Blob([data], {type: 'text/plain'});
-		} catch (e) { // Backwards-compatibility
-			blob = new (this.$window.BlobBuilder || this.$window.WebKitBlobBuilder || this.$window.MozBlobBuilder);
-			blob.append(data);
-			blob = blob.getBlob();
-		}
-		return blob;
+		return new Blob([data], {type: 'text/plain'});
 	};
 	
 	public convertDragnDropData(bundles, i) {
