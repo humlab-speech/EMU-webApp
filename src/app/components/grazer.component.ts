@@ -681,12 +681,13 @@ let EmuWebAppComponent = {
 								this.ViewStateService.somethingInProgressTxt = 'Parsing WAV file...';
 
 								if(searchObject.audioGetUrl){
-									this.WavParserService.parseWavAudioBuf(data.data).then((messWavParser) => {
-										var audioBuffer = messWavParser;
+									this.WavParserService.parseWavAudioBuf(data.data).then((result) => {
+										var audioBuffer = result.audioBuffer;
 										this.ViewStateService.curViewPort.sS = 0;
 										this.ViewStateService.curViewPort.eS = audioBuffer.length;
 										this.ViewStateService.resetSelect();
 										this.SoundHandlerService.audioBuffer = audioBuffer;
+										this.SoundHandlerService.playbackBuffer = result.playbackBuffer;
 
 										var respType;
 										if(this.ConfigProviderService.embeddedVals.labelType === 'TEXTGRID'){

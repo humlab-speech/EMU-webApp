@@ -52,6 +52,7 @@ class AppStateService{
 			// $scope.curBndl = {};
 			this.LoadedMetaDataService.resetToInitState();
 			this.SoundHandlerService.audioBuffer = {};
+			this.SoundHandlerService.playbackBuffer = null;
 			this.DataService.setData({});
 			this.DragnDropDataService.resetToInitState();
 			this.DragnDropService.resetToInitState();
@@ -74,6 +75,7 @@ class AppStateService{
 			var url = this.ViewStateService.url;
 			this.LoadedMetaDataService.resetToInitState();
 			this.SoundHandlerService.audioBuffer = {};
+			this.SoundHandlerService.playbackBuffer = null;
 			this.DataService.setData({});
 			this.DragnDropDataService.resetToInitState();
 			this.DragnDropService.resetToInitState();

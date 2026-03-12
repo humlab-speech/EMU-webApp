@@ -658,7 +658,7 @@ describe('Controller: MainController', function () {
      ioDeferred.resolve({data: defaultGrazerConfig});
      scope.$apply();
      expect(ctrl.ConfigProviderService.setVals).toHaveBeenCalled();
-     wavDeferred.resolve({Data: [1, 2, 3]});
+     wavDeferred.resolve({audioBuffer: {Data: [1, 2, 3], length: 3, sampleRate: 16000}, playbackBuffer: null});
      scope.$apply();
      expect(ctrl.WavParserService.parseWavAudioBuf).toHaveBeenCalled();
      ioDeferred2.resolve({levels: [{ name: 'test' }]});

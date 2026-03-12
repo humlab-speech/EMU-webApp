@@ -8,12 +8,14 @@ class SoundHandlerService{
 	
 	// public vars
 	public audioBuffer;
+	public playbackBuffer;
 	public isPlaying;
 	
 	constructor($window){
 		this.$window = $window;
 		
 		this.audioBuffer = {};
+		this.playbackBuffer = null;
 		this.isPlaying = false;
 	}
 	
@@ -55,12 +57,14 @@ class SoundHandlerService{
 	};
 
 	private startPlayback(sampleStart, endSample) {
+		// sampleStart/endSample are in original-rate coordinates
 		var startTime = sampleStart / this.audioBuffer.sampleRate;
 		var endTime = endSample / this.audioBuffer.sampleRate;
 		var durTime = endTime - startTime;
 
+		var srcBuffer = this.playbackBuffer || this.audioBuffer;
 		this.curSource = this.audioContext.createBufferSource();
-		this.curSource.buffer = this.audioBuffer;
+		this.curSource.buffer = srcBuffer;
 		this.curSource.connect(this.audioContext.destination);
 		this.curSource.start(0, startTime, durTime);
 		this.curSource.onended = () => {

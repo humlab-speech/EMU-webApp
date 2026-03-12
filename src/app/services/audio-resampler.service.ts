@@ -1,4 +1,5 @@
 import * as angular from 'angular';
+import { AudioBufferLike } from './audio-buffer-like';
 
 class AudioResamplerService {
 	private $q;
@@ -47,7 +48,13 @@ class AudioResamplerService {
 						var b2 = dataView.getInt8(offset + 2);
 						sample = ((b2 << 16) | (b1 << 8) | b0) / 8388608;
 					} else if (bitsPerSample === 32) {
-						sample = dataView.getInt32(offset, true) / 2147483648;
+						if (headerInfos.AudioFormat === 3) {
+							// IEEE 754 float
+							sample = dataView.getFloat32(offset, true);
+						} else {
+							// PCM signed int
+							sample = dataView.getInt32(offset, true) / 2147483648;
+						}
 					} else {
 						// 8-bit unsigned
 						sample = (dataView.getUint8(offset) - 128) / 128;
@@ -98,7 +105,8 @@ class AudioResamplerService {
 				}
 			}
 
-			defer.resolve(outBuf);
+			var originalBuffer = new AudioBufferLike(channelData, srcRate);
+		defer.resolve({ originalBuffer: originalBuffer, resampledWavBuf: outBuf });
 		} catch (e) {
 			defer.reject({
 				'status': {

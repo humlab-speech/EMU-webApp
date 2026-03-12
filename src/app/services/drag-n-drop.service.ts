@@ -155,12 +155,14 @@ class DragnDropService{
 						} else {
 							res = evt.currentTarget.result;
 						}
-						this.WavParserService.parseWavAudioBuf(res).then((audioBuffer) => {
+						this.WavParserService.parseWavAudioBuf(res).then((result) => {
+							var audioBuffer = result.audioBuffer;
 							if (this.DragnDropDataService.convertedBundles[i] === undefined) {
 								this.DragnDropDataService.convertedBundles[i] = {};
 							}
 							//DragnDropDataService.convertedBundles[i].mediaFile = {};
 							this.SoundHandlerService.audioBuffer = audioBuffer;
+							this.SoundHandlerService.playbackBuffer = result.playbackBuffer;
 							//DragnDropDataService.convertedBundles[i].mediaFile.audioBuffer = res;
 							this.DragnDropDataService.convertedBundles[i].ssffFiles = [];
 							var bundle = data.wav.name.substr(0, data.wav.name.lastIndexOf('.'));

@@ -57,8 +57,8 @@ class DbObjLoadSaveService{
 	private innerLoadBundle(bndl, bundleData, arrBuff, defer) {
 		this.ViewStateService.somethingInProgressTxt = 'Parsing WAV file...';
 		
-		this.WavParserService.parseWavAudioBuf(arrBuff).then((messWavParser) => {
-			var audioBuffer = messWavParser;
+		this.WavParserService.parseWavAudioBuf(arrBuff).then((result) => {
+			var audioBuffer = result.audioBuffer;
 			this.ViewStateService.curViewPort.sS = 0;
 			this.ViewStateService.curViewPort.eS = audioBuffer.length;
 			if(bndl.timeAnchors !== undefined && bndl.timeAnchors.length > 0){
@@ -71,8 +71,9 @@ class DbObjLoadSaveService{
 			this.ViewStateService.curClickSegments = [];
 			this.ViewStateService.curClickLevelName = undefined;
 			this.ViewStateService.curClickLevelType = undefined;
-			
+
 			this.SoundHandlerService.audioBuffer = audioBuffer;
+			this.SoundHandlerService.playbackBuffer = result.playbackBuffer;
 			// fetch ssff files (if encoding == GETURL)
 			var promises = [];
 			bundleData.ssffFiles.forEach((file) => {

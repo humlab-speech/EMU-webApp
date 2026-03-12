@@ -53,7 +53,7 @@ class WavParserService{
                 ctx.decodeAudioData(buf.slice(0),
                     (decodedData) => {
                         ctx.close();
-                        this.defer.resolve(decodedData);
+                        this.defer.resolve({ audioBuffer: decodedData, playbackBuffer: null });
                     },
                     (error) => {
                         ctx.close();
@@ -80,11 +80,17 @@ class WavParserService{
             if (this.AudioResamplerService.needsResampling(headerInfos.SampleRate)) {
                 var origRate = headerInfos.SampleRate;
                 return this.AudioResamplerService.resampleWavBuffer(buf, headerInfos, 44100)
-                    .then((resampledBuf) => {
+                    .then((result) => {
                         this._originalSampleRate = origRate;
                         this.ViewStateService.showToast(
                             'Audio resampled from ' + origRate + ' Hz to 44100 Hz (Safari compatibility)');
-                        return this.parseWavAudioBuf(resampledBuf);
+                        return this.decodeResampledForPlayback(result.resampledWavBuf, headerInfos.NumChannels)
+                            .then((playbackAudioBuffer) => {
+                                return {
+                                    audioBuffer: result.originalBuffer,
+                                    playbackBuffer: playbackAudioBuffer
+                                };
+                            });
                     });
             }
 
@@ -97,7 +103,7 @@ class WavParserService{
                 this.defer = this.$q.defer();
                 // using non promise version as Safari doesn't support it yet
                 offlineCtx.decodeAudioData(buf,
-                    (decodedData) => { this.defer.resolve(decodedData); },
+                    (decodedData) => { this.defer.resolve({ audioBuffer: decodedData, playbackBuffer: null }); },
                     (error) => { this.defer.reject(error) });
 
                 return this.defer.promise;
@@ -117,6 +123,23 @@ class WavParserService{
             }
         }
     };
+
+    private decodeResampledForPlayback(resampledWavBuf: ArrayBuffer, numChannels: number) {
+        var defer = this.$q.defer();
+        try {
+            var byteRate = new DataView(resampledWavBuf).getUint32(28, true);
+            var dataSize = resampledWavBuf.byteLength - 44;
+            var frames = dataSize / (numChannels * 2); // 16-bit output
+            var offlineCtx = new (this.$window.OfflineAudioContext || this.$window.webkitOfflineAudioContext)(
+                numChannels, frames, 44100);
+            offlineCtx.decodeAudioData(resampledWavBuf,
+                (decoded) => { defer.resolve(decoded); },
+                (error) => { defer.reject(error); });
+        } catch (e) {
+            defer.reject(e);
+        }
+        return defer.promise;
+    }
 
 }
 

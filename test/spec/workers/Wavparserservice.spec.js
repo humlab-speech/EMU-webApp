@@ -388,7 +388,8 @@ describe('Service: WavParserService', function () {
             $rootScope.$apply();
 
             expect(resolved).toBe(true);
-            expect(resolvedWith).toBe(fakeAudioBuffer);
+            expect(resolvedWith.audioBuffer).toBe(fakeAudioBuffer);
+            expect(resolvedWith.playbackBuffer).toBeNull();
 
             $window.OfflineAudioContext = origCtx;
         }));
