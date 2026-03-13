@@ -1,44 +1,44 @@
 'use strict';
 
-describe('Service: Iohandlerservice', function () {
+describe('Service: IoHandlerService', function () {
 
   // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
   
   var scope;
 
 
   //Initialize the controller and a mock scope
-  beforeEach(inject(function ($rootScope, Iohandlerservice, viewState) {
+  beforeEach(angular.mock.inject(function ($rootScope, IoHandlerService, ViewStateService) {
     scope = $rootScope.$new();
-    scope.io = Iohandlerservice;
-    scope.vs = viewState;
+    scope.io = IoHandlerService;
+    scope.vs = ViewStateService;
   }));
 
   /**
    *
    */
-  it('should parseLabelFile with ESPS', inject(function (Espsparserservice) {
+  it('should parseLabelFile with ESPS', angular.mock.inject(function (EspsParserService) {
     // var def = $q.defer();
-    spyOn(Espsparserservice, 'asyncParseEsps');
+    spyOn(EspsParserService, 'asyncParseEsps');
     scope.io.parseLabelFile('','test','test','ESPS');
-    expect(Espsparserservice.asyncParseEsps).toHaveBeenCalledWith('', '', 'embeddedESPS');
+    expect(EspsParserService.asyncParseEsps).toHaveBeenCalledWith('', '', 'embeddedESPS');
   }));
 
   /**
    *
    */
-  it('should parseLabelFile with textgrid', inject(function ($q, Textgridparserservice) {
+  it('should parseLabelFile with textgrid', angular.mock.inject(function ($q, TextGridParserService) {
     // var def = $q.defer();
-    spyOn(Textgridparserservice, 'asyncParseTextGrid');//.and.returnValue(def.promise);
+    spyOn(TextGridParserService, 'asyncParseTextGrid');//.and.returnValue(def.promise);
     scope.io.parseLabelFile('','test','test','TEXTGRID');
-    expect(Textgridparserservice.asyncParseTextGrid).toHaveBeenCalledWith('', '', 'embeddedTEXTGRID');
+    expect(TextGridParserService.asyncParseTextGrid).toHaveBeenCalledWith('', '', 'embeddedTEXTGRID');
   }));
 
   /**
    *
    */
-  it('should saveBundle CORS', inject(function (ConfigProviderService) {
+  it('should saveBundle CORS', angular.mock.inject(function (ConfigProviderService) {
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
     ConfigProviderService.vals.main.comMode = 'CORS';
@@ -48,20 +48,20 @@ describe('Service: Iohandlerservice', function () {
   /**
    *
    */
-  it('should saveBundle WS', inject(function ($q, ConfigProviderService, Websockethandler) {
+  it('should saveBundle WS', angular.mock.inject(function ($q, ConfigProviderService, WebSocketHandlerService) {
     var def = $q.defer();
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
     ConfigProviderService.vals.main.comMode = 'WS';
-    spyOn(Websockethandler, 'saveBundle').and.returnValue(def.promise);
+    spyOn(WebSocketHandlerService, 'saveBundle').and.returnValue(def.promise);
     scope.io.saveBundle();
-    expect(Websockethandler.saveBundle).toHaveBeenCalled();
+    expect(WebSocketHandlerService.saveBundle).toHaveBeenCalled();
   }));
 
   /**
    *
    */
-  it('should getBundle CORS', inject(function ($q, ConfigProviderService) {
+  it('should getBundle CORS', angular.mock.inject(function ($q, ConfigProviderService) {
     var def = $q.defer();
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
@@ -72,20 +72,20 @@ describe('Service: Iohandlerservice', function () {
   /**
    *
    */
-  it('should getBundle WS', inject(function ($q, ConfigProviderService, Websockethandler) {
+  it('should getBundle WS', angular.mock.inject(function ($q, ConfigProviderService, WebSocketHandlerService) {
     var def = $q.defer();
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
     ConfigProviderService.vals.main.comMode = 'WS';
-    spyOn(Websockethandler, 'getBundle').and.returnValue(def.promise);
+    spyOn(WebSocketHandlerService, 'getBundle').and.returnValue(def.promise);
     scope.io.getBundle('','','');
-    expect(Websockethandler.getBundle).toHaveBeenCalled();
+    expect(WebSocketHandlerService.getBundle).toHaveBeenCalled();
   }));
 
   /**
    *
    */
-  it('should getBundleList CORS', inject(function ($q, ConfigProviderService) {
+  it('should getBundleList CORS', angular.mock.inject(function ($q, ConfigProviderService) {
     var def = $q.defer();
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
@@ -96,20 +96,20 @@ describe('Service: Iohandlerservice', function () {
   /**
    *
    */
-  it('should getBundleList WS', inject(function ($q, ConfigProviderService, Websockethandler) {
+  it('should getBundleList WS', angular.mock.inject(function ($q, ConfigProviderService, WebSocketHandlerService) {
     var def = $q.defer();
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
     ConfigProviderService.vals.main.comMode = 'WS';
-    spyOn(Websockethandler, 'getBundleList').and.returnValue(def.promise);
+    spyOn(WebSocketHandlerService, 'getBundleList').and.returnValue(def.promise);
     scope.io.getBundleList('');
-    expect(Websockethandler.getBundleList).toHaveBeenCalled();
+    expect(WebSocketHandlerService.getBundleList).toHaveBeenCalled();
   }));
 
   /**
    *
    */
-  it('should getBundleList DEMO', inject(function ($q, ConfigProviderService, Websockethandler) {
+  it('should getBundleList DEMO', angular.mock.inject(function ($q, ConfigProviderService, WebSocketHandlerService) {
     var def = $q.defer();
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
@@ -120,7 +120,7 @@ describe('Service: Iohandlerservice', function () {
   /**
    *
    */
-  it('should getDBconfigFile CORS', inject(function ($q, ConfigProviderService) {
+  it('should getDBconfigFile CORS', angular.mock.inject(function ($q, ConfigProviderService) {
     var def = $q.defer();
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
@@ -131,7 +131,7 @@ describe('Service: Iohandlerservice', function () {
   /**
    *
    */
-  it('should getDBconfigFile DEMO', inject(function ($q, ConfigProviderService, Websockethandler) {
+  it('should getDBconfigFile DEMO', angular.mock.inject(function ($q, ConfigProviderService, WebSocketHandlerService) {
     var def = $q.defer();
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
@@ -142,21 +142,21 @@ describe('Service: Iohandlerservice', function () {
   /**
    *
    */
-  it('should getDBconfigFile WS', inject(function ($q, ConfigProviderService, Websockethandler) {
+  it('should getDBconfigFile WS', angular.mock.inject(function ($q, ConfigProviderService, WebSocketHandlerService) {
     var def = $q.defer();
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
     ConfigProviderService.vals.main.comMode = 'WS';
-    spyOn(Websockethandler, 'getDBconfigFile').and.returnValue(def.promise);
+    spyOn(WebSocketHandlerService, 'getDBconfigFile').and.returnValue(def.promise);
     scope.io.getDBconfigFile('');
-    expect(Websockethandler.getDBconfigFile).toHaveBeenCalled();
+    expect(WebSocketHandlerService.getDBconfigFile).toHaveBeenCalled();
   }));
 
 
   /**
    *
    */
-  it('should logOnUser CORS', inject(function ($q, ConfigProviderService) {
+  it('should logOnUser CORS', angular.mock.inject(function ($q, ConfigProviderService) {
     var def = $q.defer();
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
@@ -167,20 +167,20 @@ describe('Service: Iohandlerservice', function () {
   /**
    *
    */
-  it('should logOnUser WS', inject(function ($q, ConfigProviderService, Websockethandler) {
+  it('should logOnUser WS', angular.mock.inject(function ($q, ConfigProviderService, WebSocketHandlerService) {
     var def = $q.defer();
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
     ConfigProviderService.vals.main.comMode = 'WS';
-    spyOn(Websockethandler, 'logOnUser').and.returnValue(def.promise);
+    spyOn(WebSocketHandlerService, 'logOnUser').and.returnValue(def.promise);
     scope.io.logOnUser('');
-    expect(Websockethandler.logOnUser).toHaveBeenCalled();
+    expect(WebSocketHandlerService.logOnUser).toHaveBeenCalled();
   }));
 
   /**
    *
    */
-  it('should getDoUserManagement CORS', inject(function ($q, ConfigProviderService) {
+  it('should getDoUserManagement CORS', angular.mock.inject(function ($q, ConfigProviderService) {
     var def = $q.defer();
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
@@ -191,20 +191,20 @@ describe('Service: Iohandlerservice', function () {
   /**
    *
    */
-  it('should getDoUserManagement WS', inject(function ($q, ConfigProviderService, Websockethandler) {
+  it('should getDoUserManagement WS', angular.mock.inject(function ($q, ConfigProviderService, WebSocketHandlerService) {
     var def = $q.defer();
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
     ConfigProviderService.vals.main.comMode = 'WS';
-    spyOn(Websockethandler, 'getDoUserManagement').and.returnValue(def.promise);
+    spyOn(WebSocketHandlerService, 'getDoUserManagement').and.returnValue(def.promise);
     scope.io.getDoUserManagement();
-    expect(Websockethandler.getDoUserManagement).toHaveBeenCalled();
+    expect(WebSocketHandlerService.getDoUserManagement).toHaveBeenCalled();
   }));
 
   /**
    *
    */
-  it('should getProtocol CORS', inject(function ($q, ConfigProviderService) {
+  it('should getProtocol CORS', angular.mock.inject(function ($q, ConfigProviderService) {
     var def = $q.defer();
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
@@ -215,14 +215,14 @@ describe('Service: Iohandlerservice', function () {
   /**
    *
    */
-  it('should getProtocol WS', inject(function ($q, ConfigProviderService, Websockethandler) {
+  it('should getProtocol WS', angular.mock.inject(function ($q, ConfigProviderService, WebSocketHandlerService) {
     var def = $q.defer();
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
     ConfigProviderService.vals.main.comMode = 'WS';
-    spyOn(Websockethandler, 'getProtocol').and.returnValue(def.promise);
+    spyOn(WebSocketHandlerService, 'getProtocol').and.returnValue(def.promise);
     scope.io.getProtocol();
-    expect(Websockethandler.getProtocol).toHaveBeenCalled();
+    expect(WebSocketHandlerService.getProtocol).toHaveBeenCalled();
   }));
 
 });

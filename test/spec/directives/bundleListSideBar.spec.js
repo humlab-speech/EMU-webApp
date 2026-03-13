@@ -3,21 +3,21 @@
 describe('Directive: bundleListSideBar', function() {
 
     var elm, tpl, scope;
-    beforeEach(module('grazer', 'grazer.templates'));
+    beforeEach(angular.mock.module('grazer', 'grazer.templates'));
 
-    beforeEach(inject(function($rootScope, $compile) {
+    beforeEach(angular.mock.inject(function($rootScope, $compile) {
         scope = $rootScope.$new();
     }));
 
     function compileDirective(val) {
         tpl = '<bundle-list-side-bar is-open="{{vs.submenuOpen}}"></bundle-list-side-bar>';
-        inject(function($compile) {
+        angular.mock.inject(function($compile) {
             elm = $compile(tpl)(scope);
         });
         scope.$digest();
     }
 
-    it('should have correct css values', inject(function (ViewStateService) {
+    it('should have correct css values', angular.mock.inject(function (ViewStateService) {
         scope.filterText = '';
         scope.bundleList = [];
         scope.vs = ViewStateService;
@@ -30,7 +30,7 @@ describe('Directive: bundleListSideBar', function() {
     }));
     
 
-    it('should have correct html values', inject(function (ViewStateService) {
+    it('should have correct html values', angular.mock.inject(function (ViewStateService) {
         scope.filterText = '';
         scope.bundleList = [];
         scope.vs = ViewStateService;

@@ -3,27 +3,27 @@
 describe('Directive: ssffTrack', function () {
 
     var elm, tpl, scope, curLvl;
-    beforeEach(module('grazer', 'grazer.templates'));
+    beforeEach(angular.mock.module('grazer', 'grazer.templates'));
     
-    beforeEach(inject(function ($rootScope, $compile, Ssffdataservice, Drawhelperservice, DataService, LevelService, ConfigProviderService, viewState, Soundhandlerservice) {
+    beforeEach(angular.mock.inject(function ($rootScope, $compile, SsffDataService, DrawHelperService, DataService, LevelService, ConfigProviderService, ViewStateService, SoundHandlerService) {
         scope = $rootScope.$new();
         scope.lvl = LevelService;
         scope.data = DataService;
         scope.cps = ConfigProviderService;
-        scope.shs = Soundhandlerservice;
-        scope.dhs = Drawhelperservice;
-        scope.ssffds = Ssffdataservice;
+        scope.shs = SoundHandlerService;
+        scope.dhs = DrawHelperService;
+        scope.ssffds = SsffDataService;
         scope.cps.setVals(defaultGrazerConfig);
         scope.cps.curDbConfig = aeDbConfig;
         scope.cps.design = defaultGrazerDesign;
-        scope.vs = viewState;
+        scope.vs = ViewStateService;
         scope.data.setData(msajc003_bndl.annotation);
         scope.level = curLvl;           
     }));
 
     function compileDirective() {
         tpl = "<ssff-track track-name='SSFF' order='2'></ssff-track>";
-        inject(function ($compile) {
+        angular.mock.inject(function ($compile) {
             elm = $compile(tpl)(scope);
         });
         scope.$digest();

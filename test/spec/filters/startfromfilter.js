@@ -19,11 +19,11 @@ describe('Filter: startFromFilter', function () {
   }];
 
   // load the filter's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
   // initialize a new instance of the filter before each test
   var startFromFilter;
-  beforeEach(inject(function ($filter) {
+  beforeEach(angular.mock.inject(function ($filter) {
     startFromFilter = $filter('startFrom');
   }));
 

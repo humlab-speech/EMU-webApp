@@ -5,10 +5,10 @@ describe('Controller: ExportCtrl', function () {
   var ExportCtrl, scope;
   
     // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
   
      //Initialize the controller and a mock scope
-     beforeEach(inject(function ($controller, $rootScope, ConfigProviderService, ModalService, ViewStateService, HistoryService) {
+     beforeEach(angular.mock.inject(function ($controller, $rootScope, ConfigProviderService, ModalService, ViewStateService, HistoryService) {
        scope = $rootScope.$new();
        scope.cps = ConfigProviderService;
        scope.cps.setVals(defaultGrazerConfig);

@@ -1,37 +1,37 @@
 'use strict';
 
-describe('Factory: browserDetector', function () {
+describe('Factory: BrowserDetectorService', function () {
 
   var $window;
   // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
-  beforeEach(inject(function(_$window_) {
+  beforeEach(angular.mock.inject(function(_$window_) {
       $window = _$window_;
   }));
 
   /**
    *
    */
-  it('should check if mobile', inject(function (browserDetector) {
-      expect(browserDetector.isMobileDevice()).toBe(false);
+  it('should check if mobile', angular.mock.inject(function (BrowserDetectorService) {
+      expect(BrowserDetectorService.isMobileDevice()).toBe(false);
   }));
   
   /**
    *
    */
-  it('should check if mobile on mobile', inject(function (browserDetector) {
+  it('should check if mobile on mobile', angular.mock.inject(function (BrowserDetectorService) {
       if(!navigator.userAgent.match(/Chrome/i)){ // check if window.navigator can be set (= read only property in chrome)
         setUserAgent($window, 'iPhone');
-        expect(browserDetector.isMobileDevice()).toBe(true);
+        expect(BrowserDetectorService.isMobileDevice()).toBe(true);
         setUserAgent($window, 'iPad');
-        expect(browserDetector.isMobileDevice()).toBe(true);
+        expect(BrowserDetectorService.isMobileDevice()).toBe(true);
         setUserAgent($window, 'iPod');
-        expect(browserDetector.isMobileDevice()).toBe(true);
+        expect(BrowserDetectorService.isMobileDevice()).toBe(true);
         setUserAgent($window, 'Android');
-        expect(browserDetector.isMobileDevice()).toBe(true);
+        expect(BrowserDetectorService.isMobileDevice()).toBe(true);
         setUserAgent($window, 'BlackBerry');
-        expect(browserDetector.isMobileDevice()).toBe(true);
+        expect(BrowserDetectorService.isMobileDevice()).toBe(true);
       }
   }));  
   

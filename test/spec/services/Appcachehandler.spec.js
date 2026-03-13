@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Service: Appcachehandler', function () {
+describe('Service: AppcacheHandlerService', function () {
 
 
 	var deferred, $rootScope;
@@ -8,33 +8,33 @@ describe('Service: Appcachehandler', function () {
 
 
 	// load the controller's module
-	beforeEach(module('grazer'));
+	beforeEach(angular.mock.module('grazer'));
 
 	/**
 	 *
 	 */
-	it('should checkForNewVersion', inject(function (Appcachehandler) {
-		// Appcachehandler.checkForNewVersion();
+	it('should checkForNewVersion', angular.mock.inject(function (AppcacheHandlerService) {
+		// AppcacheHandlerService.checkForNewVersion();
 	}));
 	
 
 	/**
 	 *
 	 */
-	it('should handleUpdatereadyEvent', inject(function ($rootScope, $q, Appcachehandler, modalService) {
+	it('should handleUpdatereadyEvent', angular.mock.inject(function ($rootScope, $q, AppcacheHandlerService, ModalService) {
 		// this test causes infinite loop in karma test runner!!!
 
 		// var scope = $rootScope.$new();
 		// var def = $q.defer();
 		// spyOn(window.applicationCache, 'swapCache');
 		// // spyOn(window.location, 'reload'); // can't spyOn read only property in chrome
-		// spyOn(modalService, 'open').and.returnValue(def.promise);
-		// Appcachehandler.handleUpdatereadyEvent();
+		// spyOn(ModalService, 'open').and.returnValue(def.promise);
+		// AppcacheHandlerService.handleUpdatereadyEvent();
 		// def.resolve(false);
 		// scope.$apply();
 		// expect(window.applicationCache.swapCache).toHaveBeenCalled();
 		// // expect(window.location.reload).toHaveBeenCalled();
-		// expect(modalService.open).toHaveBeenCalled();
+		// expect(ModalService.open).toHaveBeenCalled();
 	}));	
 
 });

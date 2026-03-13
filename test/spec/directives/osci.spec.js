@@ -6,18 +6,18 @@ describe('Directive: osci', function () {
 
     var elm, tpl, scope, curLvl;
     var lvlName = 'Phonetic';
-    beforeEach(module('grazer', 'grazer.templates'));
+    beforeEach(angular.mock.module('grazer', 'grazer.templates'));
 
-    beforeEach(inject(function ($rootScope, $compile, Drawhelperservice, DataService, LevelService, ConfigProviderService, viewState, Soundhandlerservice) {
+    beforeEach(angular.mock.inject(function ($rootScope, $compile, DrawHelperService, DataService, LevelService, ConfigProviderService, ViewStateService, SoundHandlerService) {
         scope = $rootScope.$new();
         scope.lvl = LevelService;
         scope.cps = ConfigProviderService;
-        scope.shs = Soundhandlerservice;
-        scope.dhs = Drawhelperservice;
+        scope.shs = SoundHandlerService;
+        scope.dhs = DrawHelperService;
         scope.cps.setVals(defaultGrazerConfig);
         scope.cps.curDbConfig = aeDbConfig;
         scope.cps.design = defaultGrazerDesign;
-        scope.vs = viewState;
+        scope.vs = ViewStateService;
         scope.data = DataService;
         scope.data.setData(msajc003_bndl.annotation);
         scope.level = curLvl;
@@ -30,7 +30,7 @@ describe('Directive: osci', function () {
 
     function compileDirective() {
         tpl = "<osci order='0' track-name='OSCI'></osci>";
-        inject(function ($compile) {
+        angular.mock.inject(function ($compile) {
             elm = $compile(tpl)(scope);
         });
         scope.$digest();
@@ -44,7 +44,7 @@ describe('Directive: osci', function () {
      expect(elm.find('img').length).toBe(1);
    });
 
-   it('should watch viewState.playHeadAnimationInfos', function () {
+   it('should watch ViewStateService.playHeadAnimationInfos', function () {
      scope.vs.playHeadAnimationInfos.sS = 1;
      compileDirective();
      scope.shs.audioBuffer.length = 3;
@@ -55,7 +55,7 @@ describe('Directive: osci', function () {
      expect(elm.isolateScope().drawPlayHead).toHaveBeenCalled();
    });
 
-   it('should watch viewState.movingBoundarySample', function () {
+   it('should watch ViewStateService.movingBoundarySample', function () {
      scope.vs.movingBoundarySample = 1;
      compileDirective();
      scope.shs.audioBuffer.length = 3;
@@ -66,7 +66,7 @@ describe('Directive: osci', function () {
      expect(elm.isolateScope().drawVpOsciMarkup).toHaveBeenCalled();
    });
    
-   it('should watch viewState.movingBoundary', function () {
+   it('should watch ViewStateService.movingBoundary', function () {
      scope.vs.movingBoundary = false;
      compileDirective();
      scope.shs.audioBuffer.length = 3;
@@ -77,7 +77,7 @@ describe('Directive: osci', function () {
      expect(elm.isolateScope().drawVpOsciMarkup).toHaveBeenCalled();
    });
    
-   it('should watch viewState.curViewPort (same value)', function () {
+   it('should watch ViewStateService.curViewPort (same value)', function () {
      scope.vs.curViewPort.sS = 1;
      scope.vs.curViewPort.eS = 2;
      compileDirective();

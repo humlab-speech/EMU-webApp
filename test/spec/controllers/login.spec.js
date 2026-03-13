@@ -7,10 +7,10 @@ describe('Controller: LoginCtrl', function () {
   var errorStr = 'ERR1';
   
     // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
   
      //Initialize the controller and a mock scope
-     beforeEach(inject(function ($controller, $rootScope, $q, ConfigProviderService, ModalService, ViewStateService, IoHandlerService) {
+     beforeEach(angular.mock.inject(function ($controller, $rootScope, $q, ConfigProviderService, ModalService, ViewStateService, IoHandlerService) {
        scope = $rootScope.$new();
        scope.cps = ConfigProviderService;
        scope.cps.setVals(defaultGrazerConfig);

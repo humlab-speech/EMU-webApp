@@ -1,12 +1,12 @@
 'use strict';
 
-describe('Service: Ssffdataservice', function () {
+describe('Service: SsffDataService', function () {
   var scope, deferred;
 
   // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
-  beforeEach(inject(function (_$rootScope_, $q, Ssffdataservice) {
+  beforeEach(angular.mock.inject(function (_$rootScope_, $q, SsffDataService) {
     scope = _$rootScope_;
     deferred = $q.defer();
     //deferred.resolve('called');
@@ -15,16 +15,16 @@ describe('Service: Ssffdataservice', function () {
   /**
    *
    */
-  it('should calculateSamplePosInVP', inject(function (Ssffdataservice, Soundhandlerservice) {
-      Soundhandlerservice.audioBuffer.sampleRate = 1000;
-    expect(Ssffdataservice.calculateSamplePosInVP(2, 1, 1)).toEqual(3000);
-    expect(Ssffdataservice.calculateSamplePosInVP(10, 3, 1)).toEqual(4333);
+  it('should calculateSamplePosInVP', angular.mock.inject(function (SsffDataService, SoundHandlerService) {
+      SoundHandlerService.audioBuffer.sampleRate = 1000;
+    expect(SsffDataService.calculateSamplePosInVP(2, 1, 1)).toEqual(3000);
+    expect(SsffDataService.calculateSamplePosInVP(10, 3, 1)).toEqual(4333);
   }));
 
   /**
    *
    */
-  it('should getSampleRateAndStartTimeOfTrack', inject(function (Ssffdataservice, ConfigProviderService) {
+  it('should getSampleRateAndStartTimeOfTrack', angular.mock.inject(function (SsffDataService, ConfigProviderService) {
     // add mock track definition
     ConfigProviderService.curDbConfig.ssffTrackDefinitions = [{
       'name': 'test',
@@ -32,21 +32,21 @@ describe('Service: Ssffdataservice', function () {
       'fileExtension': 'testFileExt'
     }];
     // add data
-    Ssffdataservice.data.push({
+    SsffDataService.data.push({
       fileExtension: 'testFileExt',
       sampleRate: 10,
       startTime: 10
     });
 
-    expect(Ssffdataservice.getSampleRateAndStartTimeOfTrack('test').sampleRate).toEqual(10);
-    expect(Ssffdataservice.getSampleRateAndStartTimeOfTrack('test').startTime).toEqual(10);
-    expect(Ssffdataservice.getSampleRateAndStartTimeOfTrack('false')).toEqual(undefined);
+    expect(SsffDataService.getSampleRateAndStartTimeOfTrack('test').sampleRate).toEqual(10);
+    expect(SsffDataService.getSampleRateAndStartTimeOfTrack('test').startTime).toEqual(10);
+    expect(SsffDataService.getSampleRateAndStartTimeOfTrack('false')).toEqual(undefined);
   }));
 
   /**
    *
    */
-  it('should getColumnOfTrack', inject(function (Ssffdataservice, ConfigProviderService) {
+  it('should getColumnOfTrack', angular.mock.inject(function (SsffDataService, ConfigProviderService) {
     
     // add mock track definition
     ConfigProviderService.curDbConfig.ssffTrackDefinitions = [{
@@ -56,15 +56,15 @@ describe('Service: Ssffdataservice', function () {
     }];
 
     //add data
-    Ssffdataservice.data.push({
+    SsffDataService.data.push({
       fileExtension: 'testFileExt',
       Columns: [{
         name: 'col1',
         value: 'test1'
       }]
     });
-    expect(Ssffdataservice.getColumnOfTrack('test', 'col1').value).toEqual('test1');
-    expect(Ssffdataservice.getColumnOfTrack('test', 'col2')).toEqual(undefined);
+    expect(SsffDataService.getColumnOfTrack('test', 'col1').value).toEqual('test1');
+    expect(SsffDataService.getColumnOfTrack('test', 'col2')).toEqual(undefined);
   }));
 
 });

@@ -3,19 +3,19 @@
 describe('Directive: delete', function() {
 
     var elm, scope;
-    beforeEach(module('grazer'));
+    beforeEach(angular.mock.module('grazer'));
 
-    beforeEach(inject(function($rootScope, $compile, viewState) {
+    beforeEach(angular.mock.inject(function($rootScope, $compile, ViewStateService) {
         scope = $rootScope.$new();
         scope.level = new Object();
         scope.level = msajc003_bndl.annotation.levels[0];
-        scope.vs = viewState;
+        scope.vs = ViewStateService;
     }));
 
     function compileDirective(tpl) {
         if (!tpl) tpl = '<div delete="0"></div>';
         tpl = '<span>' + tpl + '</span>';
-        inject(function($compile) {
+        angular.mock.inject(function($compile) {
             var form = $compile(tpl)(scope);
             elm = form.find('div');
         });

@@ -3,26 +3,26 @@
 describe('Directive: dots', function() {
 
     var elm, scope, worker;
-    beforeEach(module('grazer'));
+    beforeEach(angular.mock.module('grazer'));
 
-    beforeEach(inject(function($rootScope, $compile, Soundhandlerservice, viewState, ConfigProviderService, DataService, LevelService, Ssffdataservice) {
+    beforeEach(angular.mock.inject(function($rootScope, $compile, SoundHandlerService, ViewStateService, ConfigProviderService, DataService, LevelService, SsffDataService) {
         scope = $rootScope.$new();
         scope.lvl = LevelService;
         scope.cps = ConfigProviderService;
         scope.cps.design = defaultGrazerDesign;
         scope.cps.setVals(defaultGrazerConfig);
-        scope.vs = viewState;
+        scope.vs = ViewStateService;
         scope.vs.curPerspectiveIdx = 0;
         scope.data = DataService;
         scope.data.setData(msajc003_bndl.annotation);
-        scope.ssffds = Ssffdataservice;  
-        scope.shs = Soundhandlerservice;  
+        scope.ssffds = SsffDataService;  
+        scope.shs = SoundHandlerService;  
         scope.cps.vals.perspectives[scope.vs.curPerspectiveIdx].twoDimCanvases.twoDimDrawingDefinitions = [ {dots: [{xContourNr: 1}, {xContourNr: 2}], connectLines: [], staticDots: []} ];
     }));
     
     function compileDirective() {
         var tpl = '<dots></dots>';
-        inject(function($compile) {
+        angular.mock.inject(function($compile) {
             elm = $compile(tpl)(scope);
         });
         scope.$digest();

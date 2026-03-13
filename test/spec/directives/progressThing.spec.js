@@ -4,15 +4,15 @@ describe('Directive: progressBar', function() {
 
     var elm, scope;
     
-    beforeEach(module('grazer', 'grazer.templates'));
+    beforeEach(angular.mock.module('grazer', 'grazer.templates'));
     
-    beforeEach(inject(function($rootScope, $compile) {
+    beforeEach(angular.mock.inject(function($rootScope, $compile) {
         scope = $rootScope.$new();
     }));
 
     function compileDirective(val) {
         var tpl = '<progress-thing show-thing="'+val+'"></progress-thing>';
-        inject(function($compile) {
+        angular.mock.inject(function($compile) {
             elm = $compile(tpl)(scope);
         });
         scope.$apply();

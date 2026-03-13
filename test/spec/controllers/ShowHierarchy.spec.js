@@ -5,16 +5,16 @@ describe('Controller: ShowhierarchyCtrl', function () {
   var ShowhierarchyCtrl, scope;
   
     // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
   
      //Initialize the controller and a mock scope
-     beforeEach(inject(function ($controller, $rootScope, DataService, viewState, modalService, ConfigProviderService, LevelService, HierarchyLayoutService) {
+     beforeEach(angular.mock.inject(function ($controller, $rootScope, DataService, ViewStateService, ModalService, ConfigProviderService, LevelService, HierarchyLayoutService) {
        scope = $rootScope.$new();
        scope.cps = ConfigProviderService;
        scope.cps.setVals(defaultGrazerConfig);
        scope.cps.curDbConfig = aeDbConfig;
-       scope.modal = modalService;
-       scope.vs = viewState;
+       scope.modal = ModalService;
+       scope.vs = ViewStateService;
        scope.lvl = LevelService;
        scope.data = DataService;
        scope.hierarchy = HierarchyLayoutService;

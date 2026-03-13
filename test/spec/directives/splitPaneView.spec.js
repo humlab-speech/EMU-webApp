@@ -4,19 +4,19 @@ describe('Directive: splitPaneView', function() {
 
     var elm, scope;
     var $rootScope, $compile;
-    beforeEach(module('grazer'));
+    beforeEach(angular.mock.module('grazer'));
 
-    beforeEach(inject(function(_$rootScope_, _$compile_, viewState) {
+    beforeEach(angular.mock.inject(function(_$rootScope_, _$compile_, ViewStateService) {
         $rootScope = _$rootScope_;
         $compile = _$compile_;
 
         scope = $rootScope.$new();
-        scope.vs = viewState;
+        scope.vs = ViewStateService;
 
     }));
 
     function compileDirective(toggle) {
-        inject(function($compile) {
+        angular.mock.inject(function($compile) {
             elm = $compile('<bg-splitter show-two-dim-cans="'+toggle+'">'+
                                 '<bg-pane type="topPane" min-size="80">top</bg-pane>'+
                                 '<bg-pane type="bottomPane" min-size="80"> bottom </bg-pane>'+

@@ -5,23 +5,23 @@
 describe('Directive: epg', function () {
 
     var elm, scope, tpl;
-    beforeEach(module('grazer'));
+    beforeEach(angular.mock.module('grazer'));
 
-    beforeEach(inject(function ($rootScope, $compile, viewState, fontScaleService, ConfigProviderService, Ssffdataservice, Soundhandlerservice) {
+    beforeEach(angular.mock.inject(function ($rootScope, $compile, ViewStateService, fontScaleService, ConfigProviderService, SsffDataService, SoundHandlerService) {
         scope = $rootScope.$new();
         scope.cps = ConfigProviderService;
-        scope.ssffds = Ssffdataservice;
+        scope.ssffds = SsffDataService;
         scope.cps.setVals(defaultGrazerConfig);
         scope.cps.design = defaultGrazerDesign;
-        scope.shs = Soundhandlerservice;
+        scope.shs = SoundHandlerService;
         scope.shs.audioBuffer.sampleRate = 1000;
         scope.fontImage = fontScaleService;
-        scope.vs = viewState;
+        scope.vs = ViewStateService;
     }));
 
     function compileDirective() {
         tpl = "<epg></epg>";
-        inject(function ($compile) {
+        angular.mock.inject(function ($compile) {
             elm = $compile(tpl)(scope);
         });
         scope.$digest();
@@ -33,7 +33,7 @@ describe('Directive: epg', function () {
     });
 
 
-    it('should watch vs.timelineSize', inject(function ($timeout) {
+    it('should watch vs.timelineSize', angular.mock.inject(function ($timeout) {
         scope.ssffds.data = [1];
 		var img = document.createElement('canvas');
 		img.setAttribute('width',Math.round(200));

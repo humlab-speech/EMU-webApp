@@ -1,17 +1,17 @@
 'use strict';
 
-describe('Service: appStateService', function () {
+describe('Service: AppStateService', function () {
 
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
   
   var scope;
   var deferred;
   
-  beforeEach(inject(function ($q, $rootScope, appStateService, Iohandlerservice, viewState) {
+  beforeEach(angular.mock.inject(function ($q, $rootScope, AppStateService, IoHandlerService, ViewStateService) {
     scope = $rootScope.$new();
-    scope.io = Iohandlerservice;
-    scope.vs = viewState;
-    scope.app = appStateService;
+    scope.io = IoHandlerService;
+    scope.vs = ViewStateService;
+    scope.app = AppStateService;
     deferred =  $q.defer();
   }));
 

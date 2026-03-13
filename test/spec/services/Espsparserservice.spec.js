@@ -1,12 +1,12 @@
 'use strict';
 
-describe('Service: Espsparserservice', function () {
+describe('Service: EspsParserService', function () {
   var scope, deferred;
 
   // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
-  beforeEach(inject(function (_$rootScope_, $q) {
+  beforeEach(angular.mock.inject(function (_$rootScope_, $q) {
      scope = _$rootScope_;
      deferred = $q.defer();
      // deferred.resolve('called');  // always resolved, you can do it from your spec
@@ -15,10 +15,10 @@ describe('Service: Espsparserservice', function () {
   /**
    *
    */
-   it('should resolve asyncParseJSO', inject(function (Espsparserservice, DataService) {
+   it('should resolve asyncParseJSO', angular.mock.inject(function (EspsParserService, DataService) {
      DataService.setData(msajc003_bndl.annotation);
-     spyOn(Espsparserservice, 'asyncParseJSO').and.returnValue(deferred.promise);
-     Espsparserservice.asyncParseJSO('Utterance').then(function (res) {
+     spyOn(EspsParserService, 'asyncParseJSO').and.returnValue(deferred.promise);
+     EspsParserService.asyncParseJSO('Utterance').then(function (res) {
        expect(res).toEqual('called');
      });
      deferred.resolve('called');
@@ -28,10 +28,10 @@ describe('Service: Espsparserservice', function () {
   /**
    *
    */
-   it('should do asyncParseEsps', inject(function (Espsparserservice, DataService) {
+   it('should do asyncParseEsps', angular.mock.inject(function (EspsParserService, DataService) {
      DataService.setData(msajc003_bndl.annotation);
-     spyOn(Espsparserservice, 'asyncParseEsps').and.returnValue(deferred.promise);
-     Espsparserservice.asyncParseEsps('','','').then(function (res) {
+     spyOn(EspsParserService, 'asyncParseEsps').and.returnValue(deferred.promise);
+     EspsParserService.asyncParseEsps('','','').then(function (res) {
        expect(res).toEqual('called');
      });
      deferred.resolve('called');
@@ -41,10 +41,10 @@ describe('Service: Espsparserservice', function () {
   /**
    *
    */
-   it('should resolve asyncParseEsps', inject(function (Espsparserservice, DataService) {
+   it('should resolve asyncParseEsps', angular.mock.inject(function (EspsParserService, DataService) {
    DataService.setData(msajc003_bndl.annotation);
-   spyOn(Espsparserservice, 'asyncParseEsps').and.returnValue(deferred.promise);
-   Espsparserservice.asyncParseEsps('','','').then(function (res) { //esps, annotates, name
+   spyOn(EspsParserService, 'asyncParseEsps').and.returnValue(deferred.promise);
+   EspsParserService.asyncParseEsps('','','').then(function (res) { //esps, annotates, name
     expect(res).toEqual('called');
    });
    deferred.resolve('called');
@@ -54,11 +54,11 @@ describe('Service: Espsparserservice', function () {
   /**
    *
    */
-   it('should resolve asyncParseJSO', inject(function (Espsparserservice, DataService) {
+   it('should resolve asyncParseJSO', angular.mock.inject(function (EspsParserService, DataService) {
    var result;
    DataService.setData(msajc003_bndl.annotation);
-   spyOn(Espsparserservice, 'asyncParseJSO').and.returnValue(deferred.promise);
-   var ret = Espsparserservice.asyncParseJSO('').then(function (res) { //name
+   spyOn(EspsParserService, 'asyncParseJSO').and.returnValue(deferred.promise);
+   var ret = EspsParserService.asyncParseJSO('').then(function (res) { //name
     expect(res).toEqual('called');
    });
    deferred.resolve('called');
@@ -68,10 +68,10 @@ describe('Service: Espsparserservice', function () {
   /**
    *
    */
-   it('should do asyncParseJSO', inject(function (Espsparserservice, DataService) {
+   it('should do asyncParseJSO', angular.mock.inject(function (EspsParserService, DataService) {
    DataService.setData(msajc003_bndl.annotation);
-   spyOn(Espsparserservice, 'asyncParseJSO').and.returnValue(deferred.promise);
-   Espsparserservice.asyncParseJSO('').then(function (res) { //name
+   spyOn(EspsParserService, 'asyncParseJSO').and.returnValue(deferred.promise);
+   EspsParserService.asyncParseJSO('').then(function (res) { //name
     expect(res).toEqual('called');
    });
    deferred.resolve('called');

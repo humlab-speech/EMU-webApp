@@ -3,7 +3,7 @@
 describe('Service: HistoryService', function () {
 
   // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
   var item, cur;
 
@@ -58,14 +58,14 @@ describe('Service: HistoryService', function () {
   /**
    *
    */
-  it('undo stack should be empty at statup', inject(function (HistoryService) {
+  it('undo stack should be empty at statup', angular.mock.inject(function (HistoryService) {
     expect(HistoryService.getNrOfPossibleUndos()).toEqual(0);
   }));
 
   /**
    *
    */
-  it('check init state of both stacks', inject(function (HistoryService) {
+  it('check init state of both stacks', angular.mock.inject(function (HistoryService) {
     expect(HistoryService.getCurrentStack().undo.length).toEqual(0);
     expect(HistoryService.getCurrentStack().redo.length).toEqual(0);
   }));
@@ -74,7 +74,7 @@ describe('Service: HistoryService', function () {
   /**
    *
    */
-  it('should add object to undo stack', inject(function (HistoryService) {
+  it('should add object to undo stack', angular.mock.inject(function (HistoryService) {
     HistoryService.addObjToUndoStack(changeObj);
     expect(HistoryService.getCurrentStack().undo.length).toEqual(1);
     expect(HistoryService.getCurrentStack().redo.length).toEqual(0);
@@ -84,8 +84,8 @@ describe('Service: HistoryService', function () {
   /**
    *
    */
-  it('should remove object from undo stack by undoing', inject(function (HistoryService, viewState, DataService) {
-    viewState.setCurLevelAttrDefs(aeDbConfig.levelDefinitions);
+  it('should remove object from undo stack by undoing', angular.mock.inject(function (HistoryService, ViewStateService, DataService) {
+    ViewStateService.setCurLevelAttrDefs(aeDbConfig.levelDefinitions);
     DataService.setData(msajc003_bndl.annotation)
     HistoryService.addObjToUndoStack(changeObj);
     HistoryService.undo();
@@ -97,8 +97,8 @@ describe('Service: HistoryService', function () {
   /**
    *
    */
-  it('should add object again to undo stack by undoing / redoing', inject(function (HistoryService, viewState, DataService) {
-    viewState.setCurLevelAttrDefs(aeDbConfig.levelDefinitions);
+  it('should add object again to undo stack by undoing / redoing', angular.mock.inject(function (HistoryService, ViewStateService, DataService) {
+    ViewStateService.setCurLevelAttrDefs(aeDbConfig.levelDefinitions);
     DataService.setData(msajc003_bndl.annotation)
     HistoryService.addObjToUndoStack(changeObj);
     HistoryService.undo();
@@ -111,8 +111,8 @@ describe('Service: HistoryService', function () {
   /**
    *
    */
-  it('should remove object again from undo stack by undoing / redoing / undoing', inject(function (HistoryService, viewState, DataService) {
-    viewState.setCurLevelAttrDefs(aeDbConfig.levelDefinitions);
+  it('should remove object again from undo stack by undoing / redoing / undoing', angular.mock.inject(function (HistoryService, ViewStateService, DataService) {
+    ViewStateService.setCurLevelAttrDefs(aeDbConfig.levelDefinitions);
     DataService.setData(msajc003_bndl.annotation)
     HistoryService.addObjToUndoStack(changeObj);
     HistoryService.undo();
@@ -126,8 +126,8 @@ describe('Service: HistoryService', function () {
   /**
    *
    */
-  it('should undo and redo 2 steps', inject(function (HistoryService, viewState, DataService) {
-    viewState.setCurLevelAttrDefs(aeDbConfig.levelDefinitions);
+  it('should undo and redo 2 steps', angular.mock.inject(function (HistoryService, ViewStateService, DataService) {
+    ViewStateService.setCurLevelAttrDefs(aeDbConfig.levelDefinitions);
     DataService.setData(msajc003_bndl.annotation)
     HistoryService.addObjToUndoStack(changeObj);
     HistoryService.addObjToUndoStack(changeObj);
@@ -144,7 +144,7 @@ describe('Service: HistoryService', function () {
   /**
    *
    */
-  it('should do and undo and redo 2 steps (moveBoundary) on real data', inject(function (DataService, HistoryService) {
+  it('should do and undo and redo 2 steps (moveBoundary) on real data', angular.mock.inject(function (DataService, HistoryService) {
     DataService.setData(JDR10_bndl.annotation);
     HistoryService.addObjToUndoStack(changeObjmoveBy1);
     HistoryService.addObjToUndoStack(changeObjmoveBy2);
@@ -172,7 +172,7 @@ describe('Service: HistoryService', function () {
   /**
    *
    */
-  it('should do and undo 2 steps (moveBoundary) on real data', inject(function (DataService, LevelService, HistoryService) {
+  it('should do and undo 2 steps (moveBoundary) on real data', angular.mock.inject(function (DataService, LevelService, HistoryService) {
     DataService.setData(JDR10_bndl.annotation);
     LevelService.moveBoundary(changeObjmoveBy1.name, changeObjmoveBy1.id, changeObjmoveBy1.movedBy, changeObjmoveBy1.position);
     HistoryService.addObjToUndoStack(changeObjmoveBy1);
@@ -231,7 +231,7 @@ describe('Service: HistoryService', function () {
   /**
    *
    */
-  it('should do and update 2 steps (moveBoundary) on currentChange Object based on real data', inject(function (DataService, LevelService, HistoryService) {
+  it('should do and update 2 steps (moveBoundary) on currentChange Object based on real data', angular.mock.inject(function (DataService, LevelService, HistoryService) {
     DataService.setData(JDR10_bndl.annotation);
     item = getItemFromJSON(JDR10_bndl.annotation, 3);
     expect(LevelService.getItemFromLevelById('Phonetic', 3).sampleStart).toEqual(item.sampleStart);
@@ -268,7 +268,7 @@ describe('Service: HistoryService', function () {
   /**
    *
    */
-  it('should return 2 possible undos', inject(function (HistoryService) {
+  it('should return 2 possible undos', angular.mock.inject(function (HistoryService) {
     HistoryService.addObjToUndoStack(changeObj);
     HistoryService.addObjToUndoStack(changeObj);
     expect(HistoryService.getNrOfPossibleUndos()).toEqual(2);
@@ -277,11 +277,11 @@ describe('Service: HistoryService', function () {
   /**
    *
    */
-  it('should check updateCurChangeObj on ssff', inject(function (ConfigProviderService, Ssffdataservice, DataService, HistoryService) {
-	Ssffdataservice.data = {};
+  it('should check updateCurChangeObj on ssff', angular.mock.inject(function (ConfigProviderService, SsffDataService, DataService, HistoryService) {
+	SsffDataService.data = {};
 	spyOn(ConfigProviderService, 'getSsffTrackConfig').and.returnValue({name: 'test', columnName: 'testColumn'});
 	var values = [[0]];
-	spyOn(Ssffdataservice, 'getColumnOfTrack').and.returnValue({values: values});
+	spyOn(SsffDataService, 'getColumnOfTrack').and.returnValue({values: values});
 	DataService.setData(msajc003_bndl.annotation)
 	HistoryService.updateCurChangeObj({
 	  'type': 'SSFF',
@@ -303,7 +303,7 @@ describe('Service: HistoryService', function () {
   /**
    *
    */
-  it('should check updateCurChangeObj on ANNOT INSERTLINKSTO', inject(function (DataService, HistoryService) {
+  it('should check updateCurChangeObj on ANNOT INSERTLINKSTO', angular.mock.inject(function (DataService, HistoryService) {
     DataService.setData(msajc003_bndl.annotation)
     HistoryService.updateCurChangeObj(changeInsertLinkBy1);
     HistoryService.addCurChangeObjToUndoStack();
@@ -317,27 +317,27 @@ describe('Service: HistoryService', function () {
   /**
    *
    */
-  it('should set selected viewState.historyActionTexts 2 the correct actions', inject(function (DataService, LevelService, HistoryService, viewState) {
+  it('should set selected ViewStateService.historyActionTexts 2 the correct actions', angular.mock.inject(function (DataService, LevelService, HistoryService, ViewStateService) {
     DataService.setData(JDR10_bndl.annotation);
     LevelService.moveBoundary(changeObjmoveBy3.name, changeObjmoveBy3.id, changeObjmoveBy3.movedBy, changeObjmoveBy3.position);
     HistoryService.addObjToUndoStack(changeObjmoveBy3);
-    expect(viewState.historyActionTxt).toEqual('');
+    expect(ViewStateService.historyActionTxt).toEqual('');
     HistoryService.undo();
-    expect(viewState.historyActionTxt).toEqual('<i>UNDO</i> &#8594; MOVEBOUNDARY');
+    expect(ViewStateService.historyActionTxt).toEqual('<i>UNDO</i> &#8594; MOVEBOUNDARY');
     HistoryService.redo();
-    expect(viewState.historyActionTxt).toEqual('<i>REDO</i> &#8592; MOVEBOUNDARY');
+    expect(ViewStateService.historyActionTxt).toEqual('<i>REDO</i> &#8592; MOVEBOUNDARY');
 
     HistoryService.addObjToUndoStack(changeObj);
     HistoryService.undo();
-    expect(viewState.historyActionTxt).toEqual('<i>UNDO</i> &#8594; RENAMELABEL');
+    expect(ViewStateService.historyActionTxt).toEqual('<i>UNDO</i> &#8594; RENAMELABEL');
     HistoryService.redo();
-    expect(viewState.historyActionTxt).toEqual('<i>REDO</i> &#8592; RENAMELABEL');
+    expect(ViewStateService.historyActionTxt).toEqual('<i>REDO</i> &#8592; RENAMELABEL');
   }));
 
   /**
    *  UNDO stack for MOVESEGMENT
    */
-  it('should add object to undo stack: MOVESEGMENT', inject(function (HistoryService, viewState, LevelService) {
+  it('should add object to undo stack: MOVESEGMENT', angular.mock.inject(function (HistoryService, ViewStateService, LevelService) {
     cur = {
       'type': 'ANNOT',
       'action': 'MOVESEGMENT',
@@ -352,17 +352,17 @@ describe('Service: HistoryService', function () {
     expect(Object.keys(HistoryService.getCurrentStack().undo[0])[0]).toEqual('ANNOT#MOVESEGMENT#Phonetic#154');
     spyOn(LevelService, 'moveSegment');
     HistoryService.undo();
-    expect(viewState.historyActionTxt).toBe('<i>UNDO</i> &#8594; MOVESEGMENT');
+    expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; MOVESEGMENT');
     expect(LevelService.moveSegment).toHaveBeenCalledWith(cur.name, cur.id, cur.length, -cur.movedBy);
     HistoryService.redo();
-    expect(viewState.historyActionTxt).toBe('<i>REDO</i> &#8592; MOVESEGMENT');
+    expect(ViewStateService.historyActionTxt).toBe('<i>REDO</i> &#8592; MOVESEGMENT');
     expect(LevelService.moveSegment).toHaveBeenCalledWith(cur.name, cur.id, cur.length, cur.movedBy);
   }));
 
   /**
    *  UNDO stack for MOVEEVENT
    */
-  it('should add object to undo stack: MOVEEVENT', inject(function (HistoryService, viewState, LevelService) {
+  it('should add object to undo stack: MOVEEVENT', angular.mock.inject(function (HistoryService, ViewStateService, LevelService) {
     cur = {
       'type': 'ANNOT',
       'action': 'MOVEEVENT',
@@ -376,17 +376,17 @@ describe('Service: HistoryService', function () {
     expect(Object.keys(HistoryService.getCurrentStack().undo[0])[0]).toEqual('ANNOT#MOVEEVENT#Phonetic#154');
     spyOn(LevelService, 'moveEvent');
     HistoryService.undo();
-    expect(viewState.historyActionTxt).toBe('<i>UNDO</i> &#8594; MOVEEVENT');
+    expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; MOVEEVENT');
     expect(LevelService.moveEvent).toHaveBeenCalledWith(cur.name, cur.id, -cur.movedBy);
     HistoryService.redo();
-    expect(viewState.historyActionTxt).toBe('<i>REDO</i> &#8592; MOVEEVENT');
+    expect(ViewStateService.historyActionTxt).toBe('<i>REDO</i> &#8592; MOVEEVENT');
     expect(LevelService.moveEvent).toHaveBeenCalledWith(cur.name, cur.id, cur.movedBy);
   }));
 
   /**
    *  UNDO stack for RENAMELEVEL
    */
-  it('should add object to undo stack: RENAMELEVEL', inject(function (HistoryService, viewState, LevelService) {
+  it('should add object to undo stack: RENAMELEVEL', angular.mock.inject(function (HistoryService, ViewStateService, LevelService) {
     cur = {
       'type': 'ANNOT',
       'action': 'RENAMELEVEL',
@@ -401,17 +401,17 @@ describe('Service: HistoryService', function () {
     expect(Object.keys(HistoryService.getCurrentStack().undo[0])[0]).toEqual('ANNOT#RENAMELEVEL#Phonetic#154');
     spyOn(LevelService, 'renameLevel');
     HistoryService.undo();
-    expect(viewState.historyActionTxt).toBe('<i>UNDO</i> &#8594; RENAMELEVEL');
+    expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; RENAMELEVEL');
     expect(LevelService.renameLevel).toHaveBeenCalledWith(cur.newname, cur.name, cur.curPerspectiveIdx);
     HistoryService.redo();
-    expect(viewState.historyActionTxt).toBe('<i>REDO</i> &#8592; RENAMELEVEL');
+    expect(ViewStateService.historyActionTxt).toBe('<i>REDO</i> &#8592; RENAMELEVEL');
     expect(LevelService.renameLevel).toHaveBeenCalledWith(cur.name, cur.newname, cur.curPerspectiveIdx);
   }));
 
   /**
    *  UNDO stack for DELETELEVEL
    */
-  it('should add object to undo stack: DELETELEVEL', inject(function (HistoryService, viewState, LevelService) {
+  it('should add object to undo stack: DELETELEVEL', angular.mock.inject(function (HistoryService, ViewStateService, LevelService) {
     cur = {
       'type': 'ANNOT',
       'action': 'DELETELEVEL',
@@ -427,17 +427,17 @@ describe('Service: HistoryService', function () {
     spyOn(LevelService, 'insertLevel');
     spyOn(LevelService, 'deleteLevel');
     HistoryService.undo();
-    expect(viewState.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETELEVEL');
+    expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETELEVEL');
     expect(LevelService.insertLevel).toHaveBeenCalledWith(cur.level, cur.id, cur.curPerspectiveIdx);
     HistoryService.redo();
-    expect(viewState.historyActionTxt).toBe('<i>REDO</i> &#8592; DELETELEVEL');
+    expect(ViewStateService.historyActionTxt).toBe('<i>REDO</i> &#8592; DELETELEVEL');
     expect(LevelService.deleteLevel).toHaveBeenCalledWith(cur.id, cur.curPerspectiveIdx);
   }));
 
   /**
    *  UNDO stack for DELETEBOUNDARY
    */
-  it('should add object to undo stack: DELETEBOUNDARY', inject(function (HistoryService, viewState, LevelService) {
+  it('should add object to undo stack: DELETEBOUNDARY', angular.mock.inject(function (HistoryService, ViewStateService, LevelService) {
     cur = {
       'type': 'ANNOT',
       'action': 'DELETEBOUNDARY',
@@ -454,17 +454,17 @@ describe('Service: HistoryService', function () {
     spyOn(LevelService, 'deleteBoundary');
     spyOn(LevelService, 'deleteBoundaryInvers');
     HistoryService.undo();
-    expect(viewState.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETEBOUNDARY');
+    expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETEBOUNDARY');
     expect(LevelService.deleteBoundaryInvers).toHaveBeenCalledWith(cur.name, cur.id, cur.isFirst, cur.isLast, cur.deletedSegment);
     HistoryService.redo();
-    expect(viewState.historyActionTxt).toBe('<i>REDO</i> &#8592; DELETEBOUNDARY');
+    expect(ViewStateService.historyActionTxt).toBe('<i>REDO</i> &#8592; DELETEBOUNDARY');
     expect(LevelService.deleteBoundary).toHaveBeenCalledWith(cur.name, cur.id, cur.isFirst, cur.isLast);
   }));
 
   /**
    *  UNDO stack for DELETESEGMENTS
    */
-  it('should add object to undo stack: DELETESEGMENTS', inject(function (HistoryService, viewState, LevelService) {
+  it('should add object to undo stack: DELETESEGMENTS', angular.mock.inject(function (HistoryService, ViewStateService, LevelService) {
     cur = {
       'type': 'ANNOT',
       'action': 'DELETESEGMENTS',
@@ -480,17 +480,17 @@ describe('Service: HistoryService', function () {
     spyOn(LevelService, 'deleteSegments');
     spyOn(LevelService, 'deleteSegmentsInvers');
     HistoryService.undo();
-    expect(viewState.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETESEGMENTS');
+    expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETESEGMENTS');
     expect(LevelService.deleteSegmentsInvers).toHaveBeenCalledWith(cur.name, cur.id, cur.length, cur.deletedSegment);
     HistoryService.redo();
-    expect(viewState.historyActionTxt).toBe('<i>REDO</i> &#8592; DELETESEGMENTS');
+    expect(ViewStateService.historyActionTxt).toBe('<i>REDO</i> &#8592; DELETESEGMENTS');
     expect(LevelService.deleteSegments).toHaveBeenCalledWith(cur.name, cur.id, cur.length);
   }));
 
   /**
    *  UNDO stack for DELETEEVENT
    */
-  it('should add object to undo stack: DELETEEVENT', inject(function (HistoryService, viewState, LevelService) {
+  it('should add object to undo stack: DELETEEVENT', angular.mock.inject(function (HistoryService, ViewStateService, LevelService) {
     cur = {
       'type': 'ANNOT',
       'action': 'DELETEEVENT',
@@ -506,17 +506,17 @@ describe('Service: HistoryService', function () {
     spyOn(LevelService, 'deleteEvent');
     spyOn(LevelService, 'insertEvent');
     HistoryService.undo();
-    expect(viewState.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETEEVENT');
+    expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETEEVENT');
     expect(LevelService.insertEvent).toHaveBeenCalledWith(cur.name, cur.start, cur.pointName, cur.id);
     HistoryService.redo();
-    expect(viewState.historyActionTxt).toBe('<i>REDO</i> &#8592; DELETEEVENT');
+    expect(ViewStateService.historyActionTxt).toBe('<i>REDO</i> &#8592; DELETEEVENT');
     expect(LevelService.deleteEvent).toHaveBeenCalledWith(cur.name, cur.id);
   }));
 
   /**
    *  UNDO stack for DELETELINKSTO
    */
-  it('should add object to undo stack: DELETELINKSTO', inject(function (HistoryService, viewState, LinkService) {
+  it('should add object to undo stack: DELETELINKSTO', angular.mock.inject(function (HistoryService, ViewStateService, LinkService) {
     cur = {
       'type': 'ANNOT',
       'action': 'DELETELINKSTO',
@@ -531,17 +531,17 @@ describe('Service: HistoryService', function () {
     spyOn(LinkService, 'deleteLinksTo');
     spyOn(LinkService, 'insertLinksTo');
     HistoryService.undo();
-    expect(viewState.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETELINKSTO');
+    expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETELINKSTO');
     expect(LinkService.insertLinksTo).toHaveBeenCalledWith(cur.deletedLinks);
     HistoryService.redo();
-    expect(viewState.historyActionTxt).toBe('<i>REDO</i> &#8592; DELETELINKSTO');
+    expect(ViewStateService.historyActionTxt).toBe('<i>REDO</i> &#8592; DELETELINKSTO');
     expect(LinkService.deleteLinksTo).toHaveBeenCalledWith(cur.id);
   }));
 
   /**
    *  UNDO stack for DELETELINKBOUNDARY
    */
-  it('should add object to undo stack: DELETELINKBOUNDARY', inject(function (HistoryService, viewState, LinkService, LevelService) {
+  it('should add object to undo stack: DELETELINKBOUNDARY', angular.mock.inject(function (HistoryService, ViewStateService, LinkService, LevelService) {
     cur = {
       'type': 'ANNOT',
       'action': 'DELETELINKBOUNDARY',
@@ -557,17 +557,17 @@ describe('Service: HistoryService', function () {
     spyOn(LinkService, 'deleteLinkBoundary');
     spyOn(LinkService, 'deleteLinkBoundaryInvers');
     HistoryService.undo();
-    expect(viewState.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETELINKBOUNDARY');
+    expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETELINKBOUNDARY');
     expect(LinkService.deleteLinkBoundaryInvers).toHaveBeenCalledWith(cur.deletedLinks);
     HistoryService.redo();
-    expect(viewState.historyActionTxt).toBe('<i>REDO</i> &#8592; DELETELINKBOUNDARY');
+    expect(ViewStateService.historyActionTxt).toBe('<i>REDO</i> &#8592; DELETELINKBOUNDARY');
     expect(LinkService.deleteLinkBoundary).toHaveBeenCalledWith(cur.id, cur.neighbourId, LevelService);
   }));
 
   /**
    *  UNDO stack for DELETELINKSEGMENT
    */
-  it('should add object to undo stack: DELETELINKSEGMENT', inject(function (HistoryService, viewState, LinkService) {
+  it('should add object to undo stack: DELETELINKSEGMENT', angular.mock.inject(function (HistoryService, ViewStateService, LinkService) {
     cur = {
       'type': 'ANNOT',
       'action': 'DELETELINKSEGMENT',
@@ -583,17 +583,17 @@ describe('Service: HistoryService', function () {
     spyOn(LinkService, 'deleteLinkSegment');
     spyOn(LinkService, 'deleteLinkSegmentInvers');
     HistoryService.undo();
-    expect(viewState.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETELINKSEGMENT');
+    expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETELINKSEGMENT');
     expect(LinkService.deleteLinkSegmentInvers).toHaveBeenCalledWith(cur.deletedLinks);
     HistoryService.redo();
-    expect(viewState.historyActionTxt).toBe('<i>REDO</i> &#8592; DELETELINKSEGMENT');
+    expect(ViewStateService.historyActionTxt).toBe('<i>REDO</i> &#8592; DELETELINKSEGMENT');
     expect(LinkService.deleteLinkSegment).toHaveBeenCalledWith(cur.segments);
   }));
 
   /**
    *  UNDO stack for INSERTLEVEL
    */
-  it('should add object to undo stack: INSERTLEVEL', inject(function (HistoryService, viewState, LevelService) {
+  it('should add object to undo stack: INSERTLEVEL', angular.mock.inject(function (HistoryService, ViewStateService, LevelService) {
     cur = {
       'type': 'ANNOT',
       'action': 'INSERTLEVEL',
@@ -609,17 +609,17 @@ describe('Service: HistoryService', function () {
     spyOn(LevelService, 'deleteLevel');
     spyOn(LevelService, 'insertLevel');
     HistoryService.undo();
-    expect(viewState.historyActionTxt).toBe('<i>UNDO</i> &#8594; INSERTLEVEL');
+    expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; INSERTLEVEL');
     expect(LevelService.deleteLevel).toHaveBeenCalledWith(cur.id, cur.curPerspectiveIdx);
     HistoryService.redo();
-    expect(viewState.historyActionTxt).toBe('<i>REDO</i> &#8592; INSERTLEVEL');
+    expect(ViewStateService.historyActionTxt).toBe('<i>REDO</i> &#8592; INSERTLEVEL');
     expect(LevelService.insertLevel).toHaveBeenCalledWith(cur.level, cur.id, cur.curPerspectiveIdx);
   }));
 
   /**
    *  UNDO stack for INSERTSEGMENTS
    */
-  it('should add object to undo stack: INSERTSEGMENTS', inject(function (HistoryService, viewState, LevelService) {
+  it('should add object to undo stack: INSERTSEGMENTS', angular.mock.inject(function (HistoryService, ViewStateService, LevelService) {
     cur = {
       'type': 'ANNOT',
       'action': 'INSERTSEGMENTS',
@@ -637,17 +637,17 @@ describe('Service: HistoryService', function () {
     spyOn(LevelService, 'insertSegmentInvers');
     spyOn(LevelService, 'insertSegment');
     HistoryService.undo();
-    expect(viewState.historyActionTxt).toBe('<i>UNDO</i> &#8594; INSERTSEGMENTS');
+    expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; INSERTSEGMENTS');
     expect(LevelService.insertSegmentInvers).toHaveBeenCalledWith(cur.name, cur.start, cur.end, cur.segName);
     HistoryService.redo();
-    expect(viewState.historyActionTxt).toBe('<i>REDO</i> &#8592; INSERTSEGMENTS');
+    expect(ViewStateService.historyActionTxt).toBe('<i>REDO</i> &#8592; INSERTSEGMENTS');
     expect(LevelService.insertSegment).toHaveBeenCalledWith(cur.name, cur.start, cur.end, cur.segName, cur.ids);
   }));
 
   /**
    *  UNDO stack for INSERTEVENT
    */
-  it('should add object to undo stack: INSERTEVENT', inject(function (HistoryService, viewState, LevelService) {
+  it('should add object to undo stack: INSERTEVENT', angular.mock.inject(function (HistoryService, ViewStateService, LevelService) {
     cur = {
       'type': 'ANNOT',
       'action': 'INSERTEVENT',
@@ -663,17 +663,17 @@ describe('Service: HistoryService', function () {
     spyOn(LevelService, 'deleteEvent');
     spyOn(LevelService, 'insertEvent');
     HistoryService.undo();
-    expect(viewState.historyActionTxt).toBe('<i>UNDO</i> &#8594; INSERTEVENT');
+    expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; INSERTEVENT');
     expect(LevelService.deleteEvent).toHaveBeenCalledWith(cur.name, cur.id);
     HistoryService.redo();
-    expect(viewState.historyActionTxt).toBe('<i>REDO</i> &#8592; INSERTEVENT');
+    expect(ViewStateService.historyActionTxt).toBe('<i>REDO</i> &#8592; INSERTEVENT');
     expect(LevelService.insertEvent).toHaveBeenCalledWith(cur.name, cur.start, cur.pointName, cur.id);
   }));
 
   /**
    *  UNDO stack for EXPANDSEGMENTS
    */
-  it('should add object to undo stack: EXPANDSEGMENTS', inject(function (HistoryService, viewState, LevelService) {
+  it('should add object to undo stack: EXPANDSEGMENTS', angular.mock.inject(function (HistoryService, ViewStateService, LevelService) {
     cur = {
       'type': 'ANNOT',
       'action': 'EXPANDSEGMENTS',
@@ -689,10 +689,10 @@ describe('Service: HistoryService', function () {
     expect(Object.keys(HistoryService.getCurrentStack().undo[0])[0]).toEqual('ANNOT#EXPANDSEGMENTS#Phonetic#154');
     spyOn(LevelService, 'expandSegment');
     HistoryService.undo();
-    expect(viewState.historyActionTxt).toBe('<i>UNDO</i> &#8594; EXPANDSEGMENTS');
+    expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; EXPANDSEGMENTS');
     expect(LevelService.expandSegment).toHaveBeenCalledWith(cur.rightSide, cur.item, cur.name, -cur.changeTime);
     HistoryService.redo();
-    expect(viewState.historyActionTxt).toBe('<i>REDO</i> &#8592; EXPANDSEGMENTS');
+    expect(ViewStateService.historyActionTxt).toBe('<i>REDO</i> &#8592; EXPANDSEGMENTS');
     expect(LevelService.expandSegment).toHaveBeenCalledWith(cur.rightSide, cur.item, cur.name, cur.changeTime);
   }));
 

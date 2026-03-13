@@ -1,12 +1,12 @@
 'use strict';
 
-describe('Service: Textgridparserservice', function () {
+describe('Service: TextGridParserService', function () {
   var scope, deferred;
 
   // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
-  beforeEach(inject(function (_$rootScope_, $q, Textgridparserservice) {
+  beforeEach(angular.mock.inject(function (_$rootScope_, $q, TextGridParserService) {
      scope = _$rootScope_;
      deferred = $q.defer();
      deferred.resolve('called');  // always resolved, you can do it from your spec
@@ -15,11 +15,11 @@ describe('Service: Textgridparserservice', function () {
   /**
    *
    */
-   it('should resolve asyncToTextGrid', inject(function (Textgridparserservice, DataService) {
+   it('should resolve asyncToTextGrid', angular.mock.inject(function (TextGridParserService, DataService) {
      var result;
      DataService.setData(msajc003_bndl.annotation);
-     spyOn(Textgridparserservice, 'asyncToTextGrid').and.returnValue(deferred.promise);
-     Textgridparserservice.asyncToTextGrid().then(function (res) {
+     spyOn(TextGridParserService, 'asyncToTextGrid').and.returnValue(deferred.promise);
+     TextGridParserService.asyncToTextGrid().then(function (res) {
        expect(res).toEqual('called');
      });
      scope.$apply();
@@ -28,11 +28,11 @@ describe('Service: Textgridparserservice', function () {
   /**
    *
    */
-   it('should do asyncToTextGrid', inject(function (Textgridparserservice, DataService, Soundhandlerservice) {
+   it('should do asyncToTextGrid', angular.mock.inject(function (TextGridParserService, DataService, SoundHandlerService) {
      var result;
-     Soundhandlerservice.audioBuffer.length = 1000;
+     SoundHandlerService.audioBuffer.length = 1000;
      DataService.setData(msajc003_bndl.annotation);
-     Textgridparserservice.asyncToTextGrid().then(function (res) {
+     TextGridParserService.asyncToTextGrid().then(function (res) {
        expect(res).toEqual('');
      });
      scope.$apply();
@@ -41,11 +41,11 @@ describe('Service: Textgridparserservice', function () {
   /**
    *
    */
-   it('should resolve asyncParseTextGrid', inject(function (Textgridparserservice, DataService) {
+   it('should resolve asyncParseTextGrid', angular.mock.inject(function (TextGridParserService, DataService) {
    var result;
    DataService.setData(msajc003_bndl.annotation);
-   spyOn(Textgridparserservice, 'asyncParseTextGrid').and.returnValue(deferred.promise);
-   var ret = Textgridparserservice.asyncParseTextGrid('','','').then(function (res) { //esps, annotates, name
+   spyOn(TextGridParserService, 'asyncParseTextGrid').and.returnValue(deferred.promise);
+   var ret = TextGridParserService.asyncParseTextGrid('','','').then(function (res) { //esps, annotates, name
     expect(res).toEqual('called');
    });
    scope.$apply();
@@ -54,10 +54,10 @@ describe('Service: Textgridparserservice', function () {
   /**
    *
    */
-   it('should do asyncParseTextGrid', inject(function (Textgridparserservice, DataService) {
+   it('should do asyncParseTextGrid', angular.mock.inject(function (TextGridParserService, DataService) {
    var result;
    DataService.setData(msajc003_bndl.annotation);
-   Textgridparserservice.asyncParseTextGrid('','','').then(function (res) { //esps, annotates, name
+   TextGridParserService.asyncParseTextGrid('','','').then(function (res) { //esps, annotates, name
     expect(res).toEqual('');
    });
    scope.$apply();

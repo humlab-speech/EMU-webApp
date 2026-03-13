@@ -5,10 +5,10 @@ describe('Controller: TabbedCtrl', function () {
   var TabbedCtrl, scope, deferred, deferred2;
   
     // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
   
      //Initialize the controller and a mock scope
-     beforeEach(inject(function ($controller, $rootScope, ConfigProviderService, ModalService, ViewStateService, ValidationService) {
+     beforeEach(angular.mock.inject(function ($controller, $rootScope, ConfigProviderService, ModalService, ViewStateService, ValidationService) {
        // initiate the controller and mock the scope
        var tmpGrazerConfig = angular.copy(defaultGrazerConfig);
        var tmpGrazerDesign = angular.copy(defaultGrazerDesign);

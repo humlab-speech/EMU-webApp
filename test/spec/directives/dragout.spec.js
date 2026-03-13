@@ -3,11 +3,11 @@
 describe('Directive: dragout', function() {
 
     var elm, scope;
-    beforeEach(module('grazer'));
+    beforeEach(angular.mock.module('grazer'));
 
-    beforeEach(inject(function($rootScope, $compile, viewState, loadedMetaDataService, ConfigProviderService) {
+    beforeEach(angular.mock.inject(function($rootScope, $compile, ViewStateService, loadedMetaDataService, ConfigProviderService) {
         scope = $rootScope.$new();
-        scope.vs = viewState;
+        scope.vs = ViewStateService;
         scope.cps = ConfigProviderService;
         scope.cps.vals.main = {};
         scope.cps.vals.main.comMode = 'embedded';        
@@ -17,7 +17,7 @@ describe('Directive: dragout', function() {
 
     function compileDirective(bundleName) {
         var tpl = '<div dragout draggable="true" name="'+bundleName+'"></div>';
-        inject(function($compile) {
+        angular.mock.inject(function($compile) {
             elm = $compile(tpl)(scope);
         });
         scope.$digest();

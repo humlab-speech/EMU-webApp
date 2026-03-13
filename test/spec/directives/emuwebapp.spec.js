@@ -3,9 +3,9 @@
 describe('Directive: emuwebapp', function() {
 
     var httpBackend, elm, scope;
-    beforeEach(module('grazer', 'grazer.templates'));
+    beforeEach(angular.mock.module('grazer', 'grazer.templates'));
 
-    beforeEach(inject(function($injector, $rootScope) {
+    beforeEach(angular.mock.inject(function($injector, $rootScope) {
         scope = $rootScope.$new();
         httpBackend = $injector.get('$httpBackend');
         httpBackend.whenGET('schemaFiles/annotationFileSchema.json').respond(annotationFileSchema);
@@ -19,23 +19,23 @@ describe('Directive: emuwebapp', function() {
 
     function compileDirective(tpl) {
         if (!tpl) tpl = '<grazer audio-get-url="/testData/oldFormat/msajc003/msajc003.wav" label-get-url="/testData/oldFormat/msajc003/msajc003.TextGrid" label-type="TEXTGRID"></grazer>';
-        inject(function($compile) {
+        angular.mock.inject(function($compile) {
             elm = $compile(tpl)(scope);
         });
         scope.$digest();
     }
 
-    it('should set correct values', inject(function ($rootScope, viewState, ConfigProviderService) {
+    it('should set correct values', angular.mock.inject(function ($rootScope, ViewStateService, ConfigProviderService) {
         ConfigProviderService.setVals(defaultGrazerConfig);
-        viewState.mouseInEmuWebApp = undefined;
+        ViewStateService.mouseInEmuWebApp = undefined;
         compileDirective();
         $rootScope.$digest();
         expect(ConfigProviderService.embeddedVals.audioGetUrl).toEqual('/testData/oldFormat/msajc003/msajc003.wav');
         expect(ConfigProviderService.embeddedVals.labelGetUrl).toEqual('/testData/oldFormat/msajc003/msajc003.TextGrid');
         expect(ConfigProviderService.embeddedVals.labelType).toEqual('TEXTGRID');
         elm.triggerHandler('mouseenter');
-        expect(viewState.mouseInEmuWebApp).toBeTruthy();
+        expect(ViewStateService.mouseInEmuWebApp).toBeTruthy();
         elm.triggerHandler('mouseleave');
-        expect(viewState.mouseInEmuWebApp).not.toBeTruthy();
+        expect(ViewStateService.mouseInEmuWebApp).not.toBeTruthy();
     }));
 });

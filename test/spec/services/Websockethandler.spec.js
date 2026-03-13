@@ -1,24 +1,24 @@
 'use strict';
 
-describe('Service: Websockethandler', function () {
+describe('Service: WebSocketHandlerService', function () {
 
   // load the service's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
   // instantiate service
-  var Websockethandler;
-  beforeEach(inject(function (_Websockethandler_) {
-    Websockethandler = _Websockethandler_;
+  var WebSocketHandlerService;
+  beforeEach(angular.mock.inject(function (_WebSocketHandlerService_) {
+    WebSocketHandlerService = _WebSocketHandlerService_;
   }));
 
   it('should check if isConnected', function () {
-    var res = Websockethandler.isConnected();
+    var res = WebSocketHandlerService.isConnected();
     expect(res).toBe(false);
   });
   
   it('should initConnect', function () {
-    Websockethandler.initConnect('ws://localhost');
-    expect(Websockethandler.isConnected()).toBe(false);
+    WebSocketHandlerService.initConnect('ws://localhost');
+    expect(WebSocketHandlerService.isConnected()).toBe(false);
   });  
   
   //todo 

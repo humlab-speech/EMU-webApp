@@ -139,7 +139,7 @@ function buildWavWithExtraChunk(opts) {
 
 describe('Service: WavParserService', function () {
 
-    beforeEach(module('grazer'));
+    beforeEach(angular.mock.module('grazer'));
 
     // ----------------------------------------------------------
     // parseWavHeader — successful parses
@@ -147,7 +147,7 @@ describe('Service: WavParserService', function () {
 
     describe('parseWavHeader: valid inputs', function () {
 
-        it('parses standard mono 16kHz 16-bit PCM (AudioFormat 1)', inject(function (WavParserService) {
+        it('parses standard mono 16kHz 16-bit PCM (AudioFormat 1)', angular.mock.inject(function (WavParserService) {
             var h = WavParserService.parseWavHeader(
                 buildPcmWav({ audioFormat: 1, numChannels: 1, sampleRate: 16000, bitsPerSample: 16, numSamples: 100 }));
 
@@ -167,7 +167,7 @@ describe('Service: WavParserService', function () {
             expect(h.offsetToDataChunk).toBe(44);
         }));
 
-        it('parses stereo 44.1kHz 16-bit PCM', inject(function (WavParserService) {
+        it('parses stereo 44.1kHz 16-bit PCM', angular.mock.inject(function (WavParserService) {
             var h = WavParserService.parseWavHeader(
                 buildPcmWav({ numChannels: 2, sampleRate: 44100, bitsPerSample: 16, numSamples: 50 }));
 
@@ -179,7 +179,7 @@ describe('Service: WavParserService', function () {
             expect(h.dataChunkSize).toBe(200);   // 50 samples * 2 ch * 2 bytes
         }));
 
-        it('parses IEEE754 float WAV (AudioFormat 3)', inject(function (WavParserService) {
+        it('parses IEEE754 float WAV (AudioFormat 3)', angular.mock.inject(function (WavParserService) {
             var h = WavParserService.parseWavHeader(
                 buildPcmWav({ audioFormat: 3, numChannels: 1, sampleRate: 44100, bitsPerSample: 32 }));
 
@@ -188,7 +188,7 @@ describe('Service: WavParserService', function () {
             expect(h.BitsPerSample).toBe(32);
         }));
 
-        it('parses Extensible WAV (65534) containing PCM sub-format', inject(function (WavParserService) {
+        it('parses Extensible WAV (65534) containing PCM sub-format', angular.mock.inject(function (WavParserService) {
             var h = WavParserService.parseWavHeader(buildExtensibleWav({ subFormat: 1 }));
 
             expect(h.status).toBeUndefined();
@@ -198,14 +198,14 @@ describe('Service: WavParserService', function () {
             expect(h.dataChunkSizeIdx).toBe(64);
         }));
 
-        it('parses Extensible WAV (65534) containing IEEE754 float sub-format', inject(function (WavParserService) {
+        it('parses Extensible WAV (65534) containing IEEE754 float sub-format', angular.mock.inject(function (WavParserService) {
             var h = WavParserService.parseWavHeader(buildExtensibleWav({ subFormat: 3 }));
 
             expect(h.status).toBeUndefined();
             expect(h.AudioFormat).toBe(3);
         }));
 
-        it('origBinaryHeader covers exactly the bytes before the first sample (standard PCM)', inject(function (WavParserService) {
+        it('origBinaryHeader covers exactly the bytes before the first sample (standard PCM)', angular.mock.inject(function (WavParserService) {
             var h = WavParserService.parseWavHeader(buildPcmWav({ numSamples: 20 }));
 
             expect(h.origBinaryHeader).toBeDefined();
@@ -217,12 +217,12 @@ describe('Service: WavParserService', function () {
             expect(h.origBinaryHeader[3]).toBe(0x46);
         }));
 
-        it('origBinaryHeader for extensible WAV is 68 bytes', inject(function (WavParserService) {
+        it('origBinaryHeader for extensible WAV is 68 bytes', angular.mock.inject(function (WavParserService) {
             var h = WavParserService.parseWavHeader(buildExtensibleWav({ numSamples: 5 }));
             expect(h.origBinaryHeader.byteLength).toBe(68);
         }));
 
-        it('origBinaryHeader is a copy — mutating it does not affect the source ArrayBuffer', inject(function (WavParserService) {
+        it('origBinaryHeader is a copy — mutating it does not affect the source ArrayBuffer', angular.mock.inject(function (WavParserService) {
             var buf = buildPcmWav({ numSamples: 10 });
             var h = WavParserService.parseWavHeader(buf);
             var originalByte = h.origBinaryHeader[0]; // 'R' = 0x52
@@ -231,7 +231,7 @@ describe('Service: WavParserService', function () {
             expect(new Uint8Array(buf, 0, 1)[0]).toBe(originalByte);
         }));
 
-        it('locates data chunk correctly when an extra LIST chunk follows fmt', inject(function (WavParserService) {
+        it('locates data chunk correctly when an extra LIST chunk follows fmt', angular.mock.inject(function (WavParserService) {
             // fmt ends at byte 36; LIST chunk occupies bytes 36-51; data chunk at byte 52
             // offsetToDataChunk = 52 + 8 = 60
             var h = WavParserService.parseWavHeader(buildWavWithExtraChunk({ numSamples: 10 }));
@@ -248,7 +248,7 @@ describe('Service: WavParserService', function () {
 
     describe('parseWavHeader: invalid / unsupported inputs', function () {
 
-        it('returns { status.type: ERROR } for non-RIFF ChunkID', inject(function (WavParserService) {
+        it('returns { status.type: ERROR } for non-RIFF ChunkID', angular.mock.inject(function (WavParserService) {
             var buf = buildPcmWav();
             new Uint8Array(buf).set([0x52, 0x49, 0x46, 0x58], 0); // "RIFX"
             var h = WavParserService.parseWavHeader(buf);
@@ -258,7 +258,7 @@ describe('Service: WavParserService', function () {
             expect(h.status.message).toContain('ChunkID not RIFF');
         }));
 
-        it('returns { status.type: ERROR } for non-WAVE format field', inject(function (WavParserService) {
+        it('returns { status.type: ERROR } for non-WAVE format field', angular.mock.inject(function (WavParserService) {
             var buf = buildPcmWav();
             new Uint8Array(buf).set([0x41, 0x56, 0x49, 0x20], 8); // "AVI "
             var h = WavParserService.parseWavHeader(buf);
@@ -267,24 +267,24 @@ describe('Service: WavParserService', function () {
             expect(h.status.message).toContain('Format not WAVE');
         }));
 
-        it('returns { status.type: ERROR } for AudioFormat 2 (ADPCM — unsupported)', inject(function (WavParserService) {
+        it('returns { status.type: ERROR } for AudioFormat 2 (ADPCM — unsupported)', angular.mock.inject(function (WavParserService) {
             var h = WavParserService.parseWavHeader(buildPcmWav({ audioFormat: 2 }));
             expect(h.status.type).toBe('ERROR');
             expect(h.status.message).toContain('AudioFormat');
         }));
 
-        it('returns { status.type: ERROR } for AudioFormat 7 (μ-law — unsupported)', inject(function (WavParserService) {
+        it('returns { status.type: ERROR } for AudioFormat 7 (μ-law — unsupported)', angular.mock.inject(function (WavParserService) {
             var h = WavParserService.parseWavHeader(buildPcmWav({ audioFormat: 7 }));
             expect(h.status.type).toBe('ERROR');
         }));
 
-        it('returns { status.type: ERROR } when NumChannels is 0', inject(function (WavParserService) {
+        it('returns { status.type: ERROR } when NumChannels is 0', angular.mock.inject(function (WavParserService) {
             var h = WavParserService.parseWavHeader(buildPcmWav({ numChannels: 0 }));
             expect(h.status.type).toBe('ERROR');
             expect(h.status.message).toContain('NumChannels');
         }));
 
-        it('never throws — always returns an error object on bad input', inject(function (WavParserService) {
+        it('never throws — always returns an error object on bad input', angular.mock.inject(function (WavParserService) {
             var emptyBuf = new ArrayBuffer(44);
             expect(function () {
                 WavParserService.parseWavHeader(emptyBuf);
@@ -302,7 +302,7 @@ describe('Service: WavParserService', function () {
     describe('parseWavAudioBuf: promise resolution', function () {
 
         // Skipped: invalid WAV now falls back to native AudioContext.decodeAudioData which is truly async in ChromeHeadless; promise doesn't resolve within $apply()
-        xit('rejects promise with status.type ERROR for an all-zeros buffer (not RIFF)', inject(function (WavParserService, $rootScope) {
+        xit('rejects promise with status.type ERROR for an all-zeros buffer (not RIFF)', angular.mock.inject(function (WavParserService, $rootScope) {
             var rejected = false;
             var rejectedWith;
 
@@ -317,7 +317,7 @@ describe('Service: WavParserService', function () {
         }));
 
         // Skipped: invalid WAV now falls back to native AudioContext.decodeAudioData which is truly async in ChromeHeadless; promise doesn't resolve within $apply()
-        xit('rejects promise for unsupported AudioFormat (2 = ADPCM)', inject(function (WavParserService, $rootScope) {
+        xit('rejects promise for unsupported AudioFormat (2 = ADPCM)', angular.mock.inject(function (WavParserService, $rootScope) {
             var rejected = false;
 
             WavParserService.parseWavAudioBuf(buildPcmWav({ audioFormat: 2 })).then(null, function () {
@@ -328,7 +328,7 @@ describe('Service: WavParserService', function () {
             expect(rejected).toBe(true);
         }));
 
-        it('creates OfflineAudioContext with correct numChannels/length/sampleRate — mono 16kHz 16-bit', inject(function (WavParserService, $rootScope, $window) {
+        it('creates OfflineAudioContext with correct numChannels/length/sampleRate — mono 16kHz 16-bit', angular.mock.inject(function (WavParserService, $rootScope, $window) {
             var buf = buildPcmWav({ numChannels: 1, sampleRate: 16000, bitsPerSample: 16, numSamples: 100 });
             var ctxArgs = null;
             var origCtx = $window.OfflineAudioContext;
@@ -350,7 +350,7 @@ describe('Service: WavParserService', function () {
             $window.OfflineAudioContext = origCtx;
         }));
 
-        it('creates OfflineAudioContext with correct params — stereo 44.1kHz 16-bit', inject(function (WavParserService, $rootScope, $window) {
+        it('creates OfflineAudioContext with correct params — stereo 44.1kHz 16-bit', angular.mock.inject(function (WavParserService, $rootScope, $window) {
             var buf = buildPcmWav({ numChannels: 2, sampleRate: 44100, bitsPerSample: 16, numSamples: 50 });
             var ctxArgs = null;
             var origCtx = $window.OfflineAudioContext;
@@ -371,7 +371,7 @@ describe('Service: WavParserService', function () {
             $window.OfflineAudioContext = origCtx;
         }));
 
-        it('resolves promise with the AudioBuffer returned by decodeAudioData', inject(function (WavParserService, $rootScope, $window) {
+        it('resolves promise with the AudioBuffer returned by decodeAudioData', angular.mock.inject(function (WavParserService, $rootScope, $window) {
             var fakeAudioBuffer = { duration: 0.001, sampleRate: 16000, numberOfChannels: 1 };
             var resolved = false;
             var resolvedWith;
@@ -394,7 +394,7 @@ describe('Service: WavParserService', function () {
             $window.OfflineAudioContext = origCtx;
         }));
 
-        it('rejects promise when decodeAudioData calls its error callback', inject(function (WavParserService, $rootScope, $window) {
+        it('rejects promise when decodeAudioData calls its error callback', angular.mock.inject(function (WavParserService, $rootScope, $window) {
             var rejected = false;
             var origCtx = $window.OfflineAudioContext;
 

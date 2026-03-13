@@ -3,11 +3,11 @@
 describe('Service: loadedMetaDataService', function () {
 
   // // load the service's module
-   beforeEach(module('grazer'));
+   beforeEach(angular.mock.module('grazer'));
 
   // // instantiate service
    var loadedMetaDataService;
-   beforeEach(inject(function (_loadedMetaDataService_) {
+   beforeEach(angular.mock.inject(function (_loadedMetaDataService_) {
      loadedMetaDataService = _loadedMetaDataService_;
    }));
 

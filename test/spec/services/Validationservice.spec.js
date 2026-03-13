@@ -1,13 +1,13 @@
 'use strict';
 
-describe('Service: Validationservice', function () {
+describe('Service: ValidationService', function () {
 
   var scope;
 
   // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
-  beforeEach(inject(function ($httpBackend, $rootScope, Validationservice) {
+  beforeEach(angular.mock.inject(function ($httpBackend, $rootScope, ValidationService) {
     scope = $rootScope.$new();
     $httpBackend.whenGET("schemaFiles/annotationFileSchema.json").respond(annotationFileSchema);
     $httpBackend.whenGET("schemaFiles/grazerConfigSchema.json").respond(grazerConfigSchema);
@@ -15,41 +15,41 @@ describe('Service: Validationservice', function () {
     $httpBackend.whenGET("schemaFiles/bundleListSchema.json").respond(bundleListSchema);
     $httpBackend.whenGET("schemaFiles/bundleSchema.json").respond(bundleSchema);
     $httpBackend.whenGET("schemaFiles/designSchema.json").respond(designSchema);
-    Validationservice.loadSchemas();
+    ValidationService.loadSchemas();
     $rootScope.$apply();
   }));
 
   /**
    *
    */
-  it('should validateJSO', inject(function (Validationservice) {
-    spyOn(Validationservice, 'getSchema').and.returnValue({
+  it('should validateJSO', angular.mock.inject(function (ValidationService) {
+    spyOn(ValidationService, 'getSchema').and.returnValue({
       name: 'test',
       data: {}
     });
-    expect(Validationservice.validateJSO('grazerConfigSchema', 'test')).toEqual(true);
+    expect(ValidationService.validateJSO('grazerConfigSchema', 'test')).toEqual(true);
   }));
 
   /**
    *
    */
-  it('should validateJSO', inject(function (Validationservice) {
-    spyOn(Validationservice, 'getSchema').and.returnValue(undefined);
-    expect(Validationservice.validateJSO('grazerConfigSchema', 'test')).toEqual('Schema: grazerConfigSchema is currently undefined! This is probably due to a misnamed schema file on the server...');
+  it('should validateJSO', angular.mock.inject(function (ValidationService) {
+    spyOn(ValidationService, 'getSchema').and.returnValue(undefined);
+    expect(ValidationService.validateJSO('grazerConfigSchema', 'test')).toEqual('Schema: grazerConfigSchema is currently undefined! This is probably due to a misnamed schema file on the server...');
   }));
 
   /**
    *
    */
-  it('should getSchema', inject(function (Validationservice) {
+  it('should getSchema', angular.mock.inject(function (ValidationService) {
     // schema's not loaded yet... mabye write test with loaded schema too
-    expect(Validationservice.getSchema('grazerConfigSchema')).toEqual(undefined);
+    expect(ValidationService.getSchema('grazerConfigSchema')).toEqual(undefined);
   }));
 
   /**
    *
    */
-  it('should semCheckLoadedConfig', inject(function (Validationservice, ConfigProviderService) {
+  it('should semCheckLoadedConfig', angular.mock.inject(function (ValidationService, ConfigProviderService) {
     // set default
     ConfigProviderService.setVals(defaultGrazerConfig);
 
@@ -61,13 +61,13 @@ describe('Service: Validationservice', function () {
     ConfigProviderService.curDbConfig = tmpDBconfig;
 
     // should pass checks if not manipulated
-    res = Validationservice.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
+    res = ValidationService.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
     expect(res).toEqual(true);
 
     // fail on undefined track name
     tmpDBconfig = angular.copy(aeDbConfig);
     tmpDBconfig.EMUwebAppConfig.perspectives[0].signalCanvases.order[0] = 'undefinedTrackName';
-    res = Validationservice.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
+    res = ValidationService.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
     expect(res).toMatch('.*EMUwebAppConfig/perspectives/signalCanvases/order.*');
 
     // fail on self assignment
@@ -76,7 +76,7 @@ describe('Service: Validationservice', function () {
       'signalCanvasName': 'fundFreq',
       'ssffTrackName': 'fundFreq'
     };
-    res = Validationservice.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
+    res = ValidationService.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
     expect(res).toMatch('.*EMUwebAppConfig/perspectives/signalCanvases/assign.*');
     
     // fail on OSCI or SPEC assignment
@@ -85,7 +85,7 @@ describe('Service: Validationservice', function () {
       'signalCanvasName': 'OSCI',
       'ssffTrackName': 'SPEC'
     };
-    res = Validationservice.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
+    res = ValidationService.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
     expect(res).toMatch('.*EMUwebAppConfig/perspectives/signalCanvases/assign.*');
 
     tmpDBconfig = angular.copy(aeDbConfig);
@@ -93,7 +93,7 @@ describe('Service: Validationservice', function () {
       'signalCanvasName': 'SPEC',
       'ssffTrackName': 'OSCI'
     };
-    res = Validationservice.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
+    res = ValidationService.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
     expect(res).toMatch('.*EMUwebAppConfig/perspectives/signalCanvases/assign.*');
 
 
@@ -103,7 +103,7 @@ describe('Service: Validationservice', function () {
       'signalCanvasName': 'fundFreq',
       'ssffTrackName': 'fundFreqsadf'
     };
-    res = Validationservice.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
+    res = ValidationService.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
     expect(res).toMatch('.*EMUwebAppConfig/perspectives/signalCanvases/assign.*');
 
     // fail on not displayed assignment
@@ -112,52 +112,52 @@ describe('Service: Validationservice', function () {
       'signalCanvasName': 'dftSpec',
       'ssffTrackName': 'fundFreq'
     };
-    res = Validationservice.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
+    res = ValidationService.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
     expect(res).toMatch('.*EMUwebAppConfig/perspectives/signalCanvases/assign.*');
 
     // fail on undefined contourLims
     tmpDBconfig = angular.copy(aeDbConfig);
     tmpDBconfig.EMUwebAppConfig.perspectives[0].signalCanvases.contourLims[0].ssffTrackName = 'undefinedTrackName';
-    res = Validationservice.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
+    res = ValidationService.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
     expect(res).toMatch('.*EMUwebAppConfig/perspectives/signalCanvases/contourLims.*');
   
     // fail on not displayed contourLims
     tmpDBconfig = angular.copy(aeDbConfig);
     tmpDBconfig.EMUwebAppConfig.perspectives[0].signalCanvases.contourLims[0].ssffTrackName = 'dftSpec';
-    res = Validationservice.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
+    res = ValidationService.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
     expect(res).toMatch('.*EMUwebAppConfig/perspectives/signalCanvases/contourLims.*');
 
     // fail on undefined level name
     tmpDBconfig = angular.copy(aeDbConfig);
     tmpDBconfig.EMUwebAppConfig.perspectives[0].levelCanvases.order[0] = 'undefinedLevelName';
-    res = Validationservice.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
+    res = ValidationService.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
     expect(res).toMatch('.*EMUwebAppConfig/perspectives/levelCanvases/order.*');
 
     // fail on ITEM level displayed
     tmpDBconfig = angular.copy(aeDbConfig);
     tmpDBconfig.EMUwebAppConfig.perspectives[0].levelCanvases.order[0] = 'Syllable';
-    res = Validationservice.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
+    res = ValidationService.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
     expect(res).toMatch('.*EMUwebAppConfig/perspectives/levelCanvases/order.*');
     
     // fail on undefined track in twoDimCanvases
     tmpDBconfig = angular.copy(emaDbConfig);
     ConfigProviderService.curDbConfig = tmpDBconfig;
     tmpDBconfig.EMUwebAppConfig.perspectives[0].twoDimCanvases.twoDimDrawingDefinitions[0].dots[0].xSsffTrack = 'undefinedTrackName';
-    res = Validationservice.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
+    res = ValidationService.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
     expect(res).toMatch('.*EMUwebAppConfig/perspectives/twoDimCanvases/twoDimDrawingDefinitions/dots.*');
 
     // fail on undefined dot in connectLines
     tmpDBconfig = angular.copy(emaDbConfig);
     ConfigProviderService.curDbConfig = tmpDBconfig;
     tmpDBconfig.EMUwebAppConfig.perspectives[0].twoDimCanvases.twoDimDrawingDefinitions[0].connectLines[0].fromDot = 'undefinedDotName';
-    res = Validationservice.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
+    res = ValidationService.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
     expect(res).toMatch('.*EMUwebAppConfig/perspectives/twoDimCanvases/twoDimDrawingDefinitions/connectLines.*');
 
     // fail on static dots array of not the same length
     tmpDBconfig = angular.copy(emaDbConfig);
     ConfigProviderService.curDbConfig = tmpDBconfig;
     tmpDBconfig.EMUwebAppConfig.perspectives[1].twoDimCanvases.twoDimDrawingDefinitions[0].staticDots[0].xCoordinates = [1,2,3,4];
-    res = Validationservice.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
+    res = ValidationService.semCheckLoadedConfigs(tmpDBconfig.EMUwebAppConfig, tmpDBconfig);
     expect(res).toMatch('.*EMUwebAppConfig/perspectives/twoDimCanvases/twoDimDrawingDefinitions/staticDots.*');
 
   }));

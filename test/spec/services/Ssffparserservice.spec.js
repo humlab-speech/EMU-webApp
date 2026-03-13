@@ -1,12 +1,12 @@
 'use strict';
 
-describe('Service: Ssffparserservice', function () {
+describe('Service: SsffParserService', function () {
   var scope, deferred;
 
   // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
-  beforeEach(inject(function (_$rootScope_, $q) {
+  beforeEach(angular.mock.inject(function (_$rootScope_, $q) {
      scope = _$rootScope_;
      deferred = $q.defer();
   }));

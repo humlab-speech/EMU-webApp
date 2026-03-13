@@ -4,12 +4,12 @@ describe('Service: LevelService', function () {
 
   // load the controller's module
 
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
   var item;
   var aetmpDBconfig, epgdorsaltmpDbConfig, ematmpDbConfig, defaultGrazerConfigTmp;
 
-  beforeEach(inject(function (Soundhandlerservice) {
+  beforeEach(angular.mock.inject(function (SoundHandlerService) {
       aetmpDBconfig = angular.copy(aeDbConfig);
       epgdorsaltmpDbConfig = angular.copy(epgdorsalDbConfig);
       ematmpDbConfig = angular.copy(emaDbConfig);
@@ -20,7 +20,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should set level data and max Element id', inject(function (DataService, LevelService) {
+  it('should set level data and max Element id', angular.mock.inject(function (DataService, LevelService) {
     // test on JDR10_bndl.annotation
     DataService.setData(JDR10_bndl.annotation);
     expect(DataService.getData()).toEqual(JDR10_bndl.annotation);
@@ -34,7 +34,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should raise max Element id', inject(function (DataService, LevelService) {
+  it('should raise max Element id', angular.mock.inject(function (DataService, LevelService) {
     // test on JDR10_bndl.annotation
     DataService.setData(JDR10_bndl.annotation);
     DataService.raiseId(1);
@@ -49,7 +49,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should lower max Element id', inject(function (DataService, LevelService) {
+  it('should lower max Element id', angular.mock.inject(function (DataService, LevelService) {
     // test on JDR10_bndl.annotation
     DataService.setData(JDR10_bndl.annotation);
     DataService.lowerId(1);
@@ -64,7 +64,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should return level details', inject(function (DataService, LevelService) {
+  it('should return level details', angular.mock.inject(function (DataService, LevelService) {
     // test on JDR10_bndl.annotation
     DataService.setData(JDR10_bndl.annotation);
     expect(LevelService.getLevelDetails('Phonetic').name).toEqual('Phonetic');
@@ -81,7 +81,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should return element order by passing id', inject(function (DataService, LevelService) {
+  it('should return element order by passing id', angular.mock.inject(function (DataService, LevelService) {
     // test on JDR10_bndl.annotation
     DataService.setData(JDR10_bndl.annotation);
     expect(LevelService.getOrderById('Phonetic', 3)).toEqual(0);
@@ -98,7 +98,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should return element id by passing order', inject(function (DataService, LevelService) {
+  it('should return element id by passing order', angular.mock.inject(function (DataService, LevelService) {
     // test on JDR10_bndl.annotation
     DataService.setData(JDR10_bndl.annotation);
     expect(LevelService.getIdByOrder('Phonetic', 0)).toEqual(3);
@@ -115,7 +115,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should get element (segment) details by passing name and order', inject(function (DataService, LevelService) {
+  it('should get element (segment) details by passing name and order', angular.mock.inject(function (DataService, LevelService) {
     // test on JDR10_bndl.annotation
     DataService.setData(JDR10_bndl.annotation);
     // first item has id 3
@@ -138,7 +138,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should get last element details by passing name', inject(function (DataService, LevelService) {
+  it('should get last element details by passing name', angular.mock.inject(function (DataService, LevelService) {
     // test on JDR10_bndl.annotation
     DataService.setData(JDR10_bndl.annotation);
     // last item has id 4
@@ -161,7 +161,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should get next element details by passing name and id', inject(function (DataService, LevelService) {
+  it('should get next element details by passing name and id', angular.mock.inject(function (DataService, LevelService) {
     // test on JDR10_bndl.annotation
     DataService.setData(JDR10_bndl.annotation);
     // next item has id 4
@@ -184,7 +184,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should get element details by passing name and id', inject(function (DataService, LevelService) {
+  it('should get element details by passing name and id', angular.mock.inject(function (DataService, LevelService) {
     // test on JDR10_bndl.annotation
     DataService.setData(JDR10_bndl.annotation);
     // item has id 3
@@ -208,7 +208,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should set and get lasteditAreaElem', inject(function (LevelService) {
+  it('should set and get lasteditAreaElem', angular.mock.inject(function (LevelService) {
     // test on JDR10_bndl.annotation
     LevelService.setlasteditAreaElem('a');
     expect(LevelService.getlasteditAreaElem()).toEqual('a');
@@ -217,7 +217,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should set and get lasteditArea', inject(function (LevelService) {
+  it('should set and get lasteditArea', angular.mock.inject(function (LevelService) {
     // test on JDR10_bndl.annotation
     LevelService.setlasteditArea('_1');
     expect(LevelService.getlasteditArea()).toEqual('_1');
@@ -227,10 +227,10 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should insert a new element on level', inject(function (DataService, LevelService, viewState, ConfigProviderService) {
+  it('should insert a new element on level', angular.mock.inject(function (DataService, LevelService, ViewStateService, ConfigProviderService) {
     // test on JDR10_bndl.annotation
     ConfigProviderService.curDbConfig = epgdorsaltmpDbConfig;
-    viewState.setCurLevelAttrDefs(epgdorsaltmpDbConfig.levelDefinitions);
+    ViewStateService.setCurLevelAttrDefs(epgdorsaltmpDbConfig.levelDefinitions);
     DataService.setData(JDR10_bndl.annotation);
     LevelService.insertItemDetails(5, 'Phonetic', 0, 'test', 87610, 100);
     expect(LevelService.getLevelDetails('Phonetic').items.length).toEqual(5);
@@ -240,7 +240,7 @@ describe('Service: LevelService', function () {
     expect(LevelService.getItemDetails('Phonetic', 0).labels[0].value).toEqual('test');
     // test on dfgspp_mo1_prosody_0024_bndl.annotation
     ConfigProviderService.curDbConfig = ematmpDbConfig;
-    viewState.setCurLevelAttrDefs(ematmpDbConfig.levelDefinitions);
+    ViewStateService.setCurLevelAttrDefs(ematmpDbConfig.levelDefinitions);
     DataService.setData(dfgspp_mo1_prosody_0024_bndl.annotation);
     LevelService.insertItemDetails(112, 'TB', 0, 'test', 29509, 100);
     expect(LevelService.getLevelDetails('TB').items.length).toEqual(3);
@@ -254,9 +254,9 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should change element (segment) details on level based on name and id', inject(function (DataService, LevelService, viewState) {
+  it('should change element (segment) details on level based on name and id', angular.mock.inject(function (DataService, LevelService, ViewStateService) {
     // test on JDR10_bndl.annotation
-    viewState.setCurLevelAttrDefs(epgdorsaltmpDbConfig.levelDefinitions);
+    ViewStateService.setCurLevelAttrDefs(epgdorsaltmpDbConfig.levelDefinitions);
     DataService.setData(JDR10_bndl.annotation);
     LevelService.updateSegment('Phonetic', 3, 'test', 0, 87700, 939);
     expect(LevelService.getItemDetails('Phonetic', 0).id).toEqual(3);
@@ -266,7 +266,7 @@ describe('Service: LevelService', function () {
     expect(LevelService.getItemDetails('Phonetic', 0).labels[0].value).toEqual('test');
 
     // // test on dfgspp_mo1_prosody_0024_bndl.annotation
-    viewState.setCurLevelAttrDefs(ematmpDbConfig.levelDefinitions);
+    ViewStateService.setCurLevelAttrDefs(ematmpDbConfig.levelDefinitions);
     DataService.setData(dfgspp_mo1_prosody_0024_bndl.annotation);
     LevelService.updateSegment('TB', 40, 'test', 0, 29604, 2700);
     expect(LevelService.getItemDetails('TB', 0).id).toEqual(40);
@@ -279,7 +279,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should change element (point) details on level based on name and id', inject(function (DataService, LevelService) {
+  it('should change element (point) details on level based on name and id', angular.mock.inject(function (DataService, LevelService) {
     // test on msajc003_bndl.annotation
     DataService.setData(msajc003_bndl.annotation);
     LevelService.updatePoint('Tone', 181, 'test', 0, 100);
@@ -292,7 +292,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should get element neightbour details', inject(function (DataService, LevelService) {
+  it('should get element neightbour details', angular.mock.inject(function (DataService, LevelService) {
     // test on JDR10_bndl.annotation
     // should return neighbours "O" and "I"
     DataService.setData(JDR10_bndl.annotation);
@@ -344,10 +344,10 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should getClosestItem (surrounding details) for a given sampleNr', inject(function (DataService, Binarydatamaniphelper, LevelService) {
+  it('should getClosestItem (surrounding details) for a given sampleNr', angular.mock.inject(function (DataService, BinaryDataManipHelperService, LevelService) {
     // test on msajc003_bndl.annotation
     DataService.setData(msajc003_bndl.annotation);
-    // Soundhandlerservice.wavJSO.Data.length = 58089
+    // SoundHandlerService.wavJSO.Data.length = 58089
     // before any element isFirst should be true
     expect(LevelService.getClosestItem(10, 'Phonetic', 58089).isFirst).toEqual(true);
     // after any element isLast should be true
@@ -375,7 +375,7 @@ describe('Service: LevelService', function () {
 
     // test on dfgspp_mo1_prosody_0024_bndl.annotation
     DataService.setData(dfgspp_mo1_prosody_0024_bndl.annotation);
-    // Soundhandlerservice.wavJSO.Data.length = 96002
+    // SoundHandlerService.wavJSO.Data.length = 96002
     // before any element isFirst should be true
     expect(LevelService.getClosestItem(10, 'TT', 96002).isFirst).toEqual(true);
     // after any element isLast should be true
@@ -402,7 +402,7 @@ describe('Service: LevelService', function () {
 
     //test on JDR10_bndl.annotation
     DataService.setData(JDR10_bndl.annotation);
-    // Soundhandlerservice.wavJSO.Data.length = 112000
+    // SoundHandlerService.wavJSO.Data.length = 112000
     // before any element isFirst should be true
     expect(LevelService.getClosestItem(10, 'Phonetic', 112000).isFirst).toEqual(true);
     // after any element isLast should be true
@@ -431,7 +431,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should delete a level', inject(function (DataService, LevelService, ConfigProviderService) {
+  it('should delete a level', angular.mock.inject(function (DataService, LevelService, ConfigProviderService) {
     // test on msajc003_bndl.annotation
     ConfigProviderService.setVals(defaultGrazerConfigTmp);
     DataService.setData(msajc003_bndl.annotation);
@@ -455,7 +455,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should add a level', inject(function (DataService, LevelService, ConfigProviderService) {
+  it('should add a level', angular.mock.inject(function (DataService, LevelService, ConfigProviderService) {
     // test on msajc003_bndl.annotation
     ConfigProviderService.setVals(defaultGrazerConfigTmp);
     DataService.setData(msajc003_bndl.annotation);
@@ -518,22 +518,22 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should rename an element', inject(function (DataService, LevelService, viewState) {
+  it('should rename an element', angular.mock.inject(function (DataService, LevelService, ViewStateService) {
 
     // test on msajc003_bndl.annotation
-    viewState.setCurLevelAttrDefs(aetmpDBconfig.levelDefinitions);
+    ViewStateService.setCurLevelAttrDefs(aetmpDBconfig.levelDefinitions);
     DataService.setData(msajc003_bndl.annotation);
     LevelService.renameLabel('Phonetic', 147, 0, 'test');
     expect(LevelService.getItemFromLevelById('Phonetic', 147).labels[0].value).toEqual('test');
 
     // test on dfgspp_mo1_prosody_0024_bndl.annotation
-    viewState.setCurLevelAttrDefs(ematmpDbConfig.levelDefinitions);
+    ViewStateService.setCurLevelAttrDefs(ematmpDbConfig.levelDefinitions);
     DataService.setData(dfgspp_mo1_prosody_0024_bndl.annotation);
     LevelService.renameLabel('TB', 40, 0, 'test');
     expect(LevelService.getItemFromLevelById('TB', 40).labels[0].value).toEqual('test');
 
     // test on JDR10_bndl.annotation
-    viewState.setCurLevelAttrDefs(epgdorsaltmpDbConfig.levelDefinitions);
+    ViewStateService.setCurLevelAttrDefs(epgdorsaltmpDbConfig.levelDefinitions);
     DataService.setData(JDR10_bndl.annotation);
     LevelService.renameLabel('Phonetic', 3, 0, 'test');
     expect(LevelService.getItemFromLevelById('Phonetic', 3).labels[0].value).toEqual('test');
@@ -542,7 +542,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should rename a level', inject(function (DataService, LevelService, ConfigProviderService) {
+  it('should rename a level', angular.mock.inject(function (DataService, LevelService, ConfigProviderService) {
     // test on msajc003_bndl.annotation
     DataService.setData(msajc003_bndl.annotation);
     ConfigProviderService.setVals(defaultGrazerConfigTmp);
@@ -553,7 +553,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should deleteSegments', inject(function (DataService, LevelService) {
+  it('should deleteSegments', angular.mock.inject(function (DataService, LevelService) {
     // test on msajc003_bndl.annotation
     // 2 elements in the middle
     DataService.setData(msajc003_bndl.annotation);
@@ -627,10 +627,10 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should deleteSegmentsInvers', inject(function (DataService, LevelService, viewState) {
+  it('should deleteSegmentsInvers', angular.mock.inject(function (DataService, LevelService, ViewStateService) {
     // test on msajc003_bndl.annotation
     // delete and deleteSegmentsInvers 2 segments
-    viewState.setCurLevelAttrDefs(aetmpDBconfig.levelDefinitions)
+    ViewStateService.setCurLevelAttrDefs(aetmpDBconfig.levelDefinitions)
     DataService.setData(msajc003_bndl.annotation);
     expect(LevelService.getLevelDetails('Phonetic').items.length).toEqual(34);
     var deleted = LevelService.deleteSegments('Phonetic', 148, 2);
@@ -646,7 +646,7 @@ describe('Service: LevelService', function () {
 
     // test on dfgspp_mo1_prosody_0024_bndl.annotation
     // 1 elements on left side
-    viewState.setCurLevelAttrDefs(ematmpDbConfig.levelDefinitions)
+    ViewStateService.setCurLevelAttrDefs(ematmpDbConfig.levelDefinitions)
     DataService.setData(dfgspp_mo1_prosody_0024_bndl.annotation);
     expect(LevelService.getLevelDetails('TB').items.length).toEqual(2);
     var deleted = LevelService.deleteSegments('TB', 41, 1);
@@ -660,7 +660,7 @@ describe('Service: LevelService', function () {
 
     // test on JDR10_bndl.annotation
     // 1 elements on right side
-    viewState.setCurLevelAttrDefs(epgdorsaltmpDbConfig.levelDefinitions)
+    ViewStateService.setCurLevelAttrDefs(epgdorsaltmpDbConfig.levelDefinitions)
     DataService.setData(JDR10_bndl.annotation);
     expect(LevelService.getLevelDetails('Phonetic').items.length).toEqual(4);
     var deleted = LevelService.deleteSegments('Phonetic', 4, 1);
@@ -677,11 +677,11 @@ describe('Service: LevelService', function () {
    *
    */
 
-  it('should insertSegment', inject(function (DataService, LevelService, viewState, ConfigProviderService) {
+  it('should insertSegment', angular.mock.inject(function (DataService, LevelService, ViewStateService, ConfigProviderService) {
     // test on msajc003_bndl.annotation
     // delete and deleteSegmentsInvers 2 segments
     ConfigProviderService.curDbConfig = aetmpDBconfig;
-    viewState.setCurLevelAttrDefs(aetmpDBconfig.levelDefinitions);
+    ViewStateService.setCurLevelAttrDefs(aetmpDBconfig.levelDefinitions);
     DataService.setData(msajc003_bndl.annotation);
     expect(LevelService.getLevelDetails('Phonetic').items.length).toEqual(34);
     // insert 1 new segment on the left side
@@ -698,11 +698,11 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should insertSegmentInvers', inject(function (DataService, LevelService, viewState, ConfigProviderService) {
+  it('should insertSegmentInvers', angular.mock.inject(function (DataService, LevelService, ViewStateService, ConfigProviderService) {
     // test on msajc003_bndl.annotation
     // delete and deleteSegmentsInvers 2 segments
     ConfigProviderService.curDbConfig = aetmpDBconfig;
-    viewState.setCurLevelAttrDefs(aetmpDBconfig.levelDefinitions);
+    ViewStateService.setCurLevelAttrDefs(aetmpDBconfig.levelDefinitions);
 
     DataService.setData(msajc003_bndl.annotation);
     expect(LevelService.getLevelDetails('Phonetic').items.length).toEqual(34);
@@ -717,7 +717,7 @@ describe('Service: LevelService', function () {
 
     // test on dfgspp_mo1_prosody_0024_bndl.annotation
     ConfigProviderService.curDbConfig = ematmpDbConfig;
-    viewState.setCurLevelAttrDefs(ematmpDbConfig.levelDefinitions);
+    ViewStateService.setCurLevelAttrDefs(ematmpDbConfig.levelDefinitions);
 
     DataService.setData(dfgspp_mo1_prosody_0024_bndl.annotation);
     expect(LevelService.getLevelDetails('TB').items.length).toEqual(2);
@@ -732,7 +732,7 @@ describe('Service: LevelService', function () {
 
     // test on JDR10_bndl.annotation
     ConfigProviderService.curDbConfig = epgdorsaltmpDbConfig;
-    viewState.setCurLevelAttrDefs(epgdorsaltmpDbConfig.levelDefinitions);
+    ViewStateService.setCurLevelAttrDefs(epgdorsaltmpDbConfig.levelDefinitions);
 
     DataService.setData(JDR10_bndl.annotation);
     expect(LevelService.getLevelDetails('Phonetic').items.length).toEqual(4);
@@ -749,11 +749,11 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should insertPoint', inject(function (DataService, LevelService, viewState, ConfigProviderService) {
+  it('should insertPoint', angular.mock.inject(function (DataService, LevelService, ViewStateService, ConfigProviderService) {
     // test on msajc003_bndl.annotation
     // delete and deleteSegmentsInvers 2 segments
     ConfigProviderService.curDbConfig = aetmpDBconfig;
-    viewState.setCurLevelAttrDefs(aetmpDBconfig.levelDefinitions);
+    ViewStateService.setCurLevelAttrDefs(aetmpDBconfig.levelDefinitions);
 
     DataService.setData(msajc003_bndl.annotation);
     expect(LevelService.getLevelDetails('Tone').items.length).toEqual(7);
@@ -766,7 +766,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should deletePoint', inject(function (DataService, LevelService) {
+  it('should deletePoint', angular.mock.inject(function (DataService, LevelService) {
     // test on msajc003_bndl.annotation
     // delete and deleteSegmentsInvers 2 segments
     DataService.setData(msajc003_bndl.annotation);
@@ -779,7 +779,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should deleteBoundary', inject(function (DataService, LevelService) {
+  it('should deleteBoundary', angular.mock.inject(function (DataService, LevelService) {
     // test on msajc003_bndl.annotation
     // delete and deleteSegmentsInvers 2 segments
     DataService.setData(msajc003_bndl.annotation);
@@ -800,7 +800,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should deleteBoundary (first)', inject(function (DataService, LevelService) {
+  it('should deleteBoundary (first)', angular.mock.inject(function (DataService, LevelService) {
     // test on msajc003_bndl.annotation
     // delete and deleteSegmentsInvers 2 segments
     DataService.setData(msajc003_bndl.annotation);
@@ -813,7 +813,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should deleteBoundary (last)', inject(function (DataService, LevelService) {
+  it('should deleteBoundary (last)', angular.mock.inject(function (DataService, LevelService) {
     // test on msajc003_bndl.annotation
     // delete and deleteSegmentsInvers 2 segments
     DataService.setData(msajc003_bndl.annotation);
@@ -826,7 +826,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should deleteBoundaryInvers', inject(function (DataService, LevelService) {
+  it('should deleteBoundaryInvers', angular.mock.inject(function (DataService, LevelService) {
     // test on msajc003_bndl.annotation
     // delete and deleteSegmentsInvers 2 segments
     DataService.setData(msajc003_bndl.annotation);
@@ -845,11 +845,11 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should snapBoundary', inject(function (DataService, LevelService, Soundhandlerservice) {
+  it('should snapBoundary', angular.mock.inject(function (DataService, LevelService, SoundHandlerService) {
     // test on msajc003_bndl.annotation
     // snap Boundary
     DataService.setData(msajc003_bndl.annotation);
-    // Soundhandlerservice.wavJSO.Data = new Array(58089);
+    // SoundHandlerService.wavJSO.Data = new Array(58089);
     // snap point to boundary above
     var ret = LevelService.snapBoundary(true,
       'Tone', {
@@ -877,7 +877,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should moveBoundary', inject(function (DataService, LevelService, Soundhandlerservice) {
+  it('should moveBoundary', angular.mock.inject(function (DataService, LevelService, SoundHandlerService) {
 
     // test on msajc003_bndl.annotation
     // move Boundary
@@ -904,7 +904,7 @@ describe('Service: LevelService', function () {
     expect(LevelService.getItemFromLevelById('Phonetic', 147).sampleStart).toEqual(item.sampleStart + 10);
     expect(LevelService.getItemFromLevelById('Phonetic', 147).sampleDur).toEqual(item.sampleDur - 10);
     // move right most (1) boundary of segment with id 180 on level 'Phonetic' by 10 samples
-    Soundhandlerservice.audioBuffer.length = 58089;
+    SoundHandlerService.audioBuffer.length = 58089;
     LevelService.moveBoundary('Phonetic', 180, 10, false, true);
     item = getItemFromJSON(msajc003_bndl.annotation, 180);
     expect(LevelService.getItemFromLevelById('Phonetic', 180).sampleStart).toEqual(item.sampleStart);
@@ -935,7 +935,7 @@ describe('Service: LevelService', function () {
     expect(LevelService.getItemFromLevelById('Segment', 0).sampleStart).toEqual(item.sampleStart + 10);
     expect(LevelService.getItemFromLevelById('Segment', 0).sampleDur).toEqual(item.sampleDur - 10);
     // move right most (1) boundary of segment with id 180 on level 'Phonetic' by 10 samples
-    Soundhandlerservice.audioBuffer.length = 96002;
+    SoundHandlerService.audioBuffer.length = 96002;
     LevelService.moveBoundary('Segment', 37, 10, false, true);
     item = getItemFromJSON(dfgspp_mo1_prosody_0024_bndl.annotation, 37);
     expect(LevelService.getItemFromLevelById('Segment', 37).sampleStart).toEqual(item.sampleStart);
@@ -966,7 +966,7 @@ describe('Service: LevelService', function () {
     expect(LevelService.getItemFromLevelById('Phonetic', 3).sampleStart).toEqual(item.sampleStart + 10);
     expect(LevelService.getItemFromLevelById('Phonetic', 3).sampleDur).toEqual(item.sampleDur - 10);
     // move right most (1) boundary of segment with id 180 on level 'Phonetic' by 10 samples
-    Soundhandlerservice.audioBuffer.length = 112000;
+    SoundHandlerService.audioBuffer.length = 112000;
     LevelService.moveBoundary('Phonetic', 4, 10, false, true);
     item = getItemFromJSON(JDR10_bndl.annotation, 4);
     expect(LevelService.getItemFromLevelById('Phonetic', 4).sampleStart).toEqual(item.sampleStart);
@@ -977,11 +977,11 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should moveEvent', inject(function (DataService, LevelService, LinkService, Soundhandlerservice) {
+  it('should moveEvent', angular.mock.inject(function (DataService, LevelService, LinkService, SoundHandlerService) {
     // test on msajc003_bndl.annotation
     // delete and deleteSegmentsInvers 2 segments
     DataService.setData(msajc003_bndl.annotation);
-    Soundhandlerservice.audioBuffer.length = 58089;
+    SoundHandlerService.audioBuffer.length = 58089;
     // move point with id 181 on level 'Tone' by 100000000000 samples -> should not change anything
     LevelService.moveEvent('Tone', 181, 100000000000);
     item = getItemFromJSON(msajc003_bndl.annotation, 181);
@@ -1088,11 +1088,11 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should moveSegment', inject(function (DataService, LevelService, Soundhandlerservice) {
+  it('should moveSegment', angular.mock.inject(function (DataService, LevelService, SoundHandlerService) {
     // test on msajc003_bndl.annotation
     // move segment
     DataService.setData(msajc003_bndl.annotation);
-    Soundhandlerservice.audioBuffer.length = 58089;
+    SoundHandlerService.audioBuffer.length = 58089;
     // move single segment with id 158 on level 'Phonetic' by 100000000000 samples -> should not change anything
     LevelService.moveSegment('Phonetic', 158, 1, 100000000000);
     item = getItemFromJSON(msajc003_bndl.annotation, 157);
@@ -1138,7 +1138,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should expandSegment', inject(function (DataService, LevelService) {
+  it('should expandSegment', angular.mock.inject(function (DataService, LevelService) {
 
     // test on msajc003_bndl.annotation
     // expand segment
@@ -1186,10 +1186,10 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should get all labels of level', inject(function (DataService, LevelService, viewState) {
+  it('should get all labels of level', angular.mock.inject(function (DataService, LevelService, ViewStateService) {
     // set according data
     DataService.setData(msajc003_bndl.annotation);
-    viewState.setCurLevelAttrDefs(aetmpDBconfig.levelDefinitions);
+    ViewStateService.setCurLevelAttrDefs(aetmpDBconfig.levelDefinitions);
     var levelDetails = LevelService.getLevelDetails('Phonetic');
 
     // console.log(levelDetails.level);
@@ -1203,10 +1203,10 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should getLevelsByType', inject(function (DataService, LevelService, viewState) {
+  it('should getLevelsByType', angular.mock.inject(function (DataService, LevelService, ViewStateService) {
     // set according data
     DataService.setData(msajc003_bndl.annotation);
-    viewState.setCurLevelAttrDefs(aetmpDBconfig.levelDefinitions);
+    ViewStateService.setCurLevelAttrDefs(aetmpDBconfig.levelDefinitions);
     var levels = LevelService.getLevelsByType('SEGMENT');
     expect(levels.length).toEqual(1);
     expect(levels[0].name).toEqual('Phonetic');
@@ -1215,10 +1215,10 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should getItemsFromLevelByIdAndLength', inject(function (DataService, LevelService, viewState) {
+  it('should getItemsFromLevelByIdAndLength', angular.mock.inject(function (DataService, LevelService, ViewStateService) {
     // set according data
     DataService.setData(msajc003_bndl.annotation);
-    viewState.setCurLevelAttrDefs(aetmpDBconfig.levelDefinitions);
+    ViewStateService.setCurLevelAttrDefs(aetmpDBconfig.levelDefinitions);
     var items = LevelService.getItemsFromLevelByIdAndLength('Phonetic', 148, 1);
     expect(items.length).toEqual(1);
     expect(items[0].sampleStart).toEqual(5140);
@@ -1227,16 +1227,16 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should calcDistanceToNearestZeroCrossing', inject(function (DataService, LevelService, viewState, Soundhandlerservice) {
+  it('should calcDistanceToNearestZeroCrossing', angular.mock.inject(function (DataService, LevelService, ViewStateService, SoundHandlerService) {
       // set according data
       DataService.setData(msajc003_bndl.annotation);
-      Soundhandlerservice.audioBuffer.length = 1000;
-      viewState.setCurLevelAttrDefs(aetmpDBconfig.levelDefinitions);
+      SoundHandlerService.audioBuffer.length = 1000;
+      ViewStateService.setCurLevelAttrDefs(aetmpDBconfig.levelDefinitions);
       var samples = [];
-      for (var i = 0; i < Soundhandlerservice.audioBuffer.length; i++) {
+      for (var i = 0; i < SoundHandlerService.audioBuffer.length; i++) {
           samples[i] = 0;
     }
-      Soundhandlerservice.audioBuffer.getChannelData = function (n) {
+      SoundHandlerService.audioBuffer.getChannelData = function (n) {
           return(samples);
       }
 
@@ -1255,7 +1255,7 @@ describe('Service: LevelService', function () {
   /**
    *
    */
-  it('should createSelection', inject(function (DataService, LevelService, viewState) {
+  it('should createSelection', angular.mock.inject(function (DataService, LevelService, ViewStateService) {
     // set according data
     var input = document.createElement('TEXTAREA');
     input.value = 'test';

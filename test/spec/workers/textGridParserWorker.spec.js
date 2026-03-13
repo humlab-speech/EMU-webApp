@@ -4,7 +4,7 @@ describe('Worker: TextGridParserWorker', function() {
 
   var worker, mockGlobal, wavData;
   
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
   
   var data;
   var parsed;
@@ -13,7 +13,7 @@ describe('Worker: TextGridParserWorker', function() {
   var name = 'msajc003';
   var annotates = name + '.wav';
   
-  beforeEach(inject(function (DataService) {
+  beforeEach(angular.mock.inject(function (DataService) {
     data = DataService;
     var DummyWorker = function() {};
     worker = new TextGridParserWorker(DummyWorker);

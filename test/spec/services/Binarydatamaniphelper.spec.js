@@ -1,23 +1,23 @@
 'use strict';
 
-describe('Service: Binarydatamaniphelper', function () {
+describe('Service: BinaryDataManipHelperService', function () {
 
   // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
   /**
    *
    */
-  it('should convert base64ToArrayBuffer', inject(function (Binarydatamaniphelper) {
-    var ab = Binarydatamaniphelper.base64ToArrayBuffer(msajc003_bndl.mediaFile.data);
+  it('should convert base64ToArrayBuffer', angular.mock.inject(function (BinaryDataManipHelperService) {
+    var ab = BinaryDataManipHelperService.base64ToArrayBuffer(msajc003_bndl.mediaFile.data);
     expect(ab.byteLength).toBe(msajc003_bndl.mediaFile.data.length * 0.75 - 1);
   }));
 
   /**
    *
    */
-  it('should convert arrayBufferToBase64', inject(function (Binarydatamaniphelper) {
-    var base = Binarydatamaniphelper.arrayBufferToBase64(Binarydatamaniphelper.base64ToArrayBuffer(msajc003_bndl.mediaFile.data));
+  it('should convert arrayBufferToBase64', angular.mock.inject(function (BinaryDataManipHelperService) {
+    var base = BinaryDataManipHelperService.arrayBufferToBase64(BinaryDataManipHelperService.base64ToArrayBuffer(msajc003_bndl.mediaFile.data));
     expect(base).toBe(msajc003_bndl.mediaFile.data);
   }));
 

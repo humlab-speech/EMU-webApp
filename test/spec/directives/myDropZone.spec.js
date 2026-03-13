@@ -3,9 +3,9 @@
 describe('Directive: myDropZone', function() {
 
     var $window, elm, scope, mockObject, mockObjectgrid, mockObjectother, mockObjectannot, mockDir;
-    beforeEach(module('grazer', 'grazer.templates'));
+    beforeEach(angular.mock.module('grazer', 'grazer.templates'));
     
-    beforeEach(inject(function($rootScope, _$window_) {
+    beforeEach(angular.mock.inject(function($rootScope, _$window_) {
         scope = $rootScope.$new();
         $window = _$window_;
         mockObject = {
@@ -37,7 +37,7 @@ describe('Directive: myDropZone', function() {
 
     function compileDirective(tpl) {
         if (!tpl) tpl = '<my-drop-zone></my-drop-zone>';
-        inject(function($compile) {
+        angular.mock.inject(function($compile) {
             elm = $compile(tpl)(scope);
         });
         scope.$digest();
@@ -113,7 +113,7 @@ describe('Directive: myDropZone', function() {
         expect(elm.isolateScope().count).toBe(20);
     }); 
     
-    it('should startRendering', inject(function (DragnDropService) {
+    it('should startRendering', angular.mock.inject(function (DragnDropService) {
         compileDirective();
         spyOn(DragnDropService, 'setData');
         elm.isolateScope().updateQueueLength(1);
@@ -179,7 +179,7 @@ describe('Directive: myDropZone', function() {
         expect(elm.isolateScope().dropText).toBe(elm.isolateScope().dropParsingWaitingAnnot);
     });     
     
-    it('should warn if no FileAPI available', inject(function ($q, modalService, appStateService) {
+    it('should warn if no FileAPI available', angular.mock.inject(function ($q, ModalService, AppStateService) {
         compileDirective();
         // save cur window vars in tmp vars
         var old_window_File = $window.File;
@@ -192,16 +192,16 @@ describe('Directive: myDropZone', function() {
         $window.FileList = undefined;
         $window.Blob = undefined;
         var txtDeferred = $q.defer(); 
-        spyOn(modalService, 'open').and.returnValue(txtDeferred.promise);
-        spyOn(appStateService, 'resetToInitState');
+        spyOn(ModalService, 'open').and.returnValue(txtDeferred.promise);
+        spyOn(AppStateService, 'resetToInitState');
         var e = jQuery.Event('drop', {originalEvent: new Event('drop')});
         e.originalEvent.dataTransfer = {files: ['testFile.wav'], items: ['testFile.wav']};
         elm.triggerHandler(e);
         scope.$apply();
         txtDeferred.resolve(true);
         scope.$digest();
-        expect(appStateService.resetToInitState).toHaveBeenCalled();
-        expect(modalService.open).toHaveBeenCalled();
+        expect(AppStateService.resetToInitState).toHaveBeenCalled();
+        expect(ModalService.open).toHaveBeenCalled();
         // reset old vars to not mess up other test because window vars are messed up
         $window.File = old_window_File;
         $window.FileReader = old_window_FileReader;

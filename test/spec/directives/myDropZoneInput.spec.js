@@ -4,9 +4,9 @@ describe('Directive: myDropZoneInput', function() {
 
     var elm, scope;
     
-    beforeEach(module('grazer', 'grazer.templates'));
+    beforeEach(angular.mock.module('grazer', 'grazer.templates'));
     
-    beforeEach(inject(function($rootScope) {
+    beforeEach(angular.mock.inject(function($rootScope) {
         scope = $rootScope.$new();
         scope.$parent.loadFiles = function() {};
     }));
@@ -14,7 +14,7 @@ describe('Directive: myDropZoneInput', function() {
 
     function compileDirective(tpl) {
         if (!tpl) tpl = '<my-drop-zone-input></my-drop-zone-input>';
-        inject(function($compile) {
+        angular.mock.inject(function($compile) {
             elm = $compile(tpl)(scope);
         });
         scope.$apply();

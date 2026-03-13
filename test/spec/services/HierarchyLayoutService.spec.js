@@ -5,13 +5,13 @@ describe('Service: HierarchyLayoutService', function () {
   var scope;
 
    // load the service's module
-   beforeEach(module('grazer'));
+   beforeEach(angular.mock.module('grazer'));
 
   // instantiate service
-    beforeEach(inject(function ($rootScope,
+    beforeEach(angular.mock.inject(function ($rootScope,
                                 LevelService,
-                                modalService,
-                                viewState,
+                                ModalService,
+                                ViewStateService,
                                 DataService,
                                 ConfigProviderService,
                                 HierarchyLayoutService) {
@@ -24,8 +24,8 @@ describe('Service: HierarchyLayoutService', function () {
         scope.data.setData(msajc003_bndl.annotation);
         scope.hierarchy = HierarchyLayoutService;
         scope.lvl = LevelService;
-        scope.modal = modalService;
-        scope.vs = viewState;
+        scope.modal = ModalService;
+        scope.vs = ViewStateService;
     }));
 
 

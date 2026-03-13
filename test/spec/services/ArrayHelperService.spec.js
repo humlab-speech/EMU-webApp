@@ -3,13 +3,13 @@
 describe('Service: ArrayHelperService', function () {
 
 	// load the controller's module
-	beforeEach(module('grazer'));
+	beforeEach(angular.mock.module('grazer'));
 
 
 	/**
 	 *
 	 */
-	it('should find min/max in mock array', inject(function (ArrayHelperService) {
+	it('should find min/max in mock array', angular.mock.inject(function (ArrayHelperService) {
 		var mockArr = [123, 3, 432, 2, 4, 4];
 
 		var res = ArrayHelperService.findMinMax(mockArr, 'min');
@@ -26,7 +26,7 @@ describe('Service: ArrayHelperService', function () {
 	/**
 	 *
 	 */
-	it('should create absolute array of mock array', inject(function (ArrayHelperService) {
+	it('should create absolute array of mock array', angular.mock.inject(function (ArrayHelperService) {
 		var mockArr = [3, 2, 1, 1, -1, -2, -3, -4];
 
 		var res = ArrayHelperService.convertToAbsValues(mockArr);
@@ -39,7 +39,7 @@ describe('Service: ArrayHelperService', function () {
 	/**
 	 *
 	 */
-	it('should multiply each element of array with value', inject(function (ArrayHelperService) {
+	it('should multiply each element of array with value', angular.mock.inject(function (ArrayHelperService) {
 		var mockArr = [3, 2, 1, 1, -1, -2, -3, -4];
 
 		var res = ArrayHelperService.multiplyEachElement(mockArr, 2);
@@ -52,11 +52,11 @@ describe('Service: ArrayHelperService', function () {
 	/**
 	 *
 	 */
-	it('should do calculate correct interpolation', inject(function (ArrayHelperService, mathHelperService) {
+	it('should do calculate correct interpolation', angular.mock.inject(function (ArrayHelperService, MathHelperService) {
 		var res = ArrayHelperService.interp2points(1, 1, 2, 2, 1.5);
 		expect(res).toEqual(1.5);
 		var res = ArrayHelperService.interp2points(14, 4, 15, 5, 14.2);
-		expect(mathHelperService.roundToNdigitsAfterDecPoint(res, 1)).toEqual(4.2);
+		expect(MathHelperService.roundToNdigitsAfterDecPoint(res, 1)).toEqual(4.2);
 		var res = ArrayHelperService.interp2points(-42, 3, 125, 41, 0);
 		expect(res).toEqual(12.55688622754491);
 
@@ -65,7 +65,7 @@ describe('Service: ArrayHelperService', function () {
 	/**
 	 *
 	 */
-	it('should flatten array of arrays', inject(function (ArrayHelperService) {
+	it('should flatten array of arrays', angular.mock.inject(function (ArrayHelperService) {
 
 		var arrOfArrs = [
 			[1],

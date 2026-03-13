@@ -6,26 +6,26 @@ describe('Directive: spectro', function () {
 
     var elm, tpl, scope, curLvl;
     var lvlName = 'Phonetic';
-    beforeEach(module('grazer', 'grazer.templates'));
+    beforeEach(angular.mock.module('grazer', 'grazer.templates'));
     
-    beforeEach(inject(function ($rootScope, $compile, Drawhelperservice, DataService, LevelService, ConfigProviderService, viewState, Soundhandlerservice) {
+    beforeEach(angular.mock.inject(function ($rootScope, $compile, DrawHelperService, DataService, LevelService, ConfigProviderService, ViewStateService, SoundHandlerService) {
         scope = $rootScope.$new();
         scope.lvl = LevelService;
         scope.data = DataService;
         scope.cps = ConfigProviderService;
-        scope.shs = Soundhandlerservice;
-        scope.dhs = Drawhelperservice;
+        scope.shs = SoundHandlerService;
+        scope.dhs = DrawHelperService;
         scope.cps.setVals(defaultGrazerConfig);
         scope.cps.curDbConfig = aeDbConfig;
         scope.cps.design = defaultGrazerDesign;
-        scope.vs = viewState;
+        scope.vs = ViewStateService;
         scope.data.setData(msajc003_bndl.annotation);
         scope.level = curLvl;           
     }));
 
     function compileDirective() {
         tpl = "<spectro order='0' track-name='SPECTRO'></spectro>";
-        inject(function ($compile) {
+        angular.mock.inject(function ($compile) {
             elm = $compile(tpl)(scope);
         });
         scope.$digest();
@@ -39,7 +39,7 @@ describe('Directive: spectro', function () {
         expect(elm.find('img').length).toBe(1);
     });
 
-    it('should watch vs.curViewPort', inject(function ($timeout) {
+    it('should watch vs.curViewPort', angular.mock.inject(function ($timeout) {
         scope.shs.audioBuffer.length = 3;
         scope.shs.audioBuffer.getChannelData = function (n) {
             return(new Float32Array([1,2,3,4]));

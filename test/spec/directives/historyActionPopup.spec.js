@@ -3,16 +3,16 @@
 describe('Directive: historyActionPopup', function() {
 
     var elm, scope;
-    beforeEach(module('grazer'));
+    beforeEach(angular.mock.module('grazer'));
 
-    beforeEach(inject(function($rootScope, $q, $compile, viewState, modalService) {
+    beforeEach(angular.mock.inject(function($rootScope, $q, $compile, ViewStateService, ModalService) {
         scope = $rootScope.$new();
-        scope.vs = viewState;
-        scope.modal = modalService;
+        scope.vs = ViewStateService;
+        scope.modal = ModalService;
     }));
 
     function compileDirective(tpl) {
-        inject(function($compile) {
+        angular.mock.inject(function($compile) {
             elm = $compile('<history-action-popup></history-action-popup>')(scope);
         });
         scope.$digest();

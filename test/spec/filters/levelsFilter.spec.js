@@ -16,10 +16,10 @@ describe("Unit Testing: regex filters", function () {
   }];
 
   // load the module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
   // load filter function into variable
-  beforeEach(inject(function ($filter) {
+  beforeEach(angular.mock.inject(function ($filter) {
     filt = $filter('levelsFilter');
   }));
 
@@ -28,10 +28,10 @@ describe("Unit Testing: regex filters", function () {
   })
 
   // test regex filter
-  it('should filter dummyarray with levelsFilter properly: ', inject(function (ConfigProviderService, viewState) {
+  it('should filter dummyarray with levelsFilter properly: ', angular.mock.inject(function (ConfigProviderService, ViewStateService) {
     ConfigProviderService.setVals(defaultGrazerConfig);
-    viewState.curPerspectiveIdx = 0;
-    ConfigProviderService.vals.perspectives[viewState.curPerspectiveIdx].levelCanvases = aeDbConfig.EMUwebAppConfig.perspectives[0].levelCanvases;
+    ViewStateService.curPerspectiveIdx = 0;
+    ConfigProviderService.vals.perspectives[ViewStateService.curPerspectiveIdx].levelCanvases = aeDbConfig.EMUwebAppConfig.perspectives[0].levelCanvases;
     expect(filt(dummyList).length).toEqual(2);
   }));
 });

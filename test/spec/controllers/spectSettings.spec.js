@@ -5,21 +5,21 @@ describe('Controller: spectSettingsCtrl', function () {
   var spectSettingsCtrl, scope;
 
   // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
 
   //Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, mathHelperService, Soundhandlerservice, DataService, ConfigProviderService, modalService, viewState, LevelService) {
+  beforeEach(angular.mock.inject(function ($controller, $rootScope, MathHelperService, SoundHandlerService, DataService, ConfigProviderService, ModalService, ViewStateService, LevelService) {
     scope = $rootScope.$new();
     scope.cps = ConfigProviderService;
     scope.cps.setVals(defaultGrazerConfig);
     scope.cps.curDbConfig = aeDbConfig;
-    scope.modal = modalService;
-    scope.vs = viewState;
+    scope.modal = ModalService;
+    scope.vs = ViewStateService;
     scope.lvl = LevelService;
     scope.data = DataService;
-    scope.math = mathHelperService;
-    scope.shs = Soundhandlerservice;
+    scope.math = MathHelperService;
+    scope.shs = SoundHandlerService;
 
     spectSettingsCtrl = $controller('spectSettingsCtrl', {
       $scope: scope

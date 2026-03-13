@@ -3,14 +3,14 @@
 describe('Service: LinkService', function () {
 
   // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
   
   var item;
   
   /**
    *
    */
-  it('should add links to parent', inject(function (DataService, LinkService) {
+  it('should add links to parent', angular.mock.inject(function (DataService, LinkService) {
     // set according data
     DataService.setData(msajc003_bndl.annotation);
     DataService.setLinkData([]);
@@ -34,7 +34,7 @@ describe('Service: LinkService', function () {
   /**
    *
    */
-  it('should remove links to parent', inject(function (DataService, LinkService) {
+  it('should remove links to parent', angular.mock.inject(function (DataService, LinkService) {
     // first add
     DataService.setData(msajc003_bndl.annotation);
     DataService.setLinkData([]);
@@ -53,7 +53,7 @@ describe('Service: LinkService', function () {
   /**
    *
    */
-  it('should add links to children', inject(function (DataService, LinkService) {
+  it('should add links to children', angular.mock.inject(function (DataService, LinkService) {
     // set according data
     DataService.setData(msajc003_bndl.annotation);
     DataService.setLinkData([]);
@@ -76,7 +76,7 @@ describe('Service: LinkService', function () {
   /**
    *
    */
-  it('should remove links to children', inject(function (DataService, LinkService) {
+  it('should remove links to children', angular.mock.inject(function (DataService, LinkService) {
     // first add
     DataService.setData(msajc003_bndl.annotation);
     DataService.setLinkData([]);
@@ -95,7 +95,7 @@ describe('Service: LinkService', function () {
   /**
    *
    */
-  it('should get Links from ID', inject(function (DataService, LinkService) {
+  it('should get Links from ID', angular.mock.inject(function (DataService, LinkService) {
     // first add
     DataService.setData(msajc003_bndl.annotation);
     DataService.setLinkData([]);
@@ -115,7 +115,7 @@ describe('Service: LinkService', function () {
   /**
    *
    */
-  it('should get Links to ID', inject(function (DataService, LinkService) {
+  it('should get Links to ID', angular.mock.inject(function (DataService, LinkService) {
     // first add
     DataService.setData(msajc003_bndl.annotation);
     DataService.setLinkData([]);
@@ -135,7 +135,7 @@ describe('Service: LinkService', function () {
   /**
    *
    */
-  it('should change link from', inject(function (DataService, LinkService) {
+  it('should change link from', angular.mock.inject(function (DataService, LinkService) {
     // first add
     DataService.setData(msajc003_bndl.annotation);
     DataService.setLinkData([]);
@@ -155,7 +155,7 @@ describe('Service: LinkService', function () {
   /**
    *
    */
-  it('should change link to', inject(function (DataService, LinkService) {
+  it('should change link to', angular.mock.inject(function (DataService, LinkService) {
     // first add
     DataService.setData(msajc003_bndl.annotation);
     DataService.setLinkData([]);
@@ -175,7 +175,7 @@ describe('Service: LinkService', function () {
   /**
    *
    */
-  it('should check if hasParents', inject(function (DataService, LinkService) {
+  it('should check if hasParents', angular.mock.inject(function (DataService, LinkService) {
     // first add
     DataService.setData(msajc003_bndl.annotation);
     DataService.setLinkData([]);
@@ -193,7 +193,7 @@ describe('Service: LinkService', function () {
   /**
    *
    */
-  it('should check if hasChildren', inject(function (DataService, LinkService) {
+  it('should check if hasChildren', angular.mock.inject(function (DataService, LinkService) {
     // first add
     DataService.setData(msajc003_bndl.annotation);
     DataService.setLinkData([]);
@@ -211,7 +211,7 @@ describe('Service: LinkService', function () {
   /**
    *
    */
-  it('should check if isLinked', inject(function (DataService, LinkService) {
+  it('should check if isLinked', angular.mock.inject(function (DataService, LinkService) {
     // first add
     DataService.setData(msajc003_bndl.annotation);
     DataService.setLinkData([]);
@@ -229,7 +229,7 @@ describe('Service: LinkService', function () {
   /**
    *
    */
-  it('should deleteLinkBoundary', inject(function (DataService, LinkService, LevelService) {
+  it('should deleteLinkBoundary', angular.mock.inject(function (DataService, LinkService, LevelService) {
     // first add
     DataService.setData(msajc003_bndl.annotation);
     DataService.setLinkData([]);
@@ -268,7 +268,7 @@ describe('Service: LinkService', function () {
  /**
    *
    */
-  it('should deleteLinkBoundary inverse', inject(function (DataService, LinkService, LevelService) {
+  it('should deleteLinkBoundary inverse', angular.mock.inject(function (DataService, LinkService, LevelService) {
     // first add
     DataService.setData(msajc003_bndl.annotation);
     DataService.setLinkData([]);
@@ -314,7 +314,7 @@ describe('Service: LinkService', function () {
   /**
    *
    */
-  it('should deleteLinkBoundary with children', inject(function (DataService, LinkService, LevelService) {
+  it('should deleteLinkBoundary with children', angular.mock.inject(function (DataService, LinkService, LevelService) {
     // first add
     DataService.setData(msajc003_bndl.annotation);
     DataService.setLinkData([]);
@@ -353,7 +353,7 @@ describe('Service: LinkService', function () {
   /**
    *
    */
-  it('should deleteLinkBoundary with children inverse', inject(function (DataService, LinkService, LevelService) {
+  it('should deleteLinkBoundary with children inverse', angular.mock.inject(function (DataService, LinkService, LevelService) {
     // first add
     DataService.setData(msajc003_bndl.annotation);
     DataService.setLinkData([]);
@@ -425,7 +425,7 @@ describe('Service: LinkService', function () {
   /**
    *
    */
-  it('should delete links (whole segment)', inject(function (DataService, LinkService) {
+  it('should delete links (whole segment)', angular.mock.inject(function (DataService, LinkService) {
     // first add
     DataService.setData(msajc003_bndl.annotation);
     DataService.setLinkData([]);
@@ -450,7 +450,7 @@ describe('Service: LinkService', function () {
   /**
    *
    */
-  it('should delete links (whole segment) inverse', inject(function (DataService, LinkService) {
+  it('should delete links (whole segment) inverse', angular.mock.inject(function (DataService, LinkService) {
     // first add
     DataService.setData(msajc003_bndl.annotation);
     DataService.setLinkData([]);

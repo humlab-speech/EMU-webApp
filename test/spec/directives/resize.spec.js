@@ -3,15 +3,15 @@
 describe('Directive: resize', function() {
 
     var elm, form, span, scope;
-    beforeEach(module('grazer'));
+    beforeEach(angular.mock.module('grazer'));
 
-    beforeEach(inject(function($rootScope, $compile) {
+    beforeEach(angular.mock.inject(function($rootScope, $compile) {
         scope = $rootScope.$new();
     }));
 
     function compileDirective(tpl) {
         if (!tpl) tpl = '<form><span><span></span><span></span><span></span><div resize></div></span></form>';
-        inject(function($compile) {
+        angular.mock.inject(function($compile) {
             var form = $compile(tpl)(scope);
             elm = form.find('div');
             form = form.find('form');
@@ -20,7 +20,7 @@ describe('Directive: resize', function() {
         scope.$digest();
     }
 
-    it('should be clickable (true)', inject(function (ConfigProviderService) {
+    it('should be clickable (true)', angular.mock.inject(function (ConfigProviderService) {
         scope.cps = ConfigProviderService;
         scope.updateView = function() {};
         scope.cps.setVals(defaultGrazerConfig);
@@ -35,7 +35,7 @@ describe('Directive: resize', function() {
         expect(elm.prevObject.children().children()[2].style.display).toEqual('none');
     })); 
 
-    it('should be clickable (false)', inject(function (ConfigProviderService) {
+    it('should be clickable (false)', angular.mock.inject(function (ConfigProviderService) {
         scope.cps = ConfigProviderService;
         scope.updateView = function() {};
         scope.cps.setVals(defaultGrazerConfig);

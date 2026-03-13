@@ -4,13 +4,13 @@ describe('Service: ConfigProviderService', function () {
 
   // load the controller's module
   beforeEach(function () {
-    module('grazer');
+    angular.mock.module('grazer');
   });
 
   /**
    *
    */
-  it('check default vals are set correctly', inject(function (ConfigProviderService) {
+  it('check default vals are set correctly', angular.mock.inject(function (ConfigProviderService) {
     // vals
     expect($.isEmptyObject(ConfigProviderService.vals)).toBe(true);
     // curDbConfig
@@ -25,7 +25,7 @@ describe('Service: ConfigProviderService', function () {
   /**
    *
    */
-  it('check if initial set of vals works', inject(function (ConfigProviderService) {
+  it('check if initial set of vals works', angular.mock.inject(function (ConfigProviderService) {
     ConfigProviderService.setVals(defaultGrazerConfig);
     expect($.isEmptyObject(ConfigProviderService.vals)).toBe(false);
     expect(JSON.stringify(ConfigProviderService.vals, undefined, 0)).toEqual(JSON.stringify(defaultGrazerConfig, undefined, 0));
@@ -34,7 +34,7 @@ describe('Service: ConfigProviderService', function () {
   /**
    *
    */
-  it('check if vals overwrite works', inject(function (ConfigProviderService) {
+  it('check if vals overwrite works', angular.mock.inject(function (ConfigProviderService) {
     ConfigProviderService.setVals(defaultGrazerConfig);
     // single value
     var newVals = {
@@ -49,7 +49,7 @@ describe('Service: ConfigProviderService', function () {
   /**
    *
    */
-  it('check if getSsffTrackConfig', inject(function (ConfigProviderService) {
+  it('check if getSsffTrackConfig', angular.mock.inject(function (ConfigProviderService) {
     ConfigProviderService.curDbConfig = aeDbConfig;
     expect(ConfigProviderService.getSsffTrackConfig('FORMANTS').name).toBe('FORMANTS');
     expect(ConfigProviderService.getSsffTrackConfig('FORMANTS').columnName).toBe('fm');
@@ -60,28 +60,28 @@ describe('Service: ConfigProviderService', function () {
   /**
    *
    */
-  it('should getContourLimsOfTrack', inject(function (viewState, ConfigProviderService) {
+  it('should getContourLimsOfTrack', angular.mock.inject(function (ViewStateService, ConfigProviderService) {
     ConfigProviderService.setVals(defaultGrazerConfig);
-    viewState.curPerspectiveIdx = 0;
-    ConfigProviderService.vals.perspectives[viewState.curPerspectiveIdx].levelCanvases = aeDbConfig.EMUwebAppConfig.perspectives[0].levelCanvases;
+    ViewStateService.curPerspectiveIdx = 0;
+    ConfigProviderService.vals.perspectives[ViewStateService.curPerspectiveIdx].levelCanvases = aeDbConfig.EMUwebAppConfig.perspectives[0].levelCanvases;
     expect(ConfigProviderService.getContourLimsOfTrack('SPEC')).toEqual({ });
   }));
   
   /**
    *
    */
-  it('should getAssignment', inject(function (viewState, ConfigProviderService) {
+  it('should getAssignment', angular.mock.inject(function (ViewStateService, ConfigProviderService) {
     ConfigProviderService.setVals(defaultGrazerConfig);
-    viewState.curPerspectiveIdx = 0;
+    ViewStateService.curPerspectiveIdx = 0;
     // set
-    ConfigProviderService.vals.perspectives[viewState.curPerspectiveIdx].signalCanvases.assign = [{signalCanvasName: 'SPEC', ssffTrackName: 'FORMANTS'}];
+    ConfigProviderService.vals.perspectives[ViewStateService.curPerspectiveIdx].signalCanvases.assign = [{signalCanvasName: 'SPEC', ssffTrackName: 'FORMANTS'}];
     expect(ConfigProviderService.getAssignment('SPEC')).toEqual({
         signalCanvasName : 'SPEC', 
         ssffTrackName : 'FORMANTS'
     });
   }));
   
-   it('should getStrRep', inject(function (ConfigProviderService) {
+   it('should getStrRep', angular.mock.inject(function (ConfigProviderService) {
      expect(ConfigProviderService.getStrRep("\b".charCodeAt(0))).toEqual('BACKSPACE');
      expect(ConfigProviderService.getStrRep("\t".charCodeAt(0))).toEqual('TAB');
      expect(ConfigProviderService.getStrRep("\r\n".charCodeAt(0))).toEqual('ENTER');

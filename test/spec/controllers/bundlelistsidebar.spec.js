@@ -5,10 +5,10 @@ describe('Controller: bundleListSideBarCtrl', function () {
   var ctrl, $componentController, $rootScope;
 
   // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
   //Initialize the controller and a mock scope
-  beforeEach(inject(function (_$componentController_, _$rootScope_, ViewStateService, LoadedMetaDataService, DbObjLoadSaveService, ConfigProviderService, HistoryService) {
+  beforeEach(angular.mock.inject(function (_$componentController_, _$rootScope_, ViewStateService, LoadedMetaDataService, DbObjLoadSaveService, ConfigProviderService, HistoryService) {
     $componentController = _$componentController_;
     $rootScope = _$rootScope_;
 

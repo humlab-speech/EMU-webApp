@@ -3,17 +3,17 @@
 describe('Directive: enlarge', function() {
 
     var elm, scope;
-    beforeEach(module('grazer'));
+    beforeEach(angular.mock.module('grazer'));
 
-    beforeEach(inject(function($rootScope, $compile, viewState, ConfigProviderService) {
+    beforeEach(angular.mock.inject(function($rootScope, $compile, ViewStateService, ConfigProviderService) {
         scope = $rootScope.$new();
-        scope.vs = viewState;
+        scope.vs = ViewStateService;
     }));
 
     function compileDirective(tpl) {
         if (!tpl) tpl = '<div enlarge="0"></div>';
         tpl = '<span>' + tpl + '</span>';
-        inject(function($compile) {
+        angular.mock.inject(function($compile) {
             var form = $compile(tpl)(scope);
             elm = form.find('div');
         });

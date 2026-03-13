@@ -1,17 +1,17 @@
 'use strict';
 
-describe('Service: modalService', function () {
+describe('Service: ModalService', function () {
 
   // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
   
   var scope;
 
   //Initialize the controller and a mock scope
-  beforeEach(inject(function ($rootScope, modalService, viewState) {
+  beforeEach(angular.mock.inject(function ($rootScope, ModalService, ViewStateService) {
     scope = $rootScope.$new();
-    scope.modal = modalService;
-    scope.vs = viewState;
+    scope.modal = ModalService;
+    scope.vs = ViewStateService;
   }));
 
   /**

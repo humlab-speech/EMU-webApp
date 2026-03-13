@@ -1,17 +1,17 @@
 'use strict';
 
-describe('Service: Drawhelperservice', function () {
+describe('Service: DrawHelperService', function () {
 
   // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
   
   var scope;
 
   //Initialize the controller and a mock scope
-  beforeEach(inject(function ($rootScope, Drawhelperservice, viewState, ConfigProviderService) {
+  beforeEach(angular.mock.inject(function ($rootScope, DrawHelperService, ViewStateService, ConfigProviderService) {
     scope = $rootScope.$new();
-    scope.dhs = Drawhelperservice;
-    scope.vs = viewState;
+    scope.dhs = DrawHelperService;
+    scope.vs = ViewStateService;
     scope.cps = ConfigProviderService;
     scope.cps.design = defaultGrazerDesign;    
     scope.cps.vals = {};
@@ -27,7 +27,7 @@ describe('Service: Drawhelperservice', function () {
   /**
    *
    */
-  it('should drawCrossHairs (trackname undefined)', inject(function (ConfigProviderService, Ssffdataservice) {
+  it('should drawCrossHairs (trackname undefined)', angular.mock.inject(function (ConfigProviderService, SsffDataService) {
     // add mock track definition
     scope.cps.curDbConfig.ssffTrackDefinitions = [{
       'name': 'test',
@@ -35,7 +35,7 @@ describe('Service: Drawhelperservice', function () {
       'fileExtension': 'testFileExt'
     }];
     spyOn(scope.cps, 'getSsffTrackConfig').and.returnValue({name: 'test', columnName: 'test'});
-    spyOn(Ssffdataservice, 'getColumnOfTrack').and.returnValue({_maxVal: 0, _minVal: 0});
+    spyOn(SsffDataService, 'getColumnOfTrack').and.returnValue({_maxVal: 0, _minVal: 0});
     spyOn(scope.vs, 'getX').and.returnValue(512);
     spyOn(scope.vs, 'getY').and.returnValue(128);
     var canvas = document.createElement('canvas');
@@ -46,13 +46,13 @@ describe('Service: Drawhelperservice', function () {
     expect(scope.vs.getX).toHaveBeenCalled();
     expect(scope.vs.getY).toHaveBeenCalled();
     expect(ConfigProviderService.getSsffTrackConfig).toHaveBeenCalled();
-    expect(Ssffdataservice.getColumnOfTrack).toHaveBeenCalled();
+    expect(SsffDataService.getColumnOfTrack).toHaveBeenCalled();
   }));
   
   /**
    *
    */
-  it('should drawCrossHairs (trackname OSCI)', inject(function (ConfigProviderService) {
+  it('should drawCrossHairs (trackname OSCI)', angular.mock.inject(function (ConfigProviderService) {
     spyOn(scope.vs, 'getX').and.returnValue(512);
     spyOn(scope.vs, 'getY').and.returnValue(128);
     var canvas = document.createElement('canvas');
@@ -67,7 +67,7 @@ describe('Service: Drawhelperservice', function () {
   /**
    *
    */
-  it('should drawCrossHairs (trackname SPEC)', inject(function (ConfigProviderService) {
+  it('should drawCrossHairs (trackname SPEC)', angular.mock.inject(function (ConfigProviderService) {
     spyOn(scope.vs, 'getX').and.returnValue(512);
     spyOn(scope.vs, 'getY').and.returnValue(128);
     var canvas = document.createElement('canvas');

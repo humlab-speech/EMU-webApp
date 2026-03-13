@@ -5,16 +5,16 @@ describe('Controller: ModalCtrl', function () {
   var ModalCtrl, scope;
 
     // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
      //Initialize the controller and a mock scope
-     beforeEach(inject(function ($controller, $rootScope, $q, DataService, ConfigProviderService, modalService, viewState, LevelService, HistoryService) {
+     beforeEach(angular.mock.inject(function ($controller, $rootScope, $q, DataService, ConfigProviderService, ModalService, ViewStateService, LevelService, HistoryService) {
        scope = $rootScope.$new();
        scope.cps = ConfigProviderService;
        scope.cps.setVals(defaultGrazerConfig);
        scope.cps.curDbConfig = aeDbConfig;
-       scope.modal = modalService;
-       scope.vs = viewState;
+       scope.modal = ModalService;
+       scope.vs = ViewStateService;
        scope.lvl = LevelService;
        scope.datas = DataService;
        scope.history = HistoryService;

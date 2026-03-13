@@ -3,7 +3,7 @@
 describe('Controller: MainController', function () {
 
   //load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
   var emptyObject = {};
 
@@ -15,7 +15,7 @@ describe('Controller: MainController', function () {
   var orig = [];
 
   //Initialize the controller and a mock scope
-  beforeEach(inject(function ($componentController,
+  beforeEach(angular.mock.inject(function ($componentController,
     $rootScope,
     $q,
     $httpBackend,
@@ -80,7 +80,7 @@ describe('Controller: MainController', function () {
     $httpBackend.whenGET("configFiles/default_emuwebappDesign.json").respond(defaultGrazerDesign);
   }));
 
-  it('should react to $broadcast connectionDisrupted', inject(function ($rootScope) {
+  it('should react to $broadcast connectionDisrupted', angular.mock.inject(function ($rootScope) {
     // register listeners that are normally set up in $postLink
     scope.$on('connectionDisrupted', function () {
       ctrl.AppStateService.resetToInitState();
@@ -90,7 +90,7 @@ describe('Controller: MainController', function () {
     expect(ctrl.AppStateService.resetToInitState).toHaveBeenCalled();
   }));
 
-  it('should react to $broadcast resetToInitState', inject(function ($rootScope) {
+  it('should react to $broadcast resetToInitState', angular.mock.inject(function ($rootScope) {
     // register listeners that are normally set up in $postLink
     scope.$on('resetToInitState', function () {
       ctrl.loadDefaultConfig();
@@ -108,7 +108,7 @@ describe('Controller: MainController', function () {
     expect(ctrl.windowWidth).toBeDefined;
   });
 
-  it('all services should exist', inject(function (ViewStateService,
+  it('all services should exist', angular.mock.inject(function (ViewStateService,
     ConfigProviderService,
     HistoryService,
     FontScaleService,
@@ -154,7 +154,7 @@ describe('Controller: MainController', function () {
     expect(ctrl.ViewStateService.setcursorInTextField).toHaveBeenCalledWith(false);
   });
 
-  it('should clear', inject(function ($q) {
+  it('should clear', angular.mock.inject(function ($q) {
     var txtDeferred = $q.defer();
     spyOn(ctrl.ModalService, 'open').and.returnValue(txtDeferred.promise);
     ctrl.clearBtnClick();
@@ -183,7 +183,7 @@ describe('Controller: MainController', function () {
     expect(ctrl.ModalService.open).toHaveBeenCalledWith('views/help.html');
   });
 
-  it('should openDemoDB ae', inject(function ($q, $httpBackend, DbObjLoadSaveService) {
+  it('should openDemoDB ae', angular.mock.inject(function ($q, $httpBackend, DbObjLoadSaveService) {
     var ioDeferredDBConfig = $q.defer();
     ioDeferredDBConfig.resolve({
       data: {
@@ -217,7 +217,7 @@ describe('Controller: MainController', function () {
     scope.$digest();
   }));
 
-  it('should downloadAnnotationBtnClick', inject(function ($q) {
+  it('should downloadAnnotationBtnClick', angular.mock.inject(function ($q) {
     spyOn(ctrl.ViewStateService, 'getPermission').and.returnValue(true);
     spyOn(ctrl.ModalService, 'open');
     ctrl.LoadedMetaDataService.setCurBndl({name: 'test'});
@@ -226,7 +226,7 @@ describe('Controller: MainController', function () {
     expect(ctrl.ModalService.open).toHaveBeenCalledWith('views/export.html', 'test_annot.json', angular.toJson({levels: []}, true));
   }));
 
-  it('should downloadTextGridBtnClick', inject(function ($q) {
+  it('should downloadTextGridBtnClick', angular.mock.inject(function ($q) {
     var txtDeferred = $q.defer();
     txtDeferred.resolve('test1');
     spyOn(ctrl.ViewStateService, 'getPermission').and.returnValue(true);
@@ -241,13 +241,13 @@ describe('Controller: MainController', function () {
     expect(ctrl.ModalService.open).toHaveBeenCalledWith('views/export.html', 'test2.TextGrid' , 'test1');
   }));
 
-  it('should not openDemoDB ae (no permission)', inject(function ($q) {
+  it('should not openDemoDB ae (no permission)', angular.mock.inject(function ($q) {
     spyOn(ctrl.ViewStateService, 'getPermission').and.returnValue(false);
     ctrl.openDemoDBbtnClick('ae');
     expect(ctrl.ViewStateService.getPermission).toHaveBeenCalledWith('openDemoBtnDBclick');
   }));
 
-  it('should not connect (error)', inject(function ($q) {
+  it('should not connect (error)', angular.mock.inject(function ($q) {
     var conDeferred = $q.defer();
     conDeferred.resolve('http://test:1234');
     var ioDeferred = $q.defer();
@@ -265,13 +265,13 @@ describe('Controller: MainController', function () {
     expect(ctrl.IoHandlerService.WebSocketHandlerService.initConnect).toHaveBeenCalledWith('http://test:1234');
   }));
 
-  it('should not connect (not allowed)', inject(function ($q) {
+  it('should not connect (not allowed)', angular.mock.inject(function ($q) {
     spyOn(ctrl.ViewStateService, 'getPermission').and.returnValue(false);
     ctrl.connectBtnClick();
     expect(ctrl.ViewStateService.getPermission).toHaveBeenCalledWith('connectBtnClick');
   }));
 
-  it('should connect', inject(function ($q) {
+  it('should connect', angular.mock.inject(function ($q) {
     var conDeferred = $q.defer();
     conDeferred.resolve('http://test:1234');
     var ioDeferred = $q.defer();
@@ -307,7 +307,7 @@ describe('Controller: MainController', function () {
     expect(ctrl.ModalService.open).not.toHaveBeenCalledWith();
   });
 
-  it('should open download Textgrid', inject(function ($q) {
+  it('should open download Textgrid', angular.mock.inject(function ($q) {
     /*ctrl.LoadedMetaDataService.setCurBndl({name: 'test'});
     var txtgridDeferred = $q.defer();
     txtgridDeferred.resolve({
@@ -539,7 +539,7 @@ describe('Controller: MainController', function () {
     expect(ctrl.ViewStateService.getPermission).toHaveBeenCalledWith('zoom');
   });
 
-  it('should addLevelPoint on BtnClick', inject(function (ConfigProviderService, ViewStateService) {
+  it('should addLevelPoint on BtnClick', angular.mock.inject(function (ConfigProviderService, ViewStateService) {
   	ViewStateService.curPerspectiveIdx = 0;
     spyOn(ctrl.ViewStateService, 'getPermission').and.returnValue(true);
     spyOn(ViewStateService, 'selectLevel');
@@ -552,7 +552,7 @@ describe('Controller: MainController', function () {
     expect(ViewStateService.selectLevel).toHaveBeenCalled();
   }));
 
-  it('should addLevelSeg on BtnClick', inject(function (ConfigProviderService, ViewStateService) {
+  it('should addLevelSeg on BtnClick', angular.mock.inject(function (ConfigProviderService, ViewStateService) {
     ViewStateService.curPerspectiveIdx = 0;
     spyOn(ctrl.ViewStateService, 'getPermission').and.returnValue(true);
     spyOn(ViewStateService, 'selectLevel');
@@ -566,7 +566,7 @@ describe('Controller: MainController', function () {
   }));
 
    // ViewStateService.getenlarge() no longer exists
-   xit('should getEnlarge (-1)', inject(function (ViewStateService) {
+   xit('should getEnlarge (-1)', angular.mock.inject(function (ViewStateService) {
     ViewStateService.curPerspectiveIdx = 0;
     spyOn(ctrl.ViewStateService, 'getenlarge').and.returnValue(-1);
     var ret = ctrl.getEnlarge();
@@ -574,7 +574,7 @@ describe('Controller: MainController', function () {
   }));
 
    // ViewStateService.getenlarge() no longer exists
-   xit('should getEnlarge (2 / small)', inject(function (ViewStateService) {
+   xit('should getEnlarge (2 / small)', angular.mock.inject(function (ViewStateService) {
     ViewStateService.curPerspectiveIdx = 0;
     spyOn(ctrl.ViewStateService, 'getenlarge').and.returnValue(3);
     var ret = ctrl.getEnlarge(2);
@@ -582,7 +582,7 @@ describe('Controller: MainController', function () {
   }));
 
    // ViewStateService.getenlarge() no longer exists
-   xit('should getEnlarge (2 / large)', inject(function (ViewStateService) {
+   xit('should getEnlarge (2 / large)', angular.mock.inject(function (ViewStateService) {
     ViewStateService.curPerspectiveIdx = 0;
     spyOn(ctrl.ViewStateService, 'getenlarge').and.returnValue(3);
     var ret = ctrl.getEnlarge(3);
@@ -590,7 +590,7 @@ describe('Controller: MainController', function () {
   }));
 
    // ViewStateService.getenlarge() no longer exists
-   xit('should getEnlarge (3 / small)', inject(function (ViewStateService, ConfigProviderService) {
+   xit('should getEnlarge (3 / small)', angular.mock.inject(function (ViewStateService, ConfigProviderService) {
     ViewStateService.curPerspectiveIdx = 0;
     orig = ConfigProviderService.vals.perspectives[ViewStateService.curPerspectiveIdx].signalCanvases.order;
     ConfigProviderService.vals.perspectives[ViewStateService.curPerspectiveIdx].signalCanvases.order.push({empty: ''})
@@ -600,7 +600,7 @@ describe('Controller: MainController', function () {
   }));
 
    // ViewStateService.getenlarge() no longer exists
-   xit('should getEnlarge (3 / large)', inject(function (ViewStateService, ConfigProviderService) {
+   xit('should getEnlarge (3 / large)', angular.mock.inject(function (ViewStateService, ConfigProviderService) {
     ViewStateService.curPerspectiveIdx = 0;
     ConfigProviderService.vals.perspectives[ViewStateService.curPerspectiveIdx].signalCanvases.order.push({empty: ''})
     spyOn(ctrl.ViewStateService, 'getenlarge').and.returnValue(3);
@@ -609,7 +609,7 @@ describe('Controller: MainController', function () {
   }));
 
    // ViewStateService.getenlarge() no longer exists
-   xit('should getEnlarge (1)', inject(function (ViewStateService, ConfigProviderService) {
+   xit('should getEnlarge (1)', angular.mock.inject(function (ViewStateService, ConfigProviderService) {
     ViewStateService.curPerspectiveIdx = 0;
     ConfigProviderService.vals.perspectives[ViewStateService.curPerspectiveIdx].signalCanvases.order.pop();
     ConfigProviderService.vals.perspectives[ViewStateService.curPerspectiveIdx].signalCanvases.order.pop();
@@ -642,7 +642,7 @@ describe('Controller: MainController', function () {
      expect(ctrl.ViewStateService.setWindowWidth).toHaveBeenCalled();
   });
 
-   it('should loadFilesForEmbeddedApp', inject(function ($q) {
+   it('should loadFilesForEmbeddedApp', angular.mock.inject(function ($q) {
      var ioDeferred = $q.defer();
      var ioDeferred2 = $q.defer();
      var wavDeferred = $q.defer();
@@ -668,7 +668,7 @@ describe('Controller: MainController', function () {
      expect(ctrl.DataService.setData).toHaveBeenCalled();
   }));
 
-   it('should loadDefaultConfig', inject(function ($httpBackend, $q, ValidationService, IoHandlerService) {
+   it('should loadDefaultConfig', angular.mock.inject(function ($httpBackend, $q, ValidationService, IoHandlerService) {
      var ioDeferred = $q.defer();
      var jsonDeferred = $q.defer();
      spyOn(ValidationService, 'loadSchemas').and.returnValue(ioDeferred.promise);

@@ -3,17 +3,17 @@
 describe('Directive: drawssff', function() {
 
     var elm, scope, worker;
-    beforeEach(module('grazer'));
+    beforeEach(angular.mock.module('grazer'));
 
-    beforeEach(inject(function($rootScope, $compile, viewState, DataService, ConfigProviderService, LevelService, Ssffdataservice) {
+    beforeEach(angular.mock.inject(function($rootScope, $compile, ViewStateService, DataService, ConfigProviderService, LevelService, SsffDataService) {
         scope = $rootScope.$new();
         scope.lvl = LevelService;
         scope.cps = ConfigProviderService;
         scope.cps.setVals(defaultGrazerConfig);
         scope.cps.design = defaultGrazerDesign;
-        scope.vs = viewState;
+        scope.vs = ViewStateService;
         scope.data = DataService;
-        scope.ssffds = Ssffdataservice; 
+        scope.ssffds = SsffDataService; 
     }));
     
     afterEach(function() {
@@ -24,7 +24,7 @@ describe('Directive: drawssff', function() {
     
     function compileDirective(trackname) {
         var tpl = '<canvas width="2048" drawssff ssff-trackname="'+trackname+'"></canvas>';
-        inject(function($compile) {
+        angular.mock.inject(function($compile) {
             elm = $compile(tpl)(scope);
         });
         scope.$digest();

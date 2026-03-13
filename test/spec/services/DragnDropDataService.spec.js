@@ -3,7 +3,7 @@
 describe('Service: DragnDropDataService', function () {
 
   // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
   var item;
 
@@ -12,7 +12,7 @@ describe('Service: DragnDropDataService', function () {
       ['test2','wavData2','annotationData2']
   ];
 
-  it('should resetToInitState', inject(function (DragnDropDataService) {
+  it('should resetToInitState', angular.mock.inject(function (DragnDropDataService) {
     // set any data
     DragnDropDataService.convertedBundles.push('test');
     DragnDropDataService.sessionDefault = 'test';
@@ -21,20 +21,20 @@ describe('Service: DragnDropDataService', function () {
     expect(DragnDropDataService.sessionDefault).toBe('');
   }));
 
-  it('should setDefaultSession', inject(function (DragnDropDataService) {
+  it('should setDefaultSession', angular.mock.inject(function (DragnDropDataService) {
     // set any data
     DragnDropDataService.sessionDefault = 'test';
     DragnDropDataService.setDefaultSession('test1');
     expect(DragnDropDataService.sessionDefault).toBe('test1');
   }));
 
-  it('should getDefaultSession', inject(function (DragnDropDataService) {
+  it('should getDefaultSession', angular.mock.inject(function (DragnDropDataService) {
     // set any data
     DragnDropDataService.setDefaultSession('test1');
     expect(DragnDropDataService.getDefaultSession()).toBe('test1');
   }));
 
-  it('should getBundle', inject(function (DragnDropDataService) {
+  it('should getBundle', angular.mock.inject(function (DragnDropDataService) {
     // set any data
     DragnDropDataService.convertedBundles.push({name: 'test'});
     var bndl = DragnDropDataService.getBundle('test');

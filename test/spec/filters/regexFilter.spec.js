@@ -21,10 +21,10 @@ describe("Unit Testing: regex filters", function () {
   }];
 
   // load the module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
   // load filter function into variable
-  beforeEach(inject(function ($filter) {
+  beforeEach(angular.mock.inject(function ($filter) {
     filt = $filter('regex');
   }));
 

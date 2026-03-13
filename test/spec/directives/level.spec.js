@@ -5,15 +5,15 @@ describe('Directive: level', function () {
     var elm, tpl, scope, curLvl, curLvlE;
     var lvlName = 'Phonetic';
     var lvlNameE = 'Tone';
-    beforeEach(module('grazer', 'grazer.templates'));
+    beforeEach(angular.mock.module('grazer', 'grazer.templates'));
 
-    beforeEach(inject(function ($rootScope, $compile, LevelService, DataService, ConfigProviderService, viewState, fontScaleService) {
+    beforeEach(angular.mock.inject(function ($rootScope, $compile, LevelService, DataService, ConfigProviderService, ViewStateService, fontScaleService) {
         scope = $rootScope.$new();
         scope.lvl = LevelService;
         scope.cps = ConfigProviderService;
         scope.cps.setVals(defaultGrazerConfig);
         scope.cps.curDbConfig = aeDbConfig;
-        scope.vs = viewState;
+        scope.vs = ViewStateService;
         scope.vs.curPerspectiveIdx = 0;
         scope.data = DataService;
         scope.data.setData(msajc003_bndl.annotation);
@@ -26,7 +26,7 @@ describe('Directive: level', function () {
 
     function compileDirective(lvl) {
         tpl = "<level open='true' level='"+angular.toJson(lvl)+"'></level>";
-        inject(function ($compile) {
+        angular.mock.inject(function ($compile) {
             elm = $compile(tpl)(scope);
         });
         scope.$digest();
@@ -144,7 +144,7 @@ describe('Directive: level', function () {
      expect(elm.isolateScope().drawLevelMarkup).toHaveBeenCalled();
    });
 
-   it('should check preselected boundary on drawLevelMarkup (SEGMENT)', inject(function($rootScope) {
+   it('should check preselected boundary on drawLevelMarkup (SEGMENT)', angular.mock.inject(function($rootScope) {
      compileDirective(curLvl);
      var pcm = 4504;
      expect(elm.isolateScope()).toBeDefined();
@@ -158,7 +158,7 @@ describe('Directive: level', function () {
      expect(scope.vs.getPos).toHaveBeenCalled();
    }));
 
-   it('should check preselected boundary on drawLevelMarkup (EVENT)', inject(function($rootScope) {
+   it('should check preselected boundary on drawLevelMarkup (EVENT)', angular.mock.inject(function($rootScope) {
      compileDirective(curLvl);
      var pcm = 4504;
      expect(elm.isolateScope()).toBeDefined();
@@ -172,7 +172,7 @@ describe('Directive: level', function () {
      expect(scope.vs.getPos).toHaveBeenCalled();
    }));
 
-   it('should check preselected boundary on drawLevelMarkup (first SEGMENT)', inject(function($rootScope) {
+   it('should check preselected boundary on drawLevelMarkup (first SEGMENT)', angular.mock.inject(function($rootScope) {
      compileDirective(curLvl);
      var pcm = 4504;
      expect(elm.isolateScope()).toBeDefined();
@@ -186,7 +186,7 @@ describe('Directive: level', function () {
      expect(scope.vs.getPos).toHaveBeenCalled();
    }));
 
-   it('should check preselected boundary on drawLevelMarkup (last SEGMENT)', inject(function($rootScope) {
+   it('should check preselected boundary on drawLevelMarkup (last SEGMENT)', angular.mock.inject(function($rootScope) {
      compileDirective(curLvl);
      var pcm = 4504;
      expect(elm.isolateScope()).toBeDefined();
@@ -200,7 +200,7 @@ describe('Directive: level', function () {
      expect(scope.vs.getPos).toHaveBeenCalled();
    }));
 
-   it('should drawLevelMarkup with multiple clicked segments', inject(function($rootScope) {
+   it('should drawLevelMarkup with multiple clicked segments', angular.mock.inject(function($rootScope) {
      compileDirective(curLvl);
      var pcm = 4504;
      expect(elm.isolateScope()).toBeDefined();

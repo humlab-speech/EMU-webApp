@@ -5,9 +5,9 @@ describe('Service: DragnDropService', function () {
   var $q;
 
   // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
-  beforeEach(inject(function(_$rootScope_, _$q_) {
+  beforeEach(angular.mock.inject(function(_$rootScope_, _$q_) {
     $q = _$q_;
     $scope = _$rootScope_.$new();
   }));
@@ -17,7 +17,7 @@ describe('Service: DragnDropService', function () {
       ['test2','wavData2','annotationData2']
   ];
 
-  it('should resetToInitState', inject(function (DragnDropService) {
+  it('should resetToInitState', angular.mock.inject(function (DragnDropService) {
     // set any data
     DragnDropService.drandropBundles.push('test');
     DragnDropService.bundleList.push('test');
@@ -26,7 +26,7 @@ describe('Service: DragnDropService', function () {
     expect(DragnDropService.bundleList.length).toBe(0);
   }));
 
-  it('should setData', inject(function (DragnDropService, loadedMetaDataService) {
+  it('should setData', angular.mock.inject(function (DragnDropService, loadedMetaDataService) {
     // set according data
     var def = $q.defer();
     spyOn(loadedMetaDataService, 'setBundleList');
@@ -47,15 +47,15 @@ describe('Service: DragnDropService', function () {
   }));
 
 
-  it('should getBlob', inject(function (DragnDropService) {
+  it('should getBlob', angular.mock.inject(function (DragnDropService) {
      expect(DragnDropService.getBlob().toString()).toBe('[object Blob]');
   }));
 
-  it('should generateDrop', inject(function (DragnDropService) {
+  it('should generateDrop', angular.mock.inject(function (DragnDropService) {
      expect(DragnDropService.generateDrop().toString().substr(0, 12)).toBe('blob:http://');
   }));
 
-  it('should setDragnDropData', inject(function (DragnDropService, DragnDropDataService) {
+  it('should setDragnDropData', angular.mock.inject(function (DragnDropService, DragnDropDataService) {
     spyOn(DragnDropDataService, 'setDefaultSession');
     var pak1 = 0;
     var pak2 = 1;
@@ -67,7 +67,7 @@ describe('Service: DragnDropService', function () {
     expect(DragnDropDataService.setDefaultSession).toHaveBeenCalled();
   }));
 
-  it('should getDragnDropData', inject(function (DragnDropService, DragnDropDataService) {
+  it('should getDragnDropData', angular.mock.inject(function (DragnDropService, DragnDropDataService) {
     spyOn(DragnDropDataService, 'setDefaultSession');
     var pak1 = 0;
     var pak2 = 1;
@@ -82,14 +82,14 @@ describe('Service: DragnDropService', function () {
     expect(DragnDropService.getDragnDropData(pak2, 'annotation12')).toEqual(false);
   }));
 
-  it('should handleLocalFiles', inject(function (Wavparserservice,
-                                                 Validationservice,
-                                                 Iohandlerservice,
+  it('should handleLocalFiles', angular.mock.inject(function (WavParserService,
+                                                 ValidationService,
+                                                 IoHandlerService,
                                                  DragnDropService,
-                                                 modalService,
-                                                 appStateService,
+                                                 ModalService,
+                                                 AppStateService,
                                                  DragnDropDataService,
-                                                 viewState) {
+                                                 ViewStateService) {
     var defio = $q.defer();
     var defwav = $q.defer();
     DragnDropDataService.sessionDefault = 0;
@@ -97,12 +97,12 @@ describe('Service: DragnDropService', function () {
     DragnDropDataService.convertedBundles[0].mediaFile = {};
     DragnDropDataService.convertedBundles[0].mediaFile.data = msajc003_bndl.mediaFile.data;
     DragnDropDataService.convertedBundles[0].annotation = msajc003_bndl.annotation;
-    viewState.curPerspectiveIdx = 0;
-    spyOn(viewState, 'selectLevel').and.returnValue(true);
-    spyOn(Iohandlerservice, 'httpGetPath').and.returnValue(defio.promise);
-    spyOn(Validationservice, 'validateJSO').and.returnValue(true);
+    ViewStateService.curPerspectiveIdx = 0;
+    spyOn(ViewStateService, 'selectLevel').and.returnValue(true);
+    spyOn(IoHandlerService, 'httpGetPath').and.returnValue(defio.promise);
+    spyOn(ValidationService, 'validateJSO').and.returnValue(true);
     DragnDropService.handleLocalFiles();
-    expect(Iohandlerservice.httpGetPath).toHaveBeenCalled();
+    expect(IoHandlerService.httpGetPath).toHaveBeenCalled();
     defio.resolve({data: defaultGrazerConfig});
     $scope.$apply();
   }));

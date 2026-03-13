@@ -3,24 +3,24 @@
 describe('Directive: emuhierarchy', function() {
 
     var elm, scope, tpl;
-    beforeEach(module('grazer'));
+    beforeEach(angular.mock.module('grazer'));
 
-    beforeEach(inject(function($rootScope, viewState, HierarchyLayoutService, ConfigProviderService) {
+    beforeEach(angular.mock.inject(function($rootScope, ViewStateService, HierarchyLayoutService, ConfigProviderService) {
         scope = $rootScope.$new();
-        scope.vs = viewState;
+        scope.vs = ViewStateService;
         scope.hls = HierarchyLayoutService;
         scope.cps = ConfigProviderService;
     }));
 
     function compileDirective() {
         tpl = "<emuhierarchy></emuhierarchy>";
-        inject(function ($compile) {
+        angular.mock.inject(function ($compile) {
             elm = $compile(tpl)(scope);
         });
         scope.$digest();
     }    
     
-     it('should have correct html', inject(function (ConfigProviderService) {
+     it('should have correct html', angular.mock.inject(function (ConfigProviderService) {
          compileDirective();
          expect(elm.html()).toContain('<g><text>time →</text></g>');
      }));   

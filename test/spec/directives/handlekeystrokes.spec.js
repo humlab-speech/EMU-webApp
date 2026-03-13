@@ -5,28 +5,28 @@ describe('Directive: handleglobalkeystrokes', function() {
     var elm, scope;
     var fakePCMtime = 123;
     var fakePCMclick = 25000;
-    beforeEach(module('grazer'));
+    beforeEach(angular.mock.module('grazer'));
 
-    beforeEach(inject(function ($rootScope,
+    beforeEach(angular.mock.inject(function ($rootScope,
                                 $compile,
                                 ConfigProviderService,
-                                Soundhandlerservice,
-                                viewState,
+                                SoundHandlerService,
+                                ViewStateService,
                                 LevelService,
                                 HistoryService,
-                                modalService,
+                                ModalService,
                                 DataService,
-                                Binarydatamaniphelper) {
+                                BinaryDataManipHelperService) {
         // scopes
         scope = $rootScope.$new();
         scope.cps = ConfigProviderService;
-        scope.shs = Soundhandlerservice;
-        scope.vs = viewState;
+        scope.shs = SoundHandlerService;
+        scope.vs = ViewStateService;
         scope.lvl = LevelService;
         scope.data = DataService;
         scope.history = HistoryService;
-        scope.modal = modalService;
-        scope.binary = Binarydatamaniphelper;
+        scope.modal = ModalService;
+        scope.binary = BinaryDataManipHelperService;
 
         // load data
         scope.cps.setVals(defaultGrazerConfig);
@@ -40,7 +40,7 @@ describe('Directive: handleglobalkeystrokes', function() {
 
     function compileDirective() {
         var tpl = '<span><div handleglobalkeystrokes></div></span>';
-        inject(function($compile) {
+        angular.mock.inject(function($compile) {
             var form = $compile(tpl)(scope);
             elm = form.find('div');
         });
@@ -920,7 +920,7 @@ describe('Directive: handleglobalkeystrokes', function() {
         });
     });
 
-    it('should escape from viewState.isEditing()', function() {
+    it('should escape from ViewStateService.isEditing()', function() {
         // set editing to be true
         scope.vs.setEditing(true);
         scope.lvl.setlasteditArea('_141');
@@ -934,7 +934,7 @@ describe('Directive: handleglobalkeystrokes', function() {
         scope.vs.setEditing(false);
     });
 
-    it('should rename on viewState.isEditing()', function() {
+    it('should rename on ViewStateService.isEditing()', function() {
         // set editing to be true
         scope.vs.setEditing(true);
         scope.lvl.setlasteditArea('_141');

@@ -3,38 +3,38 @@
 describe('Directive: preview', function () {
 
     var elm, tpl, scope;
-    beforeEach(module('grazer', 'grazer.templates'));
+    beforeEach(angular.mock.module('grazer', 'grazer.templates'));
 
-    beforeEach(inject(function ($rootScope, $compile, ConfigProviderService) {
+    beforeEach(angular.mock.inject(function ($rootScope, $compile, ConfigProviderService) {
         scope = $rootScope.$new();
         ConfigProviderService.setVals(defaultGrazerConfig);
     }));
 
     function compileDirective(val) {
         tpl = '<preview current-bundle-name="' + val + '"></preview>  ';
-        inject(function ($compile) {
+        angular.mock.inject(function ($compile) {
             elm = $compile(tpl)(scope);
         });
         scope.$digest();
     }
 
-    it('should have correct html', inject(function (viewState, Soundhandlerservice, Drawhelperservice) {
+    it('should have correct html', angular.mock.inject(function (ViewStateService, SoundHandlerService, DrawHelperService) {
         compileDirective('ae');
         expect(elm.find('canvas').length).toBe(2);
         expect(elm.html()).toContain('grazer-preview-canvas');
         expect(elm.html()).toContain('grazer-preview-canvas-markup');
     }));
 
-    it('should watch curViewPort', inject(function (viewState, Soundhandlerservice, DataService, Drawhelperservice) {
-        var spy1 = spyOn(Drawhelperservice,'freshRedrawDrawOsciOnCanvas');
+    it('should watch curViewPort', angular.mock.inject(function (ViewStateService, SoundHandlerService, DataService, DrawHelperService) {
+        var spy1 = spyOn(DrawHelperService,'freshRedrawDrawOsciOnCanvas');
         DataService.setData(msajc003_bndl.annotation);
-        Soundhandlerservice.audioBuffer.length = 58089;
-        Soundhandlerservice.audioBuffer.getChannelData = function (n) {
+        SoundHandlerService.audioBuffer.length = 58089;
+        SoundHandlerService.audioBuffer.getChannelData = function (n) {
             return(new Float32Array([1,2,3,4]));
         };
 
         compileDirective('ae');
-        viewState.curViewPort = {
+        ViewStateService.curViewPort = {
             sS: 10,
             eS: 20
         }
@@ -42,11 +42,11 @@ describe('Directive: preview', function () {
         expect(spy1).toHaveBeenCalled();
     }));
 
-    it('should watch currentBundleName', inject(function (viewState, Soundhandlerservice, DataService, Drawhelperservice) {
-        var spy1 = spyOn(Drawhelperservice,'freshRedrawDrawOsciOnCanvas');
+    it('should watch currentBundleName', angular.mock.inject(function (ViewStateService, SoundHandlerService, DataService, DrawHelperService) {
+        var spy1 = spyOn(DrawHelperService,'freshRedrawDrawOsciOnCanvas');
         DataService.setData(msajc003_bndl.annotation);
-        Soundhandlerservice.audioBuffer.length = 58089;
-        Soundhandlerservice.audioBuffer.getChannelData = function (n) {
+        SoundHandlerService.audioBuffer.length = 58089;
+        SoundHandlerService.audioBuffer.getChannelData = function (n) {
             return(new Float32Array([1,2,3,4]));
         };
 
@@ -56,10 +56,10 @@ describe('Directive: preview', function () {
         expect(spy1).toHaveBeenCalled();
     }));
 
-    it('should render selectedAreaColor in the middle of the canvas', inject(function (viewState, DataService, ConfigProviderService) {
+    it('should render selectedAreaColor in the middle of the canvas', angular.mock.inject(function (ViewStateService, DataService, ConfigProviderService) {
         DataService.setData(msajc003_bndl.annotation);
         compileDirective('ae');
-        viewState.curViewPort = {
+        ViewStateService.curViewPort = {
             sS: 0,
             eS: 57989
         }

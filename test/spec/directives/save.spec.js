@@ -3,19 +3,19 @@
 describe('Directive: save', function() {
 
     var elm, scope;
-    beforeEach(module('grazer'));
+    beforeEach(angular.mock.module('grazer'));
 
-    beforeEach(inject(function($rootScope, $compile, viewState, modalService, DataService) {
+    beforeEach(angular.mock.inject(function($rootScope, $compile, ViewStateService, ModalService, DataService) {
         scope = $rootScope.$new();
         DataService.setData(msajc003_bndl.annotation);
         scope.level = msajc003_bndl.annotation.levels[0];
-        scope.vs = viewState;
+        scope.vs = ViewStateService;
     }));
 
     function compileDirective(tpl) {
         if (!tpl) tpl = '<div save="0"></div>';
         tpl = '<span>' + tpl + '</span>';
-        inject(function($compile) {
+        angular.mock.inject(function($compile) {
             var form = $compile(tpl)(scope);
             elm = form.find('div');
         });

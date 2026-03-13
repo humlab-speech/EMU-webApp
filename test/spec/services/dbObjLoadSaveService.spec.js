@@ -1,19 +1,19 @@
 'use strict';
 
-describe('Service: dbObjLoadSaveService', function () {
+describe('Service: DbObjLoadSaveService', function () {
   var scope, deferred, deferred2, deferred3, deferred4;
 
   // load the controller's module
-  beforeEach(module('grazer'));
+  beforeEach(angular.mock.module('grazer'));
 
-  beforeEach(inject(function (_$rootScope_, $q, dbObjLoadSaveService, viewState, ConfigProviderService) {
+  beforeEach(angular.mock.inject(function (_$rootScope_, $q, DbObjLoadSaveService, ViewStateService, ConfigProviderService) {
      scope = _$rootScope_;
      deferred = $q.defer();
      deferred2 = $q.defer();
      deferred3 = $q.defer();
      deferred4 = $q.defer();
-     scope.dbo = dbObjLoadSaveService;
-     scope.vs = viewState;
+     scope.dbo = DbObjLoadSaveService;
+     scope.vs = ViewStateService;
      scope.cps = ConfigProviderService;
      scope.cps.setVals(defaultGrazerConfig);
      scope.cps.curDbConfig = aeDbConfig;   
@@ -23,24 +23,24 @@ describe('Service: dbObjLoadSaveService', function () {
   /**
    *
    */
-   it('should call Iohandlerservice.saveBundle getAnnotationAndSaveBndl if validation returns true', inject(function (Iohandlerservice, loadedMetaDataService, Validationservice) {
-     spyOn(Iohandlerservice, 'saveBundle').and.returnValue(deferred.promise);
+   it('should call IoHandlerService.saveBundle getAnnotationAndSaveBndl if validation returns true', angular.mock.inject(function (IoHandlerService, loadedMetaDataService, ValidationService) {
+     spyOn(IoHandlerService, 'saveBundle').and.returnValue(deferred.promise);
      spyOn(loadedMetaDataService, 'getCurBndl').and.returnValue({session: 'test', finishedEditing: false, comment: 'test comment'});
-     spyOn(Validationservice, 'validateJSO').and.returnValue(true);
+     spyOn(ValidationService, 'validateJSO').and.returnValue(true);
      scope.dbo.getAnnotationAndSaveBndl({},deferred);
      deferred.resolve('called');
      scope.$apply();
-     expect(Iohandlerservice.saveBundle).toHaveBeenCalledWith({ annotation : {  }, mediaFile : { encoding : 'BASE64', data : '' }, session : 'test', finishedEditing : false, comment : 'test comment' });
+     expect(IoHandlerService.saveBundle).toHaveBeenCalledWith({ annotation : {  }, mediaFile : { encoding : 'BASE64', data : '' }, session : 'test', finishedEditing : false, comment : 'test comment' });
    }));
 
   /**
    *
    */
-   it('should saveBundle', inject(function (Binarydatamaniphelper, Ssffdataservice, Ssffparserservice, Iohandlerservice, loadedMetaDataService) {
+   it('should saveBundle', angular.mock.inject(function (BinaryDataManipHelperService, SsffDataService, SsffParserService, IoHandlerService, loadedMetaDataService) {
      spyOn(scope.vs, 'getPermission').and.returnValue(true);
      spyOn(scope.dbo, 'getAnnotationAndSaveBndl');
-     spyOn(Ssffparserservice, 'asyncJso2ssff').and.returnValue(deferred.promise);
-     Ssffdataservice.data = [{ssffTrackName: 'FORMANTS'}];
+     spyOn(SsffParserService, 'asyncJso2ssff').and.returnValue(deferred.promise);
+     SsffDataService.data = [{ssffTrackName: 'FORMANTS'}];
      scope.dbo.saveBundle();
      expect(scope.vs.getPermission).toHaveBeenCalledWith('saveBndlBtnClick');
      deferred.resolve({data: []});
@@ -50,11 +50,11 @@ describe('Service: dbObjLoadSaveService', function () {
   /**
    *
    */
-   it('should saveBundle', inject(function (Binarydatamaniphelper, Ssffdataservice, Ssffparserservice, Iohandlerservice, loadedMetaDataService) {
+   it('should saveBundle', angular.mock.inject(function (BinaryDataManipHelperService, SsffDataService, SsffParserService, IoHandlerService, loadedMetaDataService) {
      spyOn(scope.vs, 'getPermission').and.returnValue(true);
      spyOn(scope.dbo, 'getAnnotationAndSaveBndl');
-     spyOn(Ssffparserservice, 'asyncJso2ssff').and.returnValue(deferred.promise);
-     Ssffdataservice.data = [];
+     spyOn(SsffParserService, 'asyncJso2ssff').and.returnValue(deferred.promise);
+     SsffDataService.data = [];
      scope.dbo.saveBundle();
      expect(scope.vs.getPermission).toHaveBeenCalledWith('saveBndlBtnClick');
      expect(scope.dbo.getAnnotationAndSaveBndl).toHaveBeenCalled();
@@ -65,30 +65,30 @@ describe('Service: dbObjLoadSaveService', function () {
   /**
    *
    */
-   it('should loadBundle', inject(function (DataService, Validationservice, Binarydatamaniphelper, Ssffparserservice, Wavparserservice, Iohandlerservice, loadedMetaDataService, viewState) {
+   it('should loadBundle', angular.mock.inject(function (DataService, ValidationService, BinaryDataManipHelperService, SsffParserService, WavParserService, IoHandlerService, loadedMetaDataService, ViewStateService) {
      spyOn(loadedMetaDataService, 'getCurBndl').and.returnValue({name: 'test1', ssffFiles: []});
-     spyOn(Iohandlerservice, 'getBundle').and.returnValue(deferred.promise);
-     spyOn(Wavparserservice, 'parseWavAudioBuf').and.returnValue(deferred2.promise);
-     spyOn(Ssffparserservice, 'asyncParseSsffArr').and.returnValue(deferred3.promise);
-     spyOn(Validationservice, 'validateJSO').and.returnValue(true);
-     spyOn(viewState, 'selectLevel').and.returnValue(true);
+     spyOn(IoHandlerService, 'getBundle').and.returnValue(deferred.promise);
+     spyOn(WavParserService, 'parseWavAudioBuf').and.returnValue(deferred2.promise);
+     spyOn(SsffParserService, 'asyncParseSsffArr').and.returnValue(deferred3.promise);
+     spyOn(ValidationService, 'validateJSO').and.returnValue(true);
+     spyOn(ViewStateService, 'selectLevel').and.returnValue(true);
      spyOn(DataService, 'setData');
      spyOn(loadedMetaDataService, 'setCurBndl');
-     spyOn(Binarydatamaniphelper, 'base64ToArrayBuffer');
+     spyOn(BinaryDataManipHelperService, 'base64ToArrayBuffer');
      scope.dbo.loadBundle({name: 'test'});
      expect(loadedMetaDataService.getCurBndl).toHaveBeenCalled();
      deferred.resolve({status: 200, data: { mediaFile: { encoding: 'BASE64', data: [1, 2, 3]}, ssffFiles: []}});
      scope.$apply();
-     expect(Iohandlerservice.getBundle).toHaveBeenCalled();
+     expect(IoHandlerService.getBundle).toHaveBeenCalled();
      deferred2.resolve({Data: []});
      scope.$apply();
-     expect(Wavparserservice.parseWavAudioBuf).toHaveBeenCalled();
+     expect(WavParserService.parseWavAudioBuf).toHaveBeenCalled();
      deferred3.resolve({Data: []});
      scope.$apply();
-     expect(Ssffparserservice.asyncParseSsffArr).toHaveBeenCalled();
-     expect(viewState.selectLevel).toHaveBeenCalled();
-     expect(Validationservice.validateJSO).toHaveBeenCalled();
-     expect(Binarydatamaniphelper.base64ToArrayBuffer).toHaveBeenCalled();
+     expect(SsffParserService.asyncParseSsffArr).toHaveBeenCalled();
+     expect(ViewStateService.selectLevel).toHaveBeenCalled();
+     expect(ValidationService.validateJSO).toHaveBeenCalled();
+     expect(BinaryDataManipHelperService.base64ToArrayBuffer).toHaveBeenCalled();
      expect(DataService.setData).toHaveBeenCalled();
      expect(loadedMetaDataService.setCurBndl).toHaveBeenCalled();
    }));
@@ -96,100 +96,100 @@ describe('Service: dbObjLoadSaveService', function () {
   /**
    *
    */
-   it('should NOT loadBundle (ssff error)', inject(function (appStateService, modalService, DataService, Validationservice, Binarydatamaniphelper, Ssffparserservice, Wavparserservice, Iohandlerservice, loadedMetaDataService) {
+   it('should NOT loadBundle (ssff error)', angular.mock.inject(function (AppStateService, ModalService, DataService, ValidationService, BinaryDataManipHelperService, SsffParserService, WavParserService, IoHandlerService, loadedMetaDataService) {
      spyOn(loadedMetaDataService, 'getCurBndl').and.returnValue({name: 'test1', ssffFiles: []});
-     spyOn(Iohandlerservice, 'getBundle').and.returnValue(deferred.promise);
-     spyOn(Wavparserservice, 'parseWavAudioBuf').and.returnValue(deferred2.promise);
-     spyOn(Ssffparserservice, 'asyncParseSsffArr').and.returnValue(deferred3.promise);
-     spyOn(Validationservice, 'validateJSO').and.returnValue(true);
-     spyOn(modalService, 'open').and.returnValue(deferred4.promise);
-     spyOn(appStateService, 'resetToInitState');
+     spyOn(IoHandlerService, 'getBundle').and.returnValue(deferred.promise);
+     spyOn(WavParserService, 'parseWavAudioBuf').and.returnValue(deferred2.promise);
+     spyOn(SsffParserService, 'asyncParseSsffArr').and.returnValue(deferred3.promise);
+     spyOn(ValidationService, 'validateJSO').and.returnValue(true);
+     spyOn(ModalService, 'open').and.returnValue(deferred4.promise);
+     spyOn(AppStateService, 'resetToInitState');
      spyOn(DataService, 'setData');
      spyOn(loadedMetaDataService, 'setCurBndl');
-     spyOn(Binarydatamaniphelper, 'base64ToArrayBuffer');
+     spyOn(BinaryDataManipHelperService, 'base64ToArrayBuffer');
      scope.dbo.loadBundle({name: 'test'});
      expect(loadedMetaDataService.getCurBndl).toHaveBeenCalled();
      deferred.resolve({status: 200, data: { mediaFile: { encoding: 'BASE64', data: [1, 2, 3]}, ssffFiles: []}});
      scope.$apply();
-     expect(Iohandlerservice.getBundle).toHaveBeenCalled();
+     expect(IoHandlerService.getBundle).toHaveBeenCalled();
      deferred2.resolve({Data: []});
      scope.$apply();
-     expect(Wavparserservice.parseWavAudioBuf).toHaveBeenCalled();
+     expect(WavParserService.parseWavAudioBuf).toHaveBeenCalled();
      deferred3.reject({ status: { message: 'error_msg1' }});
      scope.$apply();
-     expect(Validationservice.validateJSO).toHaveBeenCalled();
-     expect(Ssffparserservice.asyncParseSsffArr).toHaveBeenCalled();
-     expect(Binarydatamaniphelper.base64ToArrayBuffer).toHaveBeenCalled();
+     expect(ValidationService.validateJSO).toHaveBeenCalled();
+     expect(SsffParserService.asyncParseSsffArr).toHaveBeenCalled();
+     expect(BinaryDataManipHelperService.base64ToArrayBuffer).toHaveBeenCalled();
      deferred4.resolve();
      scope.$apply();
-     expect(modalService.open).toHaveBeenCalledWith('views/error.html', 'Error parsing SSFF file: error_msg1');
-     expect(appStateService.resetToInitState).toHaveBeenCalled();
+     expect(ModalService.open).toHaveBeenCalledWith('views/error.html', 'Error parsing SSFF file: error_msg1');
+     expect(AppStateService.resetToInitState).toHaveBeenCalled();
    }));
 
 
   /**
    *
    */
-   it('should NOT loadBundle (wav file error)', inject(function (appStateService, modalService, DataService, Validationservice, Binarydatamaniphelper, Ssffparserservice, Wavparserservice, Iohandlerservice, loadedMetaDataService) {
+   it('should NOT loadBundle (wav file error)', angular.mock.inject(function (AppStateService, ModalService, DataService, ValidationService, BinaryDataManipHelperService, SsffParserService, WavParserService, IoHandlerService, loadedMetaDataService) {
      // two bundles (one loaded (bndl1) one to be loaded (bndl2))
      var bndl1 = {name: 'test', mediaFile: {encoding: 'BASE64'}, ssffFiles: []};
      var bndl2 = {name: 'test1', mediaFile: {encoding: 'BASE64'}, ssffFiles: []};
      spyOn(loadedMetaDataService, 'getCurBndl').and.returnValue(bndl1);
-     spyOn(Iohandlerservice, 'getBundle').and.returnValue(deferred.promise);
-     spyOn(Wavparserservice, 'parseWavAudioBuf').and.returnValue(deferred2.promise);
-     spyOn(Validationservice, 'validateJSO').and.returnValue(true);
-     spyOn(modalService, 'open').and.returnValue(deferred3.promise);
-     spyOn(appStateService, 'resetToInitState');
+     spyOn(IoHandlerService, 'getBundle').and.returnValue(deferred.promise);
+     spyOn(WavParserService, 'parseWavAudioBuf').and.returnValue(deferred2.promise);
+     spyOn(ValidationService, 'validateJSO').and.returnValue(true);
+     spyOn(ModalService, 'open').and.returnValue(deferred3.promise);
+     spyOn(AppStateService, 'resetToInitState');
      spyOn(DataService, 'setData');
      spyOn(loadedMetaDataService, 'setCurBndl');
-     spyOn(Binarydatamaniphelper, 'base64ToArrayBuffer');
+     spyOn(BinaryDataManipHelperService, 'base64ToArrayBuffer');
      scope.dbo.loadBundle(bndl2);
      expect(loadedMetaDataService.getCurBndl).toHaveBeenCalled();
      deferred.resolve({status: 200, data: { mediaFile: { encoding: 'BASE64', data: [1, 2, 3]}}});
      scope.$apply();
-     expect(Iohandlerservice.getBundle).toHaveBeenCalled();
+     expect(IoHandlerService.getBundle).toHaveBeenCalled();
      deferred2.reject({ status: { message: 'error_msg2' }});
      scope.$apply();
-     expect(Wavparserservice.parseWavAudioBuf).toHaveBeenCalled();
-     expect(Validationservice.validateJSO).toHaveBeenCalled();
-     expect(Binarydatamaniphelper.base64ToArrayBuffer).toHaveBeenCalled();
+     expect(WavParserService.parseWavAudioBuf).toHaveBeenCalled();
+     expect(ValidationService.validateJSO).toHaveBeenCalled();
+     expect(BinaryDataManipHelperService.base64ToArrayBuffer).toHaveBeenCalled();
      deferred3.resolve();
      scope.$apply();
-     expect(modalService.open).toHaveBeenCalledWith('views/error.html', 'Error parsing wav file: error_msg2');
-     expect(appStateService.resetToInitState).toHaveBeenCalled();     
+     expect(ModalService.open).toHaveBeenCalledWith('views/error.html', 'Error parsing wav file: error_msg2');
+     expect(AppStateService.resetToInitState).toHaveBeenCalled();     
    }));
 
   /**
    *
    */
-   it('should NOT loadBundle (annotation error)', inject(function (appStateService, modalService, DataService, Validationservice, Binarydatamaniphelper, Ssffparserservice, Wavparserservice, Iohandlerservice, loadedMetaDataService) {
+   it('should NOT loadBundle (annotation error)', angular.mock.inject(function (AppStateService, ModalService, DataService, ValidationService, BinaryDataManipHelperService, SsffParserService, WavParserService, IoHandlerService, loadedMetaDataService) {
      spyOn(loadedMetaDataService, 'getCurBndl').and.returnValue({name: 'test1'});
-     spyOn(Iohandlerservice, 'getBundle').and.returnValue(deferred.promise);
-     spyOn(Validationservice, 'validateJSO').and.returnValue(false);
-     spyOn(modalService, 'open').and.returnValue(deferred2.promise);
-     spyOn(appStateService, 'resetToInitState');     
+     spyOn(IoHandlerService, 'getBundle').and.returnValue(deferred.promise);
+     spyOn(ValidationService, 'validateJSO').and.returnValue(false);
+     spyOn(ModalService, 'open').and.returnValue(deferred2.promise);
+     spyOn(AppStateService, 'resetToInitState');     
      scope.dbo.loadBundle({name: 'test'});
      expect(loadedMetaDataService.getCurBndl).toHaveBeenCalled();
      deferred.resolve({status: 200, data: { mediaFile: { data: [1, 2, 3]}}});
      deferred2.resolve();
      scope.$apply();
-     expect(Iohandlerservice.getBundle).toHaveBeenCalled();
-     expect(Validationservice.validateJSO).toHaveBeenCalled();
-     expect(modalService.open).toHaveBeenCalledWith('views/error.html', 'Error validating annotation file: false');
-     expect(appStateService.resetToInitState).toHaveBeenCalled();          
+     expect(IoHandlerService.getBundle).toHaveBeenCalled();
+     expect(ValidationService.validateJSO).toHaveBeenCalled();
+     expect(ModalService.open).toHaveBeenCalledWith('views/error.html', 'Error validating annotation file: false');
+     expect(AppStateService.resetToInitState).toHaveBeenCalled();          
    }));
 
   /**
    *
    */
-   it('should loadBundle (-> discardChanges)', inject(function (modalService, ConfigProviderService, loadedMetaDataService, HistoryService) {
-     spyOn(modalService, 'open').and.returnValue(deferred.promise);
+   it('should loadBundle (-> discardChanges)', angular.mock.inject(function (ModalService, ConfigProviderService, loadedMetaDataService, HistoryService) {
+     spyOn(ModalService, 'open').and.returnValue(deferred.promise);
      ConfigProviderService.vals.main.comMode = 'embedded';
      ConfigProviderService.vals.activeButtons.saveBundle = true;
      HistoryService.movesAwayFromLastSave = 1;
      scope.dbo.loadBundle({name: 'test'});
      deferred.resolve('discardChanges');
      //scope.$apply();
-     expect(modalService.open).toHaveBeenCalled();
+     expect(ModalService.open).toHaveBeenCalled();
    }));
 });

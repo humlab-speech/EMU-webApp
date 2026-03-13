@@ -7,9 +7,9 @@ describe('Directive: trackmouseinlevel', function () {
     var lvlName = 'Phonetic';
     var lvlType = 'SEGMENT';
 
-    beforeEach(module('grazer', 'grazer.templates'));
+    beforeEach(angular.mock.module('grazer', 'grazer.templates'));
 
-    beforeEach(inject(function (_$compile_, _$rootScope_, Soundhandlerservice, DataService, LevelService, ConfigProviderService, viewState, HistoryService) {
+    beforeEach(angular.mock.inject(function (_$compile_, _$rootScope_, SoundHandlerService, DataService, LevelService, ConfigProviderService, ViewStateService, HistoryService) {
         $compile = _$compile_;
         $rootScope = _$rootScope_;
         scope = $rootScope.$new();
@@ -18,8 +18,8 @@ describe('Directive: trackmouseinlevel', function () {
         scope.cps = ConfigProviderService;
         scope.cps.setVals(defaultGrazerConfig);
         scope.cps.curDbConfig = aeDbConfig;
-        scope.vs = viewState;
-        scope.shs = Soundhandlerservice;
+        scope.vs = ViewStateService;
+        scope.shs = SoundHandlerService;
         scope.history = HistoryService;
         scope.data.setData(msajc003_bndl.annotation);
         curLvl = scope.lvl.getLevelDetails(lvlName).level;
@@ -29,7 +29,7 @@ describe('Directive: trackmouseinlevel', function () {
 
     function compileDirective(name, type) {
         tpl = '<canvas width="2048" height="64" track-mouse-in-level level-name="'+name+'" level-type="'+type+'"></canvas>';
-        inject(function ($compile) {
+        angular.mock.inject(function ($compile) {
             elm = $compile(tpl)(scope);
         });
         scope.$digest();

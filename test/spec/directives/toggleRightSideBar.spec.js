@@ -3,15 +3,15 @@
 describe('Directive: showMenu', function() {
 
     var elm, tpl, scope;
-    beforeEach(module('grazer'));
+    beforeEach(angular.mock.module('grazer'));
 
-    beforeEach(inject(function($rootScope, $compile) {
+    beforeEach(angular.mock.inject(function($rootScope, $compile) {
         scope = $rootScope.$new();
     }));
 
     function compileDirective(val) {
         tpl = '<div show-menu="'+val+'"></div>';
-        inject(function($compile) {
+        angular.mock.inject(function($compile) {
             elm = $compile(tpl)(scope);
         });
         scope.$digest();

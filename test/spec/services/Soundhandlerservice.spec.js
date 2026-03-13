@@ -1,21 +1,21 @@
 'use strict';
 
-describe('Service: Soundhandlerservice', function () {
+describe('Service: SoundHandlerService', function () {
     var scope;
 
     // load the controller's module
-    beforeEach(module('grazer'));
+    beforeEach(angular.mock.module('grazer'));
 
-    beforeEach(inject(function ($rootScope) {
+    beforeEach(angular.mock.inject(function ($rootScope) {
         scope = $rootScope.$new();
     }));
 
     /**
      *
      */
-//    it('should extractRelPartOfWav of length 0 = only header', inject(function (Soundhandlerservice) {
-//        Soundhandlerservice.wavJSO = parsedWavJSO;
-//        var cutWav = Soundhandlerservice.extractRelPartOfWav(0, 0);
+//    it('should extractRelPartOfWav of length 0 = only header', angular.mock.inject(function (SoundHandlerService) {
+//        SoundHandlerService.wavJSO = parsedWavJSO;
+//        var cutWav = SoundHandlerService.extractRelPartOfWav(0, 0);
 //        expect(cutWav.byteLength).toEqual(44);
 //    }));
 
@@ -23,13 +23,13 @@ describe('Service: Soundhandlerservice', function () {
      *
      */
 /*
-    it('should not play audio if wav is empty', inject(function (Soundhandlerservice) {
+    it('should not play audio if wav is empty', angular.mock.inject(function (SoundHandlerService) {
         // TODO: spy on decodeAndPlay function and check that it isn't called
-        //spyOn(Soundhandlerservice, 'decodeAndPlay');
+        //spyOn(SoundHandlerService, 'decodeAndPlay');
 
-        Soundhandlerservice.wavJSO = parsedWavJSO;
-        Soundhandlerservice.playFromTo(0,0);
-        //expect(Soundhandlerservice.decodeAndPlay).toNotHaveBeenCalled();
+        SoundHandlerService.wavJSO = parsedWavJSO;
+        SoundHandlerService.playFromTo(0,0);
+        //expect(SoundHandlerService.decodeAndPlay).toNotHaveBeenCalled();
 
     }));
 */
