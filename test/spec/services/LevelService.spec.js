@@ -9,12 +9,18 @@ describe('Service: LevelService', function () {
   var item;
   var aetmpDBconfig, epgdorsaltmpDbConfig, ematmpDbConfig, defaultGrazerConfigTmp;
 
-  beforeEach(angular.mock.inject(function (SoundHandlerService) {
+  beforeEach(angular.mock.inject(function (SoundHandlerService, ConfigProviderService, ViewStateService) {
       aetmpDBconfig = angular.copy(aeDbConfig);
       epgdorsaltmpDbConfig = angular.copy(epgdorsalDbConfig);
       ematmpDbConfig = angular.copy(emaDbConfig);
       defaultGrazerConfigTmp = angular.copy(defaultGrazerConfig);
-
+      ConfigProviderService.setVals(defaultGrazerConfig);
+      ConfigProviderService.curDbConfig = epgdorsalDbConfig;
+      ViewStateService.curPerspectiveIdx = 0;
+      // Merge DB-specific EMUwebAppConfig perspectives into vals
+      if (aeDbConfig.EMUwebAppConfig && aeDbConfig.EMUwebAppConfig.perspectives) {
+        ConfigProviderService.vals.perspectives = aeDbConfig.EMUwebAppConfig.perspectives;
+      }
   }));
 
   /**
@@ -1071,7 +1077,7 @@ describe('Service: LevelService', function () {
     ////////////////////////////////////////////
     // unlinked events
 
-    spyOn(LinkService, 'isLinked').and.returnValue(false);
+    spyOn(LinkService, 'isLinked').mockReturnValue(false);
     item = getItemFromJSON(msajc003_bndl.annotation, 181);
 
     // move point with id 181 on level 'Tone' by 2000 samples (past next EVENT)

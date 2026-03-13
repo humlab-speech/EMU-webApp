@@ -7,9 +7,12 @@ describe('Service: DragnDropService', function () {
   // load the controller's module
   beforeEach(angular.mock.module('grazer'));
 
-  beforeEach(angular.mock.inject(function(_$rootScope_, _$q_) {
+  beforeEach(angular.mock.inject(function(_$rootScope_, _$q_, ConfigProviderService, ViewStateService) {
     $q = _$q_;
     $scope = _$rootScope_.$new();
+    ConfigProviderService.setVals(defaultGrazerConfig);
+    ConfigProviderService.curDbConfig = aeDbConfig;
+    ViewStateService.curPerspectiveIdx = 0;
   }));
 
   var testData = [
@@ -26,23 +29,23 @@ describe('Service: DragnDropService', function () {
     expect(DragnDropService.bundleList.length).toBe(0);
   }));
 
-  it('should setData', angular.mock.inject(function (DragnDropService, loadedMetaDataService) {
+  it('should setData', angular.mock.inject(function (DragnDropService, LoadedMetaDataService) {
     // set according data
     var def = $q.defer();
-    spyOn(loadedMetaDataService, 'setBundleList');
-    spyOn(loadedMetaDataService, 'setCurBndlName');
-    spyOn(loadedMetaDataService, 'setDemoDbName');
-    spyOn(DragnDropService, 'handleLocalFiles');
-    spyOn(DragnDropService, 'setDragnDropData');
-    spyOn(DragnDropService, 'convertDragnDropData').and.returnValue(def.promise);
+    spyOn(LoadedMetaDataService, 'setBundleList');
+    spyOn(LoadedMetaDataService, 'setCurBndlName');
+    spyOn(LoadedMetaDataService, 'setDemoDbName');
+    spyOn(DragnDropService, 'handleLocalFiles').mockImplementation(() => {});
+    spyOn(DragnDropService, 'setDragnDropData').mockImplementation(() => {});
+    spyOn(DragnDropService, 'convertDragnDropData').mockReturnValue(def.promise);
     DragnDropService.setData(testData);
     expect(DragnDropService.setDragnDropData).toHaveBeenCalled();
-    expect(DragnDropService.convertDragnDropData).toHaveBeenCalledWith([  ], 0);
+    expect(DragnDropService.convertDragnDropData).toHaveBeenCalledWith([], 0);
     def.resolve();
     $scope.$apply();
-    expect(loadedMetaDataService.setBundleList).toHaveBeenCalled();
-    expect(loadedMetaDataService.setCurBndlName).toHaveBeenCalled();
-    expect(loadedMetaDataService.setDemoDbName).toHaveBeenCalled();
+    expect(LoadedMetaDataService.setBundleList).toHaveBeenCalled();
+    expect(LoadedMetaDataService.setCurBndlName).toHaveBeenCalled();
+    expect(LoadedMetaDataService.setDemoDbName).toHaveBeenCalled();
     expect(DragnDropService.handleLocalFiles).toHaveBeenCalled();
   }));
 
@@ -52,7 +55,7 @@ describe('Service: DragnDropService', function () {
   }));
 
   it('should generateDrop', angular.mock.inject(function (DragnDropService) {
-     expect(DragnDropService.generateDrop().toString().substr(0, 12)).toBe('blob:http://');
+     expect(DragnDropService.generateDrop().toString()).toBe('blob:mock');
   }));
 
   it('should setDragnDropData', angular.mock.inject(function (DragnDropService, DragnDropDataService) {
@@ -98,12 +101,14 @@ describe('Service: DragnDropService', function () {
     DragnDropDataService.convertedBundles[0].mediaFile.data = msajc003_bndl.mediaFile.data;
     DragnDropDataService.convertedBundles[0].annotation = msajc003_bndl.annotation;
     ViewStateService.curPerspectiveIdx = 0;
-    spyOn(ViewStateService, 'selectLevel').and.returnValue(true);
-    spyOn(IoHandlerService, 'httpGetPath').and.returnValue(defio.promise);
-    spyOn(ValidationService, 'validateJSO').and.returnValue(true);
+    spyOn(ViewStateService, 'selectLevel').mockReturnValue(true);
+    spyOn(IoHandlerService, 'httpGetPath').mockReturnValue(defio.promise);
+    spyOn(ValidationService, 'validateJSO').mockReturnValue(true);
     DragnDropService.handleLocalFiles();
     expect(IoHandlerService.httpGetPath).toHaveBeenCalled();
-    defio.resolve({data: defaultGrazerConfig});
+    var mockConfig = angular.copy(defaultGrazerConfig);
+    mockConfig.perspectives = [{levelCanvases: {order: ['Phonetic']}, signalCanvases: {order: ['OSCI'], assign: [], contourLims: []}}];
+    defio.resolve({data: {EMUwebAppConfig: mockConfig, levelDefinitions: [], linkDefinitions: []}});
     $scope.$apply();
   }));
 

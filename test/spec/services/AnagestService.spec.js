@@ -96,7 +96,7 @@ describe('Service: AnagestService', function () {
 	*
 	*/
 	it('should not insertAnagestEvents with selected events', angular.mock.inject(function ($q, AnagestService, ViewStateService) {
-	    spyOn(ViewStateService, 'getItemsInSelection').and.returnValue([1, 2, 3]);
+	    spyOn(ViewStateService, 'getItemsInSelection').mockReturnValue([1, 2, 3]);
 	    AnagestService.insertAnagestEvents();
 		expect(ViewStateService.getItemsInSelection).toHaveBeenCalled();    
   }));
@@ -107,14 +107,14 @@ describe('Service: AnagestService', function () {
 	it('should insertAnagestEvents', angular.mock.inject(function ($q, LevelService, LinkService, HistoryService, ConfigProviderService, SsffDataService, AnagestService, ViewStateService) {
 	    
 	    var defer = $q.defer();
-	    spyOn(HistoryService, 'updateCurChangeObj');
-	    spyOn(HistoryService, 'addCurChangeObjToUndoStack');
-	    spyOn(LinkService, 'insertLinksTo');
-	    spyOn(LevelService, 'getLevelDetails').and.returnValue({name: 'test', items: [ {id:1}, {id:2}]});
-	    spyOn(LevelService, 'getAllLabelsOfLevel').and.returnValue({});
-	    spyOn(ViewStateService, 'getcurClickLevelName').and.returnValue('Phonetic');
-	    spyOn(ViewStateService, 'getItemsInSelection').and.returnValue([]);
-	    spyOn(ConfigProviderService, 'getLevelDefinition').and.returnValue({ 
+	    spyOn(HistoryService, 'updateCurChangeObj').mockImplementation(() => {});
+	    spyOn(HistoryService, 'addCurChangeObjToUndoStack').mockImplementation(() => {});
+	    spyOn(LinkService, 'insertLinksTo').mockImplementation(() => {});
+	    spyOn(LevelService, 'getLevelDetails').mockReturnValue({name: 'test', items: [ {id:1}, {id:2}]});
+	    spyOn(LevelService, 'getAllLabelsOfLevel').mockReturnValue({});
+	    spyOn(ViewStateService, 'getcurClickLevelName').mockReturnValue('Phonetic');
+	    spyOn(ViewStateService, 'getItemsInSelection').mockReturnValue([]);
+	    spyOn(ConfigProviderService, 'getLevelDefinition').mockReturnValue({ 
 	        anagestConfig: { 
 	            velocitySsffTrackName: 'velocity', 
 	            verticalPosSsffTrackName: 'ssff' , 
@@ -123,10 +123,10 @@ describe('Service: AnagestService', function () {
 	            constrictionPlateauBeginEndLabels: ['test']
 	        }
 	    });
-	    spyOn(ConfigProviderService, 'getSsffTrackConfig').and.returnValue({ name: 'test', columnName: 'test'});
-	    spyOn(SsffDataService, 'getSampleRateAndStartTimeOfTrack').and.returnValue({ startTime: 0, sampleRate: 20000 });
-	    spyOn(SsffDataService, 'getColumnOfTrack').and.returnValue([1]);
-	    spyOn(AnagestService, 'interactiveFindThresholds').and.returnValue(defer.promise);
+	    spyOn(ConfigProviderService, 'getSsffTrackConfig').mockReturnValue({ name: 'test', columnName: 'test'});
+	    spyOn(SsffDataService, 'getSampleRateAndStartTimeOfTrack').mockReturnValue({ startTime: 0, sampleRate: 20000 });
+	    spyOn(SsffDataService, 'getColumnOfTrack').mockReturnValue([1]);
+	    spyOn(AnagestService, 'interactiveFindThresholds').mockReturnValue(defer.promise);
 	    
 	    AnagestService.insertAnagestEvents();
 	    

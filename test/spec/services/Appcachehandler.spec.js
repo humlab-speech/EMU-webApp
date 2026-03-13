@@ -28,7 +28,7 @@ describe('Service: AppcacheHandlerService', function () {
 		// var def = $q.defer();
 		// spyOn(window.applicationCache, 'swapCache');
 		// // spyOn(window.location, 'reload'); // can't spyOn read only property in chrome
-		// spyOn(ModalService, 'open').and.returnValue(def.promise);
+		// spyOn(ModalService, 'open').mockReturnValue(def.promise);
 		// AppcacheHandlerService.handleUpdatereadyEvent();
 		// def.resolve(false);
 		// scope.$apply();

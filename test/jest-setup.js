@@ -36,6 +36,58 @@ require('angular-mocks');
 // Many Jasmine-style tests use bare spyOn(). Provide it.
 global.spyOn = jest.spyOn;
 
+// jsdom doesn't implement Canvas API — stub getContext('2d')
+HTMLCanvasElement.prototype.getContext = function (type) {
+  if (type === '2d') {
+    return {
+      canvas: this,
+      fillRect: function () {},
+      clearRect: function () {},
+      putImageData: function () {},
+      getImageData: function () { return { data: new Array(4) }; },
+      createImageData: function () { return []; },
+      setTransform: function () {},
+      resetTransform: function () {},
+      drawImage: function () {},
+      save: function () {},
+      fillText: function () {},
+      restore: function () {},
+      beginPath: function () {},
+      moveTo: function () {},
+      lineTo: function () {},
+      closePath: function () {},
+      stroke: function () {},
+      translate: function () {},
+      scale: function () {},
+      rotate: function () {},
+      arc: function () {},
+      fill: function () {},
+      rect: function () {},
+      clip: function () {},
+      measureText: function () { return { width: 0 }; },
+      createLinearGradient: function () { return { addColorStop: function () {} }; },
+      createRadialGradient: function () { return { addColorStop: function () {} }; },
+      setLineDash: function () {},
+      getLineDash: function () { return []; },
+      strokeStyle: '',
+      fillStyle: '',
+      lineWidth: 1,
+      lineCap: '',
+      lineJoin: '',
+      font: '',
+      textAlign: '',
+      textBaseline: '',
+      globalAlpha: 1,
+      globalCompositeOperation: 'source-over',
+      shadowColor: '',
+      shadowBlur: 0,
+      shadowOffsetX: 0,
+      shadowOffsetY: 0
+    };
+  }
+  return null;
+};
+
 // jsdom stubs for APIs not available in jsdom
 if (!window.URL.createObjectURL) {
   window.URL.createObjectURL = function () { return 'blob:mock'; };

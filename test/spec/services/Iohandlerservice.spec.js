@@ -30,7 +30,7 @@ describe('Service: IoHandlerService', function () {
    */
   it('should parseLabelFile with textgrid', angular.mock.inject(function ($q, TextGridParserService) {
     // var def = $q.defer();
-    spyOn(TextGridParserService, 'asyncParseTextGrid');//.and.returnValue(def.promise);
+    spyOn(TextGridParserService, 'asyncParseTextGrid');//.mockReturnValue(def.promise);
     scope.io.parseLabelFile('','test','test','TEXTGRID');
     expect(TextGridParserService.asyncParseTextGrid).toHaveBeenCalledWith('', '', 'embeddedTEXTGRID');
   }));
@@ -53,7 +53,7 @@ describe('Service: IoHandlerService', function () {
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
     ConfigProviderService.vals.main.comMode = 'WS';
-    spyOn(WebSocketHandlerService, 'saveBundle').and.returnValue(def.promise);
+    spyOn(WebSocketHandlerService, 'saveBundle').mockReturnValue(def.promise);
     scope.io.saveBundle();
     expect(WebSocketHandlerService.saveBundle).toHaveBeenCalled();
   }));
@@ -77,7 +77,7 @@ describe('Service: IoHandlerService', function () {
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
     ConfigProviderService.vals.main.comMode = 'WS';
-    spyOn(WebSocketHandlerService, 'getBundle').and.returnValue(def.promise);
+    spyOn(WebSocketHandlerService, 'getBundle').mockReturnValue(def.promise);
     scope.io.getBundle('','','');
     expect(WebSocketHandlerService.getBundle).toHaveBeenCalled();
   }));
@@ -101,7 +101,7 @@ describe('Service: IoHandlerService', function () {
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
     ConfigProviderService.vals.main.comMode = 'WS';
-    spyOn(WebSocketHandlerService, 'getBundleList').and.returnValue(def.promise);
+    spyOn(WebSocketHandlerService, 'getBundleList').mockReturnValue(def.promise);
     scope.io.getBundleList('');
     expect(WebSocketHandlerService.getBundleList).toHaveBeenCalled();
   }));
@@ -147,7 +147,7 @@ describe('Service: IoHandlerService', function () {
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
     ConfigProviderService.vals.main.comMode = 'WS';
-    spyOn(WebSocketHandlerService, 'getDBconfigFile').and.returnValue(def.promise);
+    spyOn(WebSocketHandlerService, 'getDBconfigFile').mockReturnValue(def.promise);
     scope.io.getDBconfigFile('');
     expect(WebSocketHandlerService.getDBconfigFile).toHaveBeenCalled();
   }));
@@ -172,7 +172,7 @@ describe('Service: IoHandlerService', function () {
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
     ConfigProviderService.vals.main.comMode = 'WS';
-    spyOn(WebSocketHandlerService, 'logOnUser').and.returnValue(def.promise);
+    spyOn(WebSocketHandlerService, 'logOnUser').mockReturnValue(def.promise);
     scope.io.logOnUser('');
     expect(WebSocketHandlerService.logOnUser).toHaveBeenCalled();
   }));
@@ -196,7 +196,7 @@ describe('Service: IoHandlerService', function () {
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
     ConfigProviderService.vals.main.comMode = 'WS';
-    spyOn(WebSocketHandlerService, 'getDoUserManagement').and.returnValue(def.promise);
+    spyOn(WebSocketHandlerService, 'getDoUserManagement').mockReturnValue(def.promise);
     scope.io.getDoUserManagement();
     expect(WebSocketHandlerService.getDoUserManagement).toHaveBeenCalled();
   }));
@@ -220,7 +220,7 @@ describe('Service: IoHandlerService', function () {
     ConfigProviderService.vals = {};
     ConfigProviderService.vals.main = {};
     ConfigProviderService.vals.main.comMode = 'WS';
-    spyOn(WebSocketHandlerService, 'getProtocol').and.returnValue(def.promise);
+    spyOn(WebSocketHandlerService, 'getProtocol').mockReturnValue(def.promise);
     scope.io.getProtocol();
     expect(WebSocketHandlerService.getProtocol).toHaveBeenCalled();
   }));

@@ -3,7 +3,14 @@
 describe('Service: HistoryService', function () {
 
   // load the controller's module
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('grazer', function ($sceProvider) {
+    $sceProvider.enabled(false);
+  }));
+
+  beforeEach(angular.mock.inject(function (ConfigProviderService) {
+    ConfigProviderService.setVals(defaultGrazerConfig);
+    ConfigProviderService.curDbConfig = aeDbConfig;
+  }));
 
   var item, cur;
 
@@ -279,9 +286,9 @@ describe('Service: HistoryService', function () {
    */
   it('should check updateCurChangeObj on ssff', angular.mock.inject(function (ConfigProviderService, SsffDataService, DataService, HistoryService) {
 	SsffDataService.data = {};
-	spyOn(ConfigProviderService, 'getSsffTrackConfig').and.returnValue({name: 'test', columnName: 'testColumn'});
+	spyOn(ConfigProviderService, 'getSsffTrackConfig').mockReturnValue({name: 'test', columnName: 'testColumn'});
 	var values = [[0]];
-	spyOn(SsffDataService, 'getColumnOfTrack').and.returnValue({values: values});
+	spyOn(SsffDataService, 'getColumnOfTrack').mockReturnValue({values: values});
 	DataService.setData(msajc003_bndl.annotation)
 	HistoryService.updateCurChangeObj({
 	  'type': 'SSFF',
@@ -350,7 +357,7 @@ describe('Service: HistoryService', function () {
     expect(HistoryService.getCurrentStack().undo.length).toEqual(1);
     expect(HistoryService.getCurrentStack().redo.length).toEqual(0);
     expect(Object.keys(HistoryService.getCurrentStack().undo[0])[0]).toEqual('ANNOT#MOVESEGMENT#Phonetic#154');
-    spyOn(LevelService, 'moveSegment');
+    spyOn(LevelService, 'moveSegment').mockImplementation(() => {});
     HistoryService.undo();
     expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; MOVESEGMENT');
     expect(LevelService.moveSegment).toHaveBeenCalledWith(cur.name, cur.id, cur.length, -cur.movedBy);
@@ -374,7 +381,7 @@ describe('Service: HistoryService', function () {
     expect(HistoryService.getCurrentStack().undo.length).toEqual(1);
     expect(HistoryService.getCurrentStack().redo.length).toEqual(0);
     expect(Object.keys(HistoryService.getCurrentStack().undo[0])[0]).toEqual('ANNOT#MOVEEVENT#Phonetic#154');
-    spyOn(LevelService, 'moveEvent');
+    spyOn(LevelService, 'moveEvent').mockImplementation(() => {});
     HistoryService.undo();
     expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; MOVEEVENT');
     expect(LevelService.moveEvent).toHaveBeenCalledWith(cur.name, cur.id, -cur.movedBy);
@@ -399,7 +406,7 @@ describe('Service: HistoryService', function () {
     expect(HistoryService.getCurrentStack().undo.length).toEqual(1);
     expect(HistoryService.getCurrentStack().redo.length).toEqual(0);
     expect(Object.keys(HistoryService.getCurrentStack().undo[0])[0]).toEqual('ANNOT#RENAMELEVEL#Phonetic#154');
-    spyOn(LevelService, 'renameLevel');
+    spyOn(LevelService, 'renameLevel').mockImplementation(() => {});
     HistoryService.undo();
     expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; RENAMELEVEL');
     expect(LevelService.renameLevel).toHaveBeenCalledWith(cur.newname, cur.name, cur.curPerspectiveIdx);
@@ -424,8 +431,8 @@ describe('Service: HistoryService', function () {
     expect(HistoryService.getCurrentStack().undo.length).toEqual(1);
     expect(HistoryService.getCurrentStack().redo.length).toEqual(0);
     expect(Object.keys(HistoryService.getCurrentStack().undo[0])[0]).toEqual('ANNOT#DELETELEVEL#Phonetic#154');
-    spyOn(LevelService, 'insertLevel');
-    spyOn(LevelService, 'deleteLevel');
+    spyOn(LevelService, 'insertLevel').mockImplementation(() => {});
+    spyOn(LevelService, 'deleteLevel').mockImplementation(() => {});
     HistoryService.undo();
     expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETELEVEL');
     expect(LevelService.insertLevel).toHaveBeenCalledWith(cur.level, cur.id, cur.curPerspectiveIdx);
@@ -451,8 +458,8 @@ describe('Service: HistoryService', function () {
     expect(HistoryService.getCurrentStack().undo.length).toEqual(1);
     expect(HistoryService.getCurrentStack().redo.length).toEqual(0);
     expect(Object.keys(HistoryService.getCurrentStack().undo[0])[0]).toEqual('ANNOT#DELETEBOUNDARY#Phonetic#154');
-    spyOn(LevelService, 'deleteBoundary');
-    spyOn(LevelService, 'deleteBoundaryInvers');
+    spyOn(LevelService, 'deleteBoundary').mockImplementation(() => {});
+    spyOn(LevelService, 'deleteBoundaryInvers').mockImplementation(() => {});
     HistoryService.undo();
     expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETEBOUNDARY');
     expect(LevelService.deleteBoundaryInvers).toHaveBeenCalledWith(cur.name, cur.id, cur.isFirst, cur.isLast, cur.deletedSegment);
@@ -477,8 +484,8 @@ describe('Service: HistoryService', function () {
     expect(HistoryService.getCurrentStack().undo.length).toEqual(1);
     expect(HistoryService.getCurrentStack().redo.length).toEqual(0);
     expect(Object.keys(HistoryService.getCurrentStack().undo[0])[0]).toEqual('ANNOT#DELETESEGMENTS#Phonetic#154');
-    spyOn(LevelService, 'deleteSegments');
-    spyOn(LevelService, 'deleteSegmentsInvers');
+    spyOn(LevelService, 'deleteSegments').mockImplementation(() => {});
+    spyOn(LevelService, 'deleteSegmentsInvers').mockImplementation(() => {});
     HistoryService.undo();
     expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETESEGMENTS');
     expect(LevelService.deleteSegmentsInvers).toHaveBeenCalledWith(cur.name, cur.id, cur.length, cur.deletedSegment);
@@ -503,8 +510,8 @@ describe('Service: HistoryService', function () {
     expect(HistoryService.getCurrentStack().undo.length).toEqual(1);
     expect(HistoryService.getCurrentStack().redo.length).toEqual(0);
     expect(Object.keys(HistoryService.getCurrentStack().undo[0])[0]).toEqual('ANNOT#DELETEEVENT#Phonetic#154');
-    spyOn(LevelService, 'deleteEvent');
-    spyOn(LevelService, 'insertEvent');
+    spyOn(LevelService, 'deleteEvent').mockImplementation(() => {});
+    spyOn(LevelService, 'insertEvent').mockImplementation(() => {});
     HistoryService.undo();
     expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETEEVENT');
     expect(LevelService.insertEvent).toHaveBeenCalledWith(cur.name, cur.start, cur.pointName, cur.id);
@@ -528,8 +535,8 @@ describe('Service: HistoryService', function () {
     expect(HistoryService.getCurrentStack().undo.length).toEqual(1);
     expect(HistoryService.getCurrentStack().redo.length).toEqual(0);
     expect(Object.keys(HistoryService.getCurrentStack().undo[0])[0]).toEqual('ANNOT#DELETELINKSTO#Phonetic#154');
-    spyOn(LinkService, 'deleteLinksTo');
-    spyOn(LinkService, 'insertLinksTo');
+    spyOn(LinkService, 'deleteLinksTo').mockImplementation(() => {});
+    spyOn(LinkService, 'insertLinksTo').mockImplementation(() => {});
     HistoryService.undo();
     expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETELINKSTO');
     expect(LinkService.insertLinksTo).toHaveBeenCalledWith(cur.deletedLinks);
@@ -554,8 +561,8 @@ describe('Service: HistoryService', function () {
     expect(HistoryService.getCurrentStack().undo.length).toEqual(1);
     expect(HistoryService.getCurrentStack().redo.length).toEqual(0);
     expect(Object.keys(HistoryService.getCurrentStack().undo[0])[0]).toEqual('ANNOT#DELETELINKBOUNDARY#Phonetic#154');
-    spyOn(LinkService, 'deleteLinkBoundary');
-    spyOn(LinkService, 'deleteLinkBoundaryInvers');
+    spyOn(LinkService, 'deleteLinkBoundary').mockImplementation(() => {});
+    spyOn(LinkService, 'deleteLinkBoundaryInvers').mockImplementation(() => {});
     HistoryService.undo();
     expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETELINKBOUNDARY');
     expect(LinkService.deleteLinkBoundaryInvers).toHaveBeenCalledWith(cur.deletedLinks);
@@ -580,8 +587,8 @@ describe('Service: HistoryService', function () {
     expect(HistoryService.getCurrentStack().undo.length).toEqual(1);
     expect(HistoryService.getCurrentStack().redo.length).toEqual(0);
     expect(Object.keys(HistoryService.getCurrentStack().undo[0])[0]).toEqual('ANNOT#DELETELINKSEGMENT#Phonetic#154');
-    spyOn(LinkService, 'deleteLinkSegment');
-    spyOn(LinkService, 'deleteLinkSegmentInvers');
+    spyOn(LinkService, 'deleteLinkSegment').mockImplementation(() => {});
+    spyOn(LinkService, 'deleteLinkSegmentInvers').mockImplementation(() => {});
     HistoryService.undo();
     expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; DELETELINKSEGMENT');
     expect(LinkService.deleteLinkSegmentInvers).toHaveBeenCalledWith(cur.deletedLinks);
@@ -606,8 +613,8 @@ describe('Service: HistoryService', function () {
     expect(HistoryService.getCurrentStack().undo.length).toEqual(1);
     expect(HistoryService.getCurrentStack().redo.length).toEqual(0);
     expect(Object.keys(HistoryService.getCurrentStack().undo[0])[0]).toEqual('ANNOT#INSERTLEVEL#Phonetic#154');
-    spyOn(LevelService, 'deleteLevel');
-    spyOn(LevelService, 'insertLevel');
+    spyOn(LevelService, 'deleteLevel').mockImplementation(() => {});
+    spyOn(LevelService, 'insertLevel').mockImplementation(() => {});
     HistoryService.undo();
     expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; INSERTLEVEL');
     expect(LevelService.deleteLevel).toHaveBeenCalledWith(cur.id, cur.curPerspectiveIdx);
@@ -634,8 +641,8 @@ describe('Service: HistoryService', function () {
     expect(HistoryService.getCurrentStack().undo.length).toEqual(1);
     expect(HistoryService.getCurrentStack().redo.length).toEqual(0);
     expect(Object.keys(HistoryService.getCurrentStack().undo[0])[0]).toEqual('ANNOT#INSERTSEGMENTS#Phonetic#154');
-    spyOn(LevelService, 'insertSegmentInvers');
-    spyOn(LevelService, 'insertSegment');
+    spyOn(LevelService, 'insertSegmentInvers').mockImplementation(() => {});
+    spyOn(LevelService, 'insertSegment').mockImplementation(() => {});
     HistoryService.undo();
     expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; INSERTSEGMENTS');
     expect(LevelService.insertSegmentInvers).toHaveBeenCalledWith(cur.name, cur.start, cur.end, cur.segName);
@@ -660,8 +667,8 @@ describe('Service: HistoryService', function () {
     expect(HistoryService.getCurrentStack().undo.length).toEqual(1);
     expect(HistoryService.getCurrentStack().redo.length).toEqual(0);
     expect(Object.keys(HistoryService.getCurrentStack().undo[0])[0]).toEqual('ANNOT#INSERTEVENT#Phonetic#154');
-    spyOn(LevelService, 'deleteEvent');
-    spyOn(LevelService, 'insertEvent');
+    spyOn(LevelService, 'deleteEvent').mockImplementation(() => {});
+    spyOn(LevelService, 'insertEvent').mockImplementation(() => {});
     HistoryService.undo();
     expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; INSERTEVENT');
     expect(LevelService.deleteEvent).toHaveBeenCalledWith(cur.name, cur.id);
@@ -687,7 +694,7 @@ describe('Service: HistoryService', function () {
     expect(HistoryService.getCurrentStack().undo.length).toEqual(1);
     expect(HistoryService.getCurrentStack().redo.length).toEqual(0);
     expect(Object.keys(HistoryService.getCurrentStack().undo[0])[0]).toEqual('ANNOT#EXPANDSEGMENTS#Phonetic#154');
-    spyOn(LevelService, 'expandSegment');
+    spyOn(LevelService, 'expandSegment').mockImplementation(() => {});
     HistoryService.undo();
     expect(ViewStateService.historyActionTxt).toBe('<i>UNDO</i> &#8594; EXPANDSEGMENTS');
     expect(LevelService.expandSegment).toHaveBeenCalledWith(cur.rightSide, cur.item, cur.name, -cur.changeTime);

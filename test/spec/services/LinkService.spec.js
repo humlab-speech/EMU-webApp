@@ -4,7 +4,11 @@ describe('Service: LinkService', function () {
 
   // load the controller's module
   beforeEach(angular.mock.module('grazer'));
-  
+
+  beforeEach(angular.mock.inject(function (ConfigProviderService) {
+    ConfigProviderService.curDbConfig = aeDbConfig;
+  }));
+
   var item;
   
   /**
