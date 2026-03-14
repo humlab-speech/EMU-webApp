@@ -2,26 +2,25 @@ import * as angular from 'angular';
 import { EspsParserWorker } from '../workers/esps-parser.worker.js';
 
 class EspsParserService{
-	
-	private $q;
+
 	private LevelService;
 	private SoundHandlerService;
-	
+
 	private worker;
-	private defer;
-	
-	constructor($q, LevelService, SoundHandlerService){
-		this.$q = $q;
+	private _resolve: ((value: any) => void) | null = null;
+	private _reject: ((reason: any) => void) | null = null;
+
+	constructor(LevelService, SoundHandlerService){
 		this.LevelService = LevelService;
 		this.SoundHandlerService = SoundHandlerService;
-		
+
 		this.worker = new EspsParserWorker();
 		// add event listener to worker to respond to messages
 		this.worker.says((e) => {
 			if (e.status.type === 'SUCCESS') {
-				this.defer.resolve(e.data);
+				if (this._resolve) this._resolve(e.data);
 			} else {
-				this.defer.reject(e.data);
+				if (this._reject) this._reject(e.data);
 			}
 		}, false);
 
@@ -35,17 +34,19 @@ class EspsParserService{
 	* @returns promise
 	*/
 	public asyncParseEsps(esps, annotates, name) {
-		this.defer = this.$q.defer();
-		this.worker.tell({
-			'cmd': 'parseESPS',
-			'esps': esps,
-			'sampleRate': this.SoundHandlerService.audioBuffer.sampleRate,
-			'annotates': annotates,
-			'name': name
+		return new Promise((resolve, reject) => {
+			this._resolve = resolve;
+			this._reject = reject;
+			this.worker.tell({
+				'cmd': 'parseESPS',
+				'esps': esps,
+				'sampleRate': this.SoundHandlerService.audioBuffer.sampleRate,
+				'annotates': annotates,
+				'name': name
+			});
 		});
-		return this.defer.promise;
 	};
-	
+
 	/**
 	* parse JSO data to ESPS file using webworker
 	* @param name
@@ -53,17 +54,19 @@ class EspsParserService{
 	* @returns promise
 	*/
 	public asyncParseJSO(name) {
-		this.defer = this.$q.defer();
-		this.worker.tell({
-			'cmd': 'parseJSO',
-			'level': this.LevelService.getLevelDetails(name),
-			'sampleRate': this.SoundHandlerService.audioBuffer.sampleRate
+		return new Promise((resolve, reject) => {
+			this._resolve = resolve;
+			this._reject = reject;
+			this.worker.tell({
+				'cmd': 'parseJSO',
+				'level': this.LevelService.getLevelDetails(name),
+				'sampleRate': this.SoundHandlerService.audioBuffer.sampleRate
+			});
 		});
-		return this.defer.promise;
 	};
 
 }
 
 
 angular.module('grazer')
-.service('EspsParserService', ['$q', 'LevelService', 'SoundHandlerService', EspsParserService]);
+.service('EspsParserService', ['LevelService', 'SoundHandlerService', EspsParserService]);

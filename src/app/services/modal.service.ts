@@ -1,22 +1,21 @@
 import * as angular from 'angular';
 
 class ModalService{
-	private $q;
 	private ArrayHelperService;
 	private ViewStateService;
 
 	private isOpen;
 	private templateUrl;
-	private defer;
+	private _resolve: ((value: any) => void) | null = null;
+	private _reject: ((reason: any) => void) | null = null;
 	private deferChange;
 	private force;
 	private dataOut;
 	private dataIn;
 	private dataExport;
 
-	
-	constructor($q, ArrayHelperService, ViewStateService){
-		this.$q = $q;
+
+	constructor(ArrayHelperService, ViewStateService){
 		this.ArrayHelperService = ArrayHelperService;
 		this.ViewStateService = ViewStateService;
 
@@ -26,20 +25,21 @@ class ModalService{
 		// TODO: move to constructor
 		this.isOpen = false;
 		this.templateUrl = '';
-		this.defer = undefined;
+		this._resolve = null;
+		this._reject = null;
 		this.deferChange = undefined;
 		this.force = false;
 		this.dataOut = undefined;
 		this.dataIn = undefined;
 		this.dataExport = undefined;
 	};
-	
+
 	/**
 	* open modal normally
 	*/
 	public open(template, param1, param2, force) {
 		this.initialize();
-		
+
 		if (param1 !== undefined) {
 			this.dataIn = param1;
 			if (param1.y !== undefined) {
@@ -52,24 +52,26 @@ class ModalService{
 		if (force !== undefined) { // force user to do sth
 			this.force = force;
 		}
-		this.defer = this.$q.defer();
-		this.templateUrl = template;
-		this.ViewStateService.setState('modalShowing');
-		this.isOpen = true;
-		return this.defer.promise;
+		return new Promise((resolve, reject) => {
+			this._resolve = resolve;
+			this._reject = reject;
+			this.templateUrl = template;
+			this.ViewStateService.setState('modalShowing');
+			this.isOpen = true;
+		});
 	};
-	
+
 	/**
 	*
 	*/
 	public error (msg) {
 		this.initialize();
-		
+
 		this.dataIn = msg;
 		this.templateUrl = 'views/error.html';
 		this.ViewStateService.setState('modalShowing');
 	};
-	
+
 	/**
 	*
 	*/
@@ -80,10 +82,10 @@ class ModalService{
 		if (this.ViewStateService.hierarchyState.isShown()) {
 			this.ViewStateService.hierarchyState.toggleHierarchy();
 		}
-		this.defer.resolve(false);
+		if (this._resolve) this._resolve(false);
 	};
-	
-	
+
+
 	/**
 	*
 	*/
@@ -94,10 +96,10 @@ class ModalService{
 		if (this.ViewStateService.hierarchyState.isShown()) {
 			this.ViewStateService.hierarchyState.toggleHierarchy();
 		}
-		this.defer.resolve(status);
+		if (this._resolve) this._resolve(status);
 	};
-	
-	
+
+
 	/**
 	*
 	*/
@@ -105,17 +107,17 @@ class ModalService{
 		this.ViewStateService.setEditing(false);
 		this.ViewStateService.setState(this.ViewStateService.prevState);
 		this.isOpen = false;
-		this.defer.resolve(true);
+		if (this._resolve) this._resolve(true);
 	};
-	
-	
+
+
 	/**
 	*
 	*/
 	public select(idx) {
 		this.closeAndResolve(idx);
 	};
-	
+
 	/**
 	*
 	*/
@@ -123,17 +125,17 @@ class ModalService{
 		this.ViewStateService.setEditing(false);
 		this.ViewStateService.setState(this.ViewStateService.prevState);
 		this.isOpen = false;
-		this.defer.resolve(this.dataOut);
+		if (this._resolve) this._resolve(this.dataOut);
 	};
-	
+
 	/**
 	*
 	*/
 	public getTemplateUrl() {
 		return this.templateUrl;
 	};
-	
-	
+
+
 }
 
 /**
@@ -145,8 +147,7 @@ class ModalService{
 */
 angular.module('grazer')
 .service('ModalService', [
-	'$q', 
-	'ArrayHelperService', 
-	'ViewStateService', 
+	'ArrayHelperService',
+	'ViewStateService',
 	ModalService
 ])
