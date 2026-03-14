@@ -111,6 +111,7 @@
     "build-start": "rimraf dist/* && webpack --config webpack.prod.js && serve -l 9000 ./dist/",
     "test": "npm run test:jest && npm run test:karma",
     "test:jest": "jest",
+    "test:workers": "jest --config=jest.workers.config.js",
     "test:karma": "CHROME_BIN=\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" karma start test/karma.conf.js"
   }
 }
