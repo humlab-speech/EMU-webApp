@@ -27,6 +27,42 @@ class ConfigProviderService {
 			fromUrlParams: false
 		};
 	}
+
+	/**
+	 * Initialize theme from localStorage or system preference
+	 */
+	public initTheme() {
+		const savedTheme = localStorage.getItem('grazer-theme');
+		if (savedTheme) {
+			this.setTheme(savedTheme as any);
+		} else {
+			if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+				this.setTheme('light');
+			}
+		}
+	}
+
+	/**
+	 * Set theme and persist preference
+	 */
+	public setTheme(theme: 'light' | 'dark') {
+		localStorage.setItem('grazer-theme', theme);
+		const htmlElement = document.documentElement;
+		if (theme === 'light') {
+			htmlElement.setAttribute('data-theme', 'light');
+		} else {
+			htmlElement.removeAttribute('data-theme');
+		}
+	}
+
+	/**
+	 * Get current theme
+	 */
+	public getTheme(): string {
+		const theme = localStorage.getItem('grazer-theme');
+		return theme || 'dark';
+	}
+
 	/**
 	 *
 	 */
