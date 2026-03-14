@@ -313,7 +313,7 @@ let HierarchyPathCanvasComponent = {
                 let topLimitPxl = 0;
                 let bottomLimitPxl = nrOfPxlsPerLevel;
                 
-                let pathClone = JSON.parse(JSON.stringify(this.path));
+                let pathClone = structuredClone(this.path);
                 
                 await pathClone.reverse().forEach(async (levelName) => {
                     let levelDetails = await hierarchyWorker.getLevelDetails(levelName, reducedAnnotation);
