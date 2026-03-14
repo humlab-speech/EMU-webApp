@@ -3,7 +3,6 @@ import * as angular from 'angular';
 class AnagestService{
 	private defer;
 
-	private $q;
 	private $log;
 	private ViewStateService;
 	private LevelService;
@@ -15,8 +14,7 @@ class AnagestService{
 	private HistoryService;
 	private DataService;
 
-	constructor($q, $log, ViewStateService, LevelService, LinkService, ConfigProviderService, SsffDataService, ArrayHelperService, ModalService, HistoryService, DataService){
-		this.$q = $q;
+	constructor($log, ViewStateService, LevelService, LinkService, ConfigProviderService, SsffDataService, ArrayHelperService, ModalService, HistoryService, DataService){
 		this.$log = $log;
 		this.ViewStateService = ViewStateService;
 		this.LevelService = LevelService;
@@ -34,15 +32,12 @@ class AnagestService{
 	 */
 	insertAnagestEvents() {
 
-		var defer = this.$q.defer();
-
 		// precheck if there are items in selection
 		var itemInSel = this.ViewStateService.getItemsInSelection(this.DataService.data.levels);
 		if (itemInSel.length !== 0) {
-			this.ModalService.open('views/error.html', 'There are already events in the selected area! This is not permitted...').then(() => {
-				defer.reject();
+			return this.ModalService.open('views/error.html', 'There are already events in the selected area! This is not permitted...').then(() => {
+				return Promise.reject();
 			});
-			return defer;
 		}
 
 		// vertical position signal
@@ -58,10 +53,9 @@ class AnagestService{
 		var vCol = this.SsffDataService.getColumnOfTrack(vTr.name, vTr.columnName);
 
 		if (col.length !== 1 || vCol.length !== 1) {
-			this.ModalService.open('views/error.html', 'UPS... the column length of of one of the tracks is != 1 this means something is badly configured in the DB!!!').then(() => {
-				defer.reject();
+			return this.ModalService.open('views/error.html', 'UPS... the column length of of one of the tracks is != 1 this means something is badly configured in the DB!!!').then(() => {
+				return Promise.reject();
 			});
-			return defer;
 		}
 		// flatten columns
 		var flatColVals = this.ArrayHelperService.flattenArrayOfArray(col.values);
@@ -120,7 +114,7 @@ class AnagestService{
 		this.$log.info('Looking for gesture onset');
 
 
-		this.interactiveFindThresholds(selVCol.slice(0, vdat[0] + 1), minVelBeforeMaxVel.val, maxVelBeforeMaxConstr.val, this.ConfigProviderService.getLevelDefinition(this.ViewStateService.getcurClickLevelName()).anagestConfig.threshold, 1, 'Looking for gesture onset').then((resp) => {
+		return this.interactiveFindThresholds(selVCol.slice(0, vdat[0] + 1), minVelBeforeMaxVel.val, maxVelBeforeMaxConstr.val, this.ConfigProviderService.getLevelDefinition(this.ViewStateService.getcurClickLevelName()).anagestConfig.threshold, 1, 'Looking for gesture onset').then((resp) => {
 			// keyboard;
 			var on20 = resp;
 			gdat[0] = on20;
@@ -132,7 +126,7 @@ class AnagestService{
 
 			// nucleus onset
 			this.$log.info('Looking for nucleus onset');
-			this.interactiveFindThresholds(selVCol.slice(vdat[0], minp + 1), minVelBetwMaxVel1maxConstr.val, maxVelBeforeMaxConstr.val, this.ConfigProviderService.getLevelDefinition(this.ViewStateService.getcurClickLevelName()).anagestConfig.threshold, -1, 'Looking for nucleus onset').then((resp) => {
+			return this.interactiveFindThresholds(selVCol.slice(vdat[0], minp + 1), minVelBetwMaxVel1maxConstr.val, maxVelBeforeMaxConstr.val, this.ConfigProviderService.getLevelDefinition(this.ViewStateService.getcurClickLevelName()).anagestConfig.threshold, -1, 'Looking for nucleus onset').then((resp) => {
 				var off20 = resp;
 				ndat[0] = off20 + vdat[0];
 
@@ -148,7 +142,7 @@ class AnagestService{
 
 				// nucleus offset
 				this.$log.info('Looking for nucleus offset');
-				this.interactiveFindThresholds(selVCol.slice(minp, vdat[1] + 1), minBetwMaxConstrMaxVelConstr.val, maxVelAfterMaxConstr.val, this.ConfigProviderService.getLevelDefinition(this.ViewStateService.getcurClickLevelName()).anagestConfig.threshold, 1, 'Looking for nucleus offset').then((resp) => {
+				return this.interactiveFindThresholds(selVCol.slice(minp, vdat[1] + 1), minBetwMaxConstrMaxVelConstr.val, maxVelAfterMaxConstr.val, this.ConfigProviderService.getLevelDefinition(this.ViewStateService.getcurClickLevelName()).anagestConfig.threshold, 1, 'Looking for nucleus offset').then((resp) => {
 					var on20 = resp;
 					ndat[1] = on20 + minp;
 
@@ -159,7 +153,7 @@ class AnagestService{
 					// gesture offset
 
 					this.$log.info('Looking for gesture offset');
-					this.interactiveFindThresholds(selVCol.slice(vdat[1], minp + 1), minVelAfterMaxVelAfterConstr.val, maxVelAfterMaxConstr.val, this.ConfigProviderService.getLevelDefinition(this.ViewStateService.getcurClickLevelName()).anagestConfig.threshold, -1, 'Looking for gesture offset').then((resp) => {
+					return this.interactiveFindThresholds(selVCol.slice(vdat[1], minp + 1), minVelAfterMaxVelAfterConstr.val, maxVelAfterMaxConstr.val, this.ConfigProviderService.getLevelDefinition(this.ViewStateService.getcurClickLevelName()).anagestConfig.threshold, -1, 'Looking for gesture offset').then((resp) => {
 						var off20 = resp;
 						gdat[1] = off20 + vdat[1];
 						// insert points
@@ -275,15 +269,12 @@ class AnagestService{
 								this.HistoryService.addCurChangeObjToUndoStack();
 							}
 						});
-
-						defer.resolve();
 					});
 				});
 			});
 
 		}, () => {
 		});
-		return defer.promise;
 	};
 
 	/**
@@ -333,7 +324,6 @@ class AnagestService{
 		}
 
 		if (anavv.length > 1) {
-			var defer = this.$q.defer();
 			var infos = {} as any;
 			infos.description = description;
 			infos.options = [];
@@ -348,25 +338,20 @@ class AnagestService{
 				});
 			}
 
-			this.ModalService.open('views/SelectThresholdModal.html', infos, undefined, true).then((resp) => {
+			return this.ModalService.open('views/SelectThresholdModal.html', infos, undefined, true).then((resp) => {
 				// console.log(resp);
 				var ap = vz[anavv[resp]];
 				ap = this.ArrayHelperService.interp2points(xx[ap], ap, xx[ap + 1], ap + 1, thdat);
-				defer.resolve(ap);
+				return ap;
 			});
-			return defer.promise;
 		} else if (anavv.length === 0) {
-			defer = this.$q.defer();
-			this.ModalService.open('views/error.html', 'Could not find any values that step over the threshold!!').then(() => {
-				defer.reject('Could not find any values that step over the threshold!!');
+			return this.ModalService.open('views/error.html', 'Could not find any values that step over the threshold!!').then(() => {
+				return Promise.reject('Could not find any values that step over the threshold!!');
 			});
-			return defer.promise;
 		} else {
-			defer = this.$q.defer();
 			var ap = vz[anavv[0]];
 			ap = this.ArrayHelperService.interp2points(xx[ap], ap, xx[ap + 1], ap + 1, thdat);
-			defer.resolve(ap);
-			return defer.promise;
+			return Promise.resolve(ap);
 		}
 
 	};
@@ -374,4 +359,4 @@ class AnagestService{
 }
 
 angular.module('grazer')
-	.service('AnagestService', ['$q', '$log', 'ViewStateService', 'LevelService', 'LinkService', 'ConfigProviderService', 'SsffDataService', 'ArrayHelperService', 'ModalService', 'HistoryService', 'DataService', AnagestService]);
+	.service('AnagestService', ['$log', 'ViewStateService', 'LevelService', 'LinkService', 'ConfigProviderService', 'SsffDataService', 'ArrayHelperService', 'ModalService', 'HistoryService', 'DataService', AnagestService]);

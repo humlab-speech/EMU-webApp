@@ -2,20 +2,18 @@ import * as angular from 'angular';
 
 class LevelService{
 	
-	private $q;
 	private DataService;
 	private LinkService;
 	private ConfigProviderService;
 	private SoundHandlerService;
 	private ViewStateService;
-	
+
 	private lasteditArea; // holding current edit area
 	private lasteditAreaElem; // holding current edit area element
-	
-	
-	constructor($q, DataService, LinkService, ConfigProviderService, SoundHandlerService, ViewStateService){
-		
-		this.$q = $q;
+
+
+	constructor(DataService, LinkService, ConfigProviderService, SoundHandlerService, ViewStateService){
+
 		this.DataService = DataService;
 		this.LinkService = LinkService;
 		this.ConfigProviderService = ConfigProviderService;
@@ -1719,4 +1717,4 @@ class LevelService{
 }
 
 angular.module('grazer')
-.service('LevelService', ['$q', 'DataService', 'LinkService', 'ConfigProviderService', 'SoundHandlerService', 'ViewStateService', LevelService])
+.service('LevelService', ['DataService', 'LinkService', 'ConfigProviderService', 'SoundHandlerService', 'ViewStateService', LevelService])

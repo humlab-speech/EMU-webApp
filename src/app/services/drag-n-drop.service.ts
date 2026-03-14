@@ -2,7 +2,6 @@ import * as angular from 'angular';
 
 class DragnDropService{
 	
-	private $q;
 	private $rootScope;
 	private $window;
 	private ModalService;
@@ -19,14 +18,13 @@ class DragnDropService{
 	private TextGridParserService;
 	private LoadedMetaDataService;
 	private LevelService;
-	
+
 	private drandropBundles;
 	private bundleList;
 	private sessionName;
 	private maxDroppedBundles;
-	
-	constructor($q, $rootScope, $window, ModalService, DataService, ValidationService, ConfigProviderService, DragnDropDataService, IoHandlerService, ViewStateService, SoundHandlerService, BinaryDataManipHelperService, BrowserDetectorService, WavParserService, TextGridParserService, LoadedMetaDataService, LevelService){
-		this.$q = $q;
+
+	constructor($rootScope, $window, ModalService, DataService, ValidationService, ConfigProviderService, DragnDropDataService, IoHandlerService, ViewStateService, SoundHandlerService, BinaryDataManipHelperService, BrowserDetectorService, WavParserService, TextGridParserService, LoadedMetaDataService, LevelService){
 		this.$rootScope = $rootScope;
 		this.$window = window;
 		this.ModalService = ModalService;
@@ -140,91 +138,90 @@ class DragnDropService{
 	};
 	
 	public convertDragnDropData(bundles, i) {
-		var defer = this.$q.defer();
 		var data = this.drandropBundles[i];
 		var reader:any = new FileReader();
 		var reader2:any = new FileReader();
 		var res;
 		if (bundles.length > i) {
-			if (data.wav !== undefined) {
-				reader.readAsArrayBuffer(data.wav);
-				reader.onloadend = (evt) => {
-					if (evt.target.readyState === FileReader.DONE) {
-						if (this.BrowserDetectorService.isBrowser.Firefox()) {
-							res = evt.target.result;
-						} else {
-							res = evt.currentTarget.result;
-						}
-						this.WavParserService.parseWavAudioBuf(res).then((result) => {
-							var audioBuffer = result.audioBuffer;
-							if (this.DragnDropDataService.convertedBundles[i] === undefined) {
-								this.DragnDropDataService.convertedBundles[i] = {};
+			return new Promise<void>((resolve, reject) => {
+				if (data.wav !== undefined) {
+					reader.readAsArrayBuffer(data.wav);
+					reader.onloadend = (evt) => {
+						if (evt.target.readyState === FileReader.DONE) {
+							if (this.BrowserDetectorService.isBrowser.Firefox()) {
+								res = evt.target.result;
+							} else {
+								res = evt.currentTarget.result;
 							}
-							//DragnDropDataService.convertedBundles[i].mediaFile = {};
-							this.SoundHandlerService.audioBuffer = audioBuffer;
-							this.SoundHandlerService.playbackBuffer = result.playbackBuffer;
-							//DragnDropDataService.convertedBundles[i].mediaFile.audioBuffer = res;
-							this.DragnDropDataService.convertedBundles[i].ssffFiles = [];
-							var bundle = data.wav.name.substr(0, data.wav.name.lastIndexOf('.'));
-							if (data.annotation === undefined) {
-								this.DragnDropDataService.convertedBundles[i].annotation = {
-									levels: [],
-									links: [],
-									sampleRate: audioBuffer.sampleRate,
-									annotates: bundle,
-									name: bundle
-								};
-								this.convertDragnDropData(bundles, i + 1).then(() => {
-									delete this.drandropBundles;
-									this.drandropBundles = [];
-									defer.resolve();
-								});
-							}
-							else {
-								if (data.annotation.type === 'textgrid') {
-									reader2.readAsText(data.annotation.file);
-									reader2.onloadend = (evt) => {
-										if (evt.target.readyState === FileReader.DONE) {
-											this.TextGridParserService.asyncParseTextGrid(evt.currentTarget.result, data.wav.name, bundle).then((parseMess) => {
-												this.DragnDropDataService.convertedBundles[i].annotation = parseMess;
+							this.WavParserService.parseWavAudioBuf(res).then((result) => {
+								var audioBuffer = result.audioBuffer;
+								if (this.DragnDropDataService.convertedBundles[i] === undefined) {
+									this.DragnDropDataService.convertedBundles[i] = {};
+								}
+								//DragnDropDataService.convertedBundles[i].mediaFile = {};
+								this.SoundHandlerService.audioBuffer = audioBuffer;
+								this.SoundHandlerService.playbackBuffer = result.playbackBuffer;
+								//DragnDropDataService.convertedBundles[i].mediaFile.audioBuffer = res;
+								this.DragnDropDataService.convertedBundles[i].ssffFiles = [];
+								var bundle = data.wav.name.substr(0, data.wav.name.lastIndexOf('.'));
+								if (data.annotation === undefined) {
+									this.DragnDropDataService.convertedBundles[i].annotation = {
+										levels: [],
+										links: [],
+										sampleRate: audioBuffer.sampleRate,
+										annotates: bundle,
+										name: bundle
+									};
+									this.convertDragnDropData(bundles, i + 1).then(() => {
+										delete this.drandropBundles;
+										this.drandropBundles = [];
+										resolve();
+									});
+								}
+								else {
+									if (data.annotation.type === 'textgrid') {
+										reader2.readAsText(data.annotation.file);
+										reader2.onloadend = (evt) => {
+											if (evt.target.readyState === FileReader.DONE) {
+												this.TextGridParserService.asyncParseTextGrid(evt.currentTarget.result, data.wav.name, bundle).then((parseMess) => {
+													this.DragnDropDataService.convertedBundles[i].annotation = parseMess;
+													this.convertDragnDropData(bundles, i + 1).then(() => {
+														resolve();
+													});
+												}, (errMess) => {
+													this.ModalService.open('views/error.html', 'Error parsing TextGrid file: ' + errMess.status.message).then(() => {
+														reject();
+													});
+												});
+											}
+										};
+									}
+									else if (data.annotation.type === 'annotation') {
+										reader2.readAsText(data.annotation.file);
+										reader2.onloadend = (evt) => {
+											if (evt.target.readyState === FileReader.DONE) {
+												this.DragnDropDataService.convertedBundles[i].annotation = angular.fromJson(evt.currentTarget.result);
 												this.convertDragnDropData(bundles, i + 1).then(() => {
-													defer.resolve();
+													resolve();
 												});
-											}, (errMess) => {
-												this.ModalService.open('views/error.html', 'Error parsing TextGrid file: ' + errMess.status.message).then(() => {
-													defer.reject();
-												});
-											});
-										}
-									};
+											}
+										};
+									}
 								}
-								else if (data.annotation.type === 'annotation') {
-									reader2.readAsText(data.annotation.file);
-									reader2.onloadend = (evt) => {
-										if (evt.target.readyState === FileReader.DONE) {
-											this.DragnDropDataService.convertedBundles[i].annotation = angular.fromJson(evt.currentTarget.result);
-											this.convertDragnDropData(bundles, i + 1).then(() => {
-												defer.resolve();
-											});
-										}
-									};
-								}
-							}
-						}, (errMess) => {
-							this.ModalService.open('views/error.html', 'Error decoding audio file: ' + errMess.status.message).then(() => {
-								defer.reject();
+							}, (errMess) => {
+								this.ModalService.open('views/error.html', 'Error decoding audio file: ' + errMess.status.message).then(() => {
+									reject();
+								});
+
 							});
-							
-						});
-					}
-				};
-			}
+						}
+					};
+				}
+			});
 		}
 		else {
-			defer.resolve();
-			return defer.promise;
+			return Promise.resolve();
 		}
-		return defer.promise;
 	};
 	
 	/**
@@ -316,4 +313,4 @@ class DragnDropService{
 }
 
 angular.module('grazer')
-.service('DragnDropService', ['$q', '$rootScope', '$window', 'ModalService', 'DataService', 'ValidationService', 'ConfigProviderService', 'DragnDropDataService', 'IoHandlerService', 'ViewStateService', 'SoundHandlerService', 'BinaryDataManipHelperService', 'BrowserDetectorService', 'WavParserService', 'TextGridParserService', 'LoadedMetaDataService', 'LevelService', DragnDropService]);
+.service('DragnDropService', ['$rootScope', '$window', 'ModalService', 'DataService', 'ValidationService', 'ConfigProviderService', 'DragnDropDataService', 'IoHandlerService', 'ViewStateService', 'SoundHandlerService', 'BinaryDataManipHelperService', 'BrowserDetectorService', 'WavParserService', 'TextGridParserService', 'LoadedMetaDataService', 'LevelService', DragnDropService]);

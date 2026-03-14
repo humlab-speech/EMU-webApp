@@ -1,15 +1,13 @@
 import * as angular from 'angular';
 
 class HierarchyManipulationService{
-	private $q;
 	private HierarchyLayoutService;
 	private DataService;
 	private LevelService;
 	private ConfigProviderService;
-	
-	constructor($q, HierarchyLayoutService, DataService, LevelService, ConfigProviderService){
-		
-		this.$q = $q;
+
+	constructor(HierarchyLayoutService, DataService, LevelService, ConfigProviderService){
+
 		this.HierarchyLayoutService = HierarchyLayoutService;
 		this.DataService = DataService;
 		this.LevelService = LevelService;
@@ -246,4 +244,4 @@ class HierarchyManipulationService{
 	
 	
 	angular.module('grazer')
-	.service('HierarchyManipulationService', ['$q', 'HierarchyLayoutService', 'DataService', 'LevelService', 'ConfigProviderService', HierarchyManipulationService]);
+	.service('HierarchyManipulationService', ['HierarchyLayoutService', 'DataService', 'LevelService', 'ConfigProviderService', HierarchyManipulationService]);

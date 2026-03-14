@@ -3,15 +3,13 @@ import * as tv4 from 'tv4';
 
 class ValidationService{
 	private $http;
-	private $q;
 	private ConfigProviderService;
-	
+
 	private schemasJsos;
 	private names;
-	
-	constructor($http, $q, ConfigProviderService){
+
+	constructor($http, ConfigProviderService){
 		this.$http = $http;
-		this.$q = $q;
 		this.ConfigProviderService = ConfigProviderService;
 		
 		this.schemasJsos = [];
@@ -280,7 +278,7 @@ class ValidationService{
 			uri = 'schemaFiles/' + n + '.json';
 			proms.push(this.$http.get(uri));
 		});
-		return this.$q.all(proms);
+		return Promise.all(proms);
 	};
 	
 	/**
@@ -342,4 +340,4 @@ class ValidationService{
 }
 
 angular.module('grazer')
-.service('ValidationService', ['$http', '$q', 'ConfigProviderService', ValidationService]);
+.service('ValidationService', ['$http', 'ConfigProviderService', ValidationService]);
