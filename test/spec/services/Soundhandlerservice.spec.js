@@ -1,37 +1,69 @@
 'use strict';
 
 describe('Service: SoundHandlerService', function () {
-    var scope;
+    var scope, SoundHandlerService;
 
-    // load the controller's module
     beforeEach(angular.mock.module('grazer'));
 
-    beforeEach(angular.mock.inject(function ($rootScope) {
+    beforeEach(angular.mock.inject(function ($rootScope, _SoundHandlerService_) {
         scope = $rootScope.$new();
+        SoundHandlerService = _SoundHandlerService_;
     }));
 
-    /**
-     *
-     */
-//    it('should extractRelPartOfWav of length 0 = only header', angular.mock.inject(function (SoundHandlerService) {
-//        SoundHandlerService.wavJSO = parsedWavJSO;
-//        var cutWav = SoundHandlerService.extractRelPartOfWav(0, 0);
-//        expect(cutWav.byteLength).toEqual(44);
-//    }));
+    // ================================================================
+    // audioBuffer getter — returns current audio buffer
+    // ================================================================
 
-    /**
-     *
-     */
-/*
-    it('should not play audio if wav is empty', angular.mock.inject(function (SoundHandlerService) {
-        // TODO: spy on decodeAndPlay function and check that it isn't called
-        //spyOn(SoundHandlerService, 'decodeAndPlay');
+    describe('audioBuffer getter', function () {
 
-        SoundHandlerService.wavJSO = parsedWavJSO;
-        SoundHandlerService.playFromTo(0,0);
-        //expect(SoundHandlerService.decodeAndPlay).toNotHaveBeenCalled();
+        it('should return audioBuffer property', function () {
+            expect(SoundHandlerService.audioBuffer).toBeDefined();
+        });
 
-    }));
-*/
+        it('should allow setting audioBuffer', function () {
+            var mockBuffer = {
+                sampleRate: 16000,
+                length: 1000,
+                getChannelData: function() { return new Float32Array(1000); }
+            };
+            SoundHandlerService.audioBuffer = mockBuffer;
+            expect(SoundHandlerService.audioBuffer).toBe(mockBuffer);
+        });
+
+    });
+
+    // ================================================================
+    // playFromTo — sample range playback
+    // ================================================================
+
+    describe('playFromTo', function () {
+
+        it('should not throw with valid sample range', function () {
+            var mockBuffer = {
+                sampleRate: 16000,
+                length: 1000,
+                getChannelData: function() { return new Float32Array(1000); }
+            };
+            SoundHandlerService.audioBuffer = mockBuffer;
+
+            expect(function () {
+                SoundHandlerService.playFromTo(0, 100);
+            }).not.toThrow();
+        });
+
+        it('should not throw with empty range (start === end)', function () {
+            var mockBuffer = {
+                sampleRate: 16000,
+                length: 1000,
+                getChannelData: function() { return new Float32Array(1000); }
+            };
+            SoundHandlerService.audioBuffer = mockBuffer;
+
+            expect(function () {
+                SoundHandlerService.playFromTo(500, 500);
+            }).not.toThrow();
+        });
+
+    });
 
 });

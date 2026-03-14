@@ -97,5 +97,39 @@ if (!window.webkitURL) {
   window.webkitURL = window.URL;
 }
 
+// structuredClone polyfill for Node versions < 17
+if (!global.structuredClone) {
+  global.structuredClone = function(obj) {
+    return JSON.parse(JSON.stringify(obj));
+  };
+}
+
+// AudioContext mock for Web Audio API tests
+if (!window.AudioContext) {
+  window.AudioContext = function() {
+    return {
+      createBufferSource: function() {
+        return {
+          connect: function() {},
+          start: function() {},
+          stop: function() {},
+          buffer: null
+        };
+      },
+      createGain: function() {
+        return {
+          connect: function() {},
+          gain: { value: 1 }
+        };
+      },
+      destination: {},
+      resume: function() { return Promise.resolve(); }
+    };
+  };
+}
+if (!window.webkitAudioContext) {
+  window.webkitAudioContext = window.AudioContext;
+}
+
 // Load fixture data
 require('./fixtures/load-fixtures');

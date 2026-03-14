@@ -16,7 +16,6 @@ module.exports = {
     '/node_modules/',
     // Empty test files (no actual tests)
     'Ssffparserservice\\.spec\\.js$',
-    'Soundhandlerservice\\.spec\\.js$',
     // Worker specs that test raw Worker constructors (incompatible with jsdom)
     'espsParserWorker\\.spec\\.js$',
     'textGridParserWorker\\.spec\\.js$',
