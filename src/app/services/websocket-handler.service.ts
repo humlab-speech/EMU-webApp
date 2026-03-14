@@ -1,10 +1,8 @@
 import * as angular from 'angular';
 
 class WebSocketHandlerService{
-	private $q;
 	private $rootScope;
 	private $location;
-	private $timeout;
 	private HistoryService;
 	private SsffParserService;
 	private ConfigProviderService;
@@ -16,23 +14,21 @@ class WebSocketHandlerService{
 	private BinaryDataManipHelperService;
 	private SsffDataService;
 	private ModalService;
-	
+
 	// Keep all pending requests here until they get responses
 	private callbacks;
-	
-	// empty promise object to be resolved when connection is up
-	private conPromise;
-	
+
+	// stored resolve/reject for connection promise
+	private conPromise: { resolve: (value: any) => void; reject: (reason: any) => void } | null;
+
 	private connected;
-	
+
 	// Create our websocket object with the address to the websocket
 	public ws;
 
-	constructor($q, $rootScope, $location, $timeout, HistoryService, SsffParserService, ConfigProviderService, ViewStateService, WavParserService, SoundHandlerService, EspsParserService, UuidService, BinaryDataManipHelperService, SsffDataService, ModalService){
-		this.$q = $q;
+	constructor($rootScope, $location, HistoryService, SsffParserService, ConfigProviderService, ViewStateService, WavParserService, SoundHandlerService, EspsParserService, UuidService, BinaryDataManipHelperService, SsffDataService, ModalService){
 		this.$rootScope = $rootScope;
 		this.$location = $location;
-		this.$timeout = $timeout;
 		this.HistoryService = HistoryService;
 		this.SsffParserService = SsffParserService;
 		this.ConfigProviderService = ConfigProviderService;
@@ -47,15 +43,14 @@ class WebSocketHandlerService{
 		
 		// Keep all pending requests here until they get responses
 		this.callbacks = {} as any;
-		
-		// empty promise object to be resolved when connection is up
-		this.conPromise = {} as any;
-		
+
+		this.conPromise = null;
+
 		this.connected = false;
-		
+
 		// Create our websocket object with the address to the websocket
 		this.ws = {} as any;
-		
+
 	}
 	
 	
@@ -112,15 +107,16 @@ class WebSocketHandlerService{
 	// broadcast on open
 	private wsonopen(message) {
 		this.connected = true;
-		this.$rootScope.$apply(this.conPromise.resolve(message));
+		if (this.conPromise) this.conPromise.resolve(message);
+		this.$rootScope.$apply();
 	}
 	
 	private wsonmessage(message) {
 		try{
-			var jsonMessage = angular.fromJson(message.data);
+			var jsonMessage = JSON.parse(message.data);
 			this.listener(jsonMessage);
 		}catch(e){
-			this.ModalService.open('views/error.html', 'Got non-JSON string as message from server! This is not allowed! The message was: ' + message.data + ' which caused the angular.fromJson error: ' + e).then(() => {
+			this.ModalService.open('views/error.html', 'Got non-JSON string as message from server! This is not allowed! The message was: ' + message.data + ' which caused the JSON.parse error: ' + e).then(() => {
 				this.closeConnect();
 				this.$rootScope.$broadcast('resetToInitState');
 			});
@@ -130,7 +126,8 @@ class WebSocketHandlerService{
 	
 	private wsonerror(message) {
 		console.error('WEBSOCKET ERROR!!!!!');
-		this.$rootScope.$apply(this.conPromise.reject(message));
+		if (this.conPromise) this.conPromise.reject(message);
+		this.$rootScope.$apply();
 	}
 	
 	private wsonclose(message) {
@@ -144,34 +141,32 @@ class WebSocketHandlerService{
 	}
 	
 	private sendRequest(request) {
-		var defer = this.$q.defer();
-		var callbackId = this.getCallbackId();
-		this.callbacks[callbackId] = {
-			time: new Date(),
-			cb: defer
-		};
-		request.callbackID = callbackId;
-		this.ws.send(angular.toJson(request));
-		// timeout request if not answered
-		this.$timeout(() => {
-			var tOutResp = {
-				'callbackID': callbackId,
-				'status': {
-					'type': 'ERROR:TIMEOUT',
-					'message': 'Sent request of type: ' + request.type + ' timed out after ' + this.ConfigProviderService.vals.main.serverTimeoutInterval + 'ms!  Please check the server...'
-				}
+		return new Promise((resolve, reject) => {
+			var callbackId = this.getCallbackId();
+			this.callbacks[callbackId] = {
+				time: new Date(),
+				cb: { resolve, reject }
 			};
-			this.listener(tOutResp);
-		}, this.ConfigProviderService.vals.main.serverTimeoutInterval);
-		
-		return defer.promise;
+			request.callbackID = callbackId;
+			this.ws.send(JSON.stringify(request));
+			// timeout request if not answered
+			setTimeout(() => {
+				var tOutResp = {
+					'callbackID': callbackId,
+					'status': {
+						'type': 'ERROR:TIMEOUT',
+						'message': 'Sent request of type: ' + request.type + ' timed out after ' + this.ConfigProviderService.vals.main.serverTimeoutInterval + 'ms!  Please check the server...'
+					}
+				};
+				this.listener(tOutResp);
+			}, this.ConfigProviderService.vals.main.serverTimeoutInterval);
+		});
 	}
 	
 	
 	///////////////////////////////////////////
 	// public api
 	public initConnect (url) {
-		var defer = this.$q.defer();
 		try{
 			this.ws = new WebSocket(url);
 			this.ws.onopen = this.wsonopen.bind(this);
@@ -179,11 +174,12 @@ class WebSocketHandlerService{
 			this.ws.onerror = this.wsonerror.bind(this);
 			this.ws.onclose = this.wsonclose.bind(this);
 		}catch (err){
-			return this.$q.reject('A malformed websocket URL that does not start with ws:// or wss:// was provided.');
+			return Promise.reject('A malformed websocket URL that does not start with ws:// or wss:// was provided.');
 		}
-		
-		this.conPromise = defer;
-		return defer.promise;
+
+		return new Promise((resolve, reject) => {
+			this.conPromise = { resolve, reject };
+		});
 	};
 	
 	//
@@ -349,4 +345,4 @@ class WebSocketHandlerService{
 }
 
 angular.module('grazer')
-.service('WebSocketHandlerService', ['$q', '$rootScope', '$location', '$timeout', 'HistoryService', 'SsffParserService', 'ConfigProviderService', 'ViewStateService', 'WavParserService', 'SoundHandlerService', 'EspsParserService', 'UuidService', 'BinaryDataManipHelperService', 'SsffDataService', 'ModalService', WebSocketHandlerService]);
+.service('WebSocketHandlerService', ['$rootScope', '$location', 'HistoryService', 'SsffParserService', 'ConfigProviderService', 'ViewStateService', 'WavParserService', 'SoundHandlerService', 'EspsParserService', 'UuidService', 'BinaryDataManipHelperService', 'SsffDataService', 'ModalService', WebSocketHandlerService]);
