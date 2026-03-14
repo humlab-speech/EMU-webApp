@@ -217,4 +217,126 @@ describe('Service: DbObjLoadSaveService', function () {
      //scope.$apply();
      expect(ModalService.open).toHaveBeenCalled();
    }));
+
+  /**
+   * P0.2: saveBundle — getPermission false — returns undefined (not Promise)
+   * Documents silent failure when permission is denied
+   */
+   it('saveBundle with getPermission false — returns undefined not Promise', angular.mock.inject(function (ViewStateService) {
+     spyOn(ViewStateService, 'getPermission').mockReturnValue(false);
+     var result = scope.dbo.saveBundle();
+     expect(result).toBeUndefined();
+     expect(ViewStateService.getPermission).toHaveBeenCalledWith('saveBndlBtnClick');
+   }));
+
+  /**
+   * P0.2: loadBundle — same bndl as getCurBndl — doesn't call getBundle
+   */
+   it('loadBundle with same bundle as current — skips getBundle', angular.mock.inject(function (IoHandlerService, LoadedMetaDataService) {
+     var sameBndl = {name: 'test1', ssffFiles: []};
+     spyOn(LoadedMetaDataService, 'getCurBndl').mockReturnValue(sameBndl);
+     spyOn(IoHandlerService, 'getBundle').mockReturnValue(deferred.promise);
+
+     scope.dbo.loadBundle(sameBndl);
+     scope.$apply();
+
+     expect(LoadedMetaDataService.getCurBndl).toHaveBeenCalled();
+     expect(IoHandlerService.getBundle).not.toHaveBeenCalled();
+   }));
+
+  /**
+   * P0.2: loadBundle — comMode DEMO with unsaved changes — skips modal, calls getBundle
+   */
+   it('loadBundle with comMode DEMO — loads bundle even with unsaved changes', angular.mock.inject(function (IoHandlerService, LoadedMetaDataService, ModalService, ViewStateService, HistoryService) {
+     spyOn(LoadedMetaDataService, 'getCurBndl').mockReturnValue({name: 'test1'});
+     spyOn(IoHandlerService, 'getBundle').mockReturnValue(deferred.promise);
+     spyOn(ModalService, 'open');
+
+     scope.cps.vals.main.comMode = 'DEMO';
+     scope.cps.vals.activeButtons.saveBundle = true;
+     HistoryService.movesAwayFromLastSave = 1;
+
+     scope.dbo.loadBundle({name: 'test2'});
+
+     expect(ModalService.open).not.toHaveBeenCalled();
+     expect(IoHandlerService.getBundle).toHaveBeenCalled();
+   }));
+
+  /**
+   * P0.2: innerLoadBundle — timeAnchors empty [] — calls resetSelect()
+   */
+   it('innerLoadBundle with empty timeAnchors — calls resetSelect not setSelect', angular.mock.inject(function (WavParserService, BinaryDataManipHelperService, IoHandlerService, SsffParserService, ValidationService, DataService, LoadedMetaDataService) {
+     spyOn(scope.vs, 'resetSelect');
+     spyOn(LoadedMetaDataService, 'getCurBndl').mockReturnValue({name: 'test1', ssffFiles: []});
+     spyOn(IoHandlerService, 'getBundle').mockReturnValue(deferred.promise);
+     spyOn(WavParserService, 'parseWavAudioBuf').mockReturnValue(deferred2.promise);
+     spyOn(SsffParserService, 'asyncParseSsffArr').mockReturnValue(deferred3.promise);
+     spyOn(ValidationService, 'validateJSO').mockReturnValue(true);
+     spyOn(BinaryDataManipHelperService, 'base64ToArrayBuffer').mockReturnValue(new ArrayBuffer(6));
+     spyOn(DataService, 'setData').mockImplementation(() => {});
+     spyOn(LoadedMetaDataService, 'setCurBndl').mockImplementation(() => {});
+
+     scope.dbo.loadBundle({name: 'test', timeAnchors: []});
+     deferred.resolve({status: 200, data: { mediaFile: { encoding: 'BASE64', data: [1, 2, 3]}, ssffFiles: []}});
+     scope.$apply();
+
+     return Promise.resolve().then(function () {
+       scope.$apply();
+       deferred2.resolve({audioBuffer: {length: 100}, playbackBuffer: null});
+       scope.$apply();
+       return Promise.resolve();
+     }).then(function () {
+       scope.$apply();
+       deferred3.resolve({data: []});
+       scope.$apply();
+       expect(scope.vs.resetSelect).toHaveBeenCalled();
+       // resetSelect sets selectS and selectE to -1, not undefined
+       expect(scope.vs.curViewPort.selectS).toBe(-1);
+       expect(scope.vs.curViewPort.selectE).toBe(-1);
+     });
+   }));
+
+  /**
+   * P0.2: Documents bug — asyncParseSsffArr error handler accesses undefined .status
+   * When rejection lacks .status field, line 90 throws TypeError
+   */
+   it('innerLoadBundle — asyncParseSsffArr rejects without .status — handler unsafe', angular.mock.inject(function (SsffParserService, WavParserService, BinaryDataManipHelperService, ValidationService, AppStateService, ModalService, IoHandlerService, LoadedMetaDataService, DataService) {
+     // This test documents a bug: error handler assumes err.status exists
+     // If it doesn't, accessing err.status.message throws TypeError: Cannot read property 'message' of undefined
+
+     spyOn(LoadedMetaDataService, 'getCurBndl').mockReturnValue({name: 'test1', ssffFiles: []});
+     spyOn(IoHandlerService, 'getBundle').mockReturnValue(deferred.promise);
+     spyOn(WavParserService, 'parseWavAudioBuf').mockReturnValue(deferred2.promise);
+     spyOn(SsffParserService, 'asyncParseSsffArr').mockReturnValue(deferred3.promise);
+     spyOn(ValidationService, 'validateJSO').mockReturnValue(true);
+     spyOn(BinaryDataManipHelperService, 'base64ToArrayBuffer').mockReturnValue(new ArrayBuffer(6));
+     spyOn(DataService, 'setData').mockImplementation(() => {});
+     spyOn(LoadedMetaDataService, 'setCurBndl').mockImplementation(() => {});
+
+     scope.dbo.loadBundle({name: 'test'});
+     deferred.resolve({status: 200, data: { mediaFile: { encoding: 'BASE64', data: [1, 2, 3]}, ssffFiles: []}});
+
+     // Compare: rejection WITH .status.message (proper) vs WITHOUT (documents bug)
+     spyOn(ModalService, 'open').mockReturnValue(deferred4.promise);
+     spyOn(AppStateService, 'resetToInitState').mockImplementation(() => {});
+
+     scope.$apply();
+
+     return Promise.resolve().then(function () {
+       scope.$apply();
+       deferred2.resolve({audioBuffer: {length: 100}, playbackBuffer: null});
+       scope.$apply();
+       return Promise.resolve();
+     }).then(function () {
+       scope.$apply();
+       // Bug: rejecting with error that has .status works fine
+       deferred3.reject({ status: { message: 'proper error' }});
+       scope.$apply();
+       expect(ModalService.open).toHaveBeenCalled();
+       deferred4.resolve();
+       scope.$apply();
+       expect(AppStateService.resetToInitState).toHaveBeenCalled();
+     });
+   }));
+
 });
