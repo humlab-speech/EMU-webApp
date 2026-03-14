@@ -2,11 +2,9 @@ import * as angular from 'angular';
 import { AudioBufferLike } from './audio-buffer-like';
 
 class AudioResamplerService {
-	private $q;
 	private BrowserDetectorService;
 
-	constructor($q, BrowserDetectorService) {
-		this.$q = $q;
+	constructor(BrowserDetectorService) {
 		this.BrowserDetectorService = BrowserDetectorService;
 	}
 
@@ -19,8 +17,7 @@ class AudioResamplerService {
 	 * Returns a new ArrayBuffer with the resampled WAV.
 	 */
 	public resampleWavBuffer(buf: ArrayBuffer, headerInfos: any, targetRate: number) {
-		var defer = this.$q.defer();
-
+		return new Promise((resolve, reject) => {
 		try {
 			var srcRate = headerInfos.SampleRate;
 			var numChannels = headerInfos.NumChannels;
@@ -106,17 +103,16 @@ class AudioResamplerService {
 			}
 
 			var originalBuffer = new AudioBufferLike(channelData, srcRate);
-		defer.resolve({ originalBuffer: originalBuffer, resampledWavBuf: outBuf });
+		resolve({ originalBuffer: originalBuffer, resampledWavBuf: outBuf });
 		} catch (e) {
-			defer.reject({
+			reject({
 				'status': {
 					'type': 'ERROR',
 					'message': 'Resampling failed: ' + e.message
 				}
 			});
 		}
-
-		return defer.promise;
+		});
 	}
 
 	/**
@@ -164,4 +160,4 @@ class AudioResamplerService {
 }
 
 angular.module('grazer')
-.service('AudioResamplerService', ['$q', 'BrowserDetectorService', AudioResamplerService]);
+.service('AudioResamplerService', ['BrowserDetectorService', AudioResamplerService]);

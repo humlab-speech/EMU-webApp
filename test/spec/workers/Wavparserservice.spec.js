@@ -198,18 +198,17 @@ describe('Service: WavParserService', function () {
             expect(rejected).toBe(true);
         }));
 
-        it('creates OfflineAudioContext with correct numChannels/length/sampleRate — mono 16kHz 16-bit', angular.mock.inject(function (WavParserService, $rootScope, $window) {
+        it('creates OfflineAudioContext with correct numChannels/length/sampleRate — mono 16kHz 16-bit', angular.mock.inject(async function (WavParserService) {
             var buf = buildPcmWav({ numChannels: 1, sampleRate: 16000, bitsPerSample: 16, numSamples: 100 });
             var ctxArgs = null;
-            var origCtx = $window.OfflineAudioContext;
+            var origCtx = window.OfflineAudioContext;
 
-            $window.OfflineAudioContext = function (channels, length, sampleRate) {
+            window.OfflineAudioContext = function (channels, length, sampleRate) {
                 ctxArgs = { channels: channels, length: length, sampleRate: sampleRate };
                 return { decodeAudioData: function (ab, resolve) { resolve({}); } };
             };
 
-            WavParserService.parseWavAudioBuf(buf);
-            $rootScope.$apply();
+            await WavParserService.parseWavAudioBuf(buf);
 
             expect(ctxArgs).not.toBeNull();
             expect(ctxArgs.channels).toBe(1);
@@ -217,69 +216,55 @@ describe('Service: WavParserService', function () {
             // length = dataChunkSize / numChannels / (bitsPerSample/8) = 200/1/2 = 100
             expect(ctxArgs.length).toBe(100);
 
-            $window.OfflineAudioContext = origCtx;
+            window.OfflineAudioContext = origCtx;
         }));
 
-        it('creates OfflineAudioContext with correct params — stereo 44.1kHz 16-bit', angular.mock.inject(function (WavParserService, $rootScope, $window) {
+        it('creates OfflineAudioContext with correct params — stereo 44.1kHz 16-bit', angular.mock.inject(async function (WavParserService) {
             var buf = buildPcmWav({ numChannels: 2, sampleRate: 44100, bitsPerSample: 16, numSamples: 50 });
             var ctxArgs = null;
-            var origCtx = $window.OfflineAudioContext;
+            var origCtx = window.OfflineAudioContext;
 
-            $window.OfflineAudioContext = function (channels, length, sampleRate) {
+            window.OfflineAudioContext = function (channels, length, sampleRate) {
                 ctxArgs = { channels: channels, length: length, sampleRate: sampleRate };
                 return { decodeAudioData: function (ab, resolve) { resolve({}); } };
             };
 
-            WavParserService.parseWavAudioBuf(buf);
-            $rootScope.$apply();
+            await WavParserService.parseWavAudioBuf(buf);
 
             expect(ctxArgs.channels).toBe(2);
             expect(ctxArgs.sampleRate).toBe(44100);
             // length = 200 / 2 / 2 = 50
             expect(ctxArgs.length).toBe(50);
 
-            $window.OfflineAudioContext = origCtx;
+            window.OfflineAudioContext = origCtx;
         }));
 
-        it('resolves promise with the AudioBuffer returned by decodeAudioData', angular.mock.inject(function (WavParserService, $rootScope, $window) {
+        it('resolves promise with the AudioBuffer returned by decodeAudioData', angular.mock.inject(async function (WavParserService) {
             var fakeAudioBuffer = { duration: 0.001, sampleRate: 16000, numberOfChannels: 1 };
-            var resolved = false;
-            var resolvedWith;
-            var origCtx = $window.OfflineAudioContext;
+            var origCtx = window.OfflineAudioContext;
 
-            $window.OfflineAudioContext = function () {
+            window.OfflineAudioContext = function () {
                 return { decodeAudioData: function (ab, resolve) { resolve(fakeAudioBuffer); } };
             };
 
-            WavParserService.parseWavAudioBuf(buildPcmWav()).then(function (result) {
-                resolved = true;
-                resolvedWith = result;
-            });
-            $rootScope.$apply();
+            var result = await WavParserService.parseWavAudioBuf(buildPcmWav());
 
-            expect(resolved).toBe(true);
-            expect(resolvedWith.audioBuffer).toBe(fakeAudioBuffer);
-            expect(resolvedWith.playbackBuffer).toBeNull();
+            expect(result.audioBuffer).toBe(fakeAudioBuffer);
+            expect(result.playbackBuffer).toBeNull();
 
-            $window.OfflineAudioContext = origCtx;
+            window.OfflineAudioContext = origCtx;
         }));
 
-        it('rejects promise when decodeAudioData calls its error callback', angular.mock.inject(function (WavParserService, $rootScope, $window) {
-            var rejected = false;
-            var origCtx = $window.OfflineAudioContext;
+        it('rejects promise when decodeAudioData calls its error callback', angular.mock.inject(async function (WavParserService) {
+            var origCtx = window.OfflineAudioContext;
 
-            $window.OfflineAudioContext = function () {
+            window.OfflineAudioContext = function () {
                 return { decodeAudioData: function (ab, resolve, reject) { reject(new Error('decode error')); } };
             };
 
-            WavParserService.parseWavAudioBuf(buildPcmWav()).then(null, function () {
-                rejected = true;
-            });
-            $rootScope.$apply();
+            await expect(WavParserService.parseWavAudioBuf(buildPcmWav())).rejects.toThrow('decode error');
 
-            expect(rejected).toBe(true);
-
-            $window.OfflineAudioContext = origCtx;
+            window.OfflineAudioContext = origCtx;
         }));
     });
 });

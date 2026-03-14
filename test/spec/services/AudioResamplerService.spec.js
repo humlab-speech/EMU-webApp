@@ -53,6 +53,11 @@ describe('Service: AudioResamplerService', function () {
 		};
 	}
 
+	var svc;
+	beforeEach(angular.mock.inject(function (AudioResamplerService) {
+		svc = AudioResamplerService;
+	}));
+
 	it('should report needsResampling=true for Safari with low sample rate', angular.mock.inject(function (AudioResamplerService, BrowserDetectorService) {
 		spyOn(BrowserDetectorService, 'isSafariOrWebKit').mockReturnValue(true);
 		expect(AudioResamplerService.needsResampling(22050)).toBe(true);
@@ -68,7 +73,7 @@ describe('Service: AudioResamplerService', function () {
 		expect(AudioResamplerService.needsResampling(48000)).toBe(false);
 	}));
 
-	it('should resample a constant-value signal and preserve amplitude', angular.mock.inject(function ($rootScope, AudioResamplerService) {
+	it('should resample a constant-value signal and preserve amplitude', async function () {
 		var srcRate = 22050;
 		var targetRate = 44100;
 		var numSamples = 100;
@@ -79,11 +84,7 @@ describe('Service: AudioResamplerService', function () {
 		var wav = buildWav16(samples, srcRate);
 		var headerInfos = makeHeaderInfos(srcRate, numSamples);
 
-		var result;
-		AudioResamplerService.resampleWavBuffer(wav, headerInfos, targetRate).then(function (r) {
-			result = r;
-		});
-		$rootScope.$digest();
+		var result = await svc.resampleWavBuffer(wav, headerInfos, targetRate);
 
 		expect(result).toBeDefined();
 		expect(result.resampledWavBuf).toBeDefined();
@@ -101,9 +102,9 @@ describe('Service: AudioResamplerService', function () {
 			var s = outView.getInt16(44 + i * 2, true) / 32767;
 			expect(Math.abs(s - 0.5)).toBeLessThan(0.02);
 		}
-	}));
+	});
 
-	it('should produce same-length output when source and target rates are equal', angular.mock.inject(function ($rootScope, AudioResamplerService) {
+	it('should produce same-length output when source and target rates are equal', async function () {
 		var rate = 44100;
 		var numSamples = 50;
 		var samples = new Float32Array(numSamples);
@@ -113,31 +114,28 @@ describe('Service: AudioResamplerService', function () {
 		var wav = buildWav16(samples, rate);
 		var headerInfos = makeHeaderInfos(rate, numSamples);
 
-		var result;
-		AudioResamplerService.resampleWavBuffer(wav, headerInfos, rate).then(function (r) {
-			result = r;
-		});
-		$rootScope.$digest();
+		var result = await svc.resampleWavBuffer(wav, headerInfos, rate);
 
 		expect(result).toBeDefined();
 		var outView = new DataView(result.resampledWavBuf);
 		var outDataSize = outView.getUint32(40, true);
 		var outNumSamples = outDataSize / 2;
 		expect(outNumSamples).toBe(numSamples);
-	}));
+	});
 
-	it('should reject promise on invalid input', angular.mock.inject(function ($rootScope, AudioResamplerService) {
+	it('should reject promise on invalid input', async function () {
 		var headerInfos = makeHeaderInfos(22050, 100);
 		// Pass a too-small buffer to trigger DataView out-of-bounds
 		var tinyBuf = new ArrayBuffer(10);
 
 		var error;
-		AudioResamplerService.resampleWavBuffer(tinyBuf, headerInfos, 44100).then(null, function (e) {
+		try {
+			await svc.resampleWavBuffer(tinyBuf, headerInfos, 44100);
+		} catch (e) {
 			error = e;
-		});
-		$rootScope.$digest();
+		}
 
 		expect(error).toBeDefined();
 		expect(error.status.type).toBe('ERROR');
-	}));
+	});
 });

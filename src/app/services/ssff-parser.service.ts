@@ -2,13 +2,12 @@ import * as angular from 'angular';
 import { SsffParserWorker } from '../workers/ssff-parser.worker.js';
 
 class SsffParserService{
-	private $q;
 	private worker;
-	private defer;
 	private workerFailed: boolean;
+	private _resolve: ((value: any) => void) | null = null;
+	private _reject: ((reason: any) => void) | null = null;
 
-	constructor($q){
-		this.$q = $q;
+	constructor(){
 		this.workerFailed = false;
 
 		try {
@@ -22,9 +21,9 @@ class SsffParserService{
 		// add event listener to worker to respond to messages
 		this.worker.says((e) => {
 			if (e.status.type === 'SUCCESS') {
-				this.defer.resolve(e);
+				if (this._resolve) this._resolve(e);
 			} else {
-				this.defer.reject(e);
+				if (this._reject) this._reject(e);
 			}
 		}, false);
 
@@ -33,8 +32,8 @@ class SsffParserService{
 			this.worker.worker.onerror = (err) => {
 				console.warn('[SsffParser] Worker error, falling back to main thread parsing');
 				this.workerFailed = true;
-				if (this.defer) {
-					this.defer.reject({
+				if (this._reject) {
+					this._reject({
 						status: { type: 'ERROR', message: 'Worker failed: ' + (err.message || 'unknown error') }
 					});
 				}
@@ -46,42 +45,42 @@ class SsffParserService{
 	 * Run ssff parsing on main thread as fallback when Worker is unavailable
 	 */
 	private mainThreadParseSsffArr(ssffArray) {
-		var defer = this.$q.defer();
-		try {
-			// Execute workerInit to get the parsing functions
-			var ctx: any = {};
-			(new SsffParserWorker()).workerInit(ctx);
-			var result = ctx.parseArr(ssffArray);
-			if (result.status.type === 'SUCCESS') {
-				defer.resolve(result);
-			} else {
-				defer.reject(result);
+		return new Promise((resolve, reject) => {
+			try {
+				// Execute workerInit to get the parsing functions
+				var ctx: any = {};
+				(new SsffParserWorker()).workerInit(ctx);
+				var result = ctx.parseArr(ssffArray);
+				if (result.status.type === 'SUCCESS') {
+					resolve(result);
+				} else {
+					reject(result);
+				}
+			} catch (e) {
+				reject({
+					status: { type: 'ERROR', message: 'Main thread SSFF parse failed: ' + e.message }
+				});
 			}
-		} catch (e) {
-			defer.reject({
-				status: { type: 'ERROR', message: 'Main thread SSFF parse failed: ' + e.message }
-			});
-		}
-		return defer.promise;
+		});
 	}
 
 	private mainThreadJso2ssff(jso) {
-		var defer = this.$q.defer();
-		try {
-			var ctx: any = {};
-			(new SsffParserWorker()).workerInit(ctx);
-			var result = ctx.jso2ssff(jso);
-			if (result.status.type === 'SUCCESS') {
-				defer.resolve(result);
-			} else {
-				defer.reject(result);
+		return new Promise((resolve, reject) => {
+			try {
+				var ctx: any = {};
+				(new SsffParserWorker()).workerInit(ctx);
+				var result = ctx.jso2ssff(jso);
+				if (result.status.type === 'SUCCESS') {
+					resolve(result);
+				} else {
+					reject(result);
+				}
+			} catch (e) {
+				reject({
+					status: { type: 'ERROR', message: 'Main thread SSFF jso2ssff failed: ' + e.message }
+				});
 			}
-		} catch (e) {
-			defer.reject({
-				status: { type: 'ERROR', message: 'Main thread SSFF jso2ssff failed: ' + e.message }
-			});
-		}
-		return defer.promise;
+		});
 	}
 
 	/**
@@ -93,12 +92,14 @@ class SsffParserService{
 		if (this.workerFailed) {
 			return this.mainThreadParseSsffArr(ssffArray);
 		}
-		this.defer = this.$q.defer();
-		this.worker.tell({
-			'cmd': 'parseArr',
-			'ssffArr': ssffArray
-		}); // Send data to our worker.
-		return this.defer.promise;
+		return new Promise((resolve, reject) => {
+			this._resolve = resolve;
+			this._reject = reject;
+			this.worker.tell({
+				'cmd': 'parseArr',
+				'ssffArr': ssffArray
+			}); // Send data to our worker.
+		});
 	};
 
 
@@ -111,15 +112,17 @@ class SsffParserService{
 		if (this.workerFailed) {
 			return this.mainThreadJso2ssff(jso);
 		}
-		this.defer = this.$q.defer();
-		this.worker.tell({
-			'cmd': 'jso2ssff',
-			'jso': JSON.stringify(jso)
-		}); // Send data to our worker.
-		return this.defer.promise;
+		return new Promise((resolve, reject) => {
+			this._resolve = resolve;
+			this._reject = reject;
+			this.worker.tell({
+				'cmd': 'jso2ssff',
+				'jso': JSON.stringify(jso)
+			}); // Send data to our worker.
+		});
 	};
 
 }
 
 angular.module('grazer')
-.service('SsffParserService', ['$q', SsffParserService]);
+.service('SsffParserService', [SsffParserService]);
