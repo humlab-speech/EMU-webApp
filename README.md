@@ -36,7 +36,7 @@ The app decodes audio natively in the browser. WAV files use the original header
 *Safari 16.4+. Note: MP3 decoding may add small silence padding (~50ms) due to encoder delay — this is a browser limitation.
 
 ## Tests
-* `npm test` — unit tests via Jest (247 tests)
+* `npm test` — unit tests via Jest (262 tests)
 * `npm run test:jest` — Jest tests only
 * `npm run test:karma` — Karma tests (legacy)
 * `npm e2e` — end-to-end tests (currently not working)

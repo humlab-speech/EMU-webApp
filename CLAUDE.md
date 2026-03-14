@@ -12,7 +12,7 @@ grazer (formerly EMU-webApp) is an AngularJS 1.8 SPA for labeling, visualizing, 
 npm install           # install deps
 npm start             # dev server at http://localhost:9000
 npm run build         # production build to /dist
-npm test              # unit tests via Jest (247 tests)
+npm test              # unit tests via Jest (262 tests)
 npm run test:jest     # Jest tests only
 npm run test:karma    # Karma tests (legacy)
 ```
