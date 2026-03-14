@@ -88,8 +88,11 @@ class IoHandlerService{
 				} else if(respType === 'arraybuffer'){
 					return(resp.arrayBuffer());
 				}
+			}).catch((err) => {
+				console.error('Fetch error for ' + path + ':', err);
+				throw err;
 			});
-			
+
 		}
 		return prom;
 	};

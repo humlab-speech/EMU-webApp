@@ -91,6 +91,9 @@ class WavParserService{
                                     playbackBuffer: playbackAudioBuffer
                                 };
                             });
+                    }).catch((err) => {
+                        console.error('Error resampling audio:', err);
+                        throw err;
                     });
             }
 

@@ -220,11 +220,18 @@ class WebSocketHandlerService{
 	// ws getProtocol
 	public getDoUserManagement() {
 		const params = new URLSearchParams(window.location.search);
-		
+		const projectId = params.get("projectId");
+
+		// Validate projectId: alphanumeric, hyphen, underscore only (prevent injection)
+		if (projectId && !/^[a-zA-Z0-9_-]+$/.test(projectId)) {
+			console.error('Invalid projectId: must contain only alphanumeric, hyphen, or underscore characters');
+			return;
+		}
+
 		var request = {
 			type: 'GETDOUSERMANAGEMENT',
 			data: {
-				projectId: params.get("projectId"),
+				projectId: projectId,
 			}
 		};
 		// Storing in a variable for clarity on what sendRequest returns

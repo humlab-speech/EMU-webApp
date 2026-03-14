@@ -22,13 +22,13 @@ export class HierarchyWorker {
         let childLevel = this.reduceToItemsWithTimeInView(annotation, path, viewPortStartSample, viewPortEndSample);
         
         // clone and empty annotation
-        let annotationClone = JSON.parse(JSON.stringify(annotation));
+        let annotationClone = structuredClone(annotation);
         annotationClone.levels = [];
-        annotationClone.levels.push(JSON.parse(JSON.stringify(childLevel)));
+        annotationClone.levels.push(structuredClone(childLevel));
         annotationClone.links = [];
         path.forEach((ln, lnIdx) => {
             if(ln !== path[path.length - 1]){
-                let parentLevelClone = JSON.parse(JSON.stringify(this.getLevelDetails(path[lnIdx + 1], annotation)));
+                let parentLevelClone = structuredClone(this.getLevelDetails(path[lnIdx + 1], annotation));
                 parentLevelClone.items = [];
 
                 this.giveTimeToParentsAndAppendItemsAndLinks(annotationClone, parentLevelClone, childLevel);
@@ -95,7 +95,7 @@ export class HierarchyWorker {
     
     private reduceToItemsWithTimeInView(annotation, path, viewPortStartSample, viewPortEndSample){
         let subLevelWithTime = this.getLevelDetails(path[0], annotation);
-        let subLevelWithTimeClone = JSON.parse(JSON.stringify(subLevelWithTime));
+        let subLevelWithTimeClone = structuredClone(subLevelWithTime);
         subLevelWithTimeClone.items = [];
         // let itemsInView = [];
         subLevelWithTime.items.forEach(item => {
