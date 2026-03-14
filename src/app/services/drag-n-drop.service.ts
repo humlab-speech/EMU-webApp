@@ -3,7 +3,6 @@ import * as angular from 'angular';
 class DragnDropService{
 	
 	private $rootScope;
-	private $window;
 	private ModalService;
 	private DataService;
 	private ValidationService;
@@ -24,9 +23,8 @@ class DragnDropService{
 	private sessionName;
 	private maxDroppedBundles;
 
-	constructor($rootScope, $window, ModalService, DataService, ValidationService, ConfigProviderService, DragnDropDataService, IoHandlerService, ViewStateService, SoundHandlerService, BinaryDataManipHelperService, BrowserDetectorService, WavParserService, TextGridParserService, LoadedMetaDataService, LevelService){
+	constructor($rootScope, ModalService, DataService, ValidationService, ConfigProviderService, DragnDropDataService, IoHandlerService, ViewStateService, SoundHandlerService, BinaryDataManipHelperService, BrowserDetectorService, WavParserService, TextGridParserService, LoadedMetaDataService, LevelService){
 		this.$rootScope = $rootScope;
-		this.$window = window;
 		this.ModalService = ModalService;
 		this.DataService = DataService;
 		this.ValidationService = ValidationService;
@@ -313,4 +311,4 @@ class DragnDropService{
 }
 
 angular.module('grazer')
-.service('DragnDropService', ['$rootScope', '$window', 'ModalService', 'DataService', 'ValidationService', 'ConfigProviderService', 'DragnDropDataService', 'IoHandlerService', 'ViewStateService', 'SoundHandlerService', 'BinaryDataManipHelperService', 'BrowserDetectorService', 'WavParserService', 'TextGridParserService', 'LoadedMetaDataService', 'LevelService', DragnDropService]);
+.service('DragnDropService', ['$rootScope', 'ModalService', 'DataService', 'ValidationService', 'ConfigProviderService', 'DragnDropDataService', 'IoHandlerService', 'ViewStateService', 'SoundHandlerService', 'BinaryDataManipHelperService', 'BrowserDetectorService', 'WavParserService', 'TextGridParserService', 'LoadedMetaDataService', 'LevelService', DragnDropService]);

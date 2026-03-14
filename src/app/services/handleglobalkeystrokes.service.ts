@@ -5,7 +5,6 @@ import styles from '../../styles/grazer-design.scss';
 class HandleGlobalKeyStrokes{
 
     private $rootScope;
-    private $timeout;
     private ViewStateService;
     private ModalService;
     private HierarchyManipulationService;
@@ -21,7 +20,6 @@ class HandleGlobalKeyStrokes{
 
     constructor(
         $rootScope,
-        $timeout,
         ViewStateService,
         ModalService,
         HierarchyManipulationService,
@@ -36,7 +34,6 @@ class HandleGlobalKeyStrokes{
         BrowserDetectorService
         ){
             this.$rootScope = $rootScope;
-            this.$timeout = $timeout;
             this.ViewStateService = ViewStateService;
             this.ModalService = ModalService;
             this.HierarchyManipulationService = HierarchyManipulationService;
@@ -1012,7 +1009,6 @@ class HandleGlobalKeyStrokes{
 angular.module('grazer')
 .service('HandleGlobalKeyStrokes', [
     '$rootScope',
-    '$timeout',
     'ViewStateService',
     'ModalService',
     'HierarchyManipulationService',

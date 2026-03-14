@@ -12,7 +12,6 @@ import { httpGet } from '../util/http-get';
 */
 class DbObjLoadSaveService{
 	
-	private $log;
 	private DataService;
 	private ViewStateService;
 	private HistoryService;
@@ -30,8 +29,7 @@ class DbObjLoadSaveService{
 	private AppStateService;
 	private StandardFuncsService;
 	
-	constructor($log, DataService, ViewStateService, HistoryService, LoadedMetaDataService, SsffDataService, IoHandlerService, BinaryDataManipHelperService, WavParserService, SoundHandlerService, SsffParserService, ValidationService, LevelService, ModalService, ConfigProviderService, AppStateService, StandardFuncsService){
-		this.$log = $log;
+	constructor(DataService, ViewStateService, HistoryService, LoadedMetaDataService, SsffDataService, IoHandlerService, BinaryDataManipHelperService, WavParserService, SoundHandlerService, SsffParserService, ValidationService, LevelService, ModalService, ConfigProviderService, AppStateService, StandardFuncsService){
 		this.DataService = DataService;
 		this.ViewStateService = ViewStateService;
 		this.HistoryService = HistoryService;
@@ -256,7 +254,7 @@ class DbObjLoadSaveService{
 			}
 			// }
 		} else {
-			this.$log.info('Action: menuBundleSaveBtnClick not allowed!');
+			console.info('Action: menuBundleSaveBtnClick not allowed!');
 		}
 
 	};
@@ -272,8 +270,8 @@ class DbObjLoadSaveService{
 
 		var validRes = this.ValidationService.validateJSO('annotationFileSchema', this.DataService.getData());
 		if (validRes !== true) {
-			this.$log.warn('PROBLEM: trying to save bundle but bundle is invalid. traverseAndClean() will be called.');
-			this.$log.error (validRes);
+			console.warn('PROBLEM: trying to save bundle but bundle is invalid. traverseAndClean() will be called.');
+			console.error (validRes);
 		}
 
 		// clean annot data just to be safe...
@@ -308,8 +306,8 @@ class DbObjLoadSaveService{
 		validRes = this.ValidationService.validateJSO('bundleSchema', bundleData);
 
 		if (validRes !== true) {
-			this.$log.error('GRAVE PROBLEM: trying to save bundle but bundle is invalid. traverseAndClean() HAS ALREADY BEEN CALLED.');
-			this.$log.error(validRes);
+			console.error('GRAVE PROBLEM: trying to save bundle but bundle is invalid. traverseAndClean() HAS ALREADY BEEN CALLED.');
+			console.error(validRes);
 
 			return this.ModalService.open('views/error.html', 'Somehow the data for this bundle has been corrupted. This is most likely a nasty and diffucult to spot bug. If you are at the IPS right now, please contact an EMU developer immediately. The Validation error is: ' + JSON.stringify(validRes, null, 4)).then(() => {
 				this.ViewStateService.somethingInProgressTxt = '';
@@ -336,4 +334,4 @@ class DbObjLoadSaveService{
 }
 
 angular.module('grazer')
-.service('DbObjLoadSaveService', ['$log', 'DataService', 'ViewStateService', 'HistoryService', 'LoadedMetaDataService', 'SsffDataService', 'IoHandlerService', 'BinaryDataManipHelperService', 'WavParserService', 'SoundHandlerService', 'SsffParserService', 'ValidationService', 'LevelService', 'ModalService', 'ConfigProviderService', 'AppStateService', 'StandardFuncsService', DbObjLoadSaveService]);
+.service('DbObjLoadSaveService', ['DataService', 'ViewStateService', 'HistoryService', 'LoadedMetaDataService', 'SsffDataService', 'IoHandlerService', 'BinaryDataManipHelperService', 'WavParserService', 'SoundHandlerService', 'SsffParserService', 'ValidationService', 'LevelService', 'ModalService', 'ConfigProviderService', 'AppStateService', 'StandardFuncsService', DbObjLoadSaveService]);

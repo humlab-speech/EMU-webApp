@@ -2,7 +2,6 @@ import * as angular from 'angular';
 
 class WebSocketHandlerService{
 	private $rootScope;
-	private $location;
 	private HistoryService;
 	private SsffParserService;
 	private ConfigProviderService;
@@ -26,9 +25,8 @@ class WebSocketHandlerService{
 	// Create our websocket object with the address to the websocket
 	public ws;
 
-	constructor($rootScope, $location, HistoryService, SsffParserService, ConfigProviderService, ViewStateService, WavParserService, SoundHandlerService, EspsParserService, UuidService, BinaryDataManipHelperService, SsffDataService, ModalService){
+	constructor($rootScope, HistoryService, SsffParserService, ConfigProviderService, ViewStateService, WavParserService, SoundHandlerService, EspsParserService, UuidService, BinaryDataManipHelperService, SsffDataService, ModalService){
 		this.$rootScope = $rootScope;
-		this.$location = $location;
 		this.HistoryService = HistoryService;
 		this.SsffParserService = SsffParserService;
 		this.ConfigProviderService = ConfigProviderService;
@@ -345,4 +343,4 @@ class WebSocketHandlerService{
 }
 
 angular.module('grazer')
-.service('WebSocketHandlerService', ['$rootScope', '$location', 'HistoryService', 'SsffParserService', 'ConfigProviderService', 'ViewStateService', 'WavParserService', 'SoundHandlerService', 'EspsParserService', 'UuidService', 'BinaryDataManipHelperService', 'SsffDataService', 'ModalService', WebSocketHandlerService]);
+.service('WebSocketHandlerService', ['$rootScope', 'HistoryService', 'SsffParserService', 'ConfigProviderService', 'ViewStateService', 'WavParserService', 'SoundHandlerService', 'EspsParserService', 'UuidService', 'BinaryDataManipHelperService', 'SsffDataService', 'ModalService', WebSocketHandlerService]);

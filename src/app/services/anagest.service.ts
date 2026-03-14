@@ -3,7 +3,6 @@ import * as angular from 'angular';
 class AnagestService{
 	private defer;
 
-	private $log;
 	private ViewStateService;
 	private LevelService;
 	private LinkService;
@@ -14,8 +13,7 @@ class AnagestService{
 	private HistoryService;
 	private DataService;
 
-	constructor($log, ViewStateService, LevelService, LinkService, ConfigProviderService, SsffDataService, ArrayHelperService, ModalService, HistoryService, DataService){
-		this.$log = $log;
+	constructor(ViewStateService, LevelService, LinkService, ConfigProviderService, SsffDataService, ArrayHelperService, ModalService, HistoryService, DataService){
 		this.ViewStateService = ViewStateService;
 		this.LevelService = LevelService;
 		this.LinkService = LinkService;
@@ -111,7 +109,7 @@ class AnagestService{
 		var minVelBeforeMaxVel = this.ArrayHelperService.findMinMax(selVCol.slice(0, vdat[0] + 1), 'min');
 
 		// gesture onset
-		this.$log.info('Looking for gesture onset');
+		console.info('Looking for gesture onset');
 
 
 		return this.interactiveFindThresholds(selVCol.slice(0, vdat[0] + 1), minVelBeforeMaxVel.val, maxVelBeforeMaxConstr.val, this.ConfigProviderService.getLevelDefinition(this.ViewStateService.getcurClickLevelName()).anagestConfig.threshold, 1, 'Looking for gesture onset').then((resp) => {
@@ -125,7 +123,7 @@ class AnagestService{
 			var minp = minVelBetwMaxVel1maxConstr.idx + vdat[0];
 
 			// nucleus onset
-			this.$log.info('Looking for nucleus onset');
+			console.info('Looking for nucleus onset');
 			return this.interactiveFindThresholds(selVCol.slice(vdat[0], minp + 1), minVelBetwMaxVel1maxConstr.val, maxVelBeforeMaxConstr.val, this.ConfigProviderService.getLevelDefinition(this.ViewStateService.getcurClickLevelName()).anagestConfig.threshold, -1, 'Looking for nucleus onset').then((resp) => {
 				var off20 = resp;
 				ndat[0] = off20 + vdat[0];
@@ -141,7 +139,7 @@ class AnagestService{
 				minp = minBetwMaxConstrMaxVelConstr.idx + cdat[0];
 
 				// nucleus offset
-				this.$log.info('Looking for nucleus offset');
+				console.info('Looking for nucleus offset');
 				return this.interactiveFindThresholds(selVCol.slice(minp, vdat[1] + 1), minBetwMaxConstrMaxVelConstr.val, maxVelAfterMaxConstr.val, this.ConfigProviderService.getLevelDefinition(this.ViewStateService.getcurClickLevelName()).anagestConfig.threshold, 1, 'Looking for nucleus offset').then((resp) => {
 					var on20 = resp;
 					ndat[1] = on20 + minp;
@@ -152,7 +150,7 @@ class AnagestService{
 					minp = minVelAfterMaxVelAfterConstr.idx + vdat[1];
 					// gesture offset
 
-					this.$log.info('Looking for gesture offset');
+					console.info('Looking for gesture offset');
 					return this.interactiveFindThresholds(selVCol.slice(vdat[1], minp + 1), minVelAfterMaxVelAfterConstr.val, maxVelAfterMaxConstr.val, this.ConfigProviderService.getLevelDefinition(this.ViewStateService.getcurClickLevelName()).anagestConfig.threshold, -1, 'Looking for gesture offset').then((resp) => {
 						var off20 = resp;
 						gdat[1] = off20 + vdat[1];
@@ -359,4 +357,4 @@ class AnagestService{
 }
 
 angular.module('grazer')
-	.service('AnagestService', ['$log', 'ViewStateService', 'LevelService', 'LinkService', 'ConfigProviderService', 'SsffDataService', 'ArrayHelperService', 'ModalService', 'HistoryService', 'DataService', AnagestService]);
+	.service('AnagestService', ['ViewStateService', 'LevelService', 'LinkService', 'ConfigProviderService', 'SsffDataService', 'ArrayHelperService', 'ModalService', 'HistoryService', 'DataService', AnagestService]);

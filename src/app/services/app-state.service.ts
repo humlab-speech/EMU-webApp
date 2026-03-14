@@ -9,9 +9,7 @@ import * as angular from 'angular';
  */
 class AppStateService{
 
-	private $log;
 	private $rootScope;
-	private $location;
 	private DragnDropService;
 	private DragnDropDataService;
 	private ViewStateService;
@@ -22,10 +20,8 @@ class AppStateService{
 	private SsffDataService;
 	private HistoryService;
 
-	constructor($log, $rootScope, $location, DragnDropService, DragnDropDataService, ViewStateService, IoHandlerService, LoadedMetaDataService, SoundHandlerService, DataService, SsffDataService, HistoryService){
-		this.$log = $log;
+	constructor($rootScope, DragnDropService, DragnDropDataService, ViewStateService, IoHandlerService, LoadedMetaDataService, SoundHandlerService, DataService, SsffDataService, HistoryService){
 		this.$rootScope = $rootScope;
-		this.$location = $location;
 		this.DragnDropService = DragnDropService;
 		this.DragnDropDataService = DragnDropDataService;
 		this.ViewStateService = ViewStateService;
@@ -45,7 +41,7 @@ class AppStateService{
 			// SIC IoHandlerService.WebSocketHandlerService is private
 			if(this.IoHandlerService.WebSocketHandlerService.isConnected()) {
 				this.IoHandlerService.WebSocketHandlerService.disconnectWarning().then(() => {
-					this.$log.info('Closing websocket connection to server');
+					console.info('Closing websocket connection to server');
 					this.IoHandlerService.WebSocketHandlerService.closeConnect();
 				});
 			}
@@ -63,7 +59,7 @@ class AppStateService{
 			this.ViewStateService.resetToInitState();
 			this.HistoryService.resetToInitState();
 			this.ViewStateService.showDropZone = true;
-			this.$location.url(this.$location.path()); // reset URL without get values
+			window.history.replaceState({}, '', window.location.pathname); // reset URL without get values
 			this.$rootScope.$broadcast('resetToInitState');
 			//$scope.loadDefaultConfig();
 		};
@@ -92,4 +88,4 @@ class AppStateService{
 
 
 angular.module('grazer')
-	.service('AppStateService', ['$log', '$rootScope', '$location', 'DragnDropService', 'DragnDropDataService', 'ViewStateService', 'IoHandlerService', 'LoadedMetaDataService', 'SoundHandlerService', 'DataService', 'SsffDataService', 'HistoryService', AppStateService]);
+	.service('AppStateService', ['$rootScope', 'DragnDropService', 'DragnDropDataService', 'ViewStateService', 'IoHandlerService', 'LoadedMetaDataService', 'SoundHandlerService', 'DataService', 'SsffDataService', 'HistoryService', AppStateService]);

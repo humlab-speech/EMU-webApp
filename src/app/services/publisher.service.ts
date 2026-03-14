@@ -4,7 +4,6 @@ export class PublisherService {
     
     
     //////////////////////////////////////////
-    private $log;
     private SsffDataService;
     private SsffParserService;
     private BinaryDataManipHelperService;
@@ -15,8 +14,7 @@ export class PublisherService {
     private ConfigProviderService;
     
 
-    constructor($log, SsffDataService, SsffParserService, BinaryDataManipHelperService, ValidationService, DataService, StandardFuncsService, LoadedMetaDataService, ConfigProviderService){
-        this.$log = $log;
+    constructor(SsffDataService, SsffParserService, BinaryDataManipHelperService, ValidationService, DataService, StandardFuncsService, LoadedMetaDataService, ConfigProviderService){
         this.SsffDataService = SsffDataService;
         this.SsffParserService = SsffParserService;
         this.BinaryDataManipHelperService = BinaryDataManipHelperService;
@@ -48,7 +46,7 @@ export class PublisherService {
                     'data': this.BinaryDataManipHelperService.arrayBufferToBase64(messParser.data)
                 });
             } catch (error) {
-                this.$log.warn('Error converting FORMANTS javascript object to SSFF file.', error);
+                console.warn('Error converting FORMANTS javascript object to SSFF file.', error);
                 return;
             }
         }
@@ -56,7 +54,7 @@ export class PublisherService {
         // Validate annotation before publishing
         var validRes = this.ValidationService.validateJSO('annotationFileSchema', this.DataService.getData());
         if (validRes !== true) {
-            this.$log.warn('PROBLEM: trying to publish bundle to parent window, but bundle is invalid (posssibly because hierarchy view is open). traverseAndClean() will be called.');
+            console.warn('PROBLEM: trying to publish bundle to parent window, but bundle is invalid (posssibly because hierarchy view is open). traverseAndClean() will be called.');
         }
         
         // clean annot data just to be safe...
@@ -91,19 +89,19 @@ export class PublisherService {
         validRes = this.ValidationService.validateJSO('bundleSchema', bundleData);
         
         if (validRes !== true) {
-            this.$log.error('GRAVE PROBLEM: trying to publish bundle to parent window, but bundle is invalid. traverseAndClean() HAS ALREADY BEEN CALLED.');
-            this.$log.error(validRes);
-            this.$log.error('Not publishing!');
+            console.error('GRAVE PROBLEM: trying to publish bundle to parent window, but bundle is invalid. traverseAndClean() HAS ALREADY BEEN CALLED.');
+            console.error(validRes);
+            console.error('Not publishing!');
             return;
         } else {
             window.parent.postMessage({
                 trigger: "autoSave",
                 data: bundleData,
             }, window.location.origin);
-            this.$log.info('Posted to parent (autoSave)', bundleData);
+            console.info('Posted to parent (autoSave)', bundleData);
         }
     };
 }
 
 angular.module('grazer')
-.service('PublisherService', ['$log', 'SsffDataService', 'SsffParserService', 'BinaryDataManipHelperService', 'ValidationService', 'DataService', 'StandardFuncsService', 'LoadedMetaDataService', 'ConfigProviderService', PublisherService])
+.service('PublisherService', ['SsffDataService', 'SsffParserService', 'BinaryDataManipHelperService', 'ValidationService', 'DataService', 'StandardFuncsService', 'LoadedMetaDataService', 'ConfigProviderService', PublisherService])

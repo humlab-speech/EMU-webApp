@@ -1,19 +1,16 @@
 import * as angular from 'angular';
 
 class SoundHandlerService{
-	private $window;
 	// private vars
 	private audioContext;
 	private curSource;
-	
+
 	// public vars
 	public audioBuffer;
 	public playbackBuffer;
 	public isPlaying;
-	
-	constructor($window){
-		this.$window = $window;
-		
+
+	constructor(){
 		this.audioBuffer = {};
 		this.playbackBuffer = null;
 		this.isPlaying = false;
@@ -27,7 +24,7 @@ class SoundHandlerService{
 	* */
 	private initAudioContext() {
 		try {
-			window.AudioContext = this.$window.AudioContext || this.$window.webkitAudioContext;
+			window.AudioContext = (window as any).AudioContext || (window as any).webkitAudioContext;
 			this.audioContext = new AudioContext();
 		} catch (e) {
 			console.error('Error loading AudioContext (browser may not support Web Audio API):', e);
@@ -137,4 +134,4 @@ class SoundHandlerService{
 }
 
 angular.module('grazer')
-.service('SoundHandlerService', ['$window', SoundHandlerService]);
+.service('SoundHandlerService', [SoundHandlerService]);

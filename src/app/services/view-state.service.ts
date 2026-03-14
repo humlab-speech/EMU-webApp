@@ -3,8 +3,6 @@ import { IViewPort, ISpectroSettings, IOsciSettings, IPlayHeadAnimationInfos, IC
 
 class ViewStateService{
 	private $rootScope;
-	private $timeout;
-	private $window;
 	private SoundHandlerService;
 	private DataService;
 	private StandardFuncsService;
@@ -94,10 +92,8 @@ class ViewStateService{
 	public hierarchyState;
 	
 	
-	constructor($rootScope, $timeout, $window, SoundHandlerService, DataService, StandardFuncsService){
+	constructor($rootScope, SoundHandlerService, DataService, StandardFuncsService){
 		this.$rootScope = $rootScope;
-		this.$timeout = $timeout;
-		this.$window = $window;
 		this.SoundHandlerService = SoundHandlerService;
 		this.DataService = DataService;
 		this.StandardFuncsService = StandardFuncsService;
@@ -447,7 +443,7 @@ class ViewStateService{
 	public updatePlayHead(timestamp) {
 		// at first push animation !!!
 		if (this.SoundHandlerService.isPlaying) {
-			this.$window.requestAnimationFrame(this.updatePlayHead.bind(this));
+			window.requestAnimationFrame(this.updatePlayHead.bind(this));
 		}
 		
 		// do work in this animation round now
@@ -487,7 +483,7 @@ class ViewStateService{
 		if(autoscroll !== undefined){
 			this.playHeadAnimationInfos.autoscroll = autoscroll;
 		}
-		this.$window.requestAnimationFrame(this.updatePlayHead.bind(this));
+		window.requestAnimationFrame(this.updatePlayHead.bind(this));
 	};
 	
 	
@@ -759,7 +755,7 @@ class ViewStateService{
         if (this.bundleListSideBarDisabled) return;
 		this.bundleListSideBarOpen = !this.bundleListSideBarOpen;
 		// hack to call $apply post animation
-		this.$timeout(() => {
+		setTimeout(() => {
 			var d = new Date();
 			this.lastUpdate = d.getTime();
 		}, time);
@@ -1516,4 +1512,4 @@ class ViewStateService{
 }
 
 angular.module('grazer')
-.service('ViewStateService', ['$rootScope', '$timeout', '$window', 'SoundHandlerService', 'DataService', 'StandardFuncsService', ViewStateService]);
+.service('ViewStateService', ['$rootScope', 'SoundHandlerService', 'DataService', 'StandardFuncsService', ViewStateService]);

@@ -5,8 +5,6 @@ import { httpGet } from '../util/http-get';
 class IoHandlerService{
 	
 	private $rootScope;
-	private $location;
-	private $window;
 	private HistoryService; 
 	private ViewStateService; 
 	private SoundHandlerService; 
@@ -20,11 +18,9 @@ class IoHandlerService{
 	private DragnDropDataService;
 	private LoadedMetaDataService;
 	
-	constructor($rootScope, $location, $window, HistoryService, ViewStateService, SoundHandlerService, SsffParserService, WavParserService, TextGridParserService, ConfigProviderService, EspsParserService, SsffDataService, WebSocketHandlerService, DragnDropDataService, LoadedMetaDataService) {
+	constructor($rootScope, HistoryService, ViewStateService, SoundHandlerService, SsffParserService, WavParserService, TextGridParserService, ConfigProviderService, EspsParserService, SsffDataService, WebSocketHandlerService, DragnDropDataService, LoadedMetaDataService) {
 
 		this.$rootScope = $rootScope;
-		this.$location = $location;
-		this.$window = $window;
 		this.HistoryService = HistoryService;
 		this.ViewStateService = ViewStateService;
 		this.SoundHandlerService = SoundHandlerService;
@@ -39,11 +35,23 @@ class IoHandlerService{
 		this.LoadedMetaDataService = LoadedMetaDataService;
 
 		// Move privateToken from URL to sessionStorage to avoid leaking in referrer/logs
-		var searchObject = this.$location.search();
+		var searchObject = this.getSearchParams();
 		if (searchObject.privateToken) {
 			sessionStorage.setItem('grazer_privateToken', searchObject.privateToken);
-			this.$location.search('privateToken', null).replace();
+			const url = new URL(window.location.href);
+			url.searchParams.delete('privateToken');
+			window.history.replaceState({}, '', url.toString());
 		}
+	}
+
+	/**
+	* Get URL search params as a plain object (replaces AngularJS $location.search()).
+	*/
+	private getSearchParams(): Record<string, string> {
+		const params = new URLSearchParams(window.location.search);
+		const obj: Record<string, string> = {};
+		params.forEach((v, k) => { obj[k] = v; });
+		return obj;
 	}
 
 	/**
@@ -70,7 +78,7 @@ class IoHandlerService{
 				responseType: respType
 			});
 		} else {
-			var searchObject = this.$location.search();
+			var searchObject = this.getSearchParams();
 			prom = fetch(path, {
 				method: 'GET',
 				headers: {
@@ -165,7 +173,7 @@ class IoHandlerService{
 		} else if (this.ConfigProviderService.vals.main.comMode === 'DEMO') {
 			getProm = httpGet('demoDBs/' + nameOfDB + '/' + nameOfDB + '_DBconfig.json');
 		} else if (this.ConfigProviderService.vals.main.comMode === 'GITLAB'){
-			var searchObject = this.$location.search();
+			var searchObject = this.getSearchParams();
 			let gitlabPath = this.getGitlabPathFromSearchObject(searchObject);
 			getProm = fetch(searchObject.gitlabURL + '/api/v4/projects/' + searchObject.projectID + '/repository/files/' + gitlabPath + searchObject.emuDBname + '_DBconfig.json/raw?ref=master', {
 				method: 'GET',
@@ -192,7 +200,7 @@ class IoHandlerService{
 		} else if (this.ConfigProviderService.vals.main.comMode === 'DEMO') {
 			getProm = httpGet('demoDBs/' + nameOfDB + '/' + nameOfDB + '_bundleList.json');
 		} else if (this.ConfigProviderService.vals.main.comMode === 'GITLAB') {
-			let searchObject = this.$location.search();
+			let searchObject = this.getSearchParams();
 			let gitlabPath = this.getGitlabPathFromSearchObject(searchObject);
 			getProm = fetch(searchObject.gitlabURL + '/api/v4/projects/' + searchObject.projectID + '/repository/files/' + gitlabPath + 'bundleLists%2F' + searchObject.bundleListName + '_bundleList.json/raw?ref=master', {
 				method: 'GET',
@@ -241,7 +249,7 @@ class IoHandlerService{
 			// getProm = $http.get('testData/newAE/SES0000/' + name + '/' + name + '.json');
 			getProm = httpGet('demoDBs/' + nameOfDB + '/' + name + '_bndl.json');
 		} else if (this.ConfigProviderService.vals.main.comMode === 'GITLAB') {
-			var searchObject = this.$location.search();
+			var searchObject = this.getSearchParams();
 
 			let gitlabPath = this.getGitlabPathFromSearchObject(searchObject);
 			var bndlURL = searchObject.gitlabURL + '/api/v4/projects/' + searchObject.projectID + '/repository/files/' + gitlabPath + session + '_ses%2F' + name + '_bndl%2F';
@@ -313,7 +321,7 @@ class IoHandlerService{
 			getProm = this.WebSocketHandlerService.saveBundle(bundleData);
 		} else if (this.ConfigProviderService.vals.main.comMode === 'GITLAB') {
 			// console.log(bundleData);
-			var searchObject = this.$location.search();
+			var searchObject = this.getSearchParams();
 			let gitlabPath = this.getGitlabPathFromSearchObject(searchObject, false);
 			var bndlPath = gitlabPath + bundleData.session + '_ses/' + bundleData.annotation.name + '_bndl/';
 			// var bndlURL = searchObject.gitlabURL + '/api/v4/projects/' + searchObject.projectID + '/repository/files/' + bndlPath;
@@ -409,4 +417,4 @@ public parseLabelFile(string, annotates, name, fileType) {
 }
 
 angular.module('grazer')
-.service('IoHandlerService', ['$rootScope', '$location', '$window', 'HistoryService', 'ViewStateService', 'SoundHandlerService', 'SsffParserService', 'WavParserService', 'TextGridParserService', 'ConfigProviderService', 'EspsParserService', 'SsffDataService', 'WebSocketHandlerService', 'DragnDropDataService', 'LoadedMetaDataService', IoHandlerService]);
+.service('IoHandlerService', ['$rootScope', 'HistoryService', 'ViewStateService', 'SoundHandlerService', 'SsffParserService', 'WavParserService', 'TextGridParserService', 'ConfigProviderService', 'EspsParserService', 'SsffDataService', 'WebSocketHandlerService', 'DragnDropDataService', 'LoadedMetaDataService', IoHandlerService]);

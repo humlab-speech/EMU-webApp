@@ -6,7 +6,6 @@ export class HistoryService {
 	//////////////////////////////////////////
 	// new dual stack implementation
 	// private dep. injected vars
-	private $log; 
 	private $compile;
 	private $sce;
 	private SsffDataService;
@@ -25,8 +24,7 @@ export class HistoryService {
 	// public vars
 	public movesAwayFromLastSave = 0;
 
-	constructor($log, $compile, $sce, SsffDataService, LevelService, LinkService, ConfigProviderService, ViewStateService, SoundHandlerService, LoadedMetaDataService, PublisherService){
-		this.$log = $log; 
+	constructor($compile, $sce, SsffDataService, LevelService, LinkService, ConfigProviderService, ViewStateService, SoundHandlerService, LoadedMetaDataService, PublisherService){
 		this.$compile = $compile;
 		this.$sce = $sce;
 		this.SsffDataService = SsffDataService;
@@ -347,7 +345,7 @@ export class HistoryService {
 			this.movesAwayFromLastSave += 1;
 			this.PublisherService.publishUnsavedBundleToParentWindow();
 		}
-		this.$log.info(this.curChangeObj);
+		console.info(this.curChangeObj);
 		// reset this.curChangeObj
 		this.curChangeObj = {};
 		
@@ -431,4 +429,4 @@ export class HistoryService {
 }
 
 angular.module('grazer')
-.service('HistoryService', ['$log', '$compile', '$sce', 'SsffDataService', 'LevelService', 'LinkService', 'ConfigProviderService', 'ViewStateService', 'SoundHandlerService', 'LoadedMetaDataService', 'PublisherService', HistoryService])
+.service('HistoryService', ['$compile', '$sce', 'SsffDataService', 'LevelService', 'LinkService', 'ConfigProviderService', 'ViewStateService', 'SoundHandlerService', 'LoadedMetaDataService', 'PublisherService', HistoryService])
