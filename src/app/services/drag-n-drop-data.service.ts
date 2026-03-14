@@ -3,30 +3,28 @@ import * as angular from 'angular';
 class DragnDropDataService{
 	private convertedBundles;
 	private sessionDefault;
-	private $q;
-	
-	constructor($q){
-		this.$q = $q;
+
+	constructor(){
 		this.convertedBundles = [];
 		this.sessionDefault = '';
 	}
-	
+
 	///////////////////////////////
 	// public api
-	
+
 	public getBundle(name) {
-		var defer = this.$q.defer();
-		this.convertedBundles.forEach((bundle) => {
-			if (bundle.name === name) {
-				var bc = angular.copy(bundle);
-				delete bc.name;
-				defer.resolve({
-					status: 200,
-					data: bc
-				});
-			}
+		return new Promise((resolve) => {
+			this.convertedBundles.forEach((bundle) => {
+				if (bundle.name === name) {
+					var bc = angular.copy(bundle);
+					delete bc.name;
+					resolve({
+						status: 200,
+						data: bc
+					});
+				}
+			});
 		});
-		return defer.promise;
 	};
 	
 	public resetToInitState() {
@@ -45,4 +43,4 @@ class DragnDropDataService{
 }
 
 angular.module('grazer')
-.service('DragnDropDataService', ['$q', DragnDropDataService]);
+.service('DragnDropDataService', [DragnDropDataService]);

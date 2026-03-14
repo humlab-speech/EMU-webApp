@@ -37,10 +37,10 @@ describe('Service: DragnDropDataService', function () {
   it('should getBundle', angular.mock.inject(function (DragnDropDataService) {
     // set any data
     DragnDropDataService.convertedBundles.push({name: 'test'});
-    var bndl = DragnDropDataService.getBundle('test');
-    expect(bndl.$$state.status).toEqual(1);
-    expect(bndl.$$state.value.status).toEqual(200);
-    expect(bndl.$$state.value.data).toEqual({});
+    return DragnDropDataService.getBundle('test').then(function (result) {
+      expect(result.status).toEqual(200);
+      expect(result.data).toEqual({});
+    });
   }));
 
 });

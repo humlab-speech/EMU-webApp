@@ -6,7 +6,6 @@ class IoHandlerService{
 	private $rootScope;
 	private $http; 
 	private $location; 
-	private $q; 
 	private $window;
 	private HistoryService; 
 	private ViewStateService; 
@@ -21,12 +20,11 @@ class IoHandlerService{
 	private DragnDropDataService;
 	private LoadedMetaDataService;
 	
-	constructor($rootScope, $http, $location, $q, $window, HistoryService, ViewStateService, SoundHandlerService, SsffParserService, WavParserService, TextGridParserService, ConfigProviderService, EspsParserService, SsffDataService, WebSocketHandlerService, DragnDropDataService, LoadedMetaDataService) {
+	constructor($rootScope, $http, $location, $window, HistoryService, ViewStateService, SoundHandlerService, SsffParserService, WavParserService, TextGridParserService, ConfigProviderService, EspsParserService, SsffDataService, WebSocketHandlerService, DragnDropDataService, LoadedMetaDataService) {
 
 		this.$rootScope = $rootScope;
 		this.$http = $http;
 		this.$location = $location;
-		this.$q = $q;
 		this.$window = $window;
 		this.HistoryService = HistoryService;
 		this.ViewStateService = ViewStateService;
@@ -113,13 +111,10 @@ class IoHandlerService{
 			getProm = this.WebSocketHandlerService.getProtocol();
 		} else if (this.ConfigProviderService.vals.main.comMode === 'GITLAB'){
 			// return mock values
-			var defer = this.$q.defer();
-			defer.resolve({
+			getProm = Promise.resolve({
 				protocol: 'EMU-webApp-websocket-protocol',
 				version: '0.0.2'
 			});
-			
-			getProm = defer.promise;
 		}
 		
 		return getProm;
@@ -137,10 +132,7 @@ class IoHandlerService{
 			getProm = this.WebSocketHandlerService.getDoUserManagement();
 		} else if (this.ConfigProviderService.vals.main.comMode === 'GITLAB'){
 			// return mock values
-			var defer = this.$q.defer();
-			defer.resolve('NO');
-			
-			getProm = defer.promise;
+			getProm = Promise.resolve('NO');
 		}
 		
 		return getProm;
@@ -366,13 +358,11 @@ class IoHandlerService{
 	} else if (this.ConfigProviderService.vals.main.comMode === 'EMBEDDED') {
 		// this can only be reached if URL parameter: saveToWindowParent=true
 		// send upload url to iframe owner
-		var def = this.$q.defer();
-		getProm = def.promise;
 		window.parent.postMessage({
 			trigger: "manualSave",
 			data: bundleData
 		}, window.location.origin);
-		def.resolve();
+		getProm = Promise.resolve();
 	}
 	// else if (ConfigProviderService.vals.main.comMode === 'DEMO') {
 	// getProm = $http.get('testData/newAE/SES0000/' + name + '/' + name + '.json');
@@ -411,9 +401,7 @@ public parseLabelFile(string, annotates, name, fileType) {
 	} else if (fileType === 'TEXTGRID') {
 		prom = this.TextGridParserService.asyncParseTextGrid(string, this.ConfigProviderService.embeddedVals.labelGetUrl, 'embeddedTEXTGRID');
 	} else if (fileType === 'annotJSON') {
-		var def = this.$q.defer();
-		prom = def.promise;
-		def.resolve(angular.fromJson(string));
+		prom = Promise.resolve(angular.fromJson(string));
 	}
 	
 	return prom;
@@ -422,4 +410,4 @@ public parseLabelFile(string, annotates, name, fileType) {
 }
 
 angular.module('grazer')
-.service('IoHandlerService', ['$rootScope', '$http', '$location', '$q', '$window', 'HistoryService', 'ViewStateService', 'SoundHandlerService', 'SsffParserService', 'WavParserService', 'TextGridParserService', 'ConfigProviderService', 'EspsParserService', 'SsffDataService', 'WebSocketHandlerService', 'DragnDropDataService', 'LoadedMetaDataService', IoHandlerService]);
+.service('IoHandlerService', ['$rootScope', '$http', '$location', '$window', 'HistoryService', 'ViewStateService', 'SoundHandlerService', 'SsffParserService', 'WavParserService', 'TextGridParserService', 'ConfigProviderService', 'EspsParserService', 'SsffDataService', 'WebSocketHandlerService', 'DragnDropDataService', 'LoadedMetaDataService', IoHandlerService]);

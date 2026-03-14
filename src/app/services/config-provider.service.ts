@@ -2,7 +2,6 @@ import * as angular from 'angular';
 
 class ConfigProviderService {
 
-	private $q;
 	private ViewStateService;
 
 	private vals;
@@ -10,9 +9,8 @@ class ConfigProviderService {
 	private initDbConfig;
 	private embeddedVals;
 
-	constructor($q, ViewStateService) {
+	constructor(ViewStateService) {
 
-		this.$q = $q;
 		this.ViewStateService = ViewStateService;
 
 		this.vals = {};
@@ -117,10 +115,8 @@ class ConfigProviderService {
 	};
 
 	public getDelta(current) {
-		var defer = this.$q.defer();
 		var ret = this.getDeltas(current, this.initDbConfig);
-		defer.resolve(ret);
-		return defer.promise;
+		return Promise.resolve(ret);
 	};
 
 	public getDeltas(current, start) {
@@ -403,4 +399,4 @@ class ConfigProviderService {
 }
 
 angular.module('grazer')
-	.service('ConfigProviderService', ['$q', 'ViewStateService', ConfigProviderService]);
+	.service('ConfigProviderService', ['ViewStateService', ConfigProviderService]);
