@@ -325,7 +325,7 @@ class DrawHelperService{
 		}
 
 		// calc osciPeaks if these have not been calculated yet
-		if(angular.equals({}, this.osciPeaks)){
+		if(Object.keys(this.osciPeaks).length === 0){
 			this.calculateOsciPeaks();
 		}
 

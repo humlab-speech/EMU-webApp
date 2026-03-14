@@ -536,7 +536,7 @@ SsffParserWorker.prototype = {
 				}
 				ssffJso = global.ssff2jso(arrBuff, ssffArr[i].fileExtension);
 				if (ssffJso.status === undefined) {
-					resArr.push(JSON.parse(JSON.stringify(ssffJso))); // YUCK... don't know if SIC but YUCK!!!
+					resArr.push(structuredClone(ssffJso));
 				} else {
 					noError = false;
 					return ssffJso;
