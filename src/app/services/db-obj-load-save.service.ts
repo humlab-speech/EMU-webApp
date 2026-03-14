@@ -12,7 +12,6 @@ import { WavRangeReq } from '../workers/wavrangereq.worker';
 class DbObjLoadSaveService{
 	
 	private $log;
-	private $q;
 	private $http;
 	private DataService;
 	private ViewStateService;
@@ -31,9 +30,8 @@ class DbObjLoadSaveService{
 	private AppStateService;
 	private StandardFuncsService;
 	
-	constructor($log, $q, $http, DataService, ViewStateService, HistoryService, LoadedMetaDataService, SsffDataService, IoHandlerService, BinaryDataManipHelperService, WavParserService, SoundHandlerService, SsffParserService, ValidationService, LevelService, ModalService, ConfigProviderService, AppStateService, StandardFuncsService){
+	constructor($log, $http, DataService, ViewStateService, HistoryService, LoadedMetaDataService, SsffDataService, IoHandlerService, BinaryDataManipHelperService, WavParserService, SoundHandlerService, SsffParserService, ValidationService, LevelService, ModalService, ConfigProviderService, AppStateService, StandardFuncsService){
 		this.$log = $log;
-		this.$q = $q;
 		this.$http = $http;
 		this.DataService = DataService;
 		this.ViewStateService = ViewStateService;
@@ -54,10 +52,10 @@ class DbObjLoadSaveService{
 		
 	}
 	
-	private innerLoadBundle(bndl, bundleData, arrBuff, defer) {
+	private innerLoadBundle(bndl, bundleData, arrBuff): Promise<void> {
 		this.ViewStateService.somethingInProgressTxt = 'Parsing WAV file...';
-		
-		this.WavParserService.parseWavAudioBuf(arrBuff).then((result) => {
+
+		return this.WavParserService.parseWavAudioBuf(arrBuff).then((result) => {
 			var audioBuffer = result.audioBuffer;
 			this.ViewStateService.curViewPort.sS = 0;
 			this.ViewStateService.curViewPort.eS = audioBuffer.length;
@@ -83,24 +81,19 @@ class DbObjLoadSaveService{
 					file.encoding = 'ARRAYBUFFER';
 				}
 			})
-			var dummyProm = false;
 			if(promises.length === 0){
-				// add resovled promise
-				var d = this.$q.defer();
-				dummyProm = true;
-				promises.push(d.promise);
-				d.resolve();
+				promises.push(Promise.resolve());
 			}
-			
-			this.$q.all(promises).then((res) => {
+
+			return Promise.all(promises).then((res) => {
 				for(var i = 0; i < res.length; i++){
-					if(!dummyProm){
+					if(res[i] !== undefined){
 						bundleData.ssffFiles[i].data = res[i];
 					}
 				}
 				// set all ssff files
 				this.ViewStateService.somethingInProgressTxt = 'Parsing SSFF files...';
-				this.SsffParserService.asyncParseSsffArr(bundleData.ssffFiles).then((ssffJso) => {
+				return this.SsffParserService.asyncParseSsffArr(bundleData.ssffFiles).then((ssffJso) => {
 					this.SsffDataService.data = ssffJso.data;
 					// set annotation
 					this.DataService.setData(bundleData.annotation);
@@ -111,7 +104,6 @@ class DbObjLoadSaveService{
 
 					this.ViewStateService.somethingInProgress = false;
 					this.ViewStateService.somethingInProgressTxt = 'Done!';
-					defer.resolve();
 				}, (errMess) => {
 					this.ModalService.open('views/error.html', 'Error parsing SSFF file: ' + errMess.status.message).then(() => {
 						this.AppStateService.resetToInitState();
@@ -138,28 +130,27 @@ class DbObjLoadSaveService{
 	* @param url if set the bundle is loaded from the given url
 	*/
 	public loadBundle(bndl, url) {
-		var defer = this.$q.defer();
 		// check if bndl has to be saved
 		this.ViewStateService.setcurClickItem(null);
 		if ((this.HistoryService.movesAwayFromLastSave !== 0 && this.ConfigProviderService.vals.main.comMode !== 'DEMO' && this.ConfigProviderService.vals.activeButtons.saveBundle)) {
 			var curBndl = this.LoadedMetaDataService.getCurBndl();
 			if (bndl !== curBndl) {
-				// $scope.lastclickedutt = bndl;
-				this.ModalService.open('views/saveChanges.html', curBndl.session + ':' + curBndl.name).then((messModal) => {
+				return this.ModalService.open('views/saveChanges.html', curBndl.session + ':' + curBndl.name).then((messModal) => {
 					if (messModal === 'saveChanges') {
 						// save current bundle
-						this.saveBundle().then(() => {
+						return this.saveBundle().then(() => {
 							// load new bundle
-							this.loadBundle(bndl, "");
+							return this.loadBundle(bndl, "");
 						});
 					} else if (messModal === 'discardChanges') {
 						// reset history
 						this.HistoryService.resetToInitState();
 						// load new bundle
-						this.loadBundle(bndl, "");
+						return this.loadBundle(bndl, "");
 					}
 				});
 			}
+			return Promise.resolve();
 		} else {
 			if (bndl !== this.LoadedMetaDataService.getCurBndl()) {
 				// reset history
@@ -170,7 +161,7 @@ class DbObjLoadSaveService{
 				this.LevelService.deleteEditArea();
 				this.ViewStateService.setEditing(false);
 				this.ViewStateService.setState('loadingSaving');
-				
+
 				this.ViewStateService.somethingInProgress = true;
 				this.ViewStateService.somethingInProgressTxt = 'Loading bundle: ' + bndl.name;
 				// empty ssff files
@@ -180,28 +171,28 @@ class DbObjLoadSaveService{
 				}else{
 					var promise = this.$http.get(url);
 				}
-				promise.then(async (bundleData) => {
+				return promise.then(async (bundleData) => {
 					// check if response from http request
 					if (bundleData.status === 200) {
 						bundleData = bundleData.data;
 					}
-					
+
 					// validate bundle
 					var validRes = this.ValidationService.validateJSO('bundleSchema', bundleData);
-					
+
 					if (validRes === true) {
-						
+
 						var arrBuff;
 
 						if(bundleData.mediaFile.encoding === 'BASE64'){
 							arrBuff = this.BinaryDataManipHelperService.base64ToArrayBuffer(bundleData.mediaFile.data);
-							this.innerLoadBundle(bndl, bundleData, arrBuff, defer);
+							return this.innerLoadBundle(bndl, bundleData, arrBuff);
 						}else if(bundleData.mediaFile.encoding === 'GETURL'){
-							this.IoHandlerService.httpGetPath(bundleData.mediaFile.data, 'arraybuffer').then((res) => {
+							return this.IoHandlerService.httpGetPath(bundleData.mediaFile.data, 'arraybuffer').then((res) => {
 								if(res.status === 200){
 									res = res.data;
 								}
-								this.innerLoadBundle(bndl, bundleData, res, defer);
+								return this.innerLoadBundle(bndl, bundleData, res);
 							}, (errMess) => {
 								this.ModalService.open('views/error.html', 'Error fetching audio file: ' + JSON.stringify(errMess)).then(() => {
 									this.AppStateService.resetToInitState();
@@ -213,8 +204,8 @@ class DbObjLoadSaveService{
 							this.AppStateService.resetToInitState();
 						});
 					}
-					
-					
+
+
 				}, (errMess) => {
 					// check for http vs websocket response
 					if (errMess.data) {
@@ -228,8 +219,8 @@ class DbObjLoadSaveService{
 					}
 				});
 			}
+			return Promise.resolve();
 		}
-		return defer.promise; 
 	};
 	
 	
@@ -241,7 +232,6 @@ class DbObjLoadSaveService{
 		// check if something has changed
 		// if (HistoryService.movesAwayFromLastSave !== 0) {
 		if (this.ViewStateService.getPermission('saveBndlBtnClick')) {
-			var defer = this.$q.defer();
 			this.ViewStateService.somethingInProgress = true;
 			this.ViewStateService.setState('loadingSaving');
 			//create bundle json
@@ -251,59 +241,56 @@ class DbObjLoadSaveService{
 			// ssffFiles (only FORMANTS are allowed to be manipulated so only this track is sent back to server)
 			var formants = this.SsffDataService.getFile('FORMANTS');
 			if (formants !== undefined) {
-				this.SsffParserService.asyncJso2ssff(formants).then((messParser) => {
+				return this.SsffParserService.asyncJso2ssff(formants).then((messParser) => {
 					bundleData.ssffFiles.push({
 						'fileExtension': formants.fileExtension,
 						'encoding': 'BASE64',
 						'data': this.BinaryDataManipHelperService.arrayBufferToBase64(messParser.data)
 					});
-					this.getAnnotationAndSaveBndl(bundleData, defer);
-					
+					return this.getAnnotationAndSaveBndl(bundleData);
 				}, (errMess) => {
 					this.ModalService.open('views/error.html', 'Error converting javascript object to SSFF file: ' + errMess.status.message);
-					defer.reject();
+					return Promise.reject(errMess);
 				});
 			} else {
-				this.getAnnotationAndSaveBndl(bundleData, defer);
+				return this.getAnnotationAndSaveBndl(bundleData);
 			}
-			
-			return defer.promise;
 			// }
 		} else {
 			this.$log.info('Action: menuBundleSaveBtnClick not allowed!');
 		}
-		
+
 	};
 	
 	
 	/**
 	*
 	*/
-	public getAnnotationAndSaveBndl(bundleData, defer) {
-		
+	public getAnnotationAndSaveBndl(bundleData): Promise<void> {
+
 		// Validate annotation before saving
 		this.ViewStateService.somethingInProgressTxt = 'Validating annotJSON ...';
-		
+
 		var validRes = this.ValidationService.validateJSO('annotationFileSchema', this.DataService.getData());
 		if (validRes !== true) {
 			this.$log.warn('PROBLEM: trying to save bundle but bundle is invalid. traverseAndClean() will be called.');
 			this.$log.error (validRes);
 		}
-		
+
 		// clean annot data just to be safe...
 		this.StandardFuncsService.traverseAndClean(this.DataService.getData());
-		
+
 		////////////////////////////
 		// construct bundle
-		
+
 		// annotation
 		bundleData.annotation = this.DataService.getData();
-		
+
 		// empty media file (depricated since schema was updated)
 		bundleData.mediaFile = {'encoding': 'BASE64', 'data': ''};
-		
+
 		var curBndl = this.LoadedMetaDataService.getCurBndl();
-		
+
 		// add session if available
 		if (typeof curBndl.session !== 'undefined') {
 			bundleData.session = curBndl.session;
@@ -316,34 +303,33 @@ class DbObjLoadSaveService{
 		if (typeof curBndl.comment !== 'undefined') {
 			bundleData.comment = curBndl.comment;
 		}
-		
+
 		// validate bundle
 		this.ViewStateService.somethingInProgressTxt = 'Validating bundle ...';
 		validRes = this.ValidationService.validateJSO('bundleSchema', bundleData);
-		
+
 		if (validRes !== true) {
 			this.$log.error('GRAVE PROBLEM: trying to save bundle but bundle is invalid. traverseAndClean() HAS ALREADY BEEN CALLED.');
 			this.$log.error(validRes);
-			
-			this.ModalService.open('views/error.html', 'Somehow the data for this bundle has been corrupted. This is most likely a nasty and diffucult to spot bug. If you are at the IPS right now, please contact an EMU developer immediately. The Validation error is: ' + JSON.stringify(validRes, null, 4)).then(() => {
+
+			return this.ModalService.open('views/error.html', 'Somehow the data for this bundle has been corrupted. This is most likely a nasty and diffucult to spot bug. If you are at the IPS right now, please contact an EMU developer immediately. The Validation error is: ' + JSON.stringify(validRes, null, 4)).then(() => {
 				this.ViewStateService.somethingInProgressTxt = '';
 				this.ViewStateService.somethingInProgress = false;
 				this.ViewStateService.setState('labeling');
-				defer.reject();
+				return Promise.reject('Bundle validation failed');
 			});
 		} else {
 			this.ViewStateService.somethingInProgressTxt = 'Saving bundle...';
-			this.IoHandlerService.saveBundle(bundleData).then(() => {
+			return this.IoHandlerService.saveBundle(bundleData).then(() => {
 				this.ViewStateService.somethingInProgressTxt = 'Done!';
 				this.ViewStateService.somethingInProgress = false;
 				this.HistoryService.movesAwayFromLastSave = 0;
-				defer.resolve();
 				this.ViewStateService.setState('labeling');
 			}, (errMess) => {
 				this.ModalService.open('views/error.html', 'Error saving bundle: ' + errMess.status.message).then(() => {
 					this.AppStateService.resetToInitState();
 				});
-				defer.reject();
+				return Promise.reject(errMess);
 			});
 		}
 	};
@@ -351,4 +337,4 @@ class DbObjLoadSaveService{
 }
 
 angular.module('grazer')
-.service('DbObjLoadSaveService', ['$log', '$q', '$http', 'DataService', 'ViewStateService', 'HistoryService', 'LoadedMetaDataService', 'SsffDataService', 'IoHandlerService', 'BinaryDataManipHelperService', 'WavParserService', 'SoundHandlerService', 'SsffParserService', 'ValidationService', 'LevelService', 'ModalService', 'ConfigProviderService', 'AppStateService', 'StandardFuncsService', DbObjLoadSaveService]);
+.service('DbObjLoadSaveService', ['$log', '$http', 'DataService', 'ViewStateService', 'HistoryService', 'LoadedMetaDataService', 'SsffDataService', 'IoHandlerService', 'BinaryDataManipHelperService', 'WavParserService', 'SoundHandlerService', 'SsffParserService', 'ValidationService', 'LevelService', 'ModalService', 'ConfigProviderService', 'AppStateService', 'StandardFuncsService', DbObjLoadSaveService]);
