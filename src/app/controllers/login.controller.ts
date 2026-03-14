@@ -1,8 +1,8 @@
 import * as angular from 'angular';
 
 angular.module('grazer')
-	.controller('LoginCtrl', ['$scope', '$rootScope', '$http', 'ConfigProviderService', 'IoHandlerService', 'ViewStateService', 'ModalService',
-		function ($scope, $rootScope, $http, ConfigProviderService, IoHandlerService, ViewStateService, ModalService) {
+	.controller('LoginCtrl', ['$scope', '$rootScope', 'ConfigProviderService', 'IoHandlerService', 'ViewStateService', 'ModalService',
+		function ($scope, $rootScope, ConfigProviderService, IoHandlerService, ViewStateService, ModalService) {
 
 		$scope.loginData = {
 			'username': '',

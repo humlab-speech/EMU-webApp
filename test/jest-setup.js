@@ -131,5 +131,16 @@ if (!window.webkitAudioContext) {
   window.webkitAudioContext = window.AudioContext;
 }
 
+// Expose Node's native fetch in jsdom (jsdom doesn't provide it).
+// jest-environment-jsdom sandboxes globals, hiding Node's native fetch.
+// We grab it from the real Node process via vm.runInThisContext.
+if (typeof fetch === 'undefined') {
+  const vm = require('vm');
+  const realFetch = vm.runInThisContext('globalThis.fetch');
+  if (typeof realFetch === 'function') {
+    global.fetch = realFetch;
+  }
+}
+
 // Load fixture data
 require('./fixtures/load-fixtures');

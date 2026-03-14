@@ -1,11 +1,11 @@
 import * as angular from 'angular';
 import { encode } from 'punycode';
+import { httpGet } from '../util/http-get';
 
 class IoHandlerService{
 	
 	private $rootScope;
-	private $http; 
-	private $location; 
+	private $location;
 	private $window;
 	private HistoryService; 
 	private ViewStateService; 
@@ -20,10 +20,9 @@ class IoHandlerService{
 	private DragnDropDataService;
 	private LoadedMetaDataService;
 	
-	constructor($rootScope, $http, $location, $window, HistoryService, ViewStateService, SoundHandlerService, SsffParserService, WavParserService, TextGridParserService, ConfigProviderService, EspsParserService, SsffDataService, WebSocketHandlerService, DragnDropDataService, LoadedMetaDataService) {
+	constructor($rootScope, $location, $window, HistoryService, ViewStateService, SoundHandlerService, SsffParserService, WavParserService, TextGridParserService, ConfigProviderService, EspsParserService, SsffDataService, WebSocketHandlerService, DragnDropDataService, LoadedMetaDataService) {
 
 		this.$rootScope = $rootScope;
-		this.$http = $http;
 		this.$location = $location;
 		this.$window = $window;
 		this.HistoryService = HistoryService;
@@ -57,7 +56,7 @@ class IoHandlerService{
 	* default config is always loaded from same origin
 	*/
 	public httpGetDefaultConfig() {
-		var prom = this.$http.get('configFiles/default_grazerConfig.json');
+		var prom = httpGet('configFiles/default_grazerConfig.json');
 		return prom;
 	};
 	
@@ -67,7 +66,7 @@ class IoHandlerService{
 	*/
 	public httpGetPath(path, respType, ignoreComMode: boolean = false) {
 		if(this.ConfigProviderService.vals.main.comMode !== "GITLAB" || ignoreComMode){
-			var prom = this.$http.get(path, {
+			var prom = httpGet(path, {
 				responseType: respType
 			});
 		} else {
@@ -164,7 +163,7 @@ class IoHandlerService{
 		} else if (this.ConfigProviderService.vals.main.comMode === 'WS') {
 			getProm = this.WebSocketHandlerService.getDBconfigFile();
 		} else if (this.ConfigProviderService.vals.main.comMode === 'DEMO') {
-			getProm = this.$http.get('demoDBs/' + nameOfDB + '/' + nameOfDB + '_DBconfig.json');
+			getProm = httpGet('demoDBs/' + nameOfDB + '/' + nameOfDB + '_DBconfig.json');
 		} else if (this.ConfigProviderService.vals.main.comMode === 'GITLAB'){
 			var searchObject = this.$location.search();
 			let gitlabPath = this.getGitlabPathFromSearchObject(searchObject);
@@ -191,7 +190,7 @@ class IoHandlerService{
 		} else if (this.ConfigProviderService.vals.main.comMode === 'WS') {
 			getProm = this.WebSocketHandlerService.getBundleList();
 		} else if (this.ConfigProviderService.vals.main.comMode === 'DEMO') {
-			getProm = this.$http.get('demoDBs/' + nameOfDB + '/' + nameOfDB + '_bundleList.json');
+			getProm = httpGet('demoDBs/' + nameOfDB + '/' + nameOfDB + '_bundleList.json');
 		} else if (this.ConfigProviderService.vals.main.comMode === 'GITLAB') {
 			let searchObject = this.$location.search();
 			let gitlabPath = this.getGitlabPathFromSearchObject(searchObject);
@@ -240,7 +239,7 @@ class IoHandlerService{
 			getProm = this.WebSocketHandlerService.getBundle(name, session);
 		} else if (this.ConfigProviderService.vals.main.comMode === 'DEMO') {
 			// getProm = $http.get('testData/newAE/SES0000/' + name + '/' + name + '.json');
-			getProm = this.$http.get('demoDBs/' + nameOfDB + '/' + name + '_bndl.json');
+			getProm = httpGet('demoDBs/' + nameOfDB + '/' + name + '_bndl.json');
 		} else if (this.ConfigProviderService.vals.main.comMode === 'GITLAB') {
 			var searchObject = this.$location.search();
 
@@ -410,4 +409,4 @@ public parseLabelFile(string, annotates, name, fileType) {
 }
 
 angular.module('grazer')
-.service('IoHandlerService', ['$rootScope', '$http', '$location', '$window', 'HistoryService', 'ViewStateService', 'SoundHandlerService', 'SsffParserService', 'WavParserService', 'TextGridParserService', 'ConfigProviderService', 'EspsParserService', 'SsffDataService', 'WebSocketHandlerService', 'DragnDropDataService', 'LoadedMetaDataService', IoHandlerService]);
+.service('IoHandlerService', ['$rootScope', '$location', '$window', 'HistoryService', 'ViewStateService', 'SoundHandlerService', 'SsffParserService', 'WavParserService', 'TextGridParserService', 'ConfigProviderService', 'EspsParserService', 'SsffDataService', 'WebSocketHandlerService', 'DragnDropDataService', 'LoadedMetaDataService', IoHandlerService]);

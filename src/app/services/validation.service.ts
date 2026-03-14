@@ -1,15 +1,14 @@
 import * as angular from 'angular';
 import * as tv4 from 'tv4';
+import { httpGet } from '../util/http-get';
 
 class ValidationService{
-	private $http;
 	private ConfigProviderService;
 
 	private schemasJsos;
 	private names;
 
-	constructor($http, ConfigProviderService){
-		this.$http = $http;
+	constructor(ConfigProviderService){
 		this.ConfigProviderService = ConfigProviderService;
 		
 		this.schemasJsos = [];
@@ -276,7 +275,7 @@ class ValidationService{
 		var uri;
 		this.names.forEach((n) => {
 			uri = 'schemaFiles/' + n + '.json';
-			proms.push(this.$http.get(uri));
+			proms.push(httpGet(uri));
 		});
 		return Promise.all(proms);
 	};
@@ -340,4 +339,4 @@ class ValidationService{
 }
 
 angular.module('grazer')
-.service('ValidationService', ['$http', 'ConfigProviderService', ValidationService]);
+.service('ValidationService', ['ConfigProviderService', ValidationService]);

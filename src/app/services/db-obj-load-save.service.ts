@@ -1,6 +1,7 @@
 import * as angular from 'angular';
 
 import { WavRangeReq } from '../workers/wavrangereq.worker';
+import { httpGet } from '../util/http-get';
 
 /**
 * @ngdoc service
@@ -12,7 +13,6 @@ import { WavRangeReq } from '../workers/wavrangereq.worker';
 class DbObjLoadSaveService{
 	
 	private $log;
-	private $http;
 	private DataService;
 	private ViewStateService;
 	private HistoryService;
@@ -30,9 +30,8 @@ class DbObjLoadSaveService{
 	private AppStateService;
 	private StandardFuncsService;
 	
-	constructor($log, $http, DataService, ViewStateService, HistoryService, LoadedMetaDataService, SsffDataService, IoHandlerService, BinaryDataManipHelperService, WavParserService, SoundHandlerService, SsffParserService, ValidationService, LevelService, ModalService, ConfigProviderService, AppStateService, StandardFuncsService){
+	constructor($log, DataService, ViewStateService, HistoryService, LoadedMetaDataService, SsffDataService, IoHandlerService, BinaryDataManipHelperService, WavParserService, SoundHandlerService, SsffParserService, ValidationService, LevelService, ModalService, ConfigProviderService, AppStateService, StandardFuncsService){
 		this.$log = $log;
-		this.$http = $http;
 		this.DataService = DataService;
 		this.ViewStateService = ViewStateService;
 		this.HistoryService = HistoryService;
@@ -169,7 +168,7 @@ class DbObjLoadSaveService{
 				if(!url){
 					var promise = this.IoHandlerService.getBundle(bndl.name, bndl.session, this.LoadedMetaDataService.getDemoDbName());
 				}else{
-					var promise = this.$http.get(url);
+					var promise = httpGet(url);
 				}
 				return promise.then(async (bundleData) => {
 					// check if response from http request
@@ -337,4 +336,4 @@ class DbObjLoadSaveService{
 }
 
 angular.module('grazer')
-.service('DbObjLoadSaveService', ['$log', '$http', 'DataService', 'ViewStateService', 'HistoryService', 'LoadedMetaDataService', 'SsffDataService', 'IoHandlerService', 'BinaryDataManipHelperService', 'WavParserService', 'SoundHandlerService', 'SsffParserService', 'ValidationService', 'LevelService', 'ModalService', 'ConfigProviderService', 'AppStateService', 'StandardFuncsService', DbObjLoadSaveService]);
+.service('DbObjLoadSaveService', ['$log', 'DataService', 'ViewStateService', 'HistoryService', 'LoadedMetaDataService', 'SsffDataService', 'IoHandlerService', 'BinaryDataManipHelperService', 'WavParserService', 'SoundHandlerService', 'SsffParserService', 'ValidationService', 'LevelService', 'ModalService', 'ConfigProviderService', 'AppStateService', 'StandardFuncsService', DbObjLoadSaveService]);

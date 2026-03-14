@@ -2,12 +2,10 @@ import * as angular from 'angular';
 
 class AppcacheHandlerService{
 
-	private $http;
 	private ModalService;
 	private appCache;
 
-	constructor($http, ModalService){
-		this.$http = $http;
+	constructor(ModalService){
 		this.ModalService = ModalService;
 		// this.appCache = window.applicationCache;
 
@@ -75,4 +73,4 @@ class AppcacheHandlerService{
 }
 
 angular.module('grazer')
-	.service('AppcacheHandlerService', ['$http', 'ModalService', AppcacheHandlerService]);
+	.service('AppcacheHandlerService', ['ModalService', AppcacheHandlerService]);
