@@ -127,8 +127,10 @@ const server = http.createServer(function (request, response) {
       });
 
       const buf = Buffer.alloc(chunksize);
-      //response.end(fs.readSync(filePath));
-      response.end(fs.readFileSync(filePath));
+      const fd = fs.openSync(filePath, 'r');
+      fs.readSync(fd, buf, 0, chunksize, start);
+      fs.closeSync(fd);
+      response.end(buf);
 
     }
 
