@@ -6,8 +6,6 @@ export class HistoryService {
 	//////////////////////////////////////////
 	// new dual stack implementation
 	// private dep. injected vars
-	private $compile;
-	private $sce;
 	private SsffDataService;
 	private LevelService;
 	private LinkService;
@@ -24,9 +22,7 @@ export class HistoryService {
 	// public vars
 	public movesAwayFromLastSave = 0;
 
-	constructor($compile, $sce, SsffDataService, LevelService, LinkService, ConfigProviderService, ViewStateService, SoundHandlerService, LoadedMetaDataService, PublisherService){
-		this.$compile = $compile;
-		this.$sce = $sce;
+	constructor(SsffDataService, LevelService, LinkService, ConfigProviderService, ViewStateService, SoundHandlerService, LoadedMetaDataService, PublisherService){
 		this.SsffDataService = SsffDataService;
 		this.LevelService = LevelService;
 		this.LinkService = LinkService;
@@ -411,11 +407,11 @@ export class HistoryService {
 	
 	// set the displayed text of the historyActionPopup
 	public setHistoryActionText(isUndo, text) {
-		var front = '<i>UNDO</i> &#8594; ';
+		var front = 'UNDO → ';
 		if (!isUndo) {
-			front = '<i>REDO</i> &#8592; ';
+			front = 'REDO ← ';
 		}
-		this.ViewStateService.historyActionTxt = this.$sce.trustAsHtml(front + text);
+		this.ViewStateService.historyActionTxt = front + text;
 	}
 	
 	// resetToInitState
@@ -429,4 +425,4 @@ export class HistoryService {
 }
 
 angular.module('grazer')
-.service('HistoryService', ['$compile', '$sce', 'SsffDataService', 'LevelService', 'LinkService', 'ConfigProviderService', 'ViewStateService', 'SoundHandlerService', 'LoadedMetaDataService', 'PublisherService', HistoryService])
+.service('HistoryService', ['SsffDataService', 'LevelService', 'LinkService', 'ConfigProviderService', 'ViewStateService', 'SoundHandlerService', 'LoadedMetaDataService', 'PublisherService', HistoryService])

@@ -4,7 +4,7 @@ import styles from '../../styles/grazer-design.scss';
 let HistoryActionPopupComponent = {
     selector: "historyActionPopup",
     template: `
-    <div ng-bind-html="$ctrl.historyActionTxt">
+    <div ng-bind="$ctrl.historyActionTxt">
     test12
     </div>
     `,
