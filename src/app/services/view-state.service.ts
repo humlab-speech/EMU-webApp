@@ -35,7 +35,7 @@ class ViewStateService{
 	private bundleListSideBarOpen;
 	private bundleListSideBarDisabled;
 	private rightSubmenuOpen;
-	private curClickItems: any[]
+	private curClickItems: IClickItem[]
 	private curMousePosSample;
 	private curMouseX;
 	private curMouseY;

@@ -1,11 +1,12 @@
 import * as angular from 'angular';
+import { ISsffFile } from '../interfaces/ssff.interface';
 
 class SsffDataService{
 	private SoundHandlerService;
 	private ConfigProviderService;
-	
+
 	// stores files referred to by ssffTrackDefinitions
-	public data;
+	public data: ISsffFile[];
 	constructor(SoundHandlerService, ConfigProviderService){
 		this.SoundHandlerService = SoundHandlerService; 
 		this.ConfigProviderService = ConfigProviderService;

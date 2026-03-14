@@ -1,6 +1,7 @@
 import * as angular from 'angular';
 
 import styles from '../../styles/grazer-design.scss';
+import { IOsciPeaks } from '../interfaces/osci-peaks.interface';
 
 class DrawHelperService{
 
@@ -11,7 +12,7 @@ class DrawHelperService{
 	private SsffDataService;
 	private MathHelperService;
 
-	private osciPeaks;
+	private osciPeaks: IOsciPeaks | Record<string, never>;
 
 	constructor(ViewStateService, ConfigProviderService, SoundHandlerService, FontScaleService, SsffDataService, MathHelperService){
 		this.ViewStateService = ViewStateService;

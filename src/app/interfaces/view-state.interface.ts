@@ -22,6 +22,8 @@ export interface ISpectroSettings {
 	window: number;
 	drawHeatMapColors: number;
 	preEmphasisFilterFactor: number;
+	heatMapColorAnchors?: number[][];
+	invert?: boolean;
 }
 
 export interface IOsciSettings {
