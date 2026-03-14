@@ -141,40 +141,63 @@ class HandleGlobalKeyStrokes{
     // =============================================
 
     private handleHierarchyEditKeys(code, e) {
-        var km = this.ConfigProviderService.vals.keyMappings;
+        const km = this.ConfigProviderService.vals.keyMappings;
+        const actionMap = this.createHierarchyEditActionMap();
+        const action = actionMap[code];
+        if (action) action();
+    }
 
-        if (code === km.hierarchyCommitEdit) {
-            var elementID = this.ViewStateService.hierarchyState.getContextMenuID();
-            var element = this.LevelService.getItemByID(elementID);
-            var levelName = this.LevelService.getLevelName(elementID);
-            var attrIndex = this.ViewStateService.getCurAttrIndex(levelName);
-            var legalLabels = this.ConfigProviderService.getLevelDefinition(levelName).attributeDefinitions[attrIndex].legalLabels;
-            var newValue = this.ViewStateService.hierarchyState.getEditValue();
-            var oldValue = '';
-            if (element.labels[attrIndex] !== undefined) {
-                oldValue = element.labels[attrIndex].value;
-            }
-            if (newValue !== undefined && newValue !== oldValue) {
-                if (legalLabels === undefined || (newValue.length > 0 && legalLabels.indexOf(newValue) >= 0)) {
-                    this.LevelService.renameLabel(levelName, elementID, attrIndex, newValue);
-                    this.HistoryService.addObjToUndoStack({
-                        'type': 'ANNOT',
-                        'action': 'RENAMELABEL',
-                        'name': levelName,
-                        'id': elementID,
-                        'attrIndex': attrIndex,
-                        'oldValue': oldValue,
-                        'newValue': newValue
-                    });
-                    this.ViewStateService.hierarchyState.closeContextMenu();
-                }
-            } else {
+    /**
+     * Action map for hierarchy edit mode key bindings
+     */
+    private createHierarchyEditActionMap() {
+        const km = this.ConfigProviderService.vals.keyMappings;
+        return {
+            [km.hierarchyCommitEdit]: () => this.commitHierarchyEdit(),
+            [km.hierarchyCancelEdit]: () => this.cancelHierarchyEdit()
+        };
+    }
+
+    /**
+     * Commit edited label in hierarchy context menu
+     */
+    private commitHierarchyEdit() {
+        const elementID = this.ViewStateService.hierarchyState.getContextMenuID();
+        const element = this.LevelService.getItemByID(elementID);
+        const levelName = this.LevelService.getLevelName(elementID);
+        const attrIndex = this.ViewStateService.getCurAttrIndex(levelName);
+        const legalLabels = this.ConfigProviderService.getLevelDefinition(levelName).attributeDefinitions[attrIndex].legalLabels;
+        const newValue = this.ViewStateService.hierarchyState.getEditValue();
+        let oldValue = '';
+
+        if (element.labels[attrIndex] !== undefined) {
+            oldValue = element.labels[attrIndex].value;
+        }
+
+        if (newValue !== undefined && newValue !== oldValue) {
+            if (legalLabels === undefined || (newValue.length > 0 && legalLabels.indexOf(newValue) >= 0)) {
+                this.LevelService.renameLabel(levelName, elementID, attrIndex, newValue);
+                this.HistoryService.addObjToUndoStack({
+                    'type': 'ANNOT',
+                    'action': 'RENAMELABEL',
+                    'name': levelName,
+                    'id': elementID,
+                    'attrIndex': attrIndex,
+                    'oldValue': oldValue,
+                    'newValue': newValue
+                });
                 this.ViewStateService.hierarchyState.closeContextMenu();
             }
-        }
-        if (code === km.hierarchyCancelEdit) {
+        } else {
             this.ViewStateService.hierarchyState.closeContextMenu();
         }
+    }
+
+    /**
+     * Cancel label editing in hierarchy context menu
+     */
+    private cancelHierarchyEdit() {
+        this.ViewStateService.hierarchyState.closeContextMenu();
     }
 
     // =============================================
@@ -182,96 +205,112 @@ class HandleGlobalKeyStrokes{
     // =============================================
 
     private handleHierarchyNavKeys(code, e) {
-        var km = this.ConfigProviderService.vals.keyMappings;
+        const km = this.ConfigProviderService.vals.keyMappings;
+        const actionMap = this.createHierarchyNavActionMap();
+        const action = actionMap[code];
+        if (action) action(e);
+    }
 
-        if (code === km.hierarchyDeleteLink) {
-            e.preventDefault();
-        }
+    /**
+     * Action map for hierarchy navigation mode key bindings
+     */
+    private createHierarchyNavActionMap() {
+        const km = this.ConfigProviderService.vals.keyMappings;
+        return {
+            [km.hierarchyDeleteLink]: (e) => { e.preventDefault(); this.deleteHierarchyLink(); },
+            [km.hierarchyPlayback]: (e) => { e.preventDefault(); this.toggleHierarchyPlayback(); },
+            [km.hierarchyRotate]: () => this.toggleHierarchyRotation(),
+            [km.hierarchyDeleteItem]: () => this.deleteHierarchyItem(),
+            [km.hierarchyAddItemBefore]: () => this.addHierarchyItemBefore(),
+            [km.hierarchyAddItemAfter]: () => this.addHierarchyItemAfter(),
+            [km.levelUp]: () => this.navigateLevelUp(),
+            [km.levelDown]: () => this.navigateLevelDown(),
+            [km.undo]: () => this.HistoryService.undo(),
+            [km.redo]: () => this.HistoryService.redo(),
+            [km.esc]: (e) => { if (!e.shiftKey) this.ModalService.close(); },
+            [km.showHierarchy]: (e) => { if (!e.shiftKey) this.ModalService.close(); }
+        };
+    }
 
-        if (code === km.hierarchyPlayback) {
-            e.preventDefault();
-            this.ViewStateService.hierarchyState.playing += 1;
+    private deleteHierarchyLink() {
+        const pos = this.LinkService.deleteLink(
+            this.ViewStateService.hierarchyState.selectedLinkFromID,
+            this.ViewStateService.hierarchyState.selectedLinkToID
+        );
+        if (pos !== -1) {
+            this.HistoryService.addObjToUndoStack({
+                type: 'HIERARCHY',
+                action: 'DELETELINK',
+                fromID: this.ViewStateService.hierarchyState.selectedLinkFromID,
+                toID: this.ViewStateService.hierarchyState.selectedLinkToID,
+                position: pos
+            });
         }
+    }
 
-        if (code === km.hierarchyRotate) {
-            this.ViewStateService.hierarchyState.toggleRotation();
-        }
+    private toggleHierarchyPlayback() {
+        this.ViewStateService.hierarchyState.playing += 1;
+    }
 
-        if (code === km.hierarchyDeleteLink) {
-            var pos = this.LinkService.deleteLink(this.ViewStateService.hierarchyState.selectedLinkFromID, this.ViewStateService.hierarchyState.selectedLinkToID);
-            if (pos !== -1) {
-                this.HistoryService.addObjToUndoStack({
-                    type: 'HIERARCHY',
-                    action: 'DELETELINK',
-                    fromID: this.ViewStateService.hierarchyState.selectedLinkFromID,
-                    toID: this.ViewStateService.hierarchyState.selectedLinkToID,
-                    position: pos
-                });
-            }
-        }
+    private toggleHierarchyRotation() {
+        this.ViewStateService.hierarchyState.toggleRotation();
+    }
 
-        if (code === km.hierarchyDeleteItem) {
-            var result = this.LevelService.deleteItemWithLinks(this.ViewStateService.hierarchyState.selectedItemID);
-            if (result.item !== undefined) {
-                this.HistoryService.addObjToUndoStack({
-                    type: 'HIERARCHY',
-                    action: 'DELETEITEM',
-                    item: result.item,
-                    levelName: result.levelName,
-                    position: result.position,
-                    deletedLinks: result.deletedLinks
-                });
-            }
+    private deleteHierarchyItem() {
+        const result = this.LevelService.deleteItemWithLinks(
+            this.ViewStateService.hierarchyState.selectedItemID
+        );
+        if (result.item !== undefined) {
+            this.HistoryService.addObjToUndoStack({
+                type: 'HIERARCHY',
+                action: 'DELETEITEM',
+                item: result.item,
+                levelName: result.levelName,
+                position: result.position,
+                deletedLinks: result.deletedLinks
+            });
         }
+    }
 
-        var newID;
-        if (code === km.hierarchyAddItemBefore) {
-            newID = this.LevelService.addItem(this.ViewStateService.hierarchyState.selectedItemID, true);
-            if (newID !== -1) {
-                this.HistoryService.addObjToUndoStack({
-                    type: 'HIERARCHY',
-                    action: 'ADDITEM',
-                    newID: newID,
-                    neighborID: this.ViewStateService.hierarchyState.selectedItemID,
-                    before: true
-                });
-            }
+    private addHierarchyItemBefore() {
+        const newID = this.LevelService.addItem(
+            this.ViewStateService.hierarchyState.selectedItemID, true
+        );
+        if (newID !== -1) {
+            this.HistoryService.addObjToUndoStack({
+                type: 'HIERARCHY',
+                action: 'ADDITEM',
+                newID: newID,
+                neighborID: this.ViewStateService.hierarchyState.selectedItemID,
+                before: true
+            });
         }
-        if (code === km.hierarchyAddItemAfter) {
-            newID = this.LevelService.addItem(this.ViewStateService.hierarchyState.selectedItemID, false);
-            if (newID !== -1) {
-                this.HistoryService.addObjToUndoStack({
-                    type: 'HIERARCHY',
-                    action: 'ADDITEM',
-                    newID: newID,
-                    neighborID: this.ViewStateService.hierarchyState.selectedItemID,
-                    before: false
-                });
-            }
-        }
+    }
 
-        if (code === km.levelUp) {
-            if (this.ViewStateService.hierarchyState.curPathIdx >= 1) {
-                this.ViewStateService.hierarchyState.curPathIdx = this.ViewStateService.hierarchyState.curPathIdx - 1;
-            }
+    private addHierarchyItemAfter() {
+        const newID = this.LevelService.addItem(
+            this.ViewStateService.hierarchyState.selectedItemID, false
+        );
+        if (newID !== -1) {
+            this.HistoryService.addObjToUndoStack({
+                type: 'HIERARCHY',
+                action: 'ADDITEM',
+                newID: newID,
+                neighborID: this.ViewStateService.hierarchyState.selectedItemID,
+                before: false
+            });
         }
+    }
 
-        if (code === km.levelDown) {
-            if (this.ViewStateService.hierarchyState.curPathIdx < this.ViewStateService.hierarchyState.curNrOfPaths - 1) {
-                this.ViewStateService.hierarchyState.curPathIdx = this.ViewStateService.hierarchyState.curPathIdx + 1;
-            }
+    private navigateLevelUp() {
+        if (this.ViewStateService.hierarchyState.curPathIdx >= 1) {
+            this.ViewStateService.hierarchyState.curPathIdx -= 1;
         }
+    }
 
-        if (code === km.undo) {
-            this.HistoryService.undo();
-        }
-
-        if (code === km.redo) {
-            this.HistoryService.redo();
-        }
-
-        if (!e.shiftKey && (code === km.esc || code === km.showHierarchy)) {
-            this.ModalService.close();
+    private navigateLevelDown() {
+        if (this.ViewStateService.hierarchyState.curPathIdx < this.ViewStateService.hierarchyState.curNrOfPaths - 1) {
+            this.ViewStateService.hierarchyState.curPathIdx += 1;
         }
     }
 
