@@ -2,6 +2,7 @@ import * as angular from 'angular';
 
 import { safeGetItem, safeSetItem } from '../util/safe-storage';
 import { HierarchyWorker } from '../workers/hierarchy.worker';
+import { eventBus } from '../util/event-bus';
 import styles from '../../styles/grazer-design.scss';
 
 let EmuWebAppComponent = {
@@ -563,16 +564,16 @@ let EmuWebAppComponent = {
 			// listen for connectionDisrupted event -> I don't like listens but in this case it might me the way to go...
 			let _this = this;
 
-            this.$scope.$on('connectionDisrupted', () => {
+            eventBus.on('connectionDisrupted').subscribe(() => {
                 _this.AppStateService.resetToInitState();
             });
 
             // listen for resetToInitState
-            this.$scope.$on('resetToInitState', () => {
+            eventBus.on('resetToInitState').subscribe(() => {
                 _this.loadDefaultConfig();
             });
-            
-            this.$scope.$on('reloadToInitState', (event, data) => {
+
+            eventBus.on('reloadToInitState').subscribe((data) => {
                 _this.loadDefaultConfig();
                 _this.ViewStateService.url = data.url;
                 _this.ViewStateService.somethingInProgressTxt = 'Connecting to server...';

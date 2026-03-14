@@ -1,4 +1,5 @@
 import * as angular from 'angular';
+import { eventBus } from '../util/event-bus';
 
 /**
  * @ngdoc service
@@ -9,7 +10,6 @@ import * as angular from 'angular';
  */
 class AppStateService{
 
-	private $rootScope;
 	private DragnDropService;
 	private DragnDropDataService;
 	private ViewStateService;
@@ -20,8 +20,7 @@ class AppStateService{
 	private SsffDataService;
 	private HistoryService;
 
-	constructor($rootScope, DragnDropService, DragnDropDataService, ViewStateService, IoHandlerService, LoadedMetaDataService, SoundHandlerService, DataService, SsffDataService, HistoryService){
-		this.$rootScope = $rootScope;
+	constructor(DragnDropService, DragnDropDataService, ViewStateService, IoHandlerService, LoadedMetaDataService, SoundHandlerService, DataService, SsffDataService, HistoryService){
 		this.DragnDropService = DragnDropService;
 		this.DragnDropDataService = DragnDropDataService;
 		this.ViewStateService = ViewStateService;
@@ -60,7 +59,7 @@ class AppStateService{
 			this.HistoryService.resetToInitState();
 			this.ViewStateService.showDropZone = true;
 			window.history.replaceState({}, '', window.location.pathname); // reset URL without get values
-			this.$rootScope.$broadcast('resetToInitState');
+			eventBus.emit('resetToInitState');
 			//$scope.loadDefaultConfig();
 		};
 		
@@ -81,11 +80,11 @@ class AppStateService{
 			this.ViewStateService.somethingInProgress = false;
 			this.HistoryService.resetToInitState();
 			this.ViewStateService.resetToInitState();
-			this.$rootScope.$broadcast('reloadToInitState', {url:url, session:session, reload:true });
+			eventBus.emit('reloadToInitState', {url:url, session:session, reload:true });
 		};
 
 }
 
 
 angular.module('grazer')
-	.service('AppStateService', ['$rootScope', 'DragnDropService', 'DragnDropDataService', 'ViewStateService', 'IoHandlerService', 'LoadedMetaDataService', 'SoundHandlerService', 'DataService', 'SsffDataService', 'HistoryService', AppStateService]);
+	.service('AppStateService', ['DragnDropService', 'DragnDropDataService', 'ViewStateService', 'IoHandlerService', 'LoadedMetaDataService', 'SoundHandlerService', 'DataService', 'SsffDataService', 'HistoryService', AppStateService]);

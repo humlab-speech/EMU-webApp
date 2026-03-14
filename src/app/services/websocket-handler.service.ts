@@ -1,4 +1,5 @@
 import * as angular from 'angular';
+import { eventBus } from '../util/event-bus';
 
 class WebSocketHandlerService{
 	private $rootScope;
@@ -79,7 +80,7 @@ class WebSocketHandlerService{
 			} else {
 				// show protocol error and disconnect from server
 				this.closeConnect();
-				this.$rootScope.$broadcast('resetToInitState');
+				eventBus.emit('resetToInitState');
 				this.$rootScope.$apply(this.ModalService.open('views/error.html', 'Communication error with server! Error message is: ' + messageObj.status.message));
 			}
 			
@@ -116,7 +117,7 @@ class WebSocketHandlerService{
 		}catch(e){
 			this.ModalService.open('views/error.html', 'Got non-JSON string as message from server! This is not allowed! The message was: ' + message.data + ' which caused the JSON.parse error: ' + e).then(() => {
 				this.closeConnect();
-				this.$rootScope.$broadcast('resetToInitState');
+				eventBus.emit('resetToInitState');
 			});
 			
 		}
@@ -131,7 +132,7 @@ class WebSocketHandlerService{
 	private wsonclose(message) {
 		if (!message.wasClean && this.connected) {
 			this.ModalService.open('views/error.html', 'A non clean disconnect to the server occurred! This probably means that the server is down. Please check the server and reconnect!').then(() => {
-				this.$rootScope.$broadcast('connectionDisrupted');
+				eventBus.emit('connectionDisrupted');
 			});
 		}
 		this.connected = false;
