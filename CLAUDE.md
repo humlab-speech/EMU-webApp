@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-grazer (formerly EMU-webApp) is an AngularJS 1.8 SPA for labeling, visualizing, and correcting speech and derived speech data (spectrograms, waveforms, annotation tiers). This is a Humlab fork of the IPS-LMU original (v1.5.3-humlab-1.5.3).
+grazer (formerly EMU-webApp) is an AngularJS 1.8 SPA for labeling, visualizing, and correcting speech and derived speech data (spectrograms, waveforms, annotation tiers). This is a Humlab fork of the IPS-LMU original (v1.5.3-humlab-1.5.4).
 
 ## Commands
 
