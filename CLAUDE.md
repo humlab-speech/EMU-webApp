@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-grazer (formerly EMU-webApp) is an AngularJS 1.8 SPA for labeling, visualizing, and correcting speech and derived speech data (spectrograms, waveforms, annotation tiers). This is a Humlab fork of the IPS-LMU original (v1.5.3-humlab-1.2.0).
+grazer (formerly EMU-webApp) is an AngularJS 1.8 SPA for labeling, visualizing, and correcting speech and derived speech data (spectrograms, waveforms, annotation tiers). This is a Humlab fork of the IPS-LMU original (v1.5.3-humlab-1.5.3).
 
 ## Commands
 
@@ -12,7 +12,9 @@ grazer (formerly EMU-webApp) is an AngularJS 1.8 SPA for labeling, visualizing, 
 npm install           # install deps
 npm start             # dev server at http://localhost:9000
 npm run build         # production build to /dist
-npm test              # unit tests via Karma (currently not working per README)
+npm test              # unit tests via Jest (247 tests)
+npm run test:jest     # Jest tests only
+npm run test:karma    # Karma tests (legacy)
 ```
 
 For WebSocket-based dev (loads example DB):

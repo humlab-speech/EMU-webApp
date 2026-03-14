@@ -50,6 +50,8 @@ class SoundHandlerService{
 		if (this.audioContext.state === 'suspended') {
 			this.audioContext.resume().then(() => {
 				this.startPlayback(sampleStart, endSample);
+			}).catch((err) => {
+				console.error('Failed to resume audio context:', err);
 			});
 		} else {
 			this.startPlayback(sampleStart, endSample);

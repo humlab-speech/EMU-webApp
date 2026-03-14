@@ -26,18 +26,14 @@ export class HierarchyWorker {
         annotationClone.levels = [];
         annotationClone.levels.push(JSON.parse(JSON.stringify(childLevel)));
         annotationClone.links = [];
-        let reachedTargetLevel = false;
         path.forEach((ln, lnIdx) => {
             if(ln !== path[path.length - 1]){
-                if(ln !== path[path.length - 1]){
-                    let parentLevelClone = JSON.parse(JSON.stringify(this.getLevelDetails(path[lnIdx + 1], annotation)));
-                    parentLevelClone.items = [];
-                    
-                    this.giveTimeToParentsAndAppendItemsAndLinks(annotationClone, parentLevelClone, childLevel);
-                    annotationClone.levels.push(parentLevelClone);
-                    childLevel = annotationClone.levels[annotationClone.levels.length - 1];
-                    
-                }
+                let parentLevelClone = JSON.parse(JSON.stringify(this.getLevelDetails(path[lnIdx + 1], annotation)));
+                parentLevelClone.items = [];
+
+                this.giveTimeToParentsAndAppendItemsAndLinks(annotationClone, parentLevelClone, childLevel);
+                annotationClone.levels.push(parentLevelClone);
+                childLevel = annotationClone.levels[annotationClone.levels.length - 1];
             }
         });
         
@@ -133,7 +129,9 @@ export class HierarchyWorker {
                                     parentItem.sampleStart = item.sampleStart
                                     parentItem.sampleDur = item.sampleDur
                                 } else if (item.sampleStart < parentItem.sampleStart){
+                                    let oldEnd = parentItem.sampleStart + parentItem.sampleDur;
                                     parentItem.sampleStart = item.sampleStart;
+                                    parentItem.sampleDur = oldEnd - parentItem.sampleStart;
                                 } else if (item.sampleStart + item.sampleDur > parentItem.sampleStart + parentItem.sampleDur) {
                                     parentItem.sampleDur = item.sampleStart + item.sampleDur - parentItem.sampleStart;
                                 }                    
@@ -158,19 +156,22 @@ export class HierarchyWorker {
                 level = this.getLevelDetails(levelName, annotation);
             }
             level.items.forEach(item => {
-                let parentId = this.linkSubToSuperHashMap.get(item.id);
-                let parents = this.idHashMap.get(parentId);
-                
-                if(parents){
-                    parents.forEach(parent => {
-                        if (typeof parent.sampleStart === 'undefined'){
-                            parent.sampleStart = item.sampleStart
-                            parent.sampleDur = item.sampleDur
-                        } else if (item.sampleStart < parent.sampleStart){
-                            parent.sampleStart = item.sampleStart;
-                        } else if (item.sampleStart + item.sampleDur > parent.sampleStart + parent.sampleDur) {
-                            parent.sampleDur = item.sampleStart + item.sampleDur - parent.sampleStart;
-                        }                    
+                let parentIds = this.linkSubToSuperHashMap.get(item.id);
+                if(parentIds){
+                    parentIds.forEach(parentId => {
+                        let parent = this.idHashMap.get(parentId);
+                        if(parent){
+                            if (typeof parent.sampleStart === 'undefined'){
+                                parent.sampleStart = item.sampleStart
+                                parent.sampleDur = item.sampleDur
+                            } else if (item.sampleStart < parent.sampleStart){
+                                let oldEnd = parent.sampleStart + parent.sampleDur;
+                                parent.sampleStart = item.sampleStart;
+                                parent.sampleDur = oldEnd - parent.sampleStart;
+                            } else if (item.sampleStart + item.sampleDur > parent.sampleStart + parent.sampleDur) {
+                                parent.sampleDur = item.sampleStart + item.sampleDur - parent.sampleStart;
+                            }
+                        }
                     });
                 }
             });

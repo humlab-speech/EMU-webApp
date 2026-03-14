@@ -180,6 +180,13 @@ let SpectrogramComponent = {
             this._inited = true;
         }
 
+        $onDestroy () {
+            if (this.primeWorker !== null) {
+                this.primeWorker.kill();
+                this.primeWorker = null;
+            }
+        }
+
         ///////////////
         // bindings
 

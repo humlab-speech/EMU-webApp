@@ -34,8 +34,22 @@ class ConfigProviderService {
 		return self.indexOf(value) === index;
 	}
 
+	/**
+	 * Validate that a URL uses an allowed protocol (http/https) and is well-formed.
+	 * Rejects javascript:, data:, and other dangerous protocols.
+	 */
+	public validateGetUrl(url: string): boolean {
+		if (!url) return false;
+		try {
+			const parsed = new URL(url, window.location.origin);
+			return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+		} catch (e) {
+			return false;
+		}
+	}
+
 	/////////////////////
-	// public 
+	// public
 
 	/**
 	 * depth of 2 = max

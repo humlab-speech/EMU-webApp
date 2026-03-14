@@ -494,10 +494,14 @@ let EmuWebAppComponent = {
             	// check if URL parameters are set -> if so set embedded flags! SIC this should probably be moved to loadFilesForEmbeddedApp
 		        var searchObject = this.$location.search();
                 if (searchObject.audioGetUrl && searchObject.labelGetUrl && searchObject.labelType) {
-                    ConfigProviderService.embeddedVals.audioGetUrl = searchObject.audioGetUrl;
-                    ConfigProviderService.embeddedVals.labelGetUrl = searchObject.labelGetUrl;
-                    ConfigProviderService.embeddedVals.labelType = searchObject.labelType;
-                    ConfigProviderService.embeddedVals.fromUrlParams = true;
+                    if (!ConfigProviderService.validateGetUrl(searchObject.audioGetUrl) || !ConfigProviderService.validateGetUrl(searchObject.labelGetUrl)) {
+                        console.error('Invalid URL parameters: audioGetUrl and labelGetUrl must use http(s) protocol');
+                    } else {
+                        ConfigProviderService.embeddedVals.audioGetUrl = searchObject.audioGetUrl;
+                        ConfigProviderService.embeddedVals.labelGetUrl = searchObject.labelGetUrl;
+                        ConfigProviderService.embeddedVals.labelType = searchObject.labelType;
+                        ConfigProviderService.embeddedVals.fromUrlParams = true;
+                    }
                 }
                 if (searchObject.hasOwnProperty("disableBundleListSidebar")) {
                     this.ViewStateService.bundleListSideBarDisabled = true;
@@ -617,6 +621,10 @@ let EmuWebAppComponent = {
             var searchObject = this.$location.search();
 			if (searchObject.audioGetUrl || searchObject.bndlJsonGetUrl) {
 				if(searchObject.audioGetUrl){
+                    if (!this.ConfigProviderService.validateGetUrl(searchObject.audioGetUrl)) {
+                        this.ModalService.open('views/error.html', 'Invalid audioGetUrl: must use http(s) protocol');
+                        return;
+                    }
                     this.ConfigProviderService.embeddedVals.audioGetUrl = searchObject.audioGetUrl;
                     this.ConfigProviderService.vals.activeButtons.openDemoDB = false;
                     var promise = this.IoHandlerService.httpGetPath(

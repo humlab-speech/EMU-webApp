@@ -80,6 +80,9 @@ class IoHandlerService{
 					'PRIVATE-TOKEN': this.getPrivateToken()
 				}
 			}).then((resp) => {
+				if(!resp.ok){
+					throw new Error('HTTP ' + resp.status + ': ' + resp.statusText);
+				}
 				if(respType === 'json'){
 					return(resp.json());
 				} else if(respType === 'arraybuffer'){
