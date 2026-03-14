@@ -1,4 +1,5 @@
 import * as angular from 'angular';
+import { IViewPort, ISpectroSettings, IOsciSettings, IPlayHeadAnimationInfos, IClickItem } from '../interfaces/view-state.interface';
 
 class ViewStateService{
 	private $rootScope;
@@ -36,7 +37,7 @@ class ViewStateService{
 	private bundleListSideBarOpen;
 	private bundleListSideBarDisabled;
 	private rightSubmenuOpen;
-	private curClickItems
+	private curClickItems: any[]
 	private curMousePosSample;
 	private curMouseX;
 	private curMouseY;
@@ -82,13 +83,13 @@ class ViewStateService{
 	// hold the current attribute definitions that are in view
 	public curLevelAttrDefs;
 	
-	public curViewPort;
+	public curViewPort: IViewPort;
 	
-	public spectroSettings;
+	public spectroSettings: ISpectroSettings;
 	
-	public osciSettings;
+	public osciSettings: IOsciSettings;
 	
-	public playHeadAnimationInfos;
+	public playHeadAnimationInfos: IPlayHeadAnimationInfos;
 	
 	public hierarchyState;
 	

@@ -612,6 +612,8 @@ let EmuWebAppComponent = {
         
         $onInit = function() {
             this._inited = true;
+            // Initialize theme from localStorage or system preference
+            this.ConfigProviderService.initTheme();
         };
 
         /**
@@ -866,6 +868,15 @@ let EmuWebAppComponent = {
 
 		private getCurBndlName() {
 			return this.LoadedMetaDataService.getCurBndlName();
+		};
+
+		/**
+		 * Toggle between light and dark theme
+		 */
+		public toggleTheme() {
+			const currentTheme = this.ConfigProviderService.getTheme();
+			const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+			this.ConfigProviderService.setTheme(newTheme as any);
 		};
 
 		/**
