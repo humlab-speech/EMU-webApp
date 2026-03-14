@@ -68,6 +68,8 @@ class DragnDropService{
 				this.LoadedMetaDataService.setDemoDbName(this.bundleList[this.DragnDropDataService.sessionDefault]);
 				this.handleLocalFiles();
 				return true;
+			}).catch((err) => {
+				console.error('Error converting dropped files:', err);
 			});
 		}
 		else {
@@ -304,10 +306,14 @@ class DragnDropService{
 				
 			}
 			
+			this.ViewStateService.somethingInProgress = false;
+		}).catch((err) => {
+			console.error('Error loading standalone config:', err);
+			this.ViewStateService.somethingInProgress = false;
+			this.ModalService.open('views/error.html', 'Error loading configuration: ' + (err.message || err));
 		});
-		this.ViewStateService.somethingInProgress = false;
 	};
-	
+
 }
 
 angular.module('grazer')

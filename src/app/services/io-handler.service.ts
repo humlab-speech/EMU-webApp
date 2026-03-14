@@ -174,19 +174,25 @@ class IoHandlerService{
 			getProm = httpGet('demoDBs/' + nameOfDB + '/' + nameOfDB + '_DBconfig.json');
 		} else if (this.ConfigProviderService.vals.main.comMode === 'GITLAB'){
 			var searchObject = this.getSearchParams();
+			if (searchObject.gitlabURL && !/^https?:\/\//i.test(searchObject.gitlabURL)) {
+				return Promise.reject(new Error('Invalid gitlabURL: must use http(s) protocol'));
+			}
 			let gitlabPath = this.getGitlabPathFromSearchObject(searchObject);
 			getProm = fetch(searchObject.gitlabURL + '/api/v4/projects/' + searchObject.projectID + '/repository/files/' + gitlabPath + searchObject.emuDBname + '_DBconfig.json/raw?ref=master', {
 				method: 'GET',
 				headers: {
 					'PRIVATE-TOKEN': this.getPrivateToken()
 				}
-			}).then((resp) => { return(resp.json()) });
-			
+			}).then((resp) => { return(resp.json()) }).catch((err) => {
+				console.error('Error fetching DB config file:', err);
+				throw err;
+			});
+
 		}
-		
+
 		return getProm;
 	};
-	
+
 	/**
 	*
 	*/
@@ -201,13 +207,19 @@ class IoHandlerService{
 			getProm = httpGet('demoDBs/' + nameOfDB + '/' + nameOfDB + '_bundleList.json');
 		} else if (this.ConfigProviderService.vals.main.comMode === 'GITLAB') {
 			let searchObject = this.getSearchParams();
+			if (searchObject.gitlabURL && !/^https?:\/\//i.test(searchObject.gitlabURL)) {
+				return Promise.reject(new Error('Invalid gitlabURL: must use http(s) protocol'));
+			}
 			let gitlabPath = this.getGitlabPathFromSearchObject(searchObject);
 			getProm = fetch(searchObject.gitlabURL + '/api/v4/projects/' + searchObject.projectID + '/repository/files/' + gitlabPath + 'bundleLists%2F' + searchObject.bundleListName + '_bundleList.json/raw?ref=master', {
 				method: 'GET',
 				headers: {
 					'PRIVATE-TOKEN': this.getPrivateToken()
 				}
-			}).then((resp) => { return(resp.json())});
+			}).then((resp) => { return(resp.json())}).catch((err) => {
+				console.error('Error fetching bundle list:', err);
+				throw err;
+			});
 		}
 		
 		return getProm;
@@ -250,6 +262,9 @@ class IoHandlerService{
 			getProm = httpGet('demoDBs/' + nameOfDB + '/' + name + '_bndl.json');
 		} else if (this.ConfigProviderService.vals.main.comMode === 'GITLAB') {
 			var searchObject = this.getSearchParams();
+			if (searchObject.gitlabURL && !/^https?:\/\//i.test(searchObject.gitlabURL)) {
+				return Promise.reject(new Error('Invalid gitlabURL: must use http(s) protocol'));
+			}
 
 			let gitlabPath = this.getGitlabPathFromSearchObject(searchObject);
 			var bndlURL = searchObject.gitlabURL + '/api/v4/projects/' + searchObject.projectID + '/repository/files/' + gitlabPath + session + '_ses%2F' + name + '_bndl%2F';
@@ -280,8 +295,11 @@ class IoHandlerService{
 						annotation: allResponses[0],
 						ssffFiles: ssffFiles
 					};
+				}).catch((err) => {
+					console.error('Error fetching bundle:', err);
+					throw err;
 				})
-				
+
 			} else {
 				console.log("using LFS");
 				getProm = Promise.all([
@@ -300,6 +318,9 @@ class IoHandlerService{
 						annotation: allResponses[0],
 						ssffFiles: ssffFiles
 					};
+				}).catch((err) => {
+					console.error('Error fetching bundle (LFS):', err);
+					throw err;
 				})
 			}
 		}
@@ -322,6 +343,9 @@ class IoHandlerService{
 		} else if (this.ConfigProviderService.vals.main.comMode === 'GITLAB') {
 			// console.log(bundleData);
 			var searchObject = this.getSearchParams();
+			if (searchObject.gitlabURL && !/^https?:\/\//i.test(searchObject.gitlabURL)) {
+				return Promise.reject(new Error("Invalid gitlabURL: must use http(s) protocol"));
+			}
 			let gitlabPath = this.getGitlabPathFromSearchObject(searchObject, false);
 			var bndlPath = gitlabPath + bundleData.session + '_ses/' + bundleData.annotation.name + '_bndl/';
 			// var bndlURL = searchObject.gitlabURL + '/api/v4/projects/' + searchObject.projectID + '/repository/files/' + bndlPath;
@@ -360,6 +384,14 @@ class IoHandlerService{
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(payload)
+		}).then((resp) => {
+			if (!resp.ok) {
+				throw new Error('HTTP ' + resp.status + ': ' + resp.statusText);
+			}
+			return resp.json();
+		}).catch((err) => {
+			console.error('Error saving bundle:', err);
+			throw err;
 		})
 		
 	} else if (this.ConfigProviderService.vals.main.comMode === 'EMBEDDED') {
