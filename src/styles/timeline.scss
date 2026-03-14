@@ -39,7 +39,7 @@
         .grazer-timelineCanvasMain {
             top: 0; 
             left: 5px;
-            background: $color-black;
+            background: var(--color-black);
             // border: 1px solid $color-grey;
         }
         .grazer-timelineCanvasSSFF {

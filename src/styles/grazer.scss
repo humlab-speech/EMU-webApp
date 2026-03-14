@@ -29,7 +29,7 @@
     height: 100%;
     min-height: 100%;
     position: absolute;
-    background-color: var(--bg-primary, $color-darkGrey);
+    background-color: var(--bg-primary, var(--color-darkGrey));
     text-align: center;
     overflow:hidden;
     @include vendor-prefix(user-select, "none");
@@ -47,7 +47,7 @@
 		    flex-direction: column;
         > .grazer-top-menu {
           height:40px;
-          background: var(--bg-menu, $color-blue);
+          background: var(--bg-menu, var(--color-blue));
           @include vendor-prefix(touch-callout, none);
           text-align:left;
           z-index: 5;
@@ -55,7 +55,7 @@
         > .grazer-bottom-menu {
           width:100%;
           height:87px;
-          background: var(--bg-menu, $color-blue);
+          background: var(--bg-menu, var(--color-blue));
           @include vendor-prefix(touch-callout, none);
           text-align:left;
           padding-left:5px;
@@ -110,8 +110,8 @@
       z-index: 99999 !important;
     }
     .grazer-dropdown-container:hover #demoDB {
-        background-color: var(--bg-dropdown, $color-white);
-        color: var(--text-primary, $color-black);
+        background-color: var(--bg-dropdown, var(--color-white));
+        color: var(--text-primary, var(--color-black));
     }
     #grazer-dropdown-arrow:after {
         content: '\25B8';
@@ -120,15 +120,15 @@
         content: '\25BE';
     }
     .grazer-dropdown-menu {
-        background: var(--bg-dropdown, $color-white);
+        background: var(--bg-dropdown, var(--color-white));
         list-style: none outside none;
         margin: 0;
         margin-left: -1px;
         padding: 0;
         border-spacing: 0;
-        border-left: 1px solid var(--accent, $color-blue);
-        border-right: 1px solid var(--accent, $color-blue);
-        border-bottom: 1px solid var(--accent, $color-blue);
+        border-left: 1px solid var(--accent, var(--color-blue));
+        border-right: 1px solid var(--accent, var(--color-blue));
+        border-bottom: 1px solid var(--accent, var(--color-blue));
         overflow: hidden;
         li {
             @extend .grazer-font-small;
@@ -139,16 +139,16 @@
         }
 
         li:hover {
-            color: var(--accent, $color-blue);
+            color: var(--accent, var(--color-blue));
             cursor: pointer;
         }
 
     }
     a:link {
-        color: var(--accent, $color-blue);
+        color: var(--accent, var(--color-blue));
     }
     a:hover {
-        color: var(--text-primary, $color-white);
+        color: var(--text-primary, var(--color-white));
     }
     a:visited {
         color: var(--text-secondary, lightgray);
