@@ -317,66 +317,59 @@ class HandleGlobalKeyStrokes{
 
     private handleEditingKeys(code, e) {
         var km = this.ConfigProviderService.vals.keyMappings;
-        var domElement = $('.' + this.LevelService.getlasteditArea()) as any;
 
-        // prevent enter if saving not allowed
-        if (!this.ViewStateService.isSavingAllowed() && code === km.createNewItemAtSelection) {
-            var definitions = this.ConfigProviderService.getLevelDefinition(this.ViewStateService.getcurClickLevelName()).attributeDefinitions[this.ViewStateService.getCurAttrIndex(this.ViewStateService.getcurClickLevelName())].legalLabels;
+        var actionMap = {
+            [km.createNewItemAtSelection]: () => this.handleEditCommitOrReject(e),
+            [km.esc]: () => {
+                this.LevelService.deleteEditArea();
+                this.ViewStateService.setEditing(false);
+            }
+        };
+
+        var action = actionMap[code];
+        if (action) action();
+
+        // playback while editing (alt+key)
+        if (e.altKey) this.dispatchPlaybackAction(code, km, e);
+    }
+
+    private handleEditCommitOrReject(e) {
+        var domElement = $('.' + this.LevelService.getlasteditArea()) as any;
+        var levelName = this.ViewStateService.getcurClickLevelName();
+        var attrIndex = this.ViewStateService.getCurAttrIndex(levelName);
+
+        if (!this.ViewStateService.isSavingAllowed()) {
+            var definitions = this.ConfigProviderService.getLevelDefinition(levelName).attributeDefinitions[attrIndex].legalLabels;
             e.preventDefault();
             e.stopPropagation();
             this.LevelService.deleteEditArea();
             this.ViewStateService.setEditing(false);
             this.ModalService.open('views/error.html', 'Editing Error: Sorry, characters allowed on this Level are "' + JSON.stringify(definitions) + '"');
-        }
-        // save text on enter if saving is allowed
-        if (this.ViewStateService.isSavingAllowed() && code === km.createNewItemAtSelection) {
-            var editingElement = this.LevelService.getItemFromLevelById(this.ViewStateService.getcurClickLevelName(), this.LevelService.getlastID());
-            var attrIndex = this.ViewStateService.getCurAttrIndex(this.ViewStateService.getcurClickLevelName());
-            var oldValue = '';
-            var newValue = '';
-            if (editingElement.labels[attrIndex] !== undefined) {
-                oldValue = editingElement.labels[attrIndex].value;
-            }
-            if (this.ConfigProviderService.vals.restrictions.useLargeTextInputField) {
-                newValue = this.ViewStateService.largeTextFieldInputFieldCurLabel;
-            } else {
-                newValue = domElement.val();
-            }
-            this.LevelService.renameLabel(this.ViewStateService.getcurClickLevelName(), this.LevelService.getlastID(), this.ViewStateService.getCurAttrIndex(this.ViewStateService.getcurClickLevelName()), newValue);
-            this.HistoryService.addObjToUndoStack({
-                'type': 'ANNOT',
-                'action': 'RENAMELABEL',
-                'name': this.ViewStateService.getcurClickLevelName(),
-                'id': this.LevelService.getlastID(),
-                'attrIndex': attrIndex,
-                'oldValue': oldValue,
-                'newValue': newValue
-            });
-            this.LevelService.deleteEditArea();
-            this.ViewStateService.setEditing(false);
-            this.ViewStateService.setcurClickItem(this.LevelService.getItemFromLevelById(this.ViewStateService.getcurClickLevelName(), this.LevelService.getlastID()));
-        }
-        // escape from text
-        if (code === km.esc) {
-            this.LevelService.deleteEditArea();
-            this.ViewStateService.setEditing(false);
+            return;
         }
 
-        // playback while editing (alt+key)
-        if (this.ViewStateService.getPermission('playaudio') && this.ConfigProviderService.vals.restrictions.playback && e.altKey) {
-            if (code === km.playAllInView) {
-                this.SoundHandlerService.playFromTo(this.ViewStateService.curViewPort.sS, this.ViewStateService.curViewPort.eS);
-                this.ViewStateService.animatePlayHead(this.ViewStateService.curViewPort.sS, this.ViewStateService.curViewPort.eS);
-            }
-            if (code === 3) { // playSelected
-                this.SoundHandlerService.playFromTo(this.ViewStateService.curViewPort.selectS, this.ViewStateService.curViewPort.selectE);
-                this.ViewStateService.animatePlayHead(this.ViewStateService.curViewPort.selectS, this.ViewStateService.curViewPort.selectE);
-            }
-            if (code === km.playEntireFile) {
-                this.SoundHandlerService.playFromTo(0, this.SoundHandlerService.audioBuffer.length);
-                this.ViewStateService.animatePlayHead(0, this.SoundHandlerService.audioBuffer.length);
-            }
+        var editingElement = this.LevelService.getItemFromLevelById(levelName, this.LevelService.getlastID());
+        var oldValue = '';
+        if (editingElement.labels[attrIndex] !== undefined) {
+            oldValue = editingElement.labels[attrIndex].value;
         }
+        var newValue = this.ConfigProviderService.vals.restrictions.useLargeTextInputField
+            ? this.ViewStateService.largeTextFieldInputFieldCurLabel
+            : domElement.val();
+
+        this.LevelService.renameLabel(levelName, this.LevelService.getlastID(), attrIndex, newValue);
+        this.HistoryService.addObjToUndoStack({
+            'type': 'ANNOT',
+            'action': 'RENAMELABEL',
+            'name': levelName,
+            'id': this.LevelService.getlastID(),
+            'attrIndex': attrIndex,
+            'oldValue': oldValue,
+            'newValue': newValue
+        });
+        this.LevelService.deleteEditArea();
+        this.ViewStateService.setEditing(false);
+        this.ViewStateService.setcurClickItem(this.LevelService.getItemFromLevelById(levelName, this.LevelService.getlastID()));
     }
 
     // =============================================
@@ -388,115 +381,18 @@ class HandleGlobalKeyStrokes{
 
         this.LevelService.deleteEditArea();
 
-        // Escape — close modal
-        if (this.ViewStateService.curState.permittedActions.length === 0 &&
-            code === km.esc &&
-            this.ModalService.force === false) {
-            this.ModalService.close();
-        }
-
-        // Show hierarchy
-        if (code === km.showHierarchy && this.ConfigProviderService.vals.activeButtons.showHierarchy) {
-            if (this.ViewStateService.curState !== this.ViewStateService.states.noDBorFilesloaded) {
-                if (this.ViewStateService.hierarchyState.isShown()) {
-                    this.ModalService.close();
-                } else {
-                    this.ViewStateService.hierarchyState.toggleHierarchy();
-                    this.ModalService.open('views/showHierarchyModal.html');
-                }
-            }
-        }
-
-        // Zoom actions
+        // Dispatch grouped action maps
         this.dispatchZoomAction(code, km);
-
-        // Playback actions
         this.dispatchPlaybackAction(code, km, e);
-
-        // Save bundle
-        if (code === km.saveBndl) {
-            if (this.ViewStateService.getPermission('saveBndlBtnClick')) {
-                this.DbObjLoadSaveService.saveBundle();
-            }
-        }
-
-        // Correction tools
         this.dispatchCorrectionToolAction(code, km);
-
-        // Level navigation
-        if (code === km.levelUp) {
-            if (this.ViewStateService.getPermission('labelAction')) {
-                this.ViewStateService.selectLevel(false, this.ConfigProviderService.vals.perspectives[this.ViewStateService.curPerspectiveIdx].levelCanvases.order, this.LevelService);
-            }
-        }
-        if (code === km.levelDown) {
-            if (this.ViewStateService.getPermission('labelAction')) {
-                this.ViewStateService.selectLevel(true, this.ConfigProviderService.vals.perspectives[this.ViewStateService.curPerspectiveIdx].levelCanvases.order, this.LevelService);
-            }
-        }
-
-        // Boundary snapping
-        if (code === km.snapBoundaryToNearestTopBoundary) {
-            this.handleSnapBoundary(true);
-        }
-        if (code === km.snapBoundaryToNearestBottomBoundary) {
-            this.handleSnapBoundary(false);
-        }
-        if (code === km.snapBoundaryToNearestZeroCrossing) {
-            this.handleSnapToZeroCrossing();
-        }
-
-        // Expand/shrink segments
         this.dispatchExpandShrinkAction(code, km);
 
-        // Toggle sidebars
-        if (code === km.toggleSideBarLeft) {
-            if (this.ViewStateService.getPermission('toggleSideBars')) {
-                if (this.ConfigProviderService.vals.activeButtons.openMenu) {
-                    this.ViewStateService.toggleBundleListSideBar(styles.animationPeriod);
-                }
-            }
-        }
-        if (code === km.toggleSideBarRight) {
-            if (this.ViewStateService.getPermission('toggleSideBars')) {
-                if (this.ConfigProviderService.vals.activeButtons.openMenu) {
-                    this.ViewStateService.setPerspectivesSideBarOpen(!this.ViewStateService.getPerspectivesSideBarOpen());
-                }
-            }
-        }
+        // Main action map — key code → handler
+        var actionMap = this.createMainActionMap(km, e);
+        var action = actionMap[code];
+        if (action) action();
 
-        // Item selection
-        if (code === km.selectItemsInSelection) {
-            this.handleSelectItemsInSelection();
-        }
-        if (code === km.selPrevItem) {
-            this.handleSelPrevItem(e);
-        }
-        if (code === km.selNextItem) {
-            this.handleSelNextItem(e);
-        }
-        if (code === km.selNextPrevItem) {
-            this.handleSelNextPrevItem(e);
-        }
-
-        // Create new item / enter
-        if (code === km.createNewItemAtSelection) {
-            this.handleCreateNewItem(code, e);
-        }
-
-        // Undo/Redo
-        if (code === km.undo) {
-            if (this.ViewStateService.getPermission('labelAction')) {
-                this.HistoryService.undo();
-            }
-        }
-        if (code === km.redo) {
-            if (this.ViewStateService.getPermission('labelAction')) {
-                this.HistoryService.redo();
-            }
-        }
-
-        // Perspective switching (Shift+Digit1-9)
+        // Perspective switching (Shift+Digit1-9) — special case, not keyCode-based
         if (e.shiftKey && e.originalEvent && e.originalEvent.code) {
             var digitMatch = e.originalEvent.code.match(/^Digit(\d)$/);
             if (digitMatch) {
@@ -504,15 +400,71 @@ class HandleGlobalKeyStrokes{
             }
         }
 
-        // Delete boundary/item
-        if (code === km.deletePreselBoundary) {
-            this.handleDeletePreselBoundary(e);
-        }
-
         if (!e.metaKey && !e.ctrlKey) {
             e.preventDefault();
             e.stopPropagation();
         }
+    }
+
+    private createMainActionMap(km, e) {
+        var perspectiveOrder = this.ConfigProviderService.vals.perspectives[this.ViewStateService.curPerspectiveIdx].levelCanvases.order;
+        return {
+            [km.esc]: () => {
+                if (this.ViewStateService.curState.permittedActions.length === 0 && !this.ModalService.force) {
+                    this.ModalService.close();
+                }
+            },
+            [km.showHierarchy]: () => {
+                if (!this.ConfigProviderService.vals.activeButtons.showHierarchy) return;
+                if (this.ViewStateService.curState === this.ViewStateService.states.noDBorFilesloaded) return;
+                if (this.ViewStateService.hierarchyState.isShown()) {
+                    this.ModalService.close();
+                } else {
+                    this.ViewStateService.hierarchyState.toggleHierarchy();
+                    this.ModalService.open('views/showHierarchyModal.html');
+                }
+            },
+            [km.saveBndl]: () => {
+                if (this.ViewStateService.getPermission('saveBndlBtnClick')) {
+                    this.DbObjLoadSaveService.saveBundle();
+                }
+            },
+            [km.levelUp]: () => {
+                if (this.ViewStateService.getPermission('labelAction')) {
+                    this.ViewStateService.selectLevel(false, perspectiveOrder, this.LevelService);
+                }
+            },
+            [km.levelDown]: () => {
+                if (this.ViewStateService.getPermission('labelAction')) {
+                    this.ViewStateService.selectLevel(true, perspectiveOrder, this.LevelService);
+                }
+            },
+            [km.snapBoundaryToNearestTopBoundary]: () => this.handleSnapBoundary(true),
+            [km.snapBoundaryToNearestBottomBoundary]: () => this.handleSnapBoundary(false),
+            [km.snapBoundaryToNearestZeroCrossing]: () => this.handleSnapToZeroCrossing(),
+            [km.toggleSideBarLeft]: () => {
+                if (this.ViewStateService.getPermission('toggleSideBars') && this.ConfigProviderService.vals.activeButtons.openMenu) {
+                    this.ViewStateService.toggleBundleListSideBar(styles.animationPeriod);
+                }
+            },
+            [km.toggleSideBarRight]: () => {
+                if (this.ViewStateService.getPermission('toggleSideBars') && this.ConfigProviderService.vals.activeButtons.openMenu) {
+                    this.ViewStateService.setPerspectivesSideBarOpen(!this.ViewStateService.getPerspectivesSideBarOpen());
+                }
+            },
+            [km.selectItemsInSelection]: () => this.handleSelectItemsInSelection(),
+            [km.selPrevItem]: () => this.handleSelPrevItem(e),
+            [km.selNextItem]: () => this.handleSelNextItem(e),
+            [km.selNextPrevItem]: () => this.handleSelNextPrevItem(e),
+            [km.createNewItemAtSelection]: () => this.handleCreateNewItem(code, e),
+            [km.undo]: () => {
+                if (this.ViewStateService.getPermission('labelAction')) this.HistoryService.undo();
+            },
+            [km.redo]: () => {
+                if (this.ViewStateService.getPermission('labelAction')) this.HistoryService.redo();
+            },
+            [km.deletePreselBoundary]: () => this.handleDeletePreselBoundary(e),
+        };
     }
 
     // =============================================
