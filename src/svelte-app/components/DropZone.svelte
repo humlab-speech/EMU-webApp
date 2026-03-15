@@ -1,10 +1,33 @@
 <script lang="ts">
-	// TODO: Wire to viewStateService.showDropZone + drag-n-drop service
-	let showDropZone = $state(false);
+	import { viewStateService, dragnDropService } from '../stores/services';
+
+	function onDragOver(e: DragEvent) {
+		e.preventDefault();
+		viewStateService.showDropZone = true;
+	}
+
+	function onDragLeave() {
+		viewStateService.showDropZone = false;
+	}
+
+	function onDrop(e: DragEvent) {
+		e.preventDefault();
+		viewStateService.showDropZone = false;
+		if (e.dataTransfer?.files) {
+			dragnDropService.handleDrop(e.dataTransfer.files);
+		}
+	}
 </script>
 
-{#if showDropZone}
-<div class="drop-zone">
+<svelte:window on:dragover={onDragOver} />
+
+{#if viewStateService.showDropZone}
+<div class="drop-zone"
+	ondragleave={onDragLeave}
+	ondrop={onDrop}
+	role="region"
+	aria-label="Drop zone"
+>
 	<div class="drop-zone-text">Drop audio/annotation files here</div>
 </div>
 {/if}

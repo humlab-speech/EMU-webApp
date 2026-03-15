@@ -4,8 +4,8 @@
 
 {#if open}
 <div class="grazer-progress-bar">
-	<div class="progress-text">{txt}</div>
 	<div class="progress-spinner"></div>
+	<div class="progress-text">{txt}</div>
 </div>
 {/if}
 

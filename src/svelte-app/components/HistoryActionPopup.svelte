@@ -1,11 +1,9 @@
 <script lang="ts">
-	// TODO: Wire to viewStateService.historyActionTxt
-	let txt = $state('');
-	let visible = $derived(txt.length > 0);
+	import { viewStateService } from '../stores/services';
 </script>
 
-{#if visible}
-<div class="history-popup">{txt}</div>
+{#if viewStateService.historyActionTxt}
+<div class="history-popup">{viewStateService.historyActionTxt}</div>
 {/if}
 
 <style>
