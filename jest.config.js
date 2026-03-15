@@ -27,5 +27,6 @@ module.exports = {
     '\\.worker\\.[jt]s$': '<rootDir>/test/mocks/worker-mock.js',
     '\\.(woff2?|ttf|eot|svg)$': '<rootDir>/test/mocks/style-mock.js'
   },
+  globalSetup: '<rootDir>/test/jest-global-setup.js',
   setupFilesAfterEnv: ['<rootDir>/test/jest-setup.js']
 };
