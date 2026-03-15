@@ -359,7 +359,8 @@ export class LevelService{
 	*/
 	public deleteEditArea() {
 		if (null !== this.getlasteditArea()) {
-			$('.' + this.getlasteditArea()).remove();
+			const el = document.querySelector('.' + this.getlasteditArea());
+			if (el) el.remove();
 		}
 		this.ViewStateService.editing = false;
 		// close large text input field
@@ -486,12 +487,15 @@ export class LevelService{
 		if(typeof this.ConfigProviderService.vals.perspectives[this.ViewStateService.curPerspectiveIdx].levelCanvases.labelFontFamily !== 'undefined'){
 			cssObj['font-family'] = this.ConfigProviderService.vals.perspectives[this.ViewStateService.curPerspectiveIdx].levelCanvases.labelFontFamily;
 		}
-		element.prepend($('<textarea>').attr({
-			id: textid,
-			'class': textid + ' grazer-label-edit',
-			'ng-model': 'message',
-			'autofocus': 'true'
-		}).css(cssObj).text(label));
+		const ta = document.createElement('textarea');
+		ta.id = textid;
+		ta.className = textid + ' grazer-label-edit';
+		ta.setAttribute('autofocus', 'true');
+		ta.textContent = label;
+		for (const [prop, val] of Object.entries(cssObj)) {
+			ta.style.setProperty(prop, val as string);
+		}
+		element.prepend(ta);
 	};
 	
 	/**

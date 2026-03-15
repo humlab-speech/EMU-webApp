@@ -35,36 +35,43 @@ export class HandleGlobalKeyStrokes{
      */
     public bindGlobalKeys (){
         // Remove any previous bindings first to prevent accumulation on re-init
-        $(document).off('.emuGlobalKeys');
+        this.dispose();
 
-        $(document).on('keyup.emuGlobalKeys', (e) => {
+        this._onKeyUp = (e: KeyboardEvent) => {
             var code = (e.keyCode ? e.keyCode : e.which);
             if (this.ViewStateService.isEditing() && !this.ViewStateService.getcursorInTextField()) {
                 this.applyKeyCodeUp(code);
             }
-        });
+        };
 
-        $(document).on('keydown.emuGlobalKeys', (e) => {
+        this._onKeyDown = (e: KeyboardEvent) => {
             var code = (e.keyCode ? e.keyCode : e.which);
             if (code === 8 || code === 9 || code === 27 || code === 37 || code === 38 || code === 39 || code === 40 || code === 32) {
                 this.applyKeyCode(code, e);
             }
-        });
+        };
 
-        $(document).on('keypress.emuGlobalKeys', (e) => {
+        this._onKeyPress = (e: KeyboardEvent) => {
             var code = (e.keyCode ? e.keyCode : e.which);
             this.applyKeyCode(code, e);
-        });
+        };
 
-        // Cleanup handler — call dispose() to remove event listeners
-        this._cleanup = () => $(document).off('.emuGlobalKeys');
+        document.addEventListener('keyup', this._onKeyUp);
+        document.addEventListener('keydown', this._onKeyDown);
+        document.addEventListener('keypress', this._onKeyPress);
+
+        this._cleanup = () => {
+            document.removeEventListener('keyup', this._onKeyUp);
+            document.removeEventListener('keydown', this._onKeyDown);
+            document.removeEventListener('keypress', this._onKeyPress);
+        };
     }
 
     private applyKeyCodeUp (code) {
         scheduleUpdate(() => {
             if (code !== this.ConfigProviderService.vals.keyMappings.esc && code !== this.ConfigProviderService.vals.keyMappings.createNewItemAtSelection) {
-                var domElement = $('.' + this.LevelService.getlasteditArea()) as any;
-                var str = domElement.val();
+                var domElement = document.querySelector('.' + this.LevelService.getlasteditArea()) as HTMLTextAreaElement | null;
+                var str = domElement ? domElement.value : '';
                 this.ViewStateService.setSavingAllowed(true);
                 var curAttrIndex = this.ViewStateService.getCurAttrIndex(this.ViewStateService.getcurClickLevelName());
                 var lvlDefs = this.ConfigProviderService.getLevelDefinition(this.ViewStateService.getcurClickLevelName());
@@ -314,7 +321,7 @@ export class HandleGlobalKeyStrokes{
     }
 
     private handleEditCommitOrReject(e) {
-        var domElement = $('.' + this.LevelService.getlasteditArea()) as any;
+        var domElement = document.querySelector('.' + this.LevelService.getlasteditArea()) as HTMLTextAreaElement | null;
         var levelName = this.ViewStateService.getcurClickLevelName();
         var attrIndex = this.ViewStateService.getCurAttrIndex(levelName);
 
@@ -335,7 +342,7 @@ export class HandleGlobalKeyStrokes{
         }
         var newValue = this.ConfigProviderService.vals.restrictions.useLargeTextInputField
             ? this.ViewStateService.largeTextFieldInputFieldCurLabel
-            : domElement.val();
+            : (domElement ? domElement.value : '');
 
         this.LevelService.renameLabel(levelName, this.LevelService.getlastID(), attrIndex, newValue);
         this.HistoryService.addObjToUndoStack({
