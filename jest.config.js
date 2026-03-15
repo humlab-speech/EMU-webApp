@@ -10,7 +10,8 @@ module.exports = {
     '<rootDir>/test/spec/services/**/*.spec.js',
     '<rootDir>/test/spec/services/**/mathhelperservice.js',
     '<rootDir>/test/spec/filters/**/*.spec.js',
-    '<rootDir>/test/spec/workers/Wavparserservice.spec.js'
+    '<rootDir>/test/spec/workers/Wavparserservice.spec.js',
+    '<rootDir>/test/spec/workers/WavRangeReqWorker.spec.js'
   ],
   testPathIgnorePatterns: [
     '/node_modules/',

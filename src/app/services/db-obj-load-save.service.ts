@@ -11,7 +11,7 @@ import { httpGet } from '../util/http-get';
 * Service in grazer.
 */
 class DbObjLoadSaveService{
-	
+
 	private DataService;
 	private ViewStateService;
 	private HistoryService;
@@ -28,7 +28,7 @@ class DbObjLoadSaveService{
 	private ConfigProviderService;
 	private AppStateService;
 	private StandardFuncsService;
-	
+
 	constructor(DataService, ViewStateService, HistoryService, LoadedMetaDataService, SsffDataService, IoHandlerService, BinaryDataManipHelperService, WavParserService, SoundHandlerService, SsffParserService, ValidationService, LevelService, ModalService, ConfigProviderService, AppStateService, StandardFuncsService){
 		this.DataService = DataService;
 		this.ViewStateService = ViewStateService;
@@ -46,9 +46,9 @@ class DbObjLoadSaveService{
 		this.ConfigProviderService = ConfigProviderService;
 		this.AppStateService = AppStateService;
 		this.StandardFuncsService = StandardFuncsService;
-		
+
 	}
-	
+
 	private innerLoadBundle(bndl, bundleData, arrBuff): Promise<void> {
 		this.ViewStateService.somethingInProgressTxt = 'Parsing WAV file...';
 
@@ -116,6 +116,147 @@ class DbObjLoadSaveService{
 				this.AppStateService.resetToInitState();
 			});
 		});
+	}
+
+	/**
+	* Load audio via HTTP Range requests for large file support.
+	* Uses WavRangeReq to probe the header, then loads chunks progressively.
+	*/
+	private async loadBundleWithStreaming(bndl, bundleData): Promise<void> {
+		var audioUrl = bundleData.mediaFile.data;
+		this.ViewStateService.somethingInProgressTxt = 'Probing audio header...';
+
+		try {
+			var rangeReq = new WavRangeReq();
+			await rangeReq.setURL(audioUrl);
+			var fileInfo = await rangeReq.getWavFileInfo();
+			var totalSamples = fileInfo.lastSampleBlockIdx + 1;
+			var sampleRate = fileInfo.headerInfos.SampleRate;
+			var chunkDuration = this.ConfigProviderService.vals.main.streamingChunkDurationSeconds || 30;
+			var chunkSamples = sampleRate * chunkDuration;
+
+			// Load first chunk immediately
+			var firstChunkEnd = Math.min(chunkSamples - 1, fileInfo.lastSampleBlockIdx);
+			this.ViewStateService.somethingInProgressTxt = 'Loading audio (chunk 1)...';
+			var firstRange = await rangeReq.getRange(0, firstChunkEnd);
+
+			// Decode first chunk via WavParserService (range.buffer is a complete WAV)
+			var firstResult = await this.WavParserService.parseWavAudioBuf(firstRange.buffer);
+			var audioBuffer = firstResult.audioBuffer;
+
+			// Set viewport to full file extent (not just loaded chunk)
+			this.ViewStateService.curViewPort.sS = 0;
+			this.ViewStateService.curViewPort.eS = totalSamples;
+			if(bndl.timeAnchors !== undefined && bndl.timeAnchors.length > 0){
+				this.ViewStateService.curViewPort.selectS = bndl.timeAnchors[0].sample_start;
+				this.ViewStateService.curViewPort.selectE = bndl.timeAnchors[0].sample_end;
+			}else {
+				this.ViewStateService.resetSelect();
+			}
+			this.ViewStateService.curTimeAnchorIdx = -1;
+			this.ViewStateService.curClickSegments = [];
+			this.ViewStateService.curClickLevelName = undefined;
+			this.ViewStateService.curClickLevelType = undefined;
+
+			this.SoundHandlerService.audioBuffer = audioBuffer;
+			this.SoundHandlerService.playbackBuffer = firstResult.playbackBuffer;
+
+			// Load remaining chunks in background if file has more data
+			if(firstChunkEnd < fileInfo.lastSampleBlockIdx){
+				this.loadRemainingChunks(rangeReq, fileInfo, firstChunkEnd + 1, chunkSamples, audioBuffer);
+			}
+
+			// Continue with SSFF files and annotation (same as innerLoadBundle)
+			var promises = [];
+			bundleData.ssffFiles.forEach((file) => {
+				if(file.encoding === 'GETURL'){
+					file.data = this.IoHandlerService.httpGetPath(file.data, 'arraybuffer');
+					promises.push(file.data);
+					file.encoding = 'ARRAYBUFFER';
+				}
+			});
+			if(promises.length === 0){
+				promises.push(Promise.resolve());
+			}
+
+			var res = await Promise.all(promises);
+			for(var i = 0; i < res.length; i++){
+				if(res[i] !== undefined){
+					bundleData.ssffFiles[i].data = res[i];
+				}
+			}
+			this.ViewStateService.somethingInProgressTxt = 'Parsing SSFF files...';
+			var ssffJso = await this.SsffParserService.asyncParseSsffArr(bundleData.ssffFiles);
+			this.SsffDataService.data = ssffJso.data;
+			this.DataService.setData(bundleData.annotation);
+			this.LoadedMetaDataService.setCurBndl(bndl);
+			this.ViewStateService.selectLevel(false, this.ConfigProviderService.vals.perspectives[this.ViewStateService.curPerspectiveIdx].levelCanvases.order, this.LevelService);
+			this.ViewStateService.setState('labeling');
+			this.ViewStateService.somethingInProgress = false;
+			this.ViewStateService.somethingInProgressTxt = 'Done!';
+		} catch(err) {
+			var errMsg = err && err.status ? err.status.message : (err && err.message ? err.message : JSON.stringify(err));
+			this.ModalService.open('views/error.html', 'Error streaming audio: ' + errMsg).then(() => {
+				this.AppStateService.resetToInitState();
+			});
+		}
+	}
+
+	/**
+	* Background progressive loading of remaining audio chunks.
+	* Each chunk is decoded and its samples are merged into the existing AudioBuffer.
+	*/
+	private async loadRemainingChunks(rangeReq, fileInfo, startSample, chunkSamples, existingBuffer) {
+		var totalSamples = fileInfo.lastSampleBlockIdx + 1;
+		var chunkIdx = 1;
+		var totalChunks = Math.ceil((totalSamples - startSample) / chunkSamples) + 1;
+
+		for(var s = startSample; s <= fileInfo.lastSampleBlockIdx; s += chunkSamples){
+			chunkIdx++;
+			var endSample = Math.min(s + chunkSamples - 1, fileInfo.lastSampleBlockIdx);
+			this.ViewStateService.somethingInProgressTxt = 'Loading audio (chunk ' + chunkIdx + '/' + totalChunks + ')...';
+
+			try {
+				var range = await rangeReq.getRange(s, endSample);
+				var result = await this.WavParserService.parseWavAudioBuf(range.buffer);
+				var chunkBuffer = result.audioBuffer;
+
+				// Merge chunk into existing buffer by creating a new combined buffer
+				var merged = this.mergeAudioBuffers(existingBuffer, chunkBuffer, s);
+				this.SoundHandlerService.audioBuffer = merged;
+				this.SoundHandlerService.playbackBuffer = null;
+				existingBuffer = merged;
+			} catch(err) {
+				console.error('Error loading audio chunk at sample ' + s + ':', err);
+				break;
+			}
+		}
+		this.ViewStateService.somethingInProgressTxt = 'Done!';
+		this.ViewStateService.somethingInProgress = false;
+	}
+
+	/**
+	* Create a new AudioBuffer that contains existing data plus new chunk data
+	* inserted at the specified sample offset.
+	*/
+	private mergeAudioBuffers(existing, chunk, insertAtSample) {
+		var totalLength = Math.max(existing.length, insertAtSample + chunk.length);
+		var numChannels = existing.numberOfChannels;
+		var ctx = new OfflineAudioContext(numChannels, totalLength, existing.sampleRate);
+		var merged = ctx.createBuffer(numChannels, totalLength, existing.sampleRate);
+
+		for(var ch = 0; ch < numChannels; ch++){
+			var mergedData = merged.getChannelData(ch);
+			// Copy existing data
+			var existingData = existing.getChannelData(ch);
+			mergedData.set(existingData, 0);
+			// Overlay chunk data at offset
+			if(ch < chunk.numberOfChannels){
+				var chunkData = chunk.getChannelData(ch);
+				mergedData.set(chunkData, insertAtSample);
+			}
+		}
+		return merged;
 	}
 
 	///////////////////
@@ -186,6 +327,10 @@ class DbObjLoadSaveService{
 							arrBuff = this.BinaryDataManipHelperService.base64ToArrayBuffer(bundleData.mediaFile.data);
 							return this.innerLoadBundle(bndl, bundleData, arrBuff);
 						}else if(bundleData.mediaFile.encoding === 'GETURL'){
+							// Use streaming if enabled
+							if(this.ConfigProviderService.vals.main.streamingEnabled){
+								return this.loadBundleWithStreaming(bndl, bundleData);
+							}
 							return this.IoHandlerService.httpGetPath(bundleData.mediaFile.data, 'arraybuffer').then((res) => {
 								if(res.status === 200){
 									res = res.data;
@@ -220,8 +365,8 @@ class DbObjLoadSaveService{
 			return Promise.resolve();
 		}
 	};
-	
-	
+
+
 	/**
 	* general purpose save bundle function.
 	* @return promise that is resolved after completion (rejected on error)
@@ -259,8 +404,8 @@ class DbObjLoadSaveService{
 		}
 
 	};
-	
-	
+
+
 	/**
 	*
 	*/
@@ -331,7 +476,7 @@ class DbObjLoadSaveService{
 			});
 		}
 	};
-	
+
 }
 
 angular.module('grazer')
