@@ -20,7 +20,6 @@ import "./components";
 import "./controllers";
 import "./directives";
 import "./filters";
-import "./polyfills";
 import "./prototypeexpansions";
 import "./services";
 

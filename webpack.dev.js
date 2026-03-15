@@ -13,7 +13,7 @@ module.exports = merge(common, {
     ]
   },
   devServer: {
-    contentBase: './src',
+    static: './src',
     port: 9000
   }
   // optimization: {
