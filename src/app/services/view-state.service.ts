@@ -1185,8 +1185,8 @@ class ViewStateService{
 	*
 	*/
 	public getSamplesPerPixelVal(event) {
-		var start = parseFloat(this.curViewPort.sS);
-		var end = parseFloat(this.curViewPort.eS);
+		var start = this.curViewPort.sS;
+		var end = this.curViewPort.eS;
 		var evt = event.originalEvent || event;
 		return (end - start) / evt.target.width;
 	};

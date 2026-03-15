@@ -163,10 +163,11 @@ class DbObjLoadSaveService{
 				this.ViewStateService.somethingInProgressTxt = 'Loading bundle: ' + bndl.name;
 				// empty ssff files
 				this.SsffDataService.data = [];
+				let promise;
 				if(!url){
-					var promise = this.IoHandlerService.getBundle(bndl.name, bndl.session, this.LoadedMetaDataService.getDemoDbName());
+					promise = this.IoHandlerService.getBundle(bndl.name, bndl.session, this.LoadedMetaDataService.getDemoDbName());
 				}else{
-					var promise = httpGet(url);
+					promise = httpGet(url);
 				}
 				return promise.then(async (bundleData) => {
 					// check if response from http request

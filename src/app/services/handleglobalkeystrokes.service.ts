@@ -388,7 +388,7 @@ class HandleGlobalKeyStrokes{
         this.dispatchExpandShrinkAction(code, km);
 
         // Main action map — key code → handler
-        var actionMap = this.createMainActionMap(km, e);
+        var actionMap = this.createMainActionMap(km, e, code);
         var action = actionMap[code];
         if (action) action();
 
@@ -406,7 +406,7 @@ class HandleGlobalKeyStrokes{
         }
     }
 
-    private createMainActionMap(km, e) {
+    private createMainActionMap(km, e, code) {
         var perspectiveOrder = this.ConfigProviderService.vals.perspectives[this.ViewStateService.curPerspectiveIdx].levelCanvases.order;
         return {
             [km.esc]: () => {

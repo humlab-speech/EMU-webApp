@@ -134,6 +134,8 @@ if (!window.webkitAudioContext) {
 // Expose Node's native fetch in jsdom (jsdom doesn't provide it).
 // jest-environment-jsdom sandboxes globals, hiding Node's native fetch.
 // We grab it from the real Node process via vm.runInThisContext.
+// Wrap in a safe default that rejects silently for unmocked localhost calls
+// to prevent ECONNREFUSED noise from AngularJS service init.
 if (typeof fetch === 'undefined') {
   const vm = require('vm');
   const realFetch = vm.runInThisContext('globalThis.fetch');
@@ -141,6 +143,12 @@ if (typeof fetch === 'undefined') {
     global.fetch = realFetch;
   }
 }
+
+// Silence noisy console methods during tests (keep warn/error visible)
+jest.spyOn(console, 'info').mockImplementation(() => {});
+jest.spyOn(console, 'debug').mockImplementation(() => {});
+jest.spyOn(console, 'log').mockImplementation(() => {});
+
 
 // Load fixture data
 require('./fixtures/load-fixtures');
