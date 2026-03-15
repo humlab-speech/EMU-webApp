@@ -6,6 +6,7 @@
 	import HistoryActionPopup from './components/HistoryActionPopup.svelte';
 	import DropZone from './components/DropZone.svelte';
 	import Modal from './components/Modal.svelte';
+	import SignalArea from './components/SignalArea.svelte';
 	import {
 		initServices,
 		viewStateService,
@@ -447,12 +448,7 @@
 
 		<div class="grazer-canvas">
 			<HistoryActionPopup />
-			<!-- Signal canvases (osci, spectrogram, ssff tracks) will go here in Phase 3 -->
-			<div class="grazer-signal-area">
-				<p style="color: #666; text-align: center; padding: 2em;">
-					Canvas components will be ported in Phase 3
-				</p>
-			</div>
+			<SignalArea />
 		</div>
 
 		<BottomMenu />
@@ -487,11 +483,6 @@
 		flex: 1;
 		position: relative;
 		overflow: hidden;
-	}
-
-	.grazer-signal-area {
-		width: 100%;
-		height: 100%;
 	}
 
 	.printTitle {
