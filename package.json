@@ -11,6 +11,7 @@
     "url": "https://github.com/humlab-speech/grazer"
   },
   "dependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
     "@types/jquery": "^3.3.33",
     "@types/node": "^13.7.6",
     "angular": "^1.8.0",
@@ -28,7 +29,9 @@
     "jquery": "^3.5.0",
     "rxjs": "^6.0.0",
     "showdown": "^1.9.1",
-    "tv4": "~1.0.17"
+    "svelte": "^5.53.12",
+    "tv4": "~1.0.17",
+    "vite": "^8.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
@@ -36,6 +39,7 @@
     "@babel/preset-env": "^7.29.0",
     "@babel/preset-typescript": "^7.28.5",
     "@material/button": "^5.1.0",
+    "@testing-library/svelte": "^5.3.1",
     "@types/jest": "^29.5.14",
     "angular-mocks": "^1.8.0",
     "autoprefixer": "^6.5.3",
@@ -68,7 +72,8 @@
     "time-grunt": "^1.0.0",
     "ts-jest": "^29.4.6",
     "ts-loader": "^6.2.1",
-    "typescript": "^3.8.2",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.0",
     "wav-range-requests": "git+https://git@github.com/IPS-LMU/wav-range-requests.git",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",
@@ -92,12 +97,16 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "start": "webpack-dev-server --open --config webpack.dev.js",
+    "dev": "vite",
+    "build:svelte": "vite build",
+    "preview": "vite preview",
+    "start:legacy": "webpack-dev-server --open --config webpack.dev.js",
     "start:iframe-demo": "http-server iframe-demo --cors -p 7283 -c-1",
-    "build": "rimraf dist/* && webpack --config webpack.prod.js",
+    "build:legacy": "rimraf dist/* && webpack --config webpack.prod.js",
     "build-docker-image": "docker build --no-cache -t visp-emu-webapp ../",
     "build-start": "rimraf dist/* && webpack --config webpack.prod.js && serve -l 9000 ./dist/",
     "test": "npm run test:jest && npm run test:karma",
+    "test:vitest": "vitest run",
     "test:jest": "jest",
     "test:workers": "jest --config=jest.workers.config.js",
     "test:karma": "CHROME_BIN=\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" karma start test/karma.conf.js"

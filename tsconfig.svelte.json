@@ -1,0 +1,26 @@
+{
+	"compilerOptions": {
+		"target": "ES2020",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"strict": true,
+		"declaration": false,
+		"sourceMap": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+		"baseUrl": ".",
+		"paths": {
+			"@core/*": ["src/core/*"]
+		},
+		"types": ["svelte", "vite/client"]
+	},
+	"include": [
+		"src/core/**/*.ts",
+		"src/svelte-app/**/*.ts",
+		"src/svelte-app/**/*.svelte"
+	]
+}
