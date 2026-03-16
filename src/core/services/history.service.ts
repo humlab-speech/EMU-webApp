@@ -328,7 +328,7 @@ export class HistoryService {
 		// empty redo stack
 		this.redoStack = [];
 		// add to undoStack
-		if (!$.isEmptyObject(this.curChangeObj)) {
+		if (Object.keys(this.curChangeObj).length > 0) {
 			this.undoStack.push(this.curChangeObj);
 			this.movesAwayFromLastSave += 1;
 			this.PublisherService.publishUnsavedBundleToParentWindow();
@@ -347,7 +347,7 @@ export class HistoryService {
 		var dataKey = String(obj.type + '#' + obj.action + '#' + obj.name + '#' + obj.id);
 		tmpObj[dataKey] = deepCopy(obj);
 		// add to undoStack
-		if (!$.isEmptyObject(tmpObj)) {
+		if (Object.keys(tmpObj).length > 0) {
 			this.undoStack.push(tmpObj);
 			this.movesAwayFromLastSave += 1;
 			this.PublisherService.publishUnsavedBundleToParentWindow();

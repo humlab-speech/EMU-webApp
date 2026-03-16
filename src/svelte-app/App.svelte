@@ -31,6 +31,7 @@
 		handleGlobalKeystrokesService,
 		hierarchyLayoutService,
 	} from './stores/services';
+	import { getTick, invalidate } from './stores/app-state.svelte';
 	import { eventBus } from '../core/util/event-bus';
 	import { safeGetItem, safeSetItem } from '../core/util/safe-storage';
 	import { styles } from '../core/util/styles';
@@ -126,11 +127,15 @@
 	// --- Core init logic ported from grazer.component.ts ---
 
 	function loadDefaultConfig() {
+		console.log('[grazer] loadDefaultConfig called');
 		viewStateService.somethingInProgress = true;
 		viewStateService.somethingInProgressTxt = 'Loading schema files';
+		invalidate();
 		validationService.loadSchemas().then((replies: any) => {
+			console.log('[grazer] schemas loaded:', replies.length);
 			validationService.setSchemas(replies);
 			ioHandlerService.httpGetDefaultConfig().then((response: any) => {
+				console.log('[grazer] config loaded');
 				viewStateService.somethingInProgressTxt = 'Validating grazerConfig';
 				const validRes = validationService.validateJSO('grazerConfigSchema', response.data);
 				if (validRes === true) {
@@ -140,20 +145,27 @@
 					loadFilesForEmbeddedApp();
 					checkIfToShowWelcomeModal();
 					viewStateService.somethingInProgress = false;
+					invalidate();
 				} else {
 					modalService.open('views/error.html', 'Error validating / checking grazerConfigSchema: ' + JSON.stringify(validRes, null, 4)).then(() => {
 						appStateService.resetToInitState();
+						invalidate();
 					});
+					invalidate();
 				}
 			}, (response: any) => {
 				modalService.open('views/error.html', 'Could not get defaultConfig for grazer: status: ' + response.status).then(() => {
 					appStateService.resetToInitState();
+					invalidate();
 				});
+				invalidate();
 			});
 		}, (errMess: any) => {
 			modalService.open('views/error.html', 'Error loading schema file: ' + JSON.stringify(errMess, null, 4)).then(() => {
 				appStateService.resetToInitState();
+				invalidate();
 			});
+			invalidate();
 		});
 	}
 
@@ -428,6 +440,11 @@
 			}, 3000);
 		}
 	}
+
+	// Reactive bridge
+	let somethingInProgress = $derived(getTick() >= 0 && viewStateService.somethingInProgress);
+	let somethingInProgressTxt = $derived(getTick() >= 0 ? viewStateService.somethingInProgressTxt : '');
+	let curBndlName = $derived(getTick() >= 0 ? loadedMetaDataService.getCurBndlName() : '');
 </script>
 
 <svelte:window on:resize={onResize} on:keyup={onKeyup} on:beforeunload={onBeforeUnload} />
@@ -446,11 +463,11 @@
 
 	<div class="grazer-window" id="mainWindow">
 		<ProgressBar
-			open={viewStateService.somethingInProgress}
-			txt={viewStateService.somethingInProgressTxt}
+			open={somethingInProgress}
+			txt={somethingInProgressTxt}
 		/>
 
-		<div class="printTitle">grazer : {loadedMetaDataService.getCurBndlName()}</div>
+		<div class="printTitle">grazer : {curBndlName}</div>
 
 		<TopMenu />
 

@@ -140,9 +140,23 @@
 		startSample = -1;
 	}
 
+	function syncCanvasSize(c: HTMLCanvasElement) {
+		if (!c) return;
+		const rect = c.getBoundingClientRect();
+		const dpr = window.devicePixelRatio || 1;
+		const w = Math.round(rect.width * dpr);
+		const h = Math.round(rect.height * dpr);
+		if (c.width !== w || c.height !== h) {
+			c.width = w;
+			c.height = h;
+		}
+	}
+
 	$effect(() => {
 		const _tick = getTick();
 		if (!canvas || !markupCanvas) return;
+		syncCanvasSize(canvas);
+		syncCanvasSize(markupCanvas);
 
 		// Detect bundle change: reset envelope flag
 		const curName = viewStateService.curViewPort?.bundleName;
@@ -174,8 +188,8 @@
 	ontouchmove={handleTouchMove}
 	ontouchend={handleTouchEnd}
 >
-	<canvas bind:this={canvas} width="4096" height="128" class="grazer-preview-canvas" style="background: #000; border: 1px solid gray; width: 100%; height: 100%;"></canvas>
-	<canvas bind:this={markupCanvas} width="4096" height="128" class="grazer-preview-canvas-markup" style="width: 100%; height: 100%;"></canvas>
+	<canvas bind:this={canvas} class="grazer-preview-canvas" style="background: #000; border: 1px solid gray; width: 100%; height: 100%;"></canvas>
+	<canvas bind:this={markupCanvas} class="grazer-preview-canvas-markup" style="width: 100%; height: 100%;"></canvas>
 </div>
 
 <style>

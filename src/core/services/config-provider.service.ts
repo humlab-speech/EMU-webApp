@@ -69,7 +69,7 @@ export class ConfigProviderService {
 	}
 
 	setVals(data) {
-		if ($.isEmptyObject(this.vals)) {
+		if (this.vals == null || Object.keys(this.vals).length === 0) {
 			this.vals = data;
 		} else {
 			Object.keys(data).forEach((key1) => {

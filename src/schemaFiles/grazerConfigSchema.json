@@ -19,6 +19,15 @@
 				},
 				"catchMouseForKeyBinding": {
 					"type": "boolean"
+				},
+				"streamingEnabled": {
+					"type": "boolean"
+				},
+				"streamingChunkDurationSeconds": {
+					"type": "number"
+				},
+				"streamingMaxChunkBytes": {
+					"type": "integer"
 				}
 			},
 			"additionalProperties": false

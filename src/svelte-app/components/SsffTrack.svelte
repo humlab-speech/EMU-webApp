@@ -370,9 +370,24 @@
 		e.preventDefault();
 	}
 
+	function syncCanvasSize(c: HTMLCanvasElement) {
+		if (!c) return;
+		const rect = c.getBoundingClientRect();
+		const dpr = window.devicePixelRatio || 1;
+		const w = Math.round(rect.width * dpr);
+		const h = Math.round(rect.height * dpr);
+		if (c.width !== w || c.height !== h) {
+			c.width = w;
+			c.height = h;
+		}
+	}
+
 	$effect(() => {
 		const _tick = getTick();
 		if (!mainCanvas || !ssffCanvas || !markupCanvas) return;
+		syncCanvasSize(mainCanvas);
+		syncCanvasSize(ssffCanvas);
+		syncCanvasSize(markupCanvas);
 		drawSsffData();
 		drawMarkup();
 	});
@@ -380,17 +395,15 @@
 
 <div class="grazer-timeline">
 	<div class="grazer-timelineCanvasContainer">
-		<canvas bind:this={mainCanvas} class="grazer-timelineCanvasMain" width="4096"></canvas>
+		<canvas bind:this={mainCanvas} class="grazer-timelineCanvasMain"></canvas>
 		<canvas
 			bind:this={ssffCanvas}
 			class="grazer-timelineCanvasSSFF"
-			width="4096"
-		></canvas>
+					></canvas>
 		<canvas
 			bind:this={markupCanvas}
 			class="grazer-timelineCanvasMarkup"
-			width="4096"
-			role="presentation"
+						role="presentation"
 			onmousedown={handleMouseDown}
 			onmouseup={handleMouseUp}
 			onmousemove={handleMouseMove}
@@ -402,41 +415,3 @@
 	</div>
 </div>
 
-<style>
-	.grazer-timeline {
-		position: relative;
-		width: 100%;
-		height: 100%;
-	}
-
-	.grazer-timelineCanvasContainer {
-		position: relative;
-		width: 100%;
-		height: 100%;
-	}
-
-	.grazer-timelineCanvasMain {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background: #000;
-	}
-
-	.grazer-timelineCanvasSSFF {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-	}
-
-	.grazer-timelineCanvasMarkup {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

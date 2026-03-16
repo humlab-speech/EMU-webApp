@@ -306,8 +306,21 @@
 
 	// --- lifecycle ---
 
+	function syncCanvasSize() {
+		if (!canvas) return;
+		const rect = canvas.getBoundingClientRect();
+		const dpr = window.devicePixelRatio || 1;
+		const w = Math.round(rect.width * dpr);
+		const h = Math.round(rect.height * dpr);
+		if (canvas.width !== w || canvas.height !== h) {
+			canvas.width = w;
+			canvas.height = h;
+		}
+	}
+
 	onMount(() => {
 		ctx = canvas.getContext('2d')!;
+		syncCanvasSize();
 		// update formant track on bundle load
 		if (!isEmptyObj(ssffDataService.data) && ssffDataService.data.length !== 0) {
 			formantCorrectionTrack = configProviderService.getSsffTrackConfig('FORMANTS');
@@ -318,6 +331,7 @@
 	$effect(() => {
 		getTick();
 		if (ctx && !isEmptyObj(soundHandlerService.audioBuffer)) {
+			syncCanvasSize();
 			drawMarkup();
 		}
 	});
@@ -326,7 +340,6 @@
 <canvas
 	bind:this={canvas}
 	class="grazer-timelineCanvasMarkup"
-	width="4096"
 	onmousedown={onMouseDown}
 	onmouseup={onMouseUp}
 	onmousemove={onMouseMove}
@@ -336,14 +349,3 @@
 	ontouchend={onTouchEnd}
 ></canvas>
 
-<style>
-	.grazer-timelineCanvasMarkup {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		z-index: 2;
-		cursor: crosshair;
-	}
-</style>

@@ -230,12 +230,28 @@
 	// --- resize handling ---
 	let resizeObserver: ResizeObserver | undefined;
 
+	function syncCanvasSize() {
+		if (!canvas) return;
+		const rect = canvas.getBoundingClientRect();
+		const dpr = window.devicePixelRatio || 1;
+		const w = Math.round(rect.width * dpr);
+		const h = Math.round(rect.height * dpr);
+		if (w > 0 && h > 0 && (canvas.width !== w || canvas.height !== h)) {
+			canvas.width = w;
+			canvas.height = h;
+		}
+	}
+
 	onMount(() => {
 		ctx = canvas.getContext('2d')!;
-		levelDef = configProviderService.getLevelDefinition(level.name);
+		if (level?.name) {
+			levelDef = configProviderService.getLevelDefinition(level.name);
+		}
+		syncCanvasSize();
 		drawLevelDetails();
 
 		resizeObserver = new ResizeObserver(() => {
+			syncCanvasSize();
 			drawLevelDetails();
 		});
 		resizeObserver.observe(canvas);
@@ -248,9 +264,13 @@
 	// reactive redraw
 	$effect(() => {
 		getTick();
-		if (ctx) {
-			drawLevelDetails();
+		if (!canvas) return;
+		if (!ctx) ctx = canvas.getContext('2d')!;
+		if (!levelDef && level?.name) {
+			levelDef = configProviderService.getLevelDefinition(level.name);
 		}
+		syncCanvasSize();
+		drawLevelDetails();
 	});
 </script>
 
@@ -259,9 +279,6 @@
 		<canvas
 			bind:this={canvas}
 			class="grazer-level-canvas"
-			width="4096"
-			height="256"
-			style="background: #000;"
 		></canvas>
 		<LevelCanvasMarkup {level} {idx} />
 	</div>

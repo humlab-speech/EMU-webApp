@@ -15,8 +15,21 @@
 	let ctx: CanvasRenderingContext2D;
 	let assignmentTrackName = '';
 
+	function syncCanvasSize() {
+		if (!canvas) return;
+		const rect = canvas.getBoundingClientRect();
+		const dpr = window.devicePixelRatio || 1;
+		const w = Math.round(rect.width * dpr);
+		const h = Math.round(rect.height * dpr);
+		if (canvas.width !== w || canvas.height !== h) {
+			canvas.width = w;
+			canvas.height = h;
+		}
+	}
+
 	onMount(() => {
 		ctx = canvas.getContext('2d')!;
+		syncCanvasSize();
 	});
 
 	function drawValues(
@@ -221,18 +234,10 @@
 
 	$effect(() => {
 		getTick();
+		syncCanvasSize();
 		handleUpdate();
 	});
 </script>
 
-<canvas bind:this={canvas} class="grazer-timelineCanvasSSFF" width="4096"></canvas>
+<canvas bind:this={canvas} class="grazer-timelineCanvasSSFF"></canvas>
 
-<style>
-	canvas {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

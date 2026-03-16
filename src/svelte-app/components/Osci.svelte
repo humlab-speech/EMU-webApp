@@ -12,16 +12,25 @@
 
 	let canvas: HTMLCanvasElement;
 
-	onMount(() => {
-		// initial draw handled by first $effect run
-	});
+	function syncCanvasSize() {
+		if (!canvas) return;
+		const rect = canvas.getBoundingClientRect();
+		const dpr = window.devicePixelRatio || 1;
+		const w = Math.round(rect.width * dpr);
+		const h = Math.round(rect.height * dpr);
+		if (canvas.width !== w || canvas.height !== h) {
+			canvas.width = w;
+			canvas.height = h;
+		}
+	}
 
 	$effect(() => {
 		getTick();
 		if (!canvas) return;
+		syncCanvasSize();
 		const sS = viewStateService.curViewPort?.sS;
 		const eS = viewStateService.curViewPort?.eS;
-		if (sS != null && eS != null) {
+		if (sS != null && eS != null && eS > sS) {
 			drawHelperService.freshRedrawDrawOsciOnCanvas(canvas, sS, eS, false);
 		}
 	});
@@ -29,28 +38,8 @@
 
 <div class="grazer-timeline">
 	<div class="grazer-timelineCanvasContainer">
-		<canvas bind:this={canvas} class="grazer-timelineCanvasMain" width="4096"></canvas>
+		<canvas bind:this={canvas} class="grazer-timelineCanvasMain"></canvas>
 		<SsffCanvas {trackName} />
 		<SignalCanvasMarkup {trackName} />
 	</div>
 </div>
-
-<style>
-	.grazer-timeline {
-		position: relative;
-		width: 100%;
-		height: 100%;
-	}
-	.grazer-timelineCanvasContainer {
-		position: relative;
-		width: 100%;
-		height: 100%;
-	}
-	canvas {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

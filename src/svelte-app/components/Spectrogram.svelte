@@ -147,14 +147,22 @@
 	}
 
 	function redraw() {
-		if (!soundHandlerService.audioBuffer) return;
+		if (!soundHandlerService.audioBuffer?.getChannelData) return;
 		const channel = viewStateService.osciSettings?.curChannel ?? 0;
 		drawSpectro(soundHandlerService.audioBuffer.getChannelData(channel));
 	}
 
-	onMount(() => {
-		ctx = canvas.getContext('2d')!;
-	});
+	function syncCanvasSize() {
+		if (!canvas) return;
+		const rect = canvas.getBoundingClientRect();
+		const dpr = window.devicePixelRatio || 1;
+		const w = Math.round(rect.width * dpr);
+		const h = Math.round(rect.height * dpr);
+		if (canvas.width !== w || canvas.height !== h) {
+			canvas.width = w;
+			canvas.height = h;
+		}
+	}
 
 	onDestroy(() => {
 		if (primeWorker !== null) {
@@ -165,36 +173,19 @@
 
 	$effect(() => {
 		getTick();
-		if (!ctx) return;
+		if (!canvas) return;
+		if (!ctx) ctx = canvas.getContext('2d')!;
 		if (!soundHandlerService.audioBuffer) return;
+		syncCanvasSize();
 		redraw();
 	});
 </script>
 
 <div class="grazer-timeline">
 	<div class="grazer-timelineCanvasContainer">
-		<canvas bind:this={canvas} class="grazer-timelineCanvasMain" width="4096"></canvas>
+		<canvas bind:this={canvas} class="grazer-timelineCanvasMain"></canvas>
 		<SsffCanvas {trackName} />
 		<SignalCanvasMarkup {trackName} />
 	</div>
 </div>
 
-<style>
-	.grazer-timeline {
-		position: relative;
-		width: 100%;
-		height: 100%;
-	}
-	.grazer-timelineCanvasContainer {
-		position: relative;
-		width: 100%;
-		height: 100%;
-	}
-	canvas {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

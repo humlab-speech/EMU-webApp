@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getTick, invalidate } from '../stores/app-state.svelte';
 	import {
 		configProviderService,
 		viewStateService,
@@ -92,6 +93,7 @@
 		viewStateService.setState('loadingSaving');
 		configProviderService.vals.main.comMode = 'DEMO';
 		viewStateService.somethingInProgressTxt = 'Loading DB config...';
+		invalidate();
 		ioHandlerService.getDBconfigFile(name).then((res: any) => {
 			viewStateService.curPerspectiveIdx = 0;
 			configProviderService.setVals(res.data.EMUwebAppConfig);
@@ -102,11 +104,14 @@
 				const validRes2 = validationService.validateJSO('DBconfigFileSchema', configProviderService.curDbConfig);
 				if (validRes2 === true) {
 					viewStateService.somethingInProgressTxt = 'Loading bundle list...';
+					invalidate();
 					ioHandlerService.getBundleList(name).then((bRes: any) => {
 						loadedMetaDataService.setBundleList(bRes.data);
 						configProviderService.vals.activeButtons.clear = true;
 						configProviderService.vals.activeButtons.specSettings = true;
-						dbObjLoadSaveService.loadBundle(loadedMetaDataService.getBundleList()[0]);
+						invalidate();
+						const bndl = loadedMetaDataService.getBundleList()[0];
+						dbObjLoadSaveService.loadBundle(bndl);
 					});
 				} else {
 					modalService.open('views/error.html', 'Error validating DBconfig: ' + JSON.stringify(validRes2, null, 4)).then(() => appStateService.resetToInitState());
@@ -114,6 +119,7 @@
 			} else {
 				modalService.open('views/error.html', 'Error validating grazerConfig: ' + JSON.stringify(validRes, null, 4)).then(() => appStateService.resetToInitState());
 			}
+			invalidate();
 		}, (err: any) => {
 			modalService.open('views/error.html', 'Error loading DB config of ' + name + ': ' + err.data).then(() => appStateService.resetToInitState());
 		});
@@ -169,58 +175,64 @@
 	function getUnsavedChangesStyle(): string {
 		return historyService.movesAwayFromLastSave !== 0 ? 'background-color: #f00; color: white;' : '';
 	}
+
+	// Reactive bridge: spread to create new object references so Svelte detects changes
+	let activeButtons = $derived(getTick() >= 0 && configProviderService.vals?.activeButtons ? {...configProviderService.vals.activeButtons} : undefined);
+	let restrictions = $derived(getTick() >= 0 && configProviderService.vals?.restrictions ? {...configProviderService.vals.restrictions} : undefined);
+	let demoDBs = $derived(getTick() >= 0 ? configProviderService.vals?.demoDBs : undefined);
+	let bundleListSideBarDisabled = $derived(getTick() >= 0 ? viewStateService.bundleListSideBarDisabled : true);
 </script>
 
 <div class="grazer-top-menu">
-	{#if configProviderService.vals?.activeButtons?.openMenu && !viewStateService.bundleListSideBarDisabled}
+	{#if activeButtons?.openMenu && !bundleListSideBarDisabled}
 		<button class="grazer-button-icon" id="bundleListSideBarOpen" style="float:left" onclick={toggleSidebar}>
 			<i class="material-icons">menu</i>
 		</button>
 	{/if}
 
-	{#if configProviderService.vals?.activeButtons?.saveBundle && viewStateService.bundleListSideBarDisabled}
+	{#if activeButtons?.saveBundle && bundleListSideBarDisabled}
 		<button class="grazer-mini-btn left" onclick={saveBundle} style="float:left; {getUnsavedChangesStyle()}">
 			<i class="material-icons">save</i> Save
 		</button>
 	{/if}
 
-	{#if configProviderService.vals?.activeButtons?.addLevelSeg}
+	{#if activeButtons?.addLevelSeg}
 		<button class="grazer-mini-btn left"
 			disabled={!viewStateService.getPermission('addLevelSegBtnClick')}
 			onclick={addLevelSeg}>add level (SEG.)</button>
 	{/if}
 
-	{#if configProviderService.vals?.activeButtons?.addLevelEvent}
+	{#if activeButtons?.addLevelEvent}
 		<button class="grazer-mini-btn left"
 			disabled={!viewStateService.getPermission('addLevelPointBtnClick')}
 			onclick={addLevelEvent}>add level (EVENT)</button>
 	{/if}
 
-	{#if configProviderService.vals?.activeButtons?.renameSelLevel}
+	{#if activeButtons?.renameSelLevel}
 		<button class="grazer-mini-btn left"
 			disabled={!viewStateService.getPermission('renameSelLevelBtnClick')}
 			onclick={renameSelLevel}>rename sel. level</button>
 	{/if}
 
-	{#if configProviderService.vals?.activeButtons?.downloadTextGrid}
+	{#if activeButtons?.downloadTextGrid}
 		<button class="grazer-mini-btn left" id="downloadTextgrid"
 			disabled={!viewStateService.getPermission('downloadTextGridBtnClick')}
 			onclick={downloadTextGrid}><i class="material-icons">save</i>TextGrid</button>
 	{/if}
 
-	{#if configProviderService.vals?.activeButtons?.downloadAnnotation}
+	{#if activeButtons?.downloadAnnotation}
 		<button class="grazer-mini-btn left" id="downloadAnnotation"
 			disabled={!viewStateService.getPermission('downloadAnnotationBtnClick')}
 			onclick={downloadAnnotation}><i class="material-icons">save</i>annotJSON</button>
 	{/if}
 
-	{#if configProviderService.vals?.activeButtons?.specSettings}
+	{#if activeButtons?.specSettings}
 		<button class="grazer-mini-btn left" id="spectSettingsBtn"
 			disabled={!viewStateService.getPermission('spectSettingsChange')}
 			onclick={openSettings}><i class="material-icons">settings</i> settings</button>
 	{/if}
 
-	{#if configProviderService.vals?.activeButtons?.openDemoDB}
+	{#if activeButtons?.openDemoDB}
 		<div class="grazer-nav-wrap"
 			onmouseenter={() => dropdown = true}
 			onmouseleave={() => dropdown = false}
@@ -232,7 +244,7 @@
 				onclick={() => dropdown = !dropdown}>open demo <span id="grazer-dropdown-arrow"></span></button>
 			{#if dropdown}
 				<ul class="grazer-dropdown-menu">
-					{#each configProviderService.vals.demoDBs as curDB, i}
+					{#each demoDBs as curDB, i}
 						<li onclick={() => openDemoDB(curDB)} id="demo{i}" role="menuitem">{curDB}</li>
 					{/each}
 				</ul>
@@ -240,25 +252,25 @@
 		</div>
 	{/if}
 
-	{#if configProviderService.vals?.activeButtons?.connect}
+	{#if activeButtons?.connect}
 		<button class="grazer-mini-btn left"
 			disabled={!viewStateService.getPermission('connectBtnClick')}
 			onclick={connectBtn}><i class="material-icons">input</i>connect</button>
 	{/if}
 
-	{#if configProviderService.vals?.activeButtons?.showHierarchy}
+	{#if activeButtons?.showHierarchy}
 		<button class="grazer-mini-btn left" id="showHierarchy"
 			disabled={!viewStateService.getPermission('showHierarchyBtnClick')}
 			onclick={showHierarchy}><i class="material-icons" style="transform: rotate(180deg)">details</i>hierarchy</button>
 	{/if}
 
-	{#if configProviderService.vals?.activeButtons?.search}
+	{#if activeButtons?.search}
 		<button class="grazer-mini-btn left"
 			disabled={!viewStateService.getPermission('searchBtnClick')}
 			onclick={searchBtn}><i class="material-icons">search</i>search</button>
 	{/if}
 
-	{#if configProviderService.vals?.activeButtons?.clear}
+	{#if activeButtons?.clear}
 		<button class="grazer-mini-btn left" id="clear"
 			disabled={!viewStateService.getPermission('clearBtnClick')}
 			onclick={clearBtn}><i class="material-icons">clear_all</i>clear</button>

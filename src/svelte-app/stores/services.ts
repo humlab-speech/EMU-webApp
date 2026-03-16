@@ -105,6 +105,8 @@ export {
 	handleGlobalKeystrokesService,
 };
 
+import { invalidate } from './app-state.svelte';
+
 let initialized = false;
 
 export function initServices() {
@@ -128,6 +130,7 @@ export function initServices() {
 	linkService.initDeps({ DataService: dataService, ConfigProviderService: configProviderService });
 	ssffDataService.initDeps({ SoundHandlerService: soundHandlerService, ConfigProviderService: configProviderService });
 	validationService.initDeps({ ConfigProviderService: configProviderService });
+	loadedMetaDataService.init(validationService);
 
 	// Tier 4
 	levelService.initDeps({
@@ -296,6 +299,61 @@ export function initServices() {
 		DbObjLoadSaveService: dbObjLoadSaveService,
 		BrowserDetectorService: browserDetectorService,
 	});
+
+	// Auto-invalidate Svelte state when key service methods are called from async callbacks.
+	// This replaces AngularJS's digest cycle for promise-based state changes.
+	// invalidate imported at module top
+	const origModalOpen = modalService.open.bind(modalService);
+	modalService.open = function(...args: any[]) {
+		const result = origModalOpen(...args);
+		invalidate();
+		return result;
+	};
+	const origModalClose = modalService.close.bind(modalService);
+	modalService.close = function(...args: any[]) {
+		const result = origModalClose(...args);
+		invalidate();
+		return result;
+	};
+	const origModalConfirm = modalService.confirm.bind(modalService);
+	modalService.confirm = function(...args: any[]) {
+		const result = origModalConfirm(...args);
+		invalidate();
+		return result;
+	};
+	const origModalCloseAndResolve = modalService.closeAndResolve.bind(modalService);
+	modalService.closeAndResolve = function(...args: any[]) {
+		const result = origModalCloseAndResolve(...args);
+		invalidate();
+		return result;
+	};
+	const origResetToInit = appStateService.resetToInitState.bind(appStateService);
+	appStateService.resetToInitState = function(...args: any[]) {
+		const result = origResetToInit(...args);
+		invalidate();
+		return result;
+	};
+
+	// Auto-invalidate dbObjLoadSaveService methods that trigger UI state changes
+	const origLoadBundle = dbObjLoadSaveService.loadBundle.bind(dbObjLoadSaveService);
+	dbObjLoadSaveService.loadBundle = function(...args: any[]) {
+		const result = origLoadBundle(...args);
+		invalidate();
+		// loadBundle is async — invalidate again when the promise resolves
+		if (result && typeof result.then === 'function') {
+			result.then(() => invalidate(), () => invalidate());
+		}
+		return result;
+	};
+	const origSaveBundle = dbObjLoadSaveService.saveBundle.bind(dbObjLoadSaveService);
+	dbObjLoadSaveService.saveBundle = function(...args: any[]) {
+		const result = origSaveBundle(...args);
+		invalidate();
+		if (result && typeof result.then === 'function') {
+			result.then(() => invalidate(), () => invalidate());
+		}
+		return result;
+	};
 
 	console.log('[grazer] Core services initialized (38 services wired)');
 }

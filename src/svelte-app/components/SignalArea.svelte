@@ -14,33 +14,33 @@
 	import { getTick } from '../stores/app-state.svelte';
 	import { safeGetItem } from '../../core/util/safe-storage';
 
-	// Read current perspective config reactively
-	function getSignalOrder(): string[] {
-		getTick(); // reactive dependency
-		try {
-			return configProviderService.vals?.perspectives?.[viewStateService.curPerspectiveIdx]?.signalCanvases?.order ?? [];
-		} catch { return []; }
-	}
-
-	function getLevelOrder(): string[] {
+	// Read current perspective config reactively — spread to create new array refs
+	let signalOrder = $derived.by(() => {
 		getTick();
 		try {
-			return configProviderService.vals?.perspectives?.[viewStateService.curPerspectiveIdx]?.levelCanvases?.order ?? [];
+			return [...(configProviderService.vals?.perspectives?.[viewStateService.curPerspectiveIdx]?.signalCanvases?.order ?? [])];
 		} catch { return []; }
-	}
+	});
 
-	function showHierarchyPathCanvas(): boolean {
+	let levelOrder = $derived.by(() => {
+		getTick();
+		try {
+			return [...(configProviderService.vals?.perspectives?.[viewStateService.curPerspectiveIdx]?.levelCanvases?.order ?? [])];
+		} catch { return []; }
+	});
+
+	let showHierarchy = $derived.by(() => {
 		getTick();
 		return safeGetItem('showHierarchyPathCanvas') === 'true'
 			&& viewStateService.getPermission('zoom')
 			&& configProviderService.curDbConfig?.linkDefinitions?.length > 0;
-	}
+	});
 </script>
 
 <SplitPane topMinSize={80} bottomMinSize={80}>
 	{#snippet top()}
 		<ul class="signal-list">
-			{#each getSignalOrder() as trackName, i (trackName)}
+			{#each signalOrder as trackName, i (trackName)}
 				<li class="signal-item">
 					{#if trackName === 'OSCI'}
 						<Osci {trackName} />
@@ -56,17 +56,14 @@
 
 	{#snippet bottom()}
 		<div class="level-area" style="margin-top: 25px;">
-			{#if showHierarchyPathCanvas()}
+			{#if showHierarchy}
 				<HierarchyPathCanvas />
 			{/if}
 			<ul class="level-list">
-				{#each getLevelOrder() as levelName, i (levelName)}
-					{@const level = levelService.getLevelDetails(levelName)}
-					{#if level}
-						<li>
-							<Level {level} idx={i} />
-						</li>
-					{/if}
+				{#each levelOrder as levelName, i}
+					<li>
+						<Level level={levelService.getLevelDetails(levelName)} idx={i} />
+					</li>
 				{/each}
 			</ul>
 		</div>

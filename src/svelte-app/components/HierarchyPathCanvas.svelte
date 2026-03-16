@@ -247,9 +247,23 @@
 		resizeCleanup?.();
 	});
 
+	function syncCanvasSize(c: HTMLCanvasElement) {
+		if (!c) return;
+		const rect = c.getBoundingClientRect();
+		const dpr = window.devicePixelRatio || 1;
+		const w = Math.round(rect.width * dpr);
+		const h = Math.round(rect.height * dpr);
+		if (c.width !== w || c.height !== h) {
+			c.width = w;
+			c.height = h;
+		}
+	}
+
 	$effect(() => {
 		const _tick = getTick();
 		if (!canvas || !markupCanvas) return;
+		syncCanvasSize(canvas);
+		syncCanvasSize(markupCanvas);
 		redrawAll();
 	});
 </script>
@@ -263,15 +277,11 @@
 		<canvas
 			bind:this={canvas}
 			class="grazer-level-canvas"
-			width="4096"
-			height="1024"
 			style="background: {COLOR_BLACK};"
 		></canvas>
 		<canvas
 			bind:this={markupCanvas}
 			class="grazer-level-markup"
-			width="4096"
-			height="1024"
 			style="background-color: rgba(200, 200, 200, 0.3); filter: blur(1px);"
 		></canvas>
 	</div>

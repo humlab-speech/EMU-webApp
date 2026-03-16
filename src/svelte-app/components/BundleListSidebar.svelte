@@ -11,6 +11,30 @@
 
 	let filterText = $state('');
 
+	// Reactive state from services
+	let sideBarOpen = $derived.by(() => {
+		getTick();
+		return !viewStateService.bundleListSideBarDisabled && viewStateService.getBundleListSideBarOpen();
+	});
+
+	let groupedBundles = $derived.by(() => {
+		getTick();
+		const list = loadedMetaDataService.getBundleList();
+		if (!list || list.length === 0) return [];
+		const groups: Map<string, any[]> = new Map();
+		for (const bndl of list) {
+			const session = bndl.session || '';
+			if (!groups.has(session)) groups.set(session, []);
+			groups.get(session)!.push(bndl);
+		}
+		return Array.from(groups.entries()).map(([session, bundles]) => ({ session, bundles }));
+	});
+
+	let curBndl = $derived.by(() => {
+		getTick();
+		return loadedMetaDataService.getCurBndl();
+	});
+
 	function loadBundle(bndl: any) {
 		if (historyService.movesAwayFromLastSave !== 0) {
 			modalService.open('views/confirmModal.html', 'You have unsaved changes. Load new bundle anyway?').then((res: any) => {
@@ -35,21 +59,6 @@
 		bundles: any[];
 	}
 
-	function getGroupedBundles(): SessionGroup[] {
-		getTick();
-		const list = loadedMetaDataService.getBundleList();
-		if (!list || list.length === 0) return [];
-
-		const groups: Map<string, any[]> = new Map();
-		for (const bndl of list) {
-			const session = bndl.session || '';
-			if (!groups.has(session)) groups.set(session, []);
-			groups.get(session)!.push(bndl);
-		}
-
-		return Array.from(groups.entries()).map(([session, bundles]) => ({ session, bundles }));
-	}
-
 	function isFiltered(bndl: any): boolean {
 		if (!filterText) return true;
 		const search = filterText.toLowerCase();
@@ -61,7 +70,7 @@
 	}
 </script>
 
-{#if !viewStateService.bundleListSideBarDisabled && viewStateService.getBundleListSideBarOpen()}
+{#if sideBarOpen}
 <div class="grazer-bundle-outer">
 	<div>
 		<h3>Bundles</h3>
@@ -74,7 +83,7 @@
 			/>
 		</div>
 		<div class="grazer-bundle-container">
-			{#each getGroupedBundles() as group}
+			{#each groupedBundles as group}
 				<div class="grazer-bundle-session" onclick={() => toggleSession(group.session)} role="button" tabindex="0">
 					<div>
 						<i class="material-icons" style="font-size: 14px; vertical-align: middle;">
@@ -92,10 +101,10 @@
 									onclick={() => loadBundle(bndl)}
 									role="button"
 									tabindex="0"
-									style={loadedMetaDataService.getCurBndl() === bndl ? 'background-color: var(--color-blue); color: var(--color-black);' : ''}
+									style={curBndl === bndl ? 'background-color: var(--color-blue); color: var(--color-black);' : ''}
 								>
 									<b>{bndl.name}</b>
-									{#if configProviderService.vals?.activeButtons?.saveBundle && loadedMetaDataService.getCurBndl() === bndl}
+									{#if configProviderService.vals?.activeButtons?.saveBundle && curBndl === bndl}
 										<button class="grazer-saveBundleButton" onclick={(e) => saveBundle(bndl, e)}>
 											<i class="material-icons" style="font-size: 16px;">save</i>
 										</button>

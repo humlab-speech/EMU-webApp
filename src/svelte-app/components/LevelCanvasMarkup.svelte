@@ -417,16 +417,35 @@
 		setLastMove(event, true);
 	}
 
+	function syncCanvasSize() {
+		if (!canvas) return;
+		const rect = canvas.getBoundingClientRect();
+		const dpr = window.devicePixelRatio || 1;
+		const w = Math.round(rect.width * dpr);
+		const h = Math.round(rect.height * dpr);
+		if (canvas.width !== w || canvas.height !== h) {
+			canvas.width = w;
+			canvas.height = h;
+		}
+	}
+
 	onMount(() => {
 		ctx = canvas.getContext('2d')!;
+		syncCanvasSize();
+	});
+
+	// Keep canvas size synced reactively
+	$effect(() => {
+		getTick();
+		if (!canvas) return;
+		if (!ctx) ctx = canvas.getContext('2d')!;
+		syncCanvasSize();
 	});
 </script>
 
 <canvas
 	bind:this={canvas}
 	class="grazer-level-canvas-markup"
-	width="4096"
-	height="256"
 	onclick={onClick}
 	oncontextmenu={onContextMenu}
 	ondblclick={onDblClick}

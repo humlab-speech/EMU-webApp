@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getTick } from '../stores/app-state.svelte';
 	import {
 		viewStateService,
 		levelService,
@@ -60,6 +61,8 @@
 		soundHandlerService.playFromTo(0, soundHandlerService.audioBuffer.length);
 		viewStateService.animatePlayHead(0, soundHandlerService.audioBuffer.length);
 	}
+
+	let restrictions = $derived(getTick() >= 0 && configProviderService.vals?.restrictions ? {...configProviderService.vals.restrictions} : undefined);
 </script>
 
 <div class="grazer-bottom-menu">
@@ -99,7 +102,7 @@
 			<i class="material-icons" style="transform: rotate(90deg)">unfold_more</i>selection
 		</button>
 
-		{#if configProviderService.vals?.restrictions?.playback}
+		{#if restrictions?.playback}
 			<button class="grazer-mini-btn" id="playViewBtn"
 				disabled={!viewStateService.getPermission('playaudio')}
 				onclick={cmdPlayView}>
