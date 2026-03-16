@@ -2,15 +2,15 @@ export class ModalService {
 	ArrayHelperService!: any;
 	ViewStateService!: any;
 
-	private isOpen;
-	private templateUrl;
+	public isOpen;
+	public templateUrl;
 	private _resolve: ((value: any) => void) | null = null;
 	private _reject: ((reason: any) => void) | null = null;
 	private deferChange;
 	private force;
-	private dataOut;
-	private dataIn;
-	private dataExport;
+	public dataOut;
+	public dataIn;
+	public dataExport;
 
 	initDeps(deps: { ArrayHelperService: any; ViewStateService: any }) {
 		Object.assign(this, deps);

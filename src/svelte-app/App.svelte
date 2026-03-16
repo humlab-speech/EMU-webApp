@@ -6,6 +6,10 @@
 	import HistoryActionPopup from './components/HistoryActionPopup.svelte';
 	import DropZone from './components/DropZone.svelte';
 	import Modal from './components/Modal.svelte';
+	import LargeTextFieldInput from './components/LargeTextFieldInput.svelte';
+	import ToastNotification from './components/ToastNotification.svelte';
+	import PerspectivesSidebar from './components/PerspectivesSidebar.svelte';
+	import NewVersionHint from './components/NewVersionHint.svelte';
 	import SignalArea from './components/SignalArea.svelte';
 	import {
 		initServices,
@@ -434,6 +438,9 @@
 	role="application"
 >
 	<Modal />
+	<LargeTextFieldInput />
+	<ToastNotification />
+	<NewVersionHint />
 	<BundleListSidebar />
 
 	<div class="grazer-window" id="mainWindow">
@@ -454,6 +461,7 @@
 		<BottomMenu />
 	</div>
 
+	<PerspectivesSidebar />
 	<DropZone />
 </div>
 

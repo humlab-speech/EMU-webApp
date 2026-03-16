@@ -9,7 +9,7 @@
 		historyService,
 		soundHandlerService,
 	} from '../stores/services';
-	import styles from '../../styles/grazer-design.scss';
+	import { styles } from '../../core/util/styles';
 
 	let { trackName }: { trackName: string } = $props();
 

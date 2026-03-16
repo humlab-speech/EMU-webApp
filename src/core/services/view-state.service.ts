@@ -50,8 +50,8 @@ export class ViewStateService{
 	private pageSize: any;
 	private currentPage: any;
 	private curTimeAnchorIdx: any;
-	private largeTextFieldInputFieldVisable: any;
-	private largeTextFieldInputFieldCurLabel: any;
+	public largeTextFieldInputFieldVisable: any;
+	public largeTextFieldInputFieldCurLabel: any;
 	private states: any;
 	private prevState: any;
 	private curState: any;

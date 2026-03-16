@@ -10,7 +10,7 @@
 		historyService,
 		levelService,
 	} from '../stores/services';
-	import styles from '../../styles/grazer-design.scss';
+	import { styles } from '../../core/util/styles';
 	import { safeGetItem } from '../../app/util/safe-storage';
 	import LevelCanvasMarkup from './LevelCanvasMarkup.svelte';
 
