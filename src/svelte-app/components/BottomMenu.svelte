@@ -5,6 +5,7 @@
 		soundHandlerService,
 		configProviderService,
 	} from '../stores/services';
+	import OsciOverview from './OsciOverview.svelte';
 
 	function cmdZoomIn() {
 		if (!viewStateService.getPermission('zoom')) return;
@@ -63,7 +64,7 @@
 
 <div class="grazer-bottom-menu">
 	<div class="osci-overview-container">
-		<!-- OsciOverview canvas will go here in Phase 3 -->
+		<OsciOverview />
 	</div>
 
 	<div class="controls">
@@ -119,42 +120,15 @@
 </div>
 
 <style>
-	.grazer-bottom-menu {
-		display: flex;
-		align-items: center;
-		padding: 2px 4px;
-		background: #333;
-		color: #fff;
-		min-height: 30px;
-	}
-
 	.osci-overview-container {
 		flex: 1;
-		height: 25px;
+		height: 70px;
 		margin-right: 8px;
 	}
 
 	.controls {
 		display: flex;
+		flex-wrap: wrap;
 		gap: 2px;
-	}
-
-	.grazer-mini-btn {
-		background: #555;
-		border: 1px solid #666;
-		color: #fff;
-		cursor: pointer;
-		padding: 2px 8px;
-		font-size: 12px;
-		border-radius: 2px;
-	}
-
-	.grazer-mini-btn:hover:not(:disabled) {
-		background: #666;
-	}
-
-	.grazer-mini-btn:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
 	}
 </style>

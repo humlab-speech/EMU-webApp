@@ -270,73 +270,7 @@
 </div>
 
 <style>
-	.grazer-top-menu {
-		display: flex;
-		align-items: center;
-		padding: 2px 4px;
-		background: #333;
-		color: #fff;
-		min-height: 30px;
-		flex-wrap: wrap;
-	}
-
-	.grazer-button-icon {
-		background: none;
-		border: none;
-		color: #fff;
-		cursor: pointer;
-		padding: 4px 8px;
-	}
-
-	.grazer-mini-btn {
-		background: #555;
-		border: 1px solid #666;
-		color: #fff;
-		cursor: pointer;
-		padding: 2px 8px;
-		margin: 0 2px;
-		font-size: 12px;
-		border-radius: 2px;
-	}
-
-	.grazer-mini-btn:hover:not(:disabled) {
-		background: #666;
-	}
-
-	.grazer-mini-btn:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
-	}
-
-	.grazer-nav-wrap {
-		position: relative;
-		display: inline-block;
-	}
-
-	.grazer-dropdown-menu {
-		position: absolute;
-		top: 100%;
-		left: 0;
-		background: #444;
-		border: 1px solid #666;
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		min-width: 120px;
-		z-index: 100;
-	}
-
-	.grazer-dropdown-menu li {
-		padding: 4px 12px;
-		cursor: pointer;
-		font-size: 12px;
-	}
-
-	.grazer-dropdown-menu li:hover {
-		background: #555;
-	}
-
-	._35px {
+	:global(._35px) {
 		height: 35px;
 	}
 </style>

@@ -432,6 +432,7 @@
 
 <svelte:window on:resize={onResize} on:keyup={onKeyup} on:beforeunload={onBeforeUnload} />
 
+<div class="grazer">
 <div class="grazer-main" id="MainCtrl"
 	on:mouseenter={() => viewStateService.mouseInEmuWebApp = true}
 	on:mouseleave={() => viewStateService.mouseInEmuWebApp = false}
@@ -464,32 +465,12 @@
 	<PerspectivesSidebar />
 	<DropZone />
 </div>
+</div>
 
 <style>
 	:global(body) {
 		margin: 0;
 		padding: 0;
-		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-		overflow: hidden;
-	}
-
-	.grazer-main {
-		position: relative;
-		width: 100%;
-		height: 100vh;
-		display: flex;
-	}
-
-	.grazer-window {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		overflow: hidden;
-	}
-
-	.grazer-canvas {
-		flex: 1;
-		position: relative;
 		overflow: hidden;
 	}
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getTick } from '../stores/app-state.svelte';
 	import {
 		viewStateService,
 		loadedMetaDataService,
@@ -7,6 +8,8 @@
 		configProviderService,
 		modalService,
 	} from '../stores/services';
+
+	let filterText = $state('');
 
 	function loadBundle(bndl: any) {
 		if (historyService.movesAwayFromLastSave !== 0) {
@@ -21,74 +24,89 @@
 	function toggleSession(session: string) {
 		loadedMetaDataService.openCollapseSession(session);
 	}
+
+	function saveBundle(bndl: any, e: MouseEvent) {
+		e.stopPropagation();
+		dbObjLoadSaveService.saveBundle();
+	}
+
+	interface SessionGroup {
+		session: string;
+		bundles: any[];
+	}
+
+	function getGroupedBundles(): SessionGroup[] {
+		getTick();
+		const list = loadedMetaDataService.getBundleList();
+		if (!list || list.length === 0) return [];
+
+		const groups: Map<string, any[]> = new Map();
+		for (const bndl of list) {
+			const session = bndl.session || '';
+			if (!groups.has(session)) groups.set(session, []);
+			groups.get(session)!.push(bndl);
+		}
+
+		return Array.from(groups.entries()).map(([session, bundles]) => ({ session, bundles }));
+	}
+
+	function isFiltered(bndl: any): boolean {
+		if (!filterText) return true;
+		const search = filterText.toLowerCase();
+		return (bndl.name?.toLowerCase().includes(search) || bndl.session?.toLowerCase().includes(search));
+	}
+
+	function isSessionOpen(session: string): boolean {
+		return loadedMetaDataService.isSessionOpen ? loadedMetaDataService.isSessionOpen(session) : true;
+	}
 </script>
 
 {#if !viewStateService.bundleListSideBarDisabled && viewStateService.getBundleListSideBarOpen()}
-<div class="bundle-list-sidebar">
-	<div class="sidebar-header">
-		<span>Bundles</span>
-	</div>
-	<div class="sidebar-content">
-		{#each loadedMetaDataService.getBundleList() as bndl, i}
-			<div class="bundle-item"
-				class:active={loadedMetaDataService.getCurBndl() === bndl}
-				onclick={() => loadBundle(bndl)}
-				role="button"
-				tabindex="0"
-			>
-				{#if bndl.session}
-					<span class="session-name">{bndl.session} /</span>
+<div class="grazer-bundle-outer">
+	<div>
+		<h3>Bundles</h3>
+		<div style="text-align: center; padding: 6px;">
+			<input
+				class="grazer-filter"
+				type="text"
+				placeholder="Filter..."
+				bind:value={filterText}
+			/>
+		</div>
+		<div class="grazer-bundle-container">
+			{#each getGroupedBundles() as group}
+				<div class="grazer-bundle-session" onclick={() => toggleSession(group.session)} role="button" tabindex="0">
+					<div>
+						<i class="material-icons" style="font-size: 14px; vertical-align: middle;">
+							{isSessionOpen(group.session) ? 'expand_more' : 'chevron_right'}
+						</i>
+						{group.session}
+					</div>
+				</div>
+				{#if isSessionOpen(group.session)}
+					<ul>
+						{#each group.bundles as bndl, i}
+							{#if isFiltered(bndl)}
+								<li class="grazer-bundle-item"
+									class:grazer-bundle-last={i === group.bundles.length - 1}
+									onclick={() => loadBundle(bndl)}
+									role="button"
+									tabindex="0"
+									style={loadedMetaDataService.getCurBndl() === bndl ? 'background-color: var(--color-blue); color: var(--color-black);' : ''}
+								>
+									<b>{bndl.name}</b>
+									{#if configProviderService.vals?.activeButtons?.saveBundle && loadedMetaDataService.getCurBndl() === bndl}
+										<button class="grazer-saveBundleButton" onclick={(e) => saveBundle(bndl, e)}>
+											<i class="material-icons" style="font-size: 16px;">save</i>
+										</button>
+									{/if}
+								</li>
+							{/if}
+						{/each}
+					</ul>
 				{/if}
-				<span class="bundle-name">{bndl.name}</span>
-			</div>
-		{/each}
+			{/each}
+		</div>
 	</div>
 </div>
 {/if}
-
-<style>
-	.bundle-list-sidebar {
-		width: 250px;
-		min-width: 250px;
-		background: #2a2a2a;
-		color: #fff;
-		display: flex;
-		flex-direction: column;
-		border-right: 1px solid #444;
-		height: 100%;
-	}
-
-	.sidebar-header {
-		padding: 8px 16px;
-		background: #333;
-		border-bottom: 1px solid #444;
-		font-weight: bold;
-	}
-
-	.sidebar-content {
-		flex: 1;
-		overflow-y: auto;
-		padding: 4px;
-	}
-
-	.bundle-item {
-		padding: 4px 8px;
-		cursor: pointer;
-		border-radius: 2px;
-		font-size: 12px;
-	}
-
-	.bundle-item:hover {
-		background: #444;
-	}
-
-	.bundle-item.active {
-		background: #0DC5FF;
-		color: #000;
-	}
-
-	.session-name {
-		opacity: 0.7;
-		font-size: 11px;
-	}
-</style>
