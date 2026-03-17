@@ -84,6 +84,7 @@
 		</div>
 		<div class="grazer-bundle-container">
 			{#each groupedBundles as group}
+				{#if group.session || groupedBundles.length > 1}
 				<div class="grazer-bundle-session" onclick={() => toggleSession(group.session)} role="button" tabindex="0">
 					<div>
 						<i class="material-icons" style="font-size: 14px; vertical-align: middle;">
@@ -92,6 +93,7 @@
 						{group.session}
 					</div>
 				</div>
+				{/if}
 				{#if isSessionOpen(group.session)}
 					<ul>
 						{#each group.bundles as bndl, i}

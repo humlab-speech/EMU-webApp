@@ -72,6 +72,8 @@ export class IoHandlerService{
 				if(!resp.ok){ throw new Error('HTTP ' + resp.status + ': ' + resp.statusText); }
 				if(respType === 'json'){ return(resp.json()); }
 				else if(respType === 'arraybuffer'){ return(resp.arrayBuffer()); }
+				else if(respType === 'text'){ return(resp.text()); }
+				else { return(resp.json()); }
 			}).catch((err) => {
 				console.error('Fetch error for ' + path + ':', err);
 				throw err;

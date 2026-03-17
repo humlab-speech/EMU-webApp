@@ -75,6 +75,9 @@
 	eventBus.on('resetToInitState').subscribe(() => {
 		loadDefaultConfig();
 	});
+	eventBus.on('connectedToWSserver').subscribe((data: any) => {
+		handleConnectedToWSserver(data);
+	});
 	eventBus.on('reloadToInitState').subscribe((data: any) => {
 		loadDefaultConfig();
 		viewStateService.url = data.url;

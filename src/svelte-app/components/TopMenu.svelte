@@ -16,6 +16,7 @@
 		hierarchyLayoutService,
 	} from '../stores/services';
 	import { styles } from '../../core/util/styles';
+	import { eventBus } from '../../core/util/event-bus';
 
 	let dropdown = $state(false);
 
@@ -135,8 +136,11 @@
 			ioHandlerService.WebSocketHandlerService.initConnect(url).then((message: any) => {
 				if (message.type === 'error') {
 					modalService.open('views/error.html', 'Could not connect to websocket server: ' + url).then(() => appStateService.resetToInitState());
+				} else {
+					eventBus.emit('connectedToWSserver', { session: null, reload: null });
 				}
-				// WS connection success handled by event bus
+			}, (errMess: any) => {
+				modalService.open('views/error.html', 'Could not connect to websocket server: ' + JSON.stringify(errMess, null, 4)).then(() => appStateService.resetToInitState());
 			});
 		});
 	}
