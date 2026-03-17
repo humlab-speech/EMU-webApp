@@ -106,12 +106,17 @@ export {
 };
 
 import { invalidate } from './app-state.svelte';
+import { setPostUpdate } from '../../core/util/schedule-update';
 
 let initialized = false;
 
 export function initServices() {
 	if (initialized) return;
 	initialized = true;
+
+	// Wire scheduleUpdate to trigger Svelte re-renders after service state changes
+	// This replaces AngularJS's $rootScope.$apply() digest cycle
+	setPostUpdate(() => invalidate());
 
 	// Tier 1
 	audioResamplerService.initDeps({ BrowserDetectorService: browserDetectorService });

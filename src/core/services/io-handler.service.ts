@@ -291,7 +291,7 @@ export class IoHandlerService{
 		} else if (fileType === 'TEXTGRID') {
 			prom = this.TextGridParserService.asyncParseTextGrid(string, this.ConfigProviderService.embeddedVals.labelGetUrl, 'embeddedTEXTGRID');
 		} else if (fileType === 'annotJSON') {
-			prom = Promise.resolve(JSON.parse(string));
+			prom = Promise.resolve(typeof string === 'string' ? JSON.parse(string) : string);
 		}
 		return prom;
 	};

@@ -260,6 +260,14 @@
 		resizeObserver?.disconnect();
 	});
 
+	// Change detection to avoid unnecessary redraws
+	let prevSS = -1;
+	let prevES = -1;
+	let prevCanvasW = -1;
+	let prevCanvasH = -1;
+	let prevAttrDef = '';
+	let prevItemCount = -1;
+
 	// reactive redraw
 	$effect(() => {
 		getTick();
@@ -270,8 +278,24 @@
 			levelDef = configProviderService.getLevelDefinition(curLevel.name);
 		}
 		syncCanvasSize();
-		if (curLevel && !isEmptyObj(curLevel)) {
-			drawLevelDetailsFor(curLevel);
+
+		const sS = viewStateService.curViewPort?.sS ?? -1;
+		const eS = viewStateService.curViewPort?.eS ?? -1;
+		const cw = canvas.width;
+		const ch = canvas.height;
+		const attrDef = viewStateService.getCurAttrDef(levelName) ?? '';
+		const itemCount = curLevel?.items?.length ?? -1;
+
+		if (sS !== prevSS || eS !== prevES || cw !== prevCanvasW || ch !== prevCanvasH || attrDef !== prevAttrDef || itemCount !== prevItemCount) {
+			prevSS = sS;
+			prevES = eS;
+			prevCanvasW = cw;
+			prevCanvasH = ch;
+			prevAttrDef = attrDef;
+			prevItemCount = itemCount;
+			if (curLevel && !isEmptyObj(curLevel)) {
+				drawLevelDetailsFor(curLevel);
+			}
 		}
 	});
 </script>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { getTick } from '../stores/app-state.svelte';
+	import { getTick, getMarkupTick } from '../stores/app-state.svelte';
 	import {
 		viewStateService,
 		configProviderService,
@@ -382,13 +382,41 @@
 		}
 	}
 
+	// Change detection for data canvases (only redraw when viewport/data changes)
+	let prevSS = -1;
+	let prevES = -1;
+	let prevCanvasW = -1;
+	let prevCanvasH = -1;
+	let prevDataLen = -1;
+
 	$effect(() => {
 		const _tick = getTick();
 		if (!mainCanvas || !ssffCanvas || !markupCanvas) return;
 		syncCanvasSize(mainCanvas);
 		syncCanvasSize(ssffCanvas);
 		syncCanvasSize(markupCanvas);
-		drawSsffData();
+
+		const sS = viewStateService.curViewPort?.sS ?? -1;
+		const eS = viewStateService.curViewPort?.eS ?? -1;
+		const cw = mainCanvas.width;
+		const ch = mainCanvas.height;
+		const dataLen = Array.isArray(ssffDataService.data) ? ssffDataService.data.length : 0;
+
+		if (sS !== prevSS || eS !== prevES || cw !== prevCanvasW || ch !== prevCanvasH || dataLen !== prevDataLen) {
+			prevSS = sS;
+			prevES = eS;
+			prevCanvasW = cw;
+			prevCanvasH = ch;
+			prevDataLen = dataLen;
+			drawSsffData();
+		}
+		drawMarkup();
+	});
+
+	// Also redraw markup on markup-only ticks (mouse movement)
+	$effect(() => {
+		getMarkupTick();
+		if (!markupCanvas) return;
 		drawMarkup();
 	});
 </script>

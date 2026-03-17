@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { getTick, invalidate } from '../stores/app-state.svelte';
+	import { getTick, getMarkupTick, invalidate, invalidateMarkup } from '../stores/app-state.svelte';
 	import {
 		viewStateService,
 		soundHandlerService,
@@ -115,7 +115,7 @@
 		invalidate();
 	}
 
-	function setLastMove(x: MouseEvent | TouchEvent, doChange: boolean) {
+	function setLastMove(x: MouseEvent | TouchEvent, doChange: boolean, markupOnly = false) {
 		curMouseSampleNrInView = viewStateService.getX(x) * viewStateService.getSamplesPerPixelVal(x);
 		lastEventMove = levelService.getClosestItem(
 			curMouseSampleNrInView + viewStateService.curViewPort.sS,
@@ -132,7 +132,11 @@
 		viewStateService.setcurMouseLevelType(level.type);
 		lastPCM = curMouseSampleNrInView;
 		viewStateService.setLastPcm(lastPCM);
-		invalidate();
+		if (markupOnly) {
+			invalidateMarkup();
+		} else {
+			invalidate();
+		}
 	}
 
 	// --- event handlers ---
@@ -161,6 +165,7 @@
 	function onMouseMove(event: MouseEvent) {
 		let moveLine: boolean | undefined;
 		let moveBy: number;
+		let editedData = false;
 		if (!document.hasFocus()) return;
 
 		if (!viewStateService.getdragBarActive()) {
@@ -222,6 +227,7 @@
 					let seg: any;
 					if (configProviderService.vals.restrictions.editItemSize && event.shiftKey) {
 						levelService.deleteEditArea();
+						editedData = true;
 						if (curMouseItem !== undefined) {
 							viewStateService.movingBoundary = true;
 							if (level.type === 'SEGMENT') {
@@ -266,6 +272,7 @@
 						}
 					} else if (configProviderService.vals.restrictions.editItemSize && event.altKey) {
 						levelService.deleteEditArea();
+						editedData = true;
 						if (level.type === 'SEGMENT') {
 							seg = viewStateService.getcurClickItems();
 							if (seg[0] !== undefined) {
@@ -308,7 +315,7 @@
 		}
 
 		if (!viewStateService.getdragBarActive()) {
-			setLastMove(event, moveLine!);
+			setLastMove(event, moveLine!, !editedData);
 		}
 	}
 
@@ -523,6 +530,7 @@
 	// Keep canvas size synced and draw markup reactively
 	$effect(() => {
 		getTick();
+		getMarkupTick();
 		if (!canvas) return;
 		if (!ctx) ctx = canvas.getContext('2d')!;
 		syncCanvasSize();

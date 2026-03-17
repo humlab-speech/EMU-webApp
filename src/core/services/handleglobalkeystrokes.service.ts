@@ -46,14 +46,19 @@ export class HandleGlobalKeyStrokes{
 
         this._onKeyDown = (e: KeyboardEvent) => {
             var code = (e.keyCode ? e.keyCode : e.which);
-            if (code === 8 || code === 9 || code === 27 || code === 37 || code === 38 || code === 39 || code === 40 || code === 32) {
+            // Handle special keys + Enter (13) via keydown since keypress is deprecated
+            // and unreliable for non-printable keys in modern browsers
+            if (code === 8 || code === 9 || code === 13 || code === 27 || code === 37 || code === 38 || code === 39 || code === 40 || code === 32) {
                 this.applyKeyCode(code, e);
             }
         };
 
         this._onKeyPress = (e: KeyboardEvent) => {
             var code = (e.keyCode ? e.keyCode : e.which);
-            this.applyKeyCode(code, e);
+            // Skip Enter (13) since it's now handled by keydown
+            if (code !== 13) {
+                this.applyKeyCode(code, e);
+            }
         };
 
         document.addEventListener('keyup', this._onKeyUp);
@@ -376,8 +381,10 @@ export class HandleGlobalKeyStrokes{
         if (action) action();
 
         // Perspective switching (Shift+Digit1-9) — special case, not keyCode-based
-        if (e.shiftKey && e.originalEvent && e.originalEvent.code) {
-            var digitMatch = e.originalEvent.code.match(/^Digit(\d)$/);
+        // Check both native event and AngularJS-style originalEvent wrapper
+        var eventCode = e.code || (e.originalEvent && e.originalEvent.code);
+        if (e.shiftKey && eventCode) {
+            var digitMatch = eventCode.match(/^Digit(\d)$/);
             if (digitMatch) {
                 this.ViewStateService.switchPerspective(parseInt(digitMatch[1], 10) - 1, this.ConfigProviderService.vals.perspectives);
             }

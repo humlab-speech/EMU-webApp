@@ -21,6 +21,14 @@
 	const alpha = 0.16;
 	const devicePixelRatio = (typeof window !== 'undefined' ? window.devicePixelRatio : 1) || 1;
 
+	// Track previous render state to avoid re-rendering spectrogram on every tick
+	let prevSS = -1;
+	let prevES = -1;
+	let prevCanvasW = -1;
+	let prevCanvasH = -1;
+	let prevAudioLen = 0;
+	let prevSpectroSettingsKey = '';
+
 	function calcSamplesPerPxl(): number {
 		return (viewStateService.curViewPort.eS + 1 - viewStateService.curViewPort.sS) / canvas.width;
 	}
@@ -171,13 +179,36 @@
 		}
 	});
 
+	function spectroSettingsKey(): string {
+		const s = viewStateService.spectroSettings;
+		if (!s) return '';
+		return `${s.windowSizeInSecs}|${s.rangeTo}|${s.rangeFrom}|${s.dynamicRange}|${s.window}|${s.drawHeatMapColors}|${s.preEmphasisFilterFactor}|${s.invert}`;
+	}
+
 	$effect(() => {
 		getTick();
 		if (!canvas) return;
 		if (!ctx) ctx = canvas.getContext('2d')!;
-		if (!soundHandlerService.audioBuffer) return;
+		if (!soundHandlerService.audioBuffer?.getChannelData) return;
 		syncCanvasSize();
-		redraw();
+
+		// Only re-render spectrogram when viewport, canvas size, audio, or settings change
+		const sS = viewStateService.curViewPort?.sS ?? -1;
+		const eS = viewStateService.curViewPort?.eS ?? -1;
+		const audioLen = soundHandlerService.audioBuffer.length ?? 0;
+		const settingsKey = spectroSettingsKey();
+		const cw = canvas.width;
+		const ch = canvas.height;
+
+		if (sS !== prevSS || eS !== prevES || cw !== prevCanvasW || ch !== prevCanvasH || audioLen !== prevAudioLen || settingsKey !== prevSpectroSettingsKey) {
+			prevSS = sS;
+			prevES = eS;
+			prevCanvasW = cw;
+			prevCanvasH = ch;
+			prevAudioLen = audioLen;
+			prevSpectroSettingsKey = settingsKey;
+			redraw();
+		}
 	});
 </script>
 

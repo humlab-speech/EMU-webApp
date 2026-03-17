@@ -14,6 +14,13 @@
 	let canvas: HTMLCanvasElement;
 	let lastAudioLength = 0;
 
+	// Change detection to avoid unnecessary redraws
+	let prevSS = -1;
+	let prevES = -1;
+	let prevCanvasW = -1;
+	let prevCanvasH = -1;
+	let prevChannel = -1;
+
 	function syncCanvasSize() {
 		if (!canvas) return;
 		const rect = canvas.getBoundingClientRect();
@@ -33,11 +40,22 @@
 		const sS = viewStateService.curViewPort?.sS;
 		const eS = viewStateService.curViewPort?.eS;
 		if (sS != null && eS != null && eS > sS && soundHandlerService.audioBuffer?.length > 0) {
-			// Force recalculate osciPeaks when audio buffer changes (new bundle loaded)
 			const curLen = soundHandlerService.audioBuffer.length;
 			const forceRecalc = curLen !== lastAudioLength;
 			if (forceRecalc) lastAudioLength = curLen;
-			drawHelperService.freshRedrawDrawOsciOnCanvas(canvas, sS, eS, forceRecalc);
+			const cw = canvas.width;
+			const ch = canvas.height;
+			const channel = viewStateService.osciSettings?.curChannel ?? 0;
+
+			// Only redraw when viewport, canvas size, or audio data actually changes
+			if (sS !== prevSS || eS !== prevES || cw !== prevCanvasW || ch !== prevCanvasH || forceRecalc || channel !== prevChannel) {
+				prevSS = sS;
+				prevES = eS;
+				prevCanvasW = cw;
+				prevCanvasH = ch;
+				prevChannel = channel;
+				drawHelperService.freshRedrawDrawOsciOnCanvas(canvas, sS, eS, forceRecalc);
+			}
 		}
 	});
 </script>

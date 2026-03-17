@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { getTick, invalidate } from '../stores/app-state.svelte';
+	import { getTick, getMarkupTick, invalidate, invalidateMarkup } from '../stores/app-state.svelte';
 	import {
 		viewStateService,
 		configProviderService,
@@ -193,6 +193,7 @@
 			viewStateService.curViewPort.sS + mouseX / canvas.width * (viewStateService.curViewPort.eS - viewStateService.curViewPort.sS)
 		);
 
+		let needsFullInvalidate = false;
 		switch (mbutton) {
 			case 0:
 				if (viewStateService.getPermission('labelAction')) {
@@ -241,6 +242,7 @@
 											oldValue: oldValue,
 											newValue: newValue,
 										});
+										needsFullInvalidate = true;
 									}
 								}
 							}
@@ -251,10 +253,17 @@
 			case 1:
 				if (!viewStateService.getdragBarActive()) {
 					setSelectDrag(event);
+					needsFullInvalidate = true;
 				}
 				break;
 		}
-		invalidate();
+		// Only trigger full invalidate (all canvases) when data changes.
+		// For pure mouse movement (crosshair updates), use markup-only invalidate.
+		if (needsFullInvalidate) {
+			invalidate();
+		} else {
+			invalidateMarkup();
+		}
 	}
 
 	function onMouseLeave(_event: MouseEvent) {
@@ -327,9 +336,10 @@
 		}
 	});
 
-	// reactive redraw
+	// reactive redraw — respond to both data changes (tick) and mouse-only changes (markupTick)
 	$effect(() => {
 		getTick();
+		getMarkupTick();
 		if (ctx && !isEmptyObj(soundHandlerService.audioBuffer)) {
 			syncCanvasSize();
 			drawMarkup();

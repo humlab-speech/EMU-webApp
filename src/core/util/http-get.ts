@@ -18,6 +18,8 @@ export function httpGet(url: string, options?: { responseType?: string }): Promi
 		let bodyPromise: Promise<any>;
 		if (responseType === 'arraybuffer') {
 			bodyPromise = resp.arrayBuffer();
+		} else if (responseType === 'text') {
+			bodyPromise = resp.text();
 		} else {
 			bodyPromise = resp.json();
 		}
