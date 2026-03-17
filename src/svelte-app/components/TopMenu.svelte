@@ -162,7 +162,7 @@
 			modalText = 'Do you wish to clear all loaded data and disconnect? No unsaved changes will be lost.';
 		}
 		modalService.open('views/confirmModal.html', modalText).then((res: any) => {
-			if (res) appStateService.resetToInitState();
+			if (res) { appStateService.resetToInitState(); invalidate(); }
 		});
 	}
 
@@ -181,6 +181,24 @@
 	let restrictions = $derived(getTick() >= 0 && configProviderService.vals?.restrictions ? {...configProviderService.vals.restrictions} : undefined);
 	let demoDBs = $derived(getTick() >= 0 ? configProviderService.vals?.demoDBs : undefined);
 	let bundleListSideBarDisabled = $derived(getTick() >= 0 ? viewStateService.bundleListSideBarDisabled : true);
+
+	// Reactive permission map — getTick() triggers re-evaluation on state changes
+	let perms = $derived.by(() => {
+		getTick();
+		return {
+			addLevelSeg: viewStateService.getPermission('addLevelSegBtnClick'),
+			addLevelEvent: viewStateService.getPermission('addLevelPointBtnClick'),
+			renameSel: viewStateService.getPermission('renameSelLevelBtnClick'),
+			downloadTextGrid: viewStateService.getPermission('downloadTextGridBtnClick'),
+			downloadAnnotation: viewStateService.getPermission('downloadAnnotationBtnClick'),
+			spectSettings: viewStateService.getPermission('spectSettingsChange'),
+			openDemo: viewStateService.getPermission('openDemoBtnDBclick'),
+			connect: viewStateService.getPermission('connectBtnClick'),
+			showHierarchy: viewStateService.getPermission('showHierarchyBtnClick'),
+			search: viewStateService.getPermission('searchBtnClick'),
+			clear: viewStateService.getPermission('clearBtnClick'),
+		};
+	});
 </script>
 
 <div class="grazer-top-menu">
@@ -198,37 +216,37 @@
 
 	{#if activeButtons?.addLevelSeg}
 		<button class="grazer-mini-btn left"
-			disabled={!viewStateService.getPermission('addLevelSegBtnClick')}
+			disabled={!perms.addLevelSeg}
 			onclick={addLevelSeg}>add level (SEG.)</button>
 	{/if}
 
 	{#if activeButtons?.addLevelEvent}
 		<button class="grazer-mini-btn left"
-			disabled={!viewStateService.getPermission('addLevelPointBtnClick')}
+			disabled={!perms.addLevelEvent}
 			onclick={addLevelEvent}>add level (EVENT)</button>
 	{/if}
 
 	{#if activeButtons?.renameSelLevel}
 		<button class="grazer-mini-btn left"
-			disabled={!viewStateService.getPermission('renameSelLevelBtnClick')}
+			disabled={!perms.renameSel}
 			onclick={renameSelLevel}>rename sel. level</button>
 	{/if}
 
 	{#if activeButtons?.downloadTextGrid}
 		<button class="grazer-mini-btn left" id="downloadTextgrid"
-			disabled={!viewStateService.getPermission('downloadTextGridBtnClick')}
+			disabled={!perms.downloadTextGrid}
 			onclick={downloadTextGrid}><i class="material-icons">save</i>TextGrid</button>
 	{/if}
 
 	{#if activeButtons?.downloadAnnotation}
 		<button class="grazer-mini-btn left" id="downloadAnnotation"
-			disabled={!viewStateService.getPermission('downloadAnnotationBtnClick')}
+			disabled={!perms.downloadAnnotation}
 			onclick={downloadAnnotation}><i class="material-icons">save</i>annotJSON</button>
 	{/if}
 
 	{#if activeButtons?.specSettings}
 		<button class="grazer-mini-btn left" id="spectSettingsBtn"
-			disabled={!viewStateService.getPermission('spectSettingsChange')}
+			disabled={!perms.spectSettings}
 			onclick={openSettings}><i class="material-icons">settings</i> settings</button>
 	{/if}
 
@@ -240,7 +258,7 @@
 			tabindex="-1"
 		>
 			<button class="grazer-mini-btn full" id="demoDB"
-				disabled={!viewStateService.getPermission('openDemoBtnDBclick')}
+				disabled={!perms.openDemo}
 				onclick={() => dropdown = !dropdown}>open demo <span id="grazer-dropdown-arrow"></span></button>
 			{#if dropdown}
 				<ul class="grazer-dropdown-menu">
@@ -254,25 +272,25 @@
 
 	{#if activeButtons?.connect}
 		<button class="grazer-mini-btn left"
-			disabled={!viewStateService.getPermission('connectBtnClick')}
+			disabled={!perms.connect}
 			onclick={connectBtn}><i class="material-icons">input</i>connect</button>
 	{/if}
 
 	{#if activeButtons?.showHierarchy}
 		<button class="grazer-mini-btn left" id="showHierarchy"
-			disabled={!viewStateService.getPermission('showHierarchyBtnClick')}
+			disabled={!perms.showHierarchy}
 			onclick={showHierarchy}><i class="material-icons" style="transform: rotate(180deg)">details</i>hierarchy</button>
 	{/if}
 
 	{#if activeButtons?.search}
 		<button class="grazer-mini-btn left"
-			disabled={!viewStateService.getPermission('searchBtnClick')}
+			disabled={!perms.search}
 			onclick={searchBtn}><i class="material-icons">search</i>search</button>
 	{/if}
 
 	{#if activeButtons?.clear}
 		<button class="grazer-mini-btn left" id="clear"
-			disabled={!viewStateService.getPermission('clearBtnClick')}
+			disabled={!perms.clear}
 			onclick={clearBtn}><i class="material-icons">clear_all</i>clear</button>
 	{/if}
 

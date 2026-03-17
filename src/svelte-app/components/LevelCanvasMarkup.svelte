@@ -7,9 +7,19 @@
 		configProviderService,
 		levelService,
 		historyService,
+		drawHelperService,
 	} from '../stores/services';
+	import { styles } from '../../core/util/styles';
 
-	let { level, idx }: { level: any; idx: number } = $props();
+	let { levelName, idx }: { levelName: string; idx: number } = $props();
+
+	// Reactive level data lookup
+	function getLevel() {
+		return levelService.getLevelDetails(levelName) ?? { name: levelName, type: 'SEGMENT', items: [] };
+	}
+
+	// Alias for backward compatibility with existing code that references `level`
+	let level = { get name() { return levelName; }, get type() { return getLevel().type; }, get items() { return getLevel().items; } };
 
 	let canvas: HTMLCanvasElement;
 	let ctx: CanvasRenderingContext2D;
@@ -434,12 +444,89 @@
 		syncCanvasSize();
 	});
 
-	// Keep canvas size synced reactively
+	function drawLevelMarkup() {
+		if (!ctx || !canvas) return;
+		const curLevel = getLevel();
+		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+		// highlight current click level
+		if (curLevel.name === viewStateService.getcurClickLevelName()) {
+			ctx.fillStyle = styles.colorTransparentGrey;
+			ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+		}
+
+		// draw moving boundary line
+		drawHelperService.drawMovingBoundaryLine(ctx);
+
+		// draw current viewport selected
+		drawHelperService.drawCurViewPortSelected(ctx);
+
+		const sDist = viewStateService.getSampleDist(ctx.canvas.width);
+		const segMId = viewStateService.getcurMouseItem();
+		const isFirst = viewStateService.getcurMouseisFirst();
+		const isLast = viewStateService.getcurMouseisLast();
+		const clickedSegs = viewStateService.getcurClickItems();
+		const levelId = viewStateService.getcurClickLevelName();
+
+		if (clickedSegs !== undefined) {
+			if (curLevel.name === levelId && clickedSegs.length > 0) {
+				clickedSegs.forEach((cs: any) => {
+					if (cs !== undefined) {
+						let posS: number, posE: number;
+						if (cs.sampleStart !== undefined) {
+							posS = Math.round(viewStateService.getPos(ctx.canvas.width, cs.sampleStart));
+							posE = Math.round(viewStateService.getPos(ctx.canvas.width, cs.sampleStart + cs.sampleDur + 1));
+						} else {
+							posS = Math.round(viewStateService.getPos(ctx.canvas.width, cs.samplePoint) + sDist / 2) - 5;
+							posE = posS + 10;
+						}
+						ctx.fillStyle = styles.colorTransparentYellow;
+						ctx.fillRect(posS, 0, posE - posS, ctx.canvas.height);
+						ctx.fillStyle = styles.colorWhite;
+					}
+				});
+			}
+		}
+
+		// draw preselected boundary
+		const item = viewStateService.getcurMouseItem();
+		if (curLevel.items.length > 0 && item !== undefined && segMId !== undefined && curLevel.name === viewStateService.getcurMouseLevelName()) {
+			ctx.fillStyle = styles.colorBlue;
+			if (isFirst === true) {
+				if (viewStateService.getcurMouseLevelType() === 'SEGMENT') {
+					const firstItem = curLevel.items[0];
+					const posS = Math.round(viewStateService.getPos(ctx.canvas.width, firstItem.sampleStart));
+					ctx.fillRect(posS, 0, 3, ctx.canvas.height);
+				}
+			} else if (isLast === true) {
+				if (viewStateService.getcurMouseLevelType() === 'SEGMENT') {
+					const lastItem = curLevel.items[curLevel.items.length - 1];
+					const posS = Math.round(viewStateService.getPos(ctx.canvas.width, lastItem.sampleStart + lastItem.sampleDur + 1));
+					ctx.fillRect(posS, 0, 3, ctx.canvas.height);
+				}
+			} else {
+				if (viewStateService.getcurMouseLevelType() === 'SEGMENT') {
+					const posS = Math.round(viewStateService.getPos(ctx.canvas.width, item.sampleStart));
+					ctx.fillRect(posS, 0, 3, ctx.canvas.height);
+				} else {
+					const posS = Math.round(viewStateService.getPos(ctx.canvas.width, item.samplePoint));
+					ctx.fillRect(posS + sDist / 2, 0, 3, ctx.canvas.height);
+				}
+			}
+			ctx.fillStyle = styles.colorWhite;
+		}
+
+		// draw cursor crosshair
+		drawHelperService.drawCrossHairX(ctx, viewStateService.curMouseX);
+	}
+
+	// Keep canvas size synced and draw markup reactively
 	$effect(() => {
 		getTick();
 		if (!canvas) return;
 		if (!ctx) ctx = canvas.getContext('2d')!;
 		syncCanvasSize();
+		drawLevelMarkup();
 	});
 </script>
 

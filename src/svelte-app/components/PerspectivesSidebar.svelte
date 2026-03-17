@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getTick } from '../stores/app-state.svelte';
+	import { getTick, invalidate } from '../stores/app-state.svelte';
 	import { viewStateService, configProviderService } from '../stores/services';
 
 	let isOpen = $derived(getTick() >= 0 && viewStateService.getPerspectivesSideBarOpen());
@@ -11,17 +11,16 @@
 		if (newIdx >= 0) {
 			viewStateService.switchPerspective(newIdx, configProviderService.vals.perspectives);
 			viewStateService.setPerspectivesSideBarOpen(false);
+			invalidate();
 		}
 	}
 
 	function toggleMenu() {
 		viewStateService.setPerspectivesSideBarOpen(!viewStateService.getPerspectivesSideBarOpen());
+		invalidate();
 	}
 
-	function isCurrentPerspective(persp: any) {
-		const idx = viewStateService.curPerspectiveIdx;
-		return idx === -1 || persp.name === configProviderService.vals.perspectives[idx]?.name;
-	}
+	let curPerspIdx = $derived.by(() => { getTick(); return viewStateService.curPerspectiveIdx; });
 </script>
 
 {#if showSidebar}
@@ -33,7 +32,7 @@
 	<ul>
 		{#each perspectives as persp}
 			<li
-				class={isCurrentPerspective(persp) ? 'grazer-curSelPerspLi' : 'grazer-perspLi'}
+				class={curPerspIdx === -1 || perspectives[curPerspIdx]?.name === persp.name ? 'grazer-curSelPerspLi' : 'grazer-perspLi'}
 				onclick={() => changePerspective(persp)}
 				role="button"
 				tabindex="0"

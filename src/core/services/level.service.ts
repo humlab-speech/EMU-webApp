@@ -384,7 +384,7 @@ export class LevelService{
 		// find labelIdx
 		var labelIdx = this.getLabelIdx(attrDefName, lastEventClick.labels);
 		
-		var elem = element.find('canvas')[0];
+		var elem = element.querySelector ? element.querySelector('canvas') : element.find('canvas')[0];
 		var clientWidth = elem.clientWidth;
 		var clientOffset = elem.offsetLeft;
 		var top = elem.offsetTop;
@@ -435,7 +435,7 @@ export class LevelService{
 				}
 				this.createEditAreaElement(element, start, top, width, height, editText, lastEventClick.id);
 			}
-			this.createSelection(element.find('textarea')[0], 0, editText.length);
+			this.createSelection(element.querySelector ? element.querySelector('textarea') : element.find('textarea')[0], 0, editText.length);
 		}else{
 			this.ViewStateService.largeTextFieldInputFieldVisable = true;
 			this.ViewStateService.largeTextFieldInputFieldCurLabel =  editText;

@@ -1,4 +1,4 @@
-import { eventBus } from '../../app/util/event-bus';
+import { eventBus } from '../util/event-bus';
 
 export class AppStateService {
 	DragnDropService!: any;

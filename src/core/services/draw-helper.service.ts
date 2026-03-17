@@ -327,18 +327,17 @@ export class DrawHelperService{
 		}
 
 		// samples per pixel + one to correct for subtraction
-		var samplesPerPx = (eS + 1 - sS) / canvas.width; 
+		var samplesPerPx = (eS + 1 - sS) / canvas.width;
 
 		var i;
 
-		// find current peaks array window size by checking if 
+		// find current peaks array window size by checking if
 		var winIdx = -1;
 		for (i = 0; i < this.osciPeaks.winSizes.length; i++) {
 			if(samplesPerPx > this.osciPeaks.winSizes[i]){
 				winIdx = i;
 			}
 		}
-
 		var allPeakVals;
 
 		var yMax, yMin;

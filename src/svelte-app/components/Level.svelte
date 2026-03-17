@@ -14,7 +14,7 @@
 	import { safeGetItem } from '../../app/util/safe-storage';
 	import LevelCanvasMarkup from './LevelCanvasMarkup.svelte';
 
-	let { level, idx }: { level: any; idx: number } = $props();
+	let { levelName, idx }: { levelName: string; idx: number } = $props();
 
 	let canvas: HTMLCanvasElement;
 	let ctx: CanvasRenderingContext2D;
@@ -28,13 +28,12 @@
 	}
 
 	function changeCurAttrDef(attrDefName: string, index: number) {
-		const curAttrDef = viewStateService.getCurAttrDef(level.name);
+		const curAttrDef = viewStateService.getCurAttrDef(levelName);
 		if (curAttrDef !== attrDefName) {
-			viewStateService.setCurAttrDef(level.name, attrDefName, index);
+			viewStateService.setCurAttrDef(levelName, attrDefName, index);
 			viewStateService.setEditing(false);
 			levelService.deleteEditArea();
-			drawLevelDetails();
-			drawLevelMarkup();
+			invalidate();
 		}
 	}
 
@@ -46,7 +45,7 @@
 		return `background-color: ${styles.colorWhite}`;
 	}
 
-	function drawLevelDetails() {
+	function drawLevelDetailsFor(level: any) {
 		if (!ctx || isEmptyObj(level)) return;
 
 		const fontFamily = styles.fontSmallFamily;
@@ -244,15 +243,15 @@
 
 	onMount(() => {
 		ctx = canvas.getContext('2d')!;
-		if (level?.name) {
-			levelDef = configProviderService.getLevelDefinition(level.name);
-		}
+		levelDef = configProviderService.getLevelDefinition(levelName);
 		syncCanvasSize();
-		drawLevelDetails();
 
 		resizeObserver = new ResizeObserver(() => {
 			syncCanvasSize();
-			drawLevelDetails();
+			const curLevel = levelService.getLevelDetails(levelName);
+			if (curLevel && !isEmptyObj(curLevel)) {
+				drawLevelDetailsFor(curLevel);
+			}
 		});
 		resizeObserver.observe(canvas);
 	});
@@ -266,11 +265,14 @@
 		getTick();
 		if (!canvas) return;
 		if (!ctx) ctx = canvas.getContext('2d')!;
-		if (!levelDef && level?.name) {
-			levelDef = configProviderService.getLevelDefinition(level.name);
+		const curLevel = levelService.getLevelDetails(levelName);
+		if (!levelDef && curLevel?.name) {
+			levelDef = configProviderService.getLevelDefinition(curLevel.name);
 		}
 		syncCanvasSize();
-		drawLevelDetails();
+		if (curLevel && !isEmptyObj(curLevel)) {
+			drawLevelDetailsFor(curLevel);
+		}
 	});
 </script>
 
@@ -280,7 +282,7 @@
 			bind:this={canvas}
 			class="grazer-level-canvas"
 		></canvas>
-		<LevelCanvasMarkup {level} {idx} />
+		<LevelCanvasMarkup {levelName} {idx} />
 	</div>
 </div>
 

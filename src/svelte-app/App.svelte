@@ -378,15 +378,16 @@
 						const respType = 'text';
 						ioHandlerService.httpGetPath(labelGetUrl, respType).then((data2: any) => {
 							viewStateService.somethingInProgressTxt = 'Parsing ' + configProviderService.embeddedVals.labelType + ' file...';
-							ioHandlerService.parseLabelFile(data2.data, labelGetUrl, 'embeddedTextGrid', configProviderService.embeddedVals.labelType).then((annot: any) => {
+							ioHandlerService.parseLabelFile(data2.data, labelGetUrl, 'embeddedTextGrid', configProviderService.embeddedVals.labelType).then(async (annot: any) => {
 								dataService.setData(annot);
 								if (!searchParams.get('DBconfigGetUrl')) {
-									generateLevelDefsFromAnnotation(annot);
+									await generateLevelDefsFromAnnotation(annot);
 								}
 								viewStateService.setCurLevelAttrDefs(configProviderService.curDbConfig.levelDefinitions);
 								viewStateService.somethingInProgressTxt = 'Done!';
 								viewStateService.somethingInProgress = false;
 								viewStateService.setState('labeling');
+								invalidate();
 							});
 						});
 					} else {
@@ -396,6 +397,7 @@
 						viewStateService.somethingInProgressTxt = 'Done!';
 						viewStateService.somethingInProgress = false;
 						viewStateService.setState('labeling');
+						invalidate();
 					}
 				});
 			} else {
@@ -421,12 +423,14 @@
 		configProviderService.curDbConfig.levelDefinitions = levelDefs;
 		viewStateService.setCurLevelAttrDefs(levelDefs);
 		configProviderService.vals.perspectives[viewStateService.curPerspectiveIdx].levelCanvases.order = lNamesWithTime;
+		invalidate();
 		// Hierarchy worker — dynamic import to keep bundle size down
 		const { HierarchyWorker } = await import('../app/workers/hierarchy.worker');
 		const hierarchyWorker = await new (HierarchyWorker as any)();
 		const linkDefs = await hierarchyWorker.guessLinkDefinitions(annot);
 		configProviderService.curDbConfig.linkDefinitions = linkDefs;
 		configProviderService.vals.activeButtons.showHierarchy = true;
+		invalidate();
 	}
 
 	function checkIfToShowWelcomeModal() {
@@ -451,8 +455,8 @@
 
 <div class="grazer">
 <div class="grazer-main" id="MainCtrl"
-	on:mouseenter={() => viewStateService.mouseInEmuWebApp = true}
-	on:mouseleave={() => viewStateService.mouseInEmuWebApp = false}
+	onmouseenter={() => viewStateService.mouseInEmuWebApp = true}
+	onmouseleave={() => viewStateService.mouseInEmuWebApp = false}
 	role="application"
 >
 	<Modal />

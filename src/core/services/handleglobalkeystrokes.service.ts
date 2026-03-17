@@ -84,14 +84,10 @@ export class HandleGlobalKeyStrokes{
                         this.ViewStateService.setSavingAllowed(false);
                     }
                 }
-                if (this.ViewStateService.isSavingAllowed()) {
-                    domElement.css({
-                        'background-color': 'rgba(255,255,0,1)'
-                    });
-                } else {
-                    domElement.css({
-                        'background-color': 'rgba(255,0,0,1)'
-                    });
+                if (domElement) {
+                    domElement.style.backgroundColor = this.ViewStateService.isSavingAllowed()
+                        ? 'rgba(255,255,0,1)'
+                        : 'rgba(255,0,0,1)';
                 }
             }
         });

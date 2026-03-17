@@ -15,4 +15,3 @@
 	<textarea value={label} oninput={onInput}></textarea>
 </div>
 {/if}
-// test change

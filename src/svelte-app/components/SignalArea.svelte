@@ -62,7 +62,7 @@
 			<ul class="level-list">
 				{#each levelOrder as levelName, i}
 					<li>
-						<Level level={levelService.getLevelDetails(levelName)} idx={i} />
+						<Level levelName={levelName} idx={i} />
 					</li>
 				{/each}
 			</ul>
@@ -82,6 +82,7 @@
 	.signal-item {
 		width: 100%;
 		min-height: 60px;
+		position: relative;
 	}
 
 	.signal-list {

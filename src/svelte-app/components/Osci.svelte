@@ -4,6 +4,7 @@
 	import {
 		viewStateService,
 		drawHelperService,
+		soundHandlerService,
 	} from '../stores/services';
 	import SsffCanvas from './SsffCanvas.svelte';
 	import SignalCanvasMarkup from './SignalCanvasMarkup.svelte';
@@ -11,6 +12,7 @@
 	let { trackName }: { trackName: string } = $props();
 
 	let canvas: HTMLCanvasElement;
+	let lastAudioLength = 0;
 
 	function syncCanvasSize() {
 		if (!canvas) return;
@@ -30,8 +32,12 @@
 		syncCanvasSize();
 		const sS = viewStateService.curViewPort?.sS;
 		const eS = viewStateService.curViewPort?.eS;
-		if (sS != null && eS != null && eS > sS) {
-			drawHelperService.freshRedrawDrawOsciOnCanvas(canvas, sS, eS, false);
+		if (sS != null && eS != null && eS > sS && soundHandlerService.audioBuffer?.length > 0) {
+			// Force recalculate osciPeaks when audio buffer changes (new bundle loaded)
+			const curLen = soundHandlerService.audioBuffer.length;
+			const forceRecalc = curLen !== lastAudioLength;
+			if (forceRecalc) lastAudioLength = curLen;
+			drawHelperService.freshRedrawDrawOsciOnCanvas(canvas, sS, eS, forceRecalc);
 		}
 	});
 </script>
