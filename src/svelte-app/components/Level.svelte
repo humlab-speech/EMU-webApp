@@ -261,6 +261,7 @@
 	});
 
 	// Change detection to avoid unnecessary redraws
+	let prevTick = -1;
 	let prevSS = -1;
 	let prevES = -1;
 	let prevCanvasW = -1;
@@ -270,7 +271,7 @@
 
 	// reactive redraw
 	$effect(() => {
-		getTick();
+		const tick = getTick();
 		if (!canvas) return;
 		if (!ctx) ctx = canvas.getContext('2d')!;
 		const curLevel = levelService.getLevelDetails(levelName);
@@ -286,7 +287,8 @@
 		const attrDef = viewStateService.getCurAttrDef(levelName) ?? '';
 		const itemCount = curLevel?.items?.length ?? -1;
 
-		if (sS !== prevSS || eS !== prevES || cw !== prevCanvasW || ch !== prevCanvasH || attrDef !== prevAttrDef || itemCount !== prevItemCount) {
+		if (tick !== prevTick || sS !== prevSS || eS !== prevES || cw !== prevCanvasW || ch !== prevCanvasH || attrDef !== prevAttrDef || itemCount !== prevItemCount) {
+			prevTick = tick;
 			prevSS = sS;
 			prevES = eS;
 			prevCanvasW = cw;

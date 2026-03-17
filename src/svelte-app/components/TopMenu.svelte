@@ -255,7 +255,7 @@
 	{/if}
 
 	{#if activeButtons?.openDemoDB}
-		<div class="grazer-nav-wrap left"
+		<div class="grazer-nav-wrap"
 			onmouseenter={() => dropdown = true}
 			onmouseleave={() => dropdown = false}
 			role="menu"

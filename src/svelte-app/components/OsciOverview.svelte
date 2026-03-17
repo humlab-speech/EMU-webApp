@@ -193,12 +193,6 @@
 </div>
 
 <style>
-	.grazer-preview {
-		position: relative;
-		width: 100%;
-		height: 100%;
-	}
-
 	.grazer-preview-canvas {
 		position: absolute;
 		top: 0;

@@ -78,72 +78,56 @@
 </script>
 
 <div class="grazer-bottom-menu">
-	<div class="osci-overview-container">
+	<div>
 		<OsciOverview />
 	</div>
 
-	<div class="controls">
-		<button class="grazer-mini-btn" id="zoomInBtn"
-			disabled={!canZoom}
-			onclick={cmdZoomIn}>
-			<i class="material-icons">expand_less</i>in
-		</button>
-		<button class="grazer-mini-btn" id="zoomOutBtn"
-			disabled={!canZoom}
-			onclick={cmdZoomOut}>
-			<i class="material-icons">expand_more</i>out
-		</button>
-		<button class="grazer-mini-btn" id="zoomLeftBtn"
-			disabled={!canZoom}
-			onclick={cmdZoomLeft}>
-			<i class="material-icons">chevron_left</i>left
-		</button>
-		<button class="grazer-mini-btn" id="zoomRightBtn"
-			disabled={!canZoom}
-			onclick={cmdZoomRight}>
-			<i class="material-icons">chevron_right</i>right
-		</button>
-		<button class="grazer-mini-btn" id="zoomAllBtn"
-			disabled={!canZoom}
-			onclick={cmdZoomAll}>
-			<i class="material-icons" style="transform: rotate(90deg)">unfold_less</i>all
-		</button>
-		<button class="grazer-mini-btn" id="zoomSelBtn"
-			disabled={!canZoom}
-			onclick={cmdZoomSel}>
-			<i class="material-icons" style="transform: rotate(90deg)">unfold_more</i>selection
-		</button>
+	<button class="grazer-mini-btn left" id="zoomInBtn"
+		disabled={!canZoom}
+		onclick={cmdZoomIn}>
+		<i class="material-icons">expand_less</i>in
+	</button>
+	<button class="grazer-mini-btn left" id="zoomOutBtn"
+		disabled={!canZoom}
+		onclick={cmdZoomOut}>
+		<i class="material-icons">expand_more</i>out
+	</button>
+	<button class="grazer-mini-btn left" id="zoomLeftBtn"
+		disabled={!canZoom}
+		onclick={cmdZoomLeft}>
+		<i class="material-icons">chevron_left</i>left
+	</button>
+	<button class="grazer-mini-btn left" id="zoomRightBtn"
+		disabled={!canZoom}
+		onclick={cmdZoomRight}>
+		<i class="material-icons">chevron_right</i>right
+	</button>
+	<button class="grazer-mini-btn left" id="zoomAllBtn"
+		disabled={!canZoom}
+		onclick={cmdZoomAll}>
+		<i class="material-icons" style="transform: rotate(90deg)">unfold_less</i>all
+	</button>
+	<button class="grazer-mini-btn left" id="zoomSelBtn"
+		disabled={!canZoom}
+		onclick={cmdZoomSel}>
+		<i class="material-icons" style="transform: rotate(90deg)">unfold_more</i>selection
+	</button>
 
-		{#if restrictions?.playback}
-			<button class="grazer-mini-btn" id="playViewBtn"
-				disabled={!canPlay}
-				onclick={cmdPlayView}>
-				<i class="material-icons">play_arrow</i>in view
-			</button>
-			<button class="grazer-mini-btn" id="playSelBtn"
-				disabled={!canPlay}
-				onclick={cmdPlaySel}>
-				<i class="material-icons">play_circle_outline</i>selected
-			</button>
-			<button class="grazer-mini-btn" id="playAllBtn"
-				disabled={!canPlay}
-				onclick={cmdPlayAll}>
-				<i class="material-icons">play_circle_filled</i>entire file
-			</button>
-		{/if}
-	</div>
+	{#if restrictions?.playback}
+		<button class="grazer-mini-btn left" id="playViewBtn"
+			disabled={!canPlay}
+			onclick={cmdPlayView}>
+			<i class="material-icons">play_arrow</i>in view
+		</button>
+		<button class="grazer-mini-btn left" id="playSelBtn"
+			disabled={!canPlay}
+			onclick={cmdPlaySel}>
+			<i class="material-icons">play_circle_outline</i>selected
+		</button>
+		<button class="grazer-mini-btn left" id="playAllBtn"
+			disabled={!canPlay}
+			onclick={cmdPlayAll}>
+			<i class="material-icons">play_circle_filled</i>entire file
+		</button>
+	{/if}
 </div>
-
-<style>
-	.osci-overview-container {
-		flex: 1;
-		height: 70px;
-		margin-right: 8px;
-	}
-
-	.controls {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 2px;
-	}
-</style>
