@@ -4,7 +4,7 @@
 	import ProgressBar from './components/ProgressBar.svelte';
 	import BundleListSidebar from './components/BundleListSidebar.svelte';
 	import HistoryActionPopup from './components/HistoryActionPopup.svelte';
-	import DropZone from './components/DropZone.svelte';
+	// DropZone is now rendered inside BundleListSidebar
 	import Modal from './components/Modal.svelte';
 	import LargeTextFieldInput from './components/LargeTextFieldInput.svelte';
 	import ToastNotification from './components/ToastNotification.svelte';
@@ -487,7 +487,6 @@
 	</div>
 
 	<PerspectivesSidebar />
-	<DropZone />
 </div>
 </div>
 

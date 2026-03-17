@@ -32,11 +32,8 @@ export class ConfigProviderService {
 		const savedTheme = localStorage.getItem('grazer-theme');
 		if (savedTheme) {
 			this.setTheme(savedTheme as any);
-		} else {
-			if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-				this.setTheme('light');
-			}
 		}
+		// Default is dark (no data-theme attribute needed) — matches original EMU-webApp
 	}
 
 	public setTheme(theme: 'light' | 'dark') {

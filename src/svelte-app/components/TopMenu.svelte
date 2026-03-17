@@ -255,22 +255,29 @@
 	{/if}
 
 	{#if activeButtons?.openDemoDB}
-		<div class="grazer-nav-wrap"
+		<div class="grazer-nav-wrap left"
 			onmouseenter={() => dropdown = true}
 			onmouseleave={() => dropdown = false}
 			role="menu"
 			tabindex="-1"
 		>
-			<button class="grazer-mini-btn full" id="demoDB"
-				disabled={!perms.openDemo}
-				onclick={() => dropdown = !dropdown}>open demo <span id="grazer-dropdown-arrow"></span></button>
-			{#if dropdown}
-				<ul class="grazer-dropdown-menu">
-					{#each demoDBs as curDB, i}
-						<li onclick={() => openDemoDB(curDB)} id="demo{i}" role="menuitem">{curDB}</li>
-					{/each}
-				</ul>
-			{/if}
+			<ul class="grazer-dropdown-container">
+				<li class="left">
+					<button type="button" class="grazer-mini-btn full" id="demoDB"
+						disabled={!perms.openDemo}
+						onclick={() => dropdown = !dropdown}>open demo <span id="grazer-dropdown-arrow"></span></button>
+					{#if dropdown}
+						<ul class="grazer-dropdown-menu"
+							onmouseenter={() => dropdown = true}
+							onmouseleave={() => dropdown = false}
+						>
+							{#each demoDBs as curDB, i}
+								<li onclick={() => openDemoDB(curDB)} id="demo{i}" role="menuitem">{curDB}</li>
+							{/each}
+						</ul>
+					{/if}
+				</li>
+			</ul>
 		</div>
 	{/if}
 
