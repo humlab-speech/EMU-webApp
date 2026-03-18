@@ -9,7 +9,7 @@
 			"type": "string"
 		},
 		"mediafileExtension": {
-			"type": "string"
+			"enum": ["wav", "mp3", "flac", "ogg", "oga", "aac", "m4a", "wma", "mp4", "webm", "mov"]
 		},
 		"ssffTrackDefinitions": {
 			"type": "array",

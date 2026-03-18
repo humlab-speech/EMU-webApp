@@ -65,7 +65,7 @@
 		},
 		"mediafileExtension": {
 			"type": {
-				"enum": ["wav"]
+				"enum": ["wav", "mp3", "flac", "ogg", "oga", "aac", "m4a", "wma", "mp4", "webm", "mov"]
 			}
 		},
 		"ssffTracks": {

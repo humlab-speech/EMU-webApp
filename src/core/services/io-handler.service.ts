@@ -197,6 +197,7 @@ export class IoHandlerService{
 					fileExtension: tr.fileExtension
 				});
 			});
+			var mediaExt = this.ConfigProviderService.curDbConfig.mediafileExtension || 'wav';
 			if(searchObject.useLFS !== "true"){
 				getProm = Promise.all([
 					fetch(bndlURL + name + '_annot.json/raw?ref=master', {
@@ -204,7 +205,7 @@ export class IoHandlerService{
 					}).then((resp) => { return(resp.json()) })
 				]).then((allResponses) => {
 					return {
-						mediaFile: { encoding: "GETURL", data: bndlURL + name + '.wav/raw?ref=master' },
+						mediaFile: { encoding: "GETURL", data: bndlURL + name + '.' + mediaExt + '/raw?ref=master' },
 						annotation: allResponses[0], ssffFiles: ssffFiles
 					};
 				}).catch((err) => { console.error('Error fetching bundle:', err); throw err; })
@@ -216,7 +217,7 @@ export class IoHandlerService{
 					}).then((resp) => { return(resp.json()) })
 				]).then((allResponses) => {
 					return {
-						mediaFile: { encoding: "GETURL", data: bndlURL + name + '.wav/raw?ref=master' },
+						mediaFile: { encoding: "GETURL", data: bndlURL + name + '.' + mediaExt + '/raw?ref=master' },
 						annotation: allResponses[0], ssffFiles: ssffFiles
 					};
 				}).catch((err) => { console.error('Error fetching bundle (LFS):', err); throw err; })
