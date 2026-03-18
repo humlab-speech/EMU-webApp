@@ -22,6 +22,7 @@
 
 	function toggleSidebar() {
 		viewStateService.toggleBundleListSideBar(styles.animationPeriod);
+		invalidate();
 	}
 
 	function saveBundle() {
