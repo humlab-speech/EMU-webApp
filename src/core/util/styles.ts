@@ -23,4 +23,7 @@ export const styles = {
 	fontSmallWeight: 400,
 	fontLargeFamily: 'Arial',
 	fontLargeSize: '16px',
+	fontInputFamily: 'Arial',
+	fontInputSize: '14px',
+	fontInputWeight: 400,
 };

@@ -11,6 +11,7 @@
 	import PerspectivesSidebar from './components/PerspectivesSidebar.svelte';
 	import NewVersionHint from './components/NewVersionHint.svelte';
 	import SignalArea from './components/SignalArea.svelte';
+	import TwoDimPanel from './components/TwoDimPanel.svelte';
 	import {
 		initServices,
 		viewStateService,
@@ -481,6 +482,7 @@
 		<div class="grazer-canvas">
 			<HistoryActionPopup />
 			<SignalArea />
+			<TwoDimPanel />
 		</div>
 
 		<BottomMenu />
