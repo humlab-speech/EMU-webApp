@@ -42,7 +42,7 @@
 		let minVal: number;
 		let maxVal: number;
 
-		if (trackName === 'SPEC' && assignmentTrackName === 'FORMANTS') {
+		if (trackName === 'SPEC' && assignmentTrackName !== '') {
 			minVal = viewStateService.spectroSettings.rangeFrom;
 			maxVal = viewStateService.spectroSettings.rangeTo;
 		} else {
@@ -122,7 +122,7 @@
 					if (
 						viewStateService.curCorrectionToolNr - 1 === contourNr &&
 						trackName === 'SPEC' &&
-						assignmentTrackName === 'FORMANTS'
+						assignmentTrackName !== ''
 					) {
 						ctx.strokeStyle = styles.colorGreen;
 						ctx.fillStyle = styles.colorGreen;

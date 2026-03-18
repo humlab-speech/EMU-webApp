@@ -18,17 +18,15 @@ export class PublisherService {
 		if (this.ConfigProviderService.vals.main.comMode !== 'EMBEDDED') { return; }
 		var bundleData = {} as any;
 		bundleData.ssffFiles = [];
-		var formants = this.SsffDataService.getFile('FORMANTS');
-		if (formants !== undefined) {
+		for (const ssffFile of this.SsffDataService.data) {
 			try {
-				let messParser = await this.SsffParserService.asyncJso2ssff(formants);
+				let messParser = await this.SsffParserService.asyncJso2ssff(ssffFile);
 				bundleData.ssffFiles.push({
-					'fileExtension': formants.fileExtension, 'encoding': 'BASE64',
+					'fileExtension': ssffFile.fileExtension, 'encoding': 'BASE64',
 					'data': this.BinaryDataManipHelperService.arrayBufferToBase64(messParser.data)
 				});
 			} catch (error) {
-				console.warn('Error converting FORMANTS javascript object to SSFF file.', error);
-				return;
+				console.warn('Error converting SSFF file (' + ssffFile.fileExtension + ') to binary.', error);
 			}
 		}
 		var validRes = this.ValidationService.validateJSO('annotationFileSchema', this.DataService.getData());

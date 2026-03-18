@@ -17,7 +17,7 @@
 	let ctx: CanvasRenderingContext2D;
 	let drawCrossHairs = false;
 	let curMouseY = 0;
-	let formantCorrectionTrack: any = undefined;
+	let correctionTrack: any = undefined;
 
 	// --- helpers ---
 
@@ -92,9 +92,9 @@
 		}
 
 		// formant correction highlights
-		if (formantCorrectionTrack) {
+		if (correctionTrack) {
 			const curChangeObj = historyService.curChangeObj;
-			const sRaSt = ssffDataService.getSampleRateAndStartTimeOfTrack(formantCorrectionTrack.name);
+			const sRaSt = ssffDataService.getSampleRateAndStartTimeOfTrack(correctionTrack.name);
 
 			for (const key in curChangeObj) {
 				const currentSampleTime = (1 / sRaSt.sampleRate * curChangeObj[key].sampleBlockIdx) + sRaSt.startTime;
@@ -205,11 +205,15 @@
 									!viewStateService.getdragBarActive() &&
 									!isEmptyObj(configProviderService.getAssignment(trackName))
 								) {
-									if (formantCorrectionTrack === undefined) {
-										formantCorrectionTrack = configProviderService.getSsffTrackConfig('FORMANTS');
+									if (correctionTrack === undefined) {
+										const assignment = configProviderService.getAssignment(trackName);
+										if (assignment && assignment.ssffTrackName) {
+											correctionTrack = configProviderService.getSsffTrackConfig(assignment.ssffTrackName);
+										}
 									}
-									const col = ssffDataService.getColumnOfTrack(formantCorrectionTrack.name, formantCorrectionTrack.columnName);
-									const sRaSt = ssffDataService.getSampleRateAndStartTimeOfTrack(formantCorrectionTrack.name);
+									if (!correctionTrack) return;
+									const col = ssffDataService.getColumnOfTrack(correctionTrack.name, correctionTrack.columnName);
+									const sRaSt = ssffDataService.getSampleRateAndStartTimeOfTrack(correctionTrack.name);
 									const startTimeVP = viewStateService.getViewPortStartTime();
 									const endTimeVP = viewStateService.getViewPortEndTime();
 									const colStartSampleNr = Math.max(0, Math.ceil((startTimeVP - sRaSt.startTime) * sRaSt.sampleRate));
@@ -236,7 +240,7 @@
 										curSampleArrs[viewStateService.curPreselColumnSample][viewStateService.curCorrectionToolNr - 1] = newValue;
 										historyService.updateCurChangeObj({
 											type: 'SSFF',
-											trackName: formantCorrectionTrack.name,
+											trackName: correctionTrack.name,
 											sampleBlockIdx: colStartSampleNr + viewStateService.curPreselColumnSample,
 											sampleIdx: viewStateService.curCorrectionToolNr - 1,
 											oldValue: oldValue,
@@ -330,9 +334,12 @@
 	onMount(() => {
 		ctx = canvas.getContext('2d')!;
 		syncCanvasSize();
-		// update formant track on bundle load
+		// update correction track on bundle load
 		if (!isEmptyObj(ssffDataService.data) && ssffDataService.data.length !== 0) {
-			formantCorrectionTrack = configProviderService.getSsffTrackConfig('FORMANTS');
+			const assignment = configProviderService.getAssignment(trackName);
+			if (assignment && assignment.ssffTrackName) {
+				correctionTrack = configProviderService.getSsffTrackConfig(assignment.ssffTrackName);
+			}
 		}
 	});
 

@@ -79,7 +79,7 @@
 		if (!col) return;
 
 		let minVal: number, maxVal: number;
-		if (trackName === 'SPEC' && assignmentTrackName === 'FORMANTS') {
+		if (trackName === 'SPEC' && assignmentTrackName !== '') {
 			minVal = viewStateService.spectroSettings.rangeFrom;
 			maxVal = viewStateService.spectroSettings.rangeTo;
 		} else {
@@ -138,7 +138,7 @@
 					}
 
 					// Highlight selected correction tool
-					if (viewStateService.curCorrectionToolNr - 1 === contourNr && trackName === 'SPEC' && assignmentTrackName === 'FORMANTS') {
+					if (viewStateService.curCorrectionToolNr - 1 === contourNr && trackName === 'SPEC' && assignmentTrackName !== '') {
 						ctx.strokeStyle = '#00ff00';
 						ctx.fillStyle = '#00ff00';
 					}

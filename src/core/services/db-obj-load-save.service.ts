@@ -324,17 +324,20 @@ export class DbObjLoadSaveService {
 			var bundleData = {} as any;
 			this.ViewStateService.somethingInProgressTxt = 'Creating bundle json...';
 			bundleData.ssffFiles = [];
-			var formants = this.SsffDataService.getFile('FORMANTS');
-			if (formants !== undefined) {
-				return this.SsffParserService.asyncJso2ssff(formants).then((messParser) => {
+			const ssffPromises = this.SsffDataService.data.map((ssffFile) =>
+				this.SsffParserService.asyncJso2ssff(ssffFile).then((messParser) => {
 					bundleData.ssffFiles.push({
-						'fileExtension': formants.fileExtension,
+						'fileExtension': ssffFile.fileExtension,
 						'encoding': 'BASE64',
 						'data': this.BinaryDataManipHelperService.arrayBufferToBase64(messParser.data)
 					});
+				})
+			);
+			if (ssffPromises.length > 0) {
+				return Promise.all(ssffPromises).then(() => {
 					return this.getAnnotationAndSaveBndl(bundleData);
 				}, (errMess) => {
-					this.ModalService.open('views/error.html', 'Error converting javascript object to SSFF file: ' + errMess.status.message);
+					this.ModalService.open('views/error.html', 'Error converting SSFF file to binary: ' + (errMess.status ? errMess.status.message : errMess));
 					return Promise.reject(errMess);
 				});
 			} else {
