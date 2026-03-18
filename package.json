@@ -1,6 +1,6 @@
 {
   "name": "grazer",
-  "version": "1.5.3-humlab-1.6.4",
+  "version": "1.5.3-humlab-1.7.0",
   "description": "grazer is an online and offline Web-App for labeling, visualizing and correcting speech and derived speech data.",
   "main": "app/scripts/app.js",
   "author": "Raphael Winkelmann, Georg Raess, Markus Jochim",
@@ -16,6 +16,9 @@
     "comlink": "^4.2.0",
     "d3": "^7.9.0",
     "http-server": "^14.1.1",
+    "jquery": "^4.0.0",
+    "libav.js": "^6.8.8",
+    "rxjs": "^7.8.2",
     "showdown": "^1.9.1",
     "svelte": "^5.53.12",
     "tv4": "~1.0.17",

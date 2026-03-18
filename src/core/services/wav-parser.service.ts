@@ -46,8 +46,9 @@ export class AudioParserService {
 			return this.parseWavPath(buf);
 		}
 
+		// MKV/Matroska: skip browser attempt, go straight to libav.js
 		if (format === 'webm' && isActuallyMKV(buf)) {
-			return Promise.reject({ 'status': { 'type': 'ERROR', 'message': 'MKV format is not supported. Please convert to MP4 or WebM.' } });
+			return this.decodeWithLibAV(buf);
 		}
 
 		return this.decodeNonWav(buf);
@@ -121,12 +122,25 @@ export class AudioParserService {
 					},
 					(error) => {
 						ctx.close();
-						reject({ 'status': { 'type': 'ERROR', 'message': 'Unsupported audio format. Browser could not decode this file.' } });
+						// Browser failed — fall back to libav.js (FFmpeg WASM)
+						this.decodeWithLibAV(buf).then(resolve, reject);
 					}
 				);
 			} catch (e) {
 				reject({ 'status': { 'type': 'ERROR', 'message': 'AudioContext not available: ' + e.message } });
 			}
+		});
+	}
+
+	private decodeWithLibAV(buf) {
+		return import('./libav-decoder.service').then(({ decodeWithLibAV }) => {
+			this.ViewStateService.showToast('Decoding with FFmpeg (WASM)...');
+			return decodeWithLibAV(buf).then((result) => {
+				return { audioBuffer: result.audioBuffer, playbackBuffer: null };
+			});
+		}).catch((err) => {
+			var message = err && err.status ? err.status.message : (err.message || String(err));
+			throw { 'status': { 'type': 'ERROR', 'message': 'Could not decode audio. Browser and FFmpeg both failed: ' + message } };
 		});
 	}
 
