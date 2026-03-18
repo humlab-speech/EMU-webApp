@@ -10,8 +10,8 @@
 		hierarchyLayoutService,
 		levelService,
 	} from '../stores/services';
-	import { HierarchyWorker } from '../../app/workers/hierarchy.worker';
-	import { safeGetItem } from '../../app/util/safe-storage';
+	import { HierarchyWorker } from '../../core/workers/hierarchy.worker';
+	import { safeGetItem } from '../../core/util/safe-storage';
 
 	// Colors
 	const COLOR_BLACK = '#000';

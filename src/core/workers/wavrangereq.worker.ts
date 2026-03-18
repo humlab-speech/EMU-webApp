@@ -1,8 +1,8 @@
 // Dependencies get bundled into the worker:
-import { WavHeaderInfos } from '../../core/interfaces/wav-header-infos.interface';
-import { WavFileInfos } from '../../core/interfaces/wav-file-infos.interface';
-import { WavRange } from '../../core/interfaces/wav-range.interface';
-import { parseWavHeader } from '../../core/services/wav-header-parser';
+import { WavHeaderInfos } from '../interfaces/wav-header-infos.interface';
+import { WavFileInfos } from '../interfaces/wav-file-infos.interface';
+import { WavRange } from '../interfaces/wav-range.interface';
+import { parseWavHeader } from '../services/wav-header-parser';
 
 // Export as you would in a normal module:
 export class WavRangeReq {

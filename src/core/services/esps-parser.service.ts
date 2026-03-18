@@ -1,4 +1,4 @@
-import { EspsParserWorker } from '../../app/workers/esps-parser.worker.js';
+import { EspsParserWorker } from '../workers/esps-parser.worker.js';
 
 export class EspsParserService {
 	LevelService!: any;

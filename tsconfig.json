@@ -1,22 +1,23 @@
 {
     "compilerOptions": {
-      "baseUrl": "",
+      "target": "ES2020",
+      "module": "ESNext",
+      "moduleResolution": "bundler",
       "declaration": false,
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
-      "lib": ["es6", "dom"],
-      "mapRoot": "./",
-      "module": "es6",
-      "moduleResolution": "node",
-      "resolveJsonModule": true,
-      "outDir": "../dist/out-tsc",
       "sourceMap": true,
-      "target": "es5",
-      "typeRoots": [
-        "../node_modules/@types"
-      ]
+      "resolveJsonModule": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "lib": ["ES2020", "DOM", "DOM.Iterable"],
+      "baseUrl": ".",
+      "paths": {
+        "@core/*": ["src/core/*"]
+      }
     },
     "include": [
-      "src/**/*.d.ts"
-  ]
+      "src/core/**/*.ts",
+      "src/svelte-app/**/*.ts",
+      "src/svelte-app/**/*.svelte"
+    ]
   }

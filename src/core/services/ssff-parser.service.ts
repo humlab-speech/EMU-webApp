@@ -1,4 +1,4 @@
-import { SsffParserWorker } from '../../app/workers/ssff-parser.worker.js';
+import { SsffParserWorker } from '../workers/ssff-parser.worker.js';
 
 export class SsffParserService {
 	private worker;

@@ -1,5 +1,5 @@
-import { WavRangeReq } from '../../app/workers/wavrangereq.worker';
-import { httpGet } from '../../app/util/http-get';
+import { WavRangeReq } from '../workers/wavrangereq.worker';
+import { httpGet } from '../util/http-get';
 
 export class DbObjLoadSaveService {
 	// Dependencies — set via initDeps()

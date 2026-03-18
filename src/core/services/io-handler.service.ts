@@ -1,4 +1,4 @@
-import { httpGet } from '../../app/util/http-get';
+import { httpGet } from '../util/http-get';
 
 export class IoHandlerService{
 	private HistoryService: any;

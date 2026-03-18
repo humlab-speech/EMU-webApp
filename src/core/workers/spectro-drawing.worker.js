@@ -566,10 +566,6 @@ SpectroDrawingWorker.prototype = {
 				// height between two interpolation points
 				global.pixelHeight = global.imgHeight / (global.ceilingFreqFftIdx - global.floorFreqFftIdx - 2);
 
-				// ugly hack in order to support PhantomJS < 2.0 testing
-				if (typeof Uint8ClampedArray === 'undefined') {
-					Uint8ClampedArray = Uint8Array;
-				}
 				// create new picture
 				global.resultImgArr = new Uint8ClampedArray(Math.ceil(global.imgWidth * global.imgHeight * 4));
 

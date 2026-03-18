@@ -1,7 +1,7 @@
 'use strict';
 
 const { buildPcmWav } = require('../../fixtures/wav-builders');
-const { WavRangeReq } = require('../../../src/app/workers/wavrangereq.worker');
+const { WavRangeReq } = require('../../../src/core/workers/wavrangereq.worker');
 
 describe('Worker: WavRangeReq', function () {
 

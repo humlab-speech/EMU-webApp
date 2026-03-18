@@ -1,5 +1,5 @@
 import * as tv4 from 'tv4';
-import { httpGet } from '../../app/util/http-get';
+import { httpGet } from '../util/http-get';
 import { deepCopy } from '../util/deep-copy';
 
 export class ValidationService {

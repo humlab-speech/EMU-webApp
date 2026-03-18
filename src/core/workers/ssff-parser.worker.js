@@ -305,10 +305,6 @@ SsffParserWorker.prototype = {
 					if (ssffData.Columns[i].ssffdatatype === 'DOUBLE') {
 						curLen = 8 * ssffData.Columns[i].length;
 						curBuffer = buf.subarray(curBinIdx, curLen);
-						// ugly hack in order to support PhantomJS < 2.0 testing
-						if (typeof Float64Array === 'undefined') {
-							Float64Array = Float32Array;
-						}
 						curBufferView = new Float64Array(curBuffer);
 						ssffData.Columns[i].values.push(Array.prototype.slice.call(curBufferView));
 						curBinIdx += curLen;

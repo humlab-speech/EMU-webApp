@@ -429,7 +429,7 @@
 		configProviderService.vals.perspectives[viewStateService.curPerspectiveIdx].levelCanvases.order = lNamesWithTime;
 		invalidate();
 		// Hierarchy worker — dynamic import to keep bundle size down
-		const { HierarchyWorker } = await import('../app/workers/hierarchy.worker');
+		const { HierarchyWorker } = await import('../core/workers/hierarchy.worker');
 		const hierarchyWorker = await new (HierarchyWorker as any)();
 		const linkDefs = await hierarchyWorker.guessLinkDefinitions(annot);
 		configProviderService.curDbConfig.linkDefinitions = linkDefs;

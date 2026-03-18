@@ -26,7 +26,7 @@ import '../styles/hierarchy.scss';
 import '../styles/splitPanes.scss';
 import '../styles/tabbed.scss';
 import '../styles/animation.scss';
-import '../styles/customAngularuiModal.scss';
+import '../styles/modal.scss';
 import '../styles/largeTextInputField.scss';
 import '../styles/levelCanvasesGrid.scss';
 

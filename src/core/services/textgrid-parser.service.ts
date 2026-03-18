@@ -1,4 +1,4 @@
-import { TextGridParserWorker } from '../../app/workers/textgrid-parser.worker.js';
+import { TextGridParserWorker } from '../workers/textgrid-parser.worker.js';
 
 export class TextGridParserService {
 	DataService!: any;

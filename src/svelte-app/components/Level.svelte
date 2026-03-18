@@ -11,7 +11,7 @@
 		levelService,
 	} from '../stores/services';
 	import { styles } from '../../core/util/styles';
-	import { safeGetItem } from '../../app/util/safe-storage';
+	import { safeGetItem } from '../../core/util/safe-storage';
 	import LevelCanvasMarkup from './LevelCanvasMarkup.svelte';
 
 	let { levelName, idx }: { levelName: string; idx: number } = $props();
