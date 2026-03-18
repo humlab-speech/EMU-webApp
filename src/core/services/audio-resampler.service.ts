@@ -12,6 +12,23 @@ export class AudioResamplerService {
 		return sampleRate < 44100 && this.BrowserDetectorService.isSafariOrWebKit();
 	}
 
+	public resampleAudioBuffer(decoded: AudioBuffer, targetRate: number) {
+		return new Promise((resolve, reject) => {
+		try {
+			var srcRate = decoded.sampleRate;
+			var numChannels = decoded.numberOfChannels;
+			var numSamples = decoded.length;
+			var channelData: Float32Array[] = [];
+			for (var ch = 0; ch < numChannels; ch++) { channelData.push(decoded.getChannelData(ch)); }
+			var resampledWavBuf = this.channelsToWav(channelData, srcRate, targetRate);
+			var originalBuffer = new AudioBufferLike(channelData, srcRate);
+			resolve({ originalBuffer: originalBuffer, resampledWavBuf: resampledWavBuf });
+		} catch (e) {
+			reject({ 'status': { 'type': 'ERROR', 'message': 'Resampling failed: ' + e.message } });
+		}
+		});
+	}
+
 	public resampleWavBuffer(buf: ArrayBuffer, headerInfos: any, targetRate: number) {
 		return new Promise((resolve, reject) => {
 		try {
@@ -36,42 +53,49 @@ export class AudioResamplerService {
 					offset += bytesPerSample;
 				}
 			}
-			var ratio = targetRate / srcRate;
-			var outLength = Math.ceil(numSamples * ratio);
-			var resampledChannels: Float32Array[] = [];
-			for (var ch = 0; ch < numChannels; ch++) { resampledChannels.push(this.resampleChannel(channelData[ch], srcRate, targetRate, outLength)); }
-			var outBytesPerSample = 2;
-			var outDataSize = outLength * numChannels * outBytesPerSample;
-			var outBufSize = 44 + outDataSize;
-			var outBuf = new ArrayBuffer(outBufSize);
-			var outView = new DataView(outBuf);
-			this.writeString(outView, 0, 'RIFF');
-			outView.setUint32(4, outBufSize - 8, true);
-			this.writeString(outView, 8, 'WAVE');
-			this.writeString(outView, 12, 'fmt ');
-			outView.setUint32(16, 16, true);
-			outView.setUint16(20, 1, true);
-			outView.setUint16(22, numChannels, true);
-			outView.setUint32(24, targetRate, true);
-			outView.setUint32(28, targetRate * numChannels * outBytesPerSample, true);
-			outView.setUint16(32, numChannels * outBytesPerSample, true);
-			outView.setUint16(34, outBytesPerSample * 8, true);
-			this.writeString(outView, 36, 'data');
-			outView.setUint32(40, outDataSize, true);
-			var writeOffset = 44;
-			for (var i = 0; i < outLength; i++) {
-				for (var ch = 0; ch < numChannels; ch++) {
-					var s = Math.max(-1, Math.min(1, resampledChannels[ch][i]));
-					outView.setInt16(writeOffset, s < 0 ? s * 32768 : s * 32767, true);
-					writeOffset += 2;
-				}
-			}
+			var resampledWavBuf = this.channelsToWav(channelData, srcRate, targetRate);
 			var originalBuffer = new AudioBufferLike(channelData, srcRate);
-			resolve({ originalBuffer: originalBuffer, resampledWavBuf: outBuf });
+			resolve({ originalBuffer: originalBuffer, resampledWavBuf: resampledWavBuf });
 		} catch (e) {
 			reject({ 'status': { 'type': 'ERROR', 'message': 'Resampling failed: ' + e.message } });
 		}
 		});
+	}
+
+	private channelsToWav(channelData: Float32Array[], srcRate: number, targetRate: number): ArrayBuffer {
+		var numChannels = channelData.length;
+		var numSamples = channelData[0].length;
+		var ratio = targetRate / srcRate;
+		var outLength = Math.ceil(numSamples * ratio);
+		var resampledChannels: Float32Array[] = [];
+		for (var ch = 0; ch < numChannels; ch++) { resampledChannels.push(this.resampleChannel(channelData[ch], srcRate, targetRate, outLength)); }
+		var outBytesPerSample = 2;
+		var outDataSize = outLength * numChannels * outBytesPerSample;
+		var outBufSize = 44 + outDataSize;
+		var outBuf = new ArrayBuffer(outBufSize);
+		var outView = new DataView(outBuf);
+		this.writeString(outView, 0, 'RIFF');
+		outView.setUint32(4, outBufSize - 8, true);
+		this.writeString(outView, 8, 'WAVE');
+		this.writeString(outView, 12, 'fmt ');
+		outView.setUint32(16, 16, true);
+		outView.setUint16(20, 1, true);
+		outView.setUint16(22, numChannels, true);
+		outView.setUint32(24, targetRate, true);
+		outView.setUint32(28, targetRate * numChannels * outBytesPerSample, true);
+		outView.setUint16(32, numChannels * outBytesPerSample, true);
+		outView.setUint16(34, outBytesPerSample * 8, true);
+		this.writeString(outView, 36, 'data');
+		outView.setUint32(40, outDataSize, true);
+		var writeOffset = 44;
+		for (var i = 0; i < outLength; i++) {
+			for (var ch = 0; ch < numChannels; ch++) {
+				var s = Math.max(-1, Math.min(1, resampledChannels[ch][i]));
+				outView.setInt16(writeOffset, s < 0 ? s * 32768 : s * 32767, true);
+				writeOffset += 2;
+			}
+		}
+		return outBuf;
 	}
 
 	private resampleChannel(input: Float32Array, srcRate: number, targetRate: number, outLength: number): Float32Array {

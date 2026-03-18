@@ -70,6 +70,8 @@
 		return loadedMetaDataService.isSessionOpen ? loadedMetaDataService.isSessionOpen(session) : true;
 	}
 
+	let fileInput: HTMLInputElement;
+
 	// Drop zone handlers
 	function onDragOver(e: DragEvent) {
 		e.preventDefault();
@@ -80,6 +82,18 @@
 		viewStateService.showDropZone = false;
 		if (e.dataTransfer?.files) {
 			dragnDropService.handleDrop(e.dataTransfer.files);
+		}
+	}
+
+	function onDropZoneClick() {
+		fileInput?.click();
+	}
+
+	function onFileSelected(e: Event) {
+		const input = e.target as HTMLInputElement;
+		if (input.files && input.files.length > 0) {
+			dragnDropService.handleDrop(input.files);
+			input.value = '';
 		}
 	}
 </script>
@@ -100,13 +114,23 @@
 			</div>
 		</h3>
 		{#if showDropZone}
+			<input
+				bind:this={fileInput}
+				type="file"
+				multiple
+				accept=".wav,.mp3,.flac,.ogg,.oga,.aac,.m4a,.wma,.mp4,.webm,.mkv,.mov,.textgrid,.json"
+				onchange={onFileSelected}
+				style="display: none;"
+			/>
 			<div class="grazer-dropzone"
 				ondragover={onDragOver}
 				ondrop={onDrop}
-				role="region"
-				aria-label="Drop zone"
+				onclick={onDropZoneClick}
+				role="button"
+				tabindex="0"
+				aria-label="Drop zone — click to open file dialog"
 			>
-				<span>Drop your files here (.wav files; .wav &amp; annotJSON file pairs; .wav &amp; TextGrid file pairs) or click here to do the same with a file dialog</span>
+				<span>Drop your audio/video files here (paired with optional .TextGrid or annotJSON files) or click to open a file dialog</span>
 			</div>
 		{:else}
 			<div class="grazer-bundle-container">

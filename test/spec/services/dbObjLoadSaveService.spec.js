@@ -68,7 +68,7 @@ describe('Service: DbObjLoadSaveService', function () {
    it('should loadBundle', angular.mock.inject(function (DataService, ValidationService, BinaryDataManipHelperService, SsffParserService, WavParserService, IoHandlerService, LoadedMetaDataService, ViewStateService) {
      spyOn(LoadedMetaDataService, 'getCurBndl').mockReturnValue({name: 'test1', ssffFiles: []});
      spyOn(IoHandlerService, 'getBundle').mockReturnValue(deferred.promise);
-     spyOn(WavParserService, 'parseWavAudioBuf').mockReturnValue(deferred2.promise);
+     spyOn(WavParserService, 'parseAudioBuf').mockReturnValue(deferred2.promise);
      spyOn(SsffParserService, 'asyncParseSsffArr').mockReturnValue(deferred3.promise);
      spyOn(ValidationService, 'validateJSO').mockReturnValue(true);
      spyOn(ViewStateService, 'selectLevel').mockReturnValue(true);
@@ -83,7 +83,7 @@ describe('Service: DbObjLoadSaveService', function () {
      // The loadBundle callback is async, so flush microtasks before checking
      return Promise.resolve().then(function () {
        scope.$apply();
-       expect(WavParserService.parseWavAudioBuf).toHaveBeenCalled();
+       expect(WavParserService.parseAudioBuf).toHaveBeenCalled();
        deferred2.resolve({audioBuffer: {length: 100}, playbackBuffer: null});
        scope.$apply();
        return Promise.resolve();
@@ -109,7 +109,7 @@ describe('Service: DbObjLoadSaveService', function () {
    it('should NOT loadBundle (ssff error)', angular.mock.inject(function (AppStateService, ModalService, DataService, ValidationService, BinaryDataManipHelperService, SsffParserService, WavParserService, IoHandlerService, LoadedMetaDataService) {
      spyOn(LoadedMetaDataService, 'getCurBndl').mockReturnValue({name: 'test1', ssffFiles: []});
      spyOn(IoHandlerService, 'getBundle').mockReturnValue(deferred.promise);
-     spyOn(WavParserService, 'parseWavAudioBuf').mockReturnValue(deferred2.promise);
+     spyOn(WavParserService, 'parseAudioBuf').mockReturnValue(deferred2.promise);
      spyOn(SsffParserService, 'asyncParseSsffArr').mockReturnValue(deferred3.promise);
      spyOn(ValidationService, 'validateJSO').mockReturnValue(true);
      spyOn(ModalService, 'open').mockReturnValue(deferred4.promise);
@@ -124,7 +124,7 @@ describe('Service: DbObjLoadSaveService', function () {
      expect(IoHandlerService.getBundle).toHaveBeenCalled();
      return Promise.resolve().then(function () {
        scope.$apply();
-       expect(WavParserService.parseWavAudioBuf).toHaveBeenCalled();
+       expect(WavParserService.parseAudioBuf).toHaveBeenCalled();
        deferred2.resolve({audioBuffer: {length: 100}, playbackBuffer: null});
        scope.$apply();
        return Promise.resolve();
@@ -155,7 +155,7 @@ describe('Service: DbObjLoadSaveService', function () {
      var bndl2 = {name: 'test1', mediaFile: {encoding: 'BASE64'}, ssffFiles: []};
      spyOn(LoadedMetaDataService, 'getCurBndl').mockReturnValue(bndl1);
      spyOn(IoHandlerService, 'getBundle').mockReturnValue(deferred.promise);
-     spyOn(WavParserService, 'parseWavAudioBuf').mockReturnValue(deferred2.promise);
+     spyOn(WavParserService, 'parseAudioBuf').mockReturnValue(deferred2.promise);
      spyOn(ValidationService, 'validateJSO').mockReturnValue(true);
      spyOn(ModalService, 'open').mockReturnValue(deferred3.promise);
      spyOn(AppStateService, 'resetToInitState').mockImplementation(() => {});
@@ -169,7 +169,7 @@ describe('Service: DbObjLoadSaveService', function () {
      expect(IoHandlerService.getBundle).toHaveBeenCalled();
      return Promise.resolve().then(function () {
        scope.$apply();
-       expect(WavParserService.parseWavAudioBuf).toHaveBeenCalled();
+       expect(WavParserService.parseAudioBuf).toHaveBeenCalled();
        deferred2.reject({ status: { message: 'error_msg2' }});
        scope.$apply();
        return Promise.resolve();
@@ -269,7 +269,7 @@ describe('Service: DbObjLoadSaveService', function () {
      spyOn(scope.vs, 'resetSelect');
      spyOn(LoadedMetaDataService, 'getCurBndl').mockReturnValue({name: 'test1', ssffFiles: []});
      spyOn(IoHandlerService, 'getBundle').mockReturnValue(deferred.promise);
-     spyOn(WavParserService, 'parseWavAudioBuf').mockReturnValue(deferred2.promise);
+     spyOn(WavParserService, 'parseAudioBuf').mockReturnValue(deferred2.promise);
      spyOn(SsffParserService, 'asyncParseSsffArr').mockReturnValue(deferred3.promise);
      spyOn(ValidationService, 'validateJSO').mockReturnValue(true);
      spyOn(BinaryDataManipHelperService, 'base64ToArrayBuffer').mockReturnValue(new ArrayBuffer(6));
@@ -306,7 +306,7 @@ describe('Service: DbObjLoadSaveService', function () {
 
      spyOn(LoadedMetaDataService, 'getCurBndl').mockReturnValue({name: 'test1', ssffFiles: []});
      spyOn(IoHandlerService, 'getBundle').mockReturnValue(deferred.promise);
-     spyOn(WavParserService, 'parseWavAudioBuf').mockReturnValue(deferred2.promise);
+     spyOn(WavParserService, 'parseAudioBuf').mockReturnValue(deferred2.promise);
      spyOn(SsffParserService, 'asyncParseSsffArr').mockReturnValue(deferred3.promise);
      spyOn(ValidationService, 'validateJSO').mockReturnValue(true);
      spyOn(BinaryDataManipHelperService, 'base64ToArrayBuffer').mockReturnValue(new ArrayBuffer(6));

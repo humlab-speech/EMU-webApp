@@ -42,9 +42,9 @@ export class DbObjLoadSaveService {
 	}
 
 	private innerLoadBundle(bndl, bundleData, arrBuff): Promise<void> {
-		this.ViewStateService.somethingInProgressTxt = 'Parsing WAV file...';
+		this.ViewStateService.somethingInProgressTxt = 'Parsing audio file...';
 
-		return this.WavParserService.parseWavAudioBuf(arrBuff).then((result) => {
+		return this.WavParserService.parseAudioBuf(arrBuff).then((result) => {
 			var audioBuffer = result.audioBuffer;
 			this.ViewStateService.curViewPort.sS = 0;
 			this.ViewStateService.curViewPort.eS = audioBuffer.length;

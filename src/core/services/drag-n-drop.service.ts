@@ -49,10 +49,52 @@ export class DragnDropService{
 		this.LevelService = deps.LevelService;
 	}
 
+	private static readonly MEDIA_EXTS = new Set(['.wav','.mp3','.flac','.ogg','.oga','.aac','.m4a','.wma','.mp4','.webm','.mkv','.mov']);
+
+	public handleDrop(files: FileList) {
+		const fileMap = new Map<string, { media?: File; annotation?: { type: string; file: File } }>();
+
+		for (let i = 0; i < files.length; i++) {
+			const file = files[i];
+			const name = file.name;
+			const ext = name.substring(name.lastIndexOf('.')).toLowerCase();
+			const base = name.substring(0, name.lastIndexOf('.'));
+
+			if (!fileMap.has(base)) fileMap.set(base, {});
+			const entry = fileMap.get(base)!;
+
+			if (DragnDropService.MEDIA_EXTS.has(ext)) {
+				entry.media = file;
+			} else if (ext === '.textgrid') {
+				entry.annotation = { type: 'textgrid', file };
+			} else if (ext === '.json' || name.endsWith('_annot.json')) {
+				entry.annotation = { type: 'annotation', file };
+			}
+		}
+
+		const bundles: [string, File, { type: string; file: File }?][] = [];
+		for (const [base, entry] of fileMap) {
+			if (!entry.media) continue;
+			if (entry.annotation) {
+				bundles.push([base, entry.media, entry.annotation]);
+			} else {
+				bundles.push([base, entry.media]);
+			}
+		}
+
+		if (bundles.length === 0) {
+			this.ModalService.open('views/error.html', 'No supported audio/video files found. Drop audio files (.wav, .mp3, .flac, .ogg, .m4a, .mp4, .webm), optionally paired with .TextGrid or _annot.json files.');
+			return;
+		}
+
+		this.resetToInitState();
+		this.setData(bundles);
+	}
+
 	public setData(bundles) {
 		var count = 0;
 		bundles.forEach((bundle, i) => {
-			this.setDragnDropData(bundle[0], i, 'wav', bundle[1]);
+			this.setDragnDropData(bundle[0], i, 'media', bundle[1]);
 			if (bundle[2] !== undefined) { this.setDragnDropData(bundle[0], i, 'annotation', bundle[2]); }
 			count = i;
 		});
@@ -86,12 +128,12 @@ export class DragnDropService{
 			this.DragnDropDataService.convertedBundles[i].name = bundle;
 			this.bundleList.push({ name: bundle, session: this.sessionName });
 		}
-		if (type === 'wav') { this.drandropBundles[i].wav = data; }
+		if (type === 'media') { this.drandropBundles[i].media = data; }
 		else if (type === 'annotation') { this.drandropBundles[i].annotation = data; }
 	};
 
 	public getDragnDropData(bundle, type) {
-		if (type === 'wav') { return this.drandropBundles[bundle].wav; }
+		if (type === 'media') { return this.drandropBundles[bundle].media; }
 		else if (type === 'annotation') { return this.drandropBundles[bundle].annotation; }
 		else { return false; }
 	};
@@ -107,19 +149,19 @@ export class DragnDropService{
 		var res;
 		if (bundles.length > i) {
 			return new Promise<void>((resolve, reject) => {
-				if (data.wav !== undefined) {
-					reader.readAsArrayBuffer(data.wav);
+				if (data.media !== undefined) {
+					reader.readAsArrayBuffer(data.media);
 					reader.onloadend = (evt) => {
 						if (evt.target.readyState === FileReader.DONE) {
 							if (this.BrowserDetectorService.isBrowser.Firefox()) { res = evt.target.result; }
 							else { res = evt.currentTarget.result; }
-							this.WavParserService.parseWavAudioBuf(res).then((result) => {
+							this.WavParserService.parseAudioBuf(res).then((result) => {
 								var audioBuffer = result.audioBuffer;
 								if (this.DragnDropDataService.convertedBundles[i] === undefined) { this.DragnDropDataService.convertedBundles[i] = {}; }
 								this.SoundHandlerService.audioBuffer = audioBuffer;
 								this.SoundHandlerService.playbackBuffer = result.playbackBuffer;
 								this.DragnDropDataService.convertedBundles[i].ssffFiles = [];
-								var bundle = data.wav.name.substr(0, data.wav.name.lastIndexOf('.'));
+								var bundle = data.media.name.substr(0, data.media.name.lastIndexOf('.'));
 								if (data.annotation === undefined) {
 									this.DragnDropDataService.convertedBundles[i].annotation = {
 										levels: [], links: [],
@@ -136,7 +178,7 @@ export class DragnDropService{
 										reader2.readAsText(data.annotation.file);
 										reader2.onloadend = (evt) => {
 											if (evt.target.readyState === FileReader.DONE) {
-												this.TextGridParserService.asyncParseTextGrid(evt.currentTarget.result, data.wav.name, bundle).then((parseMess) => {
+												this.TextGridParserService.asyncParseTextGrid(evt.currentTarget.result, data.media.name, bundle).then((parseMess) => {
 													this.DragnDropDataService.convertedBundles[i].annotation = parseMess;
 													this.convertDragnDropData(bundles, i + 1).then(() => { resolve(); });
 												}, (errMess) => {
@@ -181,7 +223,7 @@ export class DragnDropService{
 			validRes = this.ValidationService.validateJSO('grazerConfigSchema', this.ConfigProviderService.vals);
 			if (validRes === true) {
 				this.ConfigProviderService.curDbConfig = resp.data;
-				this.ViewStateService.somethingInProgressTxt = 'Parsing WAV file...';
+				this.ViewStateService.somethingInProgressTxt = 'Parsing audio file...';
 				this.ViewStateService.curViewPort.sS = 0;
 				this.ViewStateService.curViewPort.eS = this.SoundHandlerService.audioBuffer.length;
 				this.ViewStateService.curViewPort.selectS = -1;

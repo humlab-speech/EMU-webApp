@@ -366,11 +366,11 @@
 			loadedMetaDataService.setCurBndl(bndlList[0]);
 
 			viewStateService.somethingInProgress = true;
-			viewStateService.somethingInProgressTxt = 'Parsing WAV file...';
+			viewStateService.somethingInProgressTxt = 'Parsing audio file...';
 
 			const audioGetUrl = searchParams.get('audioGetUrl');
 			if (audioGetUrl) {
-				wavParserService.parseWavAudioBuf(data.data).then((result: any) => {
+				wavParserService.parseAudioBuf(data.data).then((result: any) => {
 					viewStateService.curViewPort.sS = 0;
 					viewStateService.curViewPort.eS = result.audioBuffer.length;
 					viewStateService.resetSelect();
