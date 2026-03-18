@@ -1,5 +1,5 @@
 
-import { ILevel } from '../interfaces/annot-json.interface';
+import { ILevel } from '../../core/interfaces/annot-json.interface';
 
 export class HierarchyWorker {
     private idHashMap: any;

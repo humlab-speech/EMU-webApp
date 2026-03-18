@@ -306,19 +306,22 @@ export class HandleGlobalKeyStrokes{
     private handleEditingKeys(code, e) {
         var km = this.ConfigProviderService.vals.keyMappings;
 
-        var actionMap = {
+        var actionMap = this.createEditingActionMap(km, e);
+        var action = actionMap[code];
+        if (action) action();
+
+        // playback while editing (alt+key)
+        if (e.altKey) this.dispatchPlaybackAction(code, km, e);
+    }
+
+    private createEditingActionMap(km, e) {
+        return {
             [km.createNewItemAtSelection]: () => this.handleEditCommitOrReject(e),
             [km.esc]: () => {
                 this.LevelService.deleteEditArea();
                 this.ViewStateService.setEditing(false);
             }
         };
-
-        var action = actionMap[code];
-        if (action) action();
-
-        // playback while editing (alt+key)
-        if (e.altKey) this.dispatchPlaybackAction(code, km, e);
     }
 
     private handleEditCommitOrReject(e) {

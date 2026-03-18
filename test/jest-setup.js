@@ -1,36 +1,18 @@
 'use strict';
 
-// jQuery must be on window and global before angular loads
+// jQuery must be on window and global (used by some tests for $.isEmptyObject etc.)
 const jquery = require('jquery');
 global.$ = global.jQuery = window.jQuery = window.$ = jquery;
 
-// AngularJS — must be on window for angular-mocks to find it
-const angular = require('angular');
-global.angular = window.angular = angular;
+// Install angular compatibility shim (replaces AngularJS + angular-mocks)
+// This wires core service singletons and provides angular.mock.module/inject/copy
+const angularCompat = require('./angular-compat');
+angularCompat.install();
 
-// Angular plugins
-require('angular-route');
-require('angular-animate');
-require('angular-filter');
-
-// Register the app module (creates angular.module('grazer', [...]))
-require('../src/app/app');
-
-// Register all services
-require('../src/app/services');
-
-// Register all filters
-require('../src/app/filters');
-
-// angular-mocks checks for window.jasmine || window.mocha to set up
-// module() and inject(). Jest 29 uses jest-circus by default which
-// doesn't set window.jasmine, so we must provide it.
-// angular-mocks IIFE passes (window.jasmine || window.mocha) and
-// bails if falsy. Jest-circus doesn't set window.jasmine, so fake it.
-window.jasmine = window.jasmine || { getEnv: function() { return {}; } };
-
-// Angular mocks — must load after angular is on window
-require('angular-mocks');
+// Reset $provide overrides between test suites
+beforeEach(function () {
+  angularCompat.resetProvideOverrides();
+});
 
 // jest-circus doesn't provide spyOn as a global (unlike jest-jasmine2).
 // Many Jasmine-style tests use bare spyOn(). Provide it.
@@ -132,10 +114,6 @@ if (!window.webkitAudioContext) {
 }
 
 // Expose Node's native fetch in jsdom (jsdom doesn't provide it).
-// jest-environment-jsdom sandboxes globals, hiding Node's native fetch.
-// We grab it from the real Node process via vm.runInThisContext.
-// Wrap in a safe default that rejects silently for unmocked localhost calls
-// to prevent ECONNREFUSED noise from AngularJS service init.
 if (typeof fetch === 'undefined') {
   const vm = require('vm');
   const realFetch = vm.runInThisContext('globalThis.fetch');

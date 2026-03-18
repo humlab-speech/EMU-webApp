@@ -72,7 +72,7 @@ autoprefixer
 # list form current yeoman angular gen. #
 #########################################
 /node_modules
-#/dist
+dist/
 /.tmp
 /.sass-cache
 .worktrees/

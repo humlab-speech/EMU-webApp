@@ -47,12 +47,16 @@ export function parseWavHeader(buf: ArrayBuffer): WavHeaderInfos {
     // AudioFormat — check for extensible WAV (65534)
     let AudioFormat: number = new Uint16Array(buf, fmtBinIdx + 8, 1)[0];
     if (AudioFormat === 65534) {
+        // Extensible WAV: actual format is in the SubFormat GUID (first 2 bytes).
+        // Like SoX, we only check the first two bytes of the 16-byte GUID.
+        // See RFC 2361 §4 for the template GUID: {XXXXXXXX-0000-0010-8000-00AA00389B71}
+        // [0] https://www.rfc-editor.org/rfc/rfc2361
         const sizeOfExtension: number = new Uint16Array(buf, fmtBinIdx + 24, 1)[0];
         if (sizeOfExtension >= 22) {
             AudioFormat = new Uint16Array(buf, fmtBinIdx + 32, 1)[0];
         }
     }
-    if ([0, 1, 3].indexOf(AudioFormat) === -1) {
+    if ([0, 1, 3].indexOf(AudioFormat) === -1) { // 1=PCM int, 3=IEEE754, 0=unknown
         throw new Error('Wav read error: AudioFormat not 0, 1, or 3 but ' + AudioFormat);
     }
 
@@ -76,7 +80,7 @@ export function parseWavHeader(buf: ArrayBuffer): WavHeaderInfos {
 
     // look for 'data' sub-chunk
     foundChunk = false;
-    let dataBinIdx = fmtBinIdx + 4 + 4 + FmtSubchunkSize;
+    let dataBinIdx = fmtBinIdx + 4 + 4 + FmtSubchunkSize; // skip past fmt chunk entirely
 
     let dataChunkSizeIdx: number;
     let dataChunkSize: number;
@@ -91,6 +95,7 @@ export function parseWavHeader(buf: ArrayBuffer): WavHeaderInfos {
             dataChunkSize = new Uint32Array(buf, dataChunkSizeIdx, 1)[0];
             offsetToDataChunk = dataBinIdx + 8;
         } else {
+            // skip to next chunk: chunk-ID (4) + chunk-size field (4) + chunk-data
             const chunkSize: number = new Uint32Array(buf, dataBinIdx + 4, 1)[0];
             dataBinIdx += 8 + chunkSize;
         }

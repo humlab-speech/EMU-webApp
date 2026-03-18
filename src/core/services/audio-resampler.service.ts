@@ -1,4 +1,4 @@
-import { AudioBufferLike } from '../../app/services/audio-buffer-like';
+import { AudioBufferLike } from './audio-buffer-like';
 
 export class AudioResamplerService {
 	// Dependencies — set via initDeps()

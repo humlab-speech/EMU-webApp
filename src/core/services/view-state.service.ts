@@ -1,4 +1,4 @@
-import { IViewPort, ISpectroSettings, IOsciSettings, IPlayHeadAnimationInfos, IClickItem } from '../../app/interfaces/view-state.interface';
+import { IViewPort, ISpectroSettings, IOsciSettings, IPlayHeadAnimationInfos, IClickItem } from '../interfaces/view-state.interface';
 import { scheduleUpdate } from '../util/schedule-update';
 
 export class ViewStateService{

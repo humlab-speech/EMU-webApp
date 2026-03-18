@@ -1,4 +1,4 @@
-import { ISsffFile } from '../../app/interfaces/ssff.interface';
+import { ISsffFile } from '../interfaces/ssff.interface';
 
 export class SsffDataService {
 	SoundHandlerService!: any;

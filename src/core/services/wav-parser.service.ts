@@ -1,4 +1,4 @@
-import { parseWavHeader as parseWavHeaderShared } from '../../app/services/wav-header-parser';
+import { parseWavHeader as parseWavHeaderShared } from './wav-header-parser';
 
 export function detectAudioFormat(buf: ArrayBuffer): string {
 	var bytes = new Uint8Array(buf, 0, Math.min(12, buf.byteLength));
