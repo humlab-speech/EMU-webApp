@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { getTick, getMarkupTick } from '../stores/app-state.svelte';
+	import { getTick, getMarkupTick, invalidateMarkup } from '../stores/app-state.svelte';
 	import {
 		viewStateService,
 		configProviderService,
@@ -319,6 +319,7 @@
 		}
 
 		drawMarkup();
+		invalidateMarkup();
 	}
 
 	function handleMouseLeave() {
