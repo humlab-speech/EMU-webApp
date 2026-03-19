@@ -41,6 +41,8 @@
 		return loadedMetaDataService.getCurBndl();
 	});
 
+	let hasUnsavedChanges = $derived(getTick() >= 0 && historyService.movesAwayFromLastSave !== 0);
+
 	function loadBundle(bndl: any) {
 		if (historyService.movesAwayFromLastSave !== 0) {
 			modalService.open('views/confirmModal.html', 'You have unsaved changes. Load new bundle anyway?').then((res: any) => {
@@ -156,7 +158,7 @@
 										tabindex="0"
 										style={curBndl === bndl ? 'background-color: var(--color-blue); color: var(--color-black);' : ''}
 									>
-										<b>{bndl.name}</b>
+										<b>{bndl.name}{#if hasUnsavedChanges && curBndl === bndl} *{/if}</b>
 										{#if configProviderService.vals?.activeButtons?.saveBundle && curBndl === bndl}
 											<button class="grazer-saveBundleButton" onclick={(e) => saveBundle(bndl, e)}>
 												<i class="material-icons" style="font-size: 16px;">save</i>
