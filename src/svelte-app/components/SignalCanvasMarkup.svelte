@@ -246,6 +246,7 @@
 											oldValue: oldValue,
 											newValue: newValue,
 										});
+										drawMarkup();
 										needsFullInvalidate = true;
 									}
 								}

@@ -108,15 +108,6 @@
 		}
 	}
 
-	// Shift/alt keyup for history
-	function onKeyup(e: KeyboardEvent) {
-		if (typeof configProviderService.vals.keyMappings !== 'undefined') {
-			if (e.keyCode === configProviderService.vals.keyMappings.shift || e.keyCode === configProviderService.vals.keyMappings.alt) {
-				historyService.addCurChangeObjToUndoStack();
-			}
-		}
-	}
-
 	// Prevent navigation away with unsaved changes
 	function onBeforeUnload(): string | undefined {
 		if (configProviderService.embeddedVals.audioGetUrl === '' &&
@@ -455,7 +446,7 @@
 	let curBndlName = $derived(getTick() >= 0 ? loadedMetaDataService.getCurBndlName() : '');
 </script>
 
-<svelte:window on:resize={onResize} on:keyup={onKeyup} on:beforeunload={onBeforeUnload} />
+<svelte:window on:resize={onResize} on:beforeunload={onBeforeUnload} />
 
 <div class="grazer">
 <div class="grazer-main" id="MainCtrl"

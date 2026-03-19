@@ -42,6 +42,13 @@ export class HandleGlobalKeyStrokes{
             if (this.ViewStateService.isEditing() && !this.ViewStateService.getcursorInTextField()) {
                 this.applyKeyCodeUp(code);
             }
+            // Commit pending SSFF correction changes when Shift or Alt is released
+            if (typeof this.ConfigProviderService.vals?.keyMappings !== 'undefined') {
+                if (code === this.ConfigProviderService.vals.keyMappings.shift || code === this.ConfigProviderService.vals.keyMappings.alt) {
+                    this.HistoryService.addCurChangeObjToUndoStack();
+                    scheduleUpdate();
+                }
+            }
         };
 
         this._onKeyDown = (e: KeyboardEvent) => {

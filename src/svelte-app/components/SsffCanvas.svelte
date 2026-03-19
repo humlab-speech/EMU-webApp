@@ -232,34 +232,11 @@
 		}
 	}
 
-	// Change detection to avoid unnecessary redraws
-	let prevSS = -1;
-	let prevES = -1;
-	let prevCanvasW = -1;
-	let prevCanvasH = -1;
-	let prevDataLen = -1;
-	let prevPerspIdx = -1;
-
 	$effect(() => {
 		getTick();
 		if (!canvas) return;
 		syncCanvasSize();
-		const sS = viewStateService.curViewPort?.sS ?? -1;
-		const eS = viewStateService.curViewPort?.eS ?? -1;
-		const cw = canvas.width;
-		const ch = canvas.height;
-		const dataLen = Array.isArray(ssffDataService.data) ? ssffDataService.data.length : (ssffDataService.data ? Object.keys(ssffDataService.data).length : 0);
-		const perspIdx = viewStateService.curPerspectiveIdx ?? -1;
-
-		if (sS !== prevSS || eS !== prevES || cw !== prevCanvasW || ch !== prevCanvasH || dataLen !== prevDataLen || perspIdx !== prevPerspIdx) {
-			prevSS = sS;
-			prevES = eS;
-			prevCanvasW = cw;
-			prevCanvasH = ch;
-			prevDataLen = dataLen;
-			prevPerspIdx = perspIdx;
-			handleUpdate();
-		}
+		handleUpdate();
 	});
 </script>
 

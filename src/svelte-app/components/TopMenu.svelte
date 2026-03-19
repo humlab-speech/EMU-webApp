@@ -177,15 +177,12 @@
 		}
 	}
 
-	function getUnsavedChangesStyle(): string {
-		return historyService.movesAwayFromLastSave !== 0 ? 'background-color: #f00; color: white;' : '';
-	}
-
 	// Reactive bridge: spread to create new object references so Svelte detects changes
 	let activeButtons = $derived(getTick() >= 0 && configProviderService.vals?.activeButtons ? {...configProviderService.vals.activeButtons} : undefined);
 	let restrictions = $derived(getTick() >= 0 && configProviderService.vals?.restrictions ? {...configProviderService.vals.restrictions} : undefined);
 	let demoDBs = $derived(getTick() >= 0 ? configProviderService.vals?.demoDBs : undefined);
 	let bundleListSideBarDisabled = $derived(getTick() >= 0 ? viewStateService.bundleListSideBarDisabled : true);
+	let unsavedChangesStyle = $derived(getTick() >= 0 && historyService.movesAwayFromLastSave !== 0 ? 'background-color: #f00; color: white;' : '');
 
 	// Reactive permission map — getTick() triggers re-evaluation on state changes
 	let perms = $derived.by(() => {
@@ -214,7 +211,7 @@
 	{/if}
 
 	{#if activeButtons?.saveBundle && bundleListSideBarDisabled}
-		<button class="grazer-mini-btn left" onclick={saveBundle} style="float:left; {getUnsavedChangesStyle()}">
+		<button class="grazer-mini-btn left" onclick={saveBundle} style="float:left; {unsavedChangesStyle}">
 			<i class="material-icons">save</i> Save
 		</button>
 	{/if}
