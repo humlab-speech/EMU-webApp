@@ -294,6 +294,7 @@ export function initServices() {
 		ViewStateService: viewStateService,
 		ModalService: modalService,
 		HierarchyManipulationService: hierarchyManipulationService,
+		HierarchyLayoutService: hierarchyLayoutService,
 		SoundHandlerService: soundHandlerService,
 		ConfigProviderService: configProviderService,
 		HistoryService: historyService,

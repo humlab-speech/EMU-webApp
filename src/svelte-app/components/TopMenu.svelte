@@ -148,6 +148,14 @@
 
 	function showHierarchy() {
 		if (!viewStateService.hierarchyState.isShown()) {
+			// Initialize path if empty (before modal opens)
+			if (!viewStateService.hierarchyState.path || viewStateService.hierarchyState.path.length === 0) {
+				const pathInfo = hierarchyLayoutService.findAllNonPartialPaths();
+				if (pathInfo?.possible?.[0]) {
+					viewStateService.hierarchyState.path = pathInfo.possible[0];
+					viewStateService.hierarchyState.curPathIdx = 0;
+				}
+			}
 			viewStateService.hierarchyState.toggleHierarchy();
 			modalService.open('views/showHierarchyModal.html');
 		}

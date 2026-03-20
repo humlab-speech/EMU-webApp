@@ -6,6 +6,7 @@ export class HandleGlobalKeyStrokes{
     private ViewStateService;
     private ModalService;
     private HierarchyManipulationService;
+    private HierarchyLayoutService;
     private SoundHandlerService;
     private ConfigProviderService;
     private HistoryService;
@@ -23,6 +24,7 @@ export class HandleGlobalKeyStrokes{
 
     initDeps(deps: {
         ViewStateService: any; ModalService: any; HierarchyManipulationService: any;
+        HierarchyLayoutService: any;
         SoundHandlerService: any; ConfigProviderService: any; HistoryService: any;
         LevelService: any; DataService: any; LinkService: any;
         AnagestService: any; DbObjLoadSaveService: any; BrowserDetectorService: any;
@@ -420,6 +422,14 @@ export class HandleGlobalKeyStrokes{
                 if (this.ViewStateService.hierarchyState.isShown()) {
                     this.ModalService.close();
                 } else {
+                    // Initialize path if empty
+                    if (!this.ViewStateService.hierarchyState.path || this.ViewStateService.hierarchyState.path.length === 0) {
+                        const pathInfo = this.HierarchyLayoutService.findAllNonPartialPaths();
+                        if (pathInfo?.possible?.[0]) {
+                            this.ViewStateService.hierarchyState.path = pathInfo.possible[0];
+                            this.ViewStateService.hierarchyState.curPathIdx = 0;
+                        }
+                    }
                     this.ViewStateService.hierarchyState.toggleHierarchy();
                     this.ModalService.open('views/showHierarchyModal.html');
                 }
