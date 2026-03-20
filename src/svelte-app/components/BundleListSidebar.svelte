@@ -68,6 +68,16 @@
 		return (bndl.name?.toLowerCase().includes(search) || bndl.session?.toLowerCase().includes(search));
 	}
 
+	function getBndlColor(bndl: any): string {
+		if (curBndl === bndl) {
+			if (hasUnsavedChanges) {
+				return 'background-color: #f00; color: #fff;';
+			}
+			return 'background-color: #999; color: #000;';
+		}
+		return '';
+	}
+
 	function isSessionOpen(session: string): boolean {
 		return loadedMetaDataService.isSessionOpen ? loadedMetaDataService.isSessionOpen(session) : true;
 	}
@@ -156,7 +166,7 @@
 										onclick={() => loadBundle(bndl)}
 										role="button"
 										tabindex="0"
-										style={curBndl === bndl ? 'background-color: var(--color-blue); color: var(--color-black);' : ''}
+										style={getBndlColor(bndl)}
 									>
 										<b>{bndl.name}{#if hasUnsavedChanges && curBndl === bndl} *{/if}</b>
 										{#if configProviderService.vals?.activeButtons?.saveBundle && curBndl === bndl}
