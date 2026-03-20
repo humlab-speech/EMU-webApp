@@ -119,11 +119,11 @@
 
 					// segment start
 					ctx.fillStyle = styles.colorWhite;
-					ctx.fillRect(posS, 0, 2, ctx.canvas.height / 2);
+					ctx.fillRect(posS, 0, 1, ctx.canvas.height / 2);
 
 					// segment end
 					ctx.fillStyle = styles.colorGrey;
-					ctx.fillRect(posE, ctx.canvas.height / 2, 2, ctx.canvas.height);
+					ctx.fillRect(posE, ctx.canvas.height / 2, 1, ctx.canvas.height);
 
 					ctx.font = (fontSize - 2) + 'px ' + labelFontFamily;
 
@@ -143,7 +143,7 @@
 
 						let hlY = ctx.canvas.height / 4;
 						ctx.strokeStyle = styles.colorWhite;
-						ctx.lineWidth = 4;
+						ctx.lineWidth = 1;
 						ctx.beginPath();
 						ctx.moveTo(posS, hlY);
 						ctx.lineTo(labelCenter, hlY);
@@ -194,8 +194,8 @@
 					});
 
 					ctx.fillStyle = styles.colorWhite;
-					ctx.fillRect(perc, 0, 3, ctx.canvas.height / 2 - ctx.canvas.height / 5);
-					ctx.fillRect(perc, ctx.canvas.height / 2 + ctx.canvas.height / 5, 3, ctx.canvas.height / 2 - ctx.canvas.height / 5);
+					ctx.fillRect(perc, 0, 1, ctx.canvas.height / 2 - ctx.canvas.height / 5);
+					ctx.fillRect(perc, ctx.canvas.height / 2 + ctx.canvas.height / 5, 1, ctx.canvas.height / 2 - ctx.canvas.height / 5);
 
 					fontScaleService.drawUndistortedText(
 						ctx, curLabVal, labelFontSize - 2, labelFontFamily,
