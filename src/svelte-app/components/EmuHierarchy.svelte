@@ -1070,11 +1070,25 @@ function render() {
 		easternBoundary = width * panningLimit;
 	}
 
-	const bbox = svg.node().getBBox();
-	timeAxisStartPosition = bbox.y;
-	timeAxisEndPosition = timeAxisStartPosition + bbox.height;
-	crossAxisStartPosition = bbox.x;
-	crossAxisEndPosition = crossAxisStartPosition + bbox.width;
+	// Compute bbox from node positions only — SVG getBBox() includes the
+	// context-menu circle (r=50) which inflates the box and causes the
+	// entire tree to shift when a node is clicked.
+	let bboxMinX = Infinity, bboxMinY = Infinity, bboxMaxX = -Infinity, bboxMaxY = -Infinity;
+	nodes.forEach((d) => {
+		if (d._x < bboxMinX) bboxMinX = d._x;
+		if (d._x > bboxMaxX) bboxMaxX = d._x;
+		if (d._y < bboxMinY) bboxMinY = d._y;
+		if (d._y > bboxMaxY) bboxMaxY = d._y;
+	});
+	if (nodes.length === 0) {
+		const fallback = svg.node().getBBox();
+		bboxMinX = fallback.x; bboxMinY = fallback.y;
+		bboxMaxX = fallback.x + fallback.width; bboxMaxY = fallback.y + fallback.height;
+	}
+	timeAxisStartPosition = bboxMinY;
+	timeAxisEndPosition = bboxMaxY;
+	crossAxisStartPosition = bboxMinX;
+	crossAxisEndPosition = bboxMaxX;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1138,6 +1152,17 @@ $effect(() => {
 	);
 
 	_inited = true;
+});
+
+// Sync newLinkSrc from viewState (was ngOnChanges in Angular)
+$effect(() => {
+	const fromID = viewStateService.hierarchyState.newLinkFromID;
+	if (fromID !== undefined) {
+		newLinkSrc = levelService.getItemByID(fromID);
+		if (_inited) render();
+	} else {
+		newLinkSrc = undefined;
+	}
 });
 
 // Reactive update — re-render when tick changes or vertical rotation changes
