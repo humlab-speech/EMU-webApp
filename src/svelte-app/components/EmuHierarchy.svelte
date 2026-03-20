@@ -471,6 +471,9 @@ function svgOnClick(event: MouseEvent) {
 		viewStateService.hierarchyState.contextMenuID = undefined;
 		scheduleUpdate();
 	}
+	selectedLink = undefined;
+	viewStateService.hierarchyState.selectedLinkFromID = undefined;
+	viewStateService.hierarchyState.selectedLinkToID = undefined;
 }
 
 function nodeOnClick(event: MouseEvent, d: any) {
@@ -501,6 +504,9 @@ function nodeOnCollapseClick(_event: MouseEvent, d: any) {
 }
 
 function nodeOnMouseOver(_event: MouseEvent, d: any) {
+	selectedLink = undefined;
+	viewStateService.hierarchyState.selectedLinkFromID = undefined;
+	viewStateService.hierarchyState.selectedLinkToID = undefined;
 	selectItem(d);
 	renderSelectionOnly();
 }
