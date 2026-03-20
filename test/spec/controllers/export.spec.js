@@ -5,13 +5,13 @@ describe('Controller: ExportCtrl', function () {
   var ExportCtrl, scope;
   
     // load the controller's module
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
   
      //Initialize the controller and a mock scope
      beforeEach(angular.mock.inject(function ($controller, $rootScope, ConfigProviderService, ModalService, ViewStateService, HistoryService) {
        scope = $rootScope.$new();
        scope.cps = ConfigProviderService;
-       scope.cps.setVals(defaultGrazerConfig);
+       scope.cps.setVals(defaultArticConfig);
        scope.cps.curDbConfig = aeDbConfig;
        scope.modal = ModalService;
        scope.vs = ViewStateService;

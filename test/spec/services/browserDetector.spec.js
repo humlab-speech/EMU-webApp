@@ -4,7 +4,7 @@ describe('Factory: BrowserDetectorService', function () {
 
   var $window;
   // load the controller's module
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
 
   beforeEach(angular.mock.inject(function(_$window_) {
       $window = _$window_;

@@ -4,7 +4,7 @@ describe('Service: EspsParserService', function () {
   var scope, deferred;
 
   // load the controller's module
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
 
   beforeEach(angular.mock.inject(function (_$rootScope_, $q) {
      scope = _$rootScope_;

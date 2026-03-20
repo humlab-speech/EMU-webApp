@@ -1,20 +1,20 @@
-<div class="grazer-modal-wrap" ng-controller="ExportCtrl">
-    <div class="grazer-modal-header-large grazer-modal-header">
+<div class="artic-modal-wrap" ng-controller="ExportCtrl">
+    <div class="artic-modal-header-large artic-modal-header">
         <h3 id="modalHeading">
             Download {{dataIn}}
         </h3>
 	</div>
-	<div class="grazer-modal-body">
-	    <div class="grazer-text">
+	<div class="artic-modal-body">
+	    <div class="artic-text">
 			<div>
 				Do you wish to download "{{dataIn}}" ?
 			</div>
-      <pre class="grazer-exportdata">{{modal.dataExport}}</pre>
+      <pre class="artic-exportdata">{{modal.dataExport}}</pre>
 	    </div>
 
 	</div>
-	<div class="grazer-modal-footer">
-	  <button ng-click="modal.close();" id="modalCancelBtn" class="grazer-mini-btn">Cancel</button>
-	  <button ng-click="export();" class="grazer-mini-btn">Download</button>
+	<div class="artic-modal-footer">
+	  <button ng-click="modal.close();" id="modalCancelBtn" class="artic-mini-btn">Cancel</button>
+	  <button ng-click="export();" class="artic-mini-btn">Download</button>
 	</div>
 </div>

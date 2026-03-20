@@ -3,7 +3,7 @@
 describe('Directive: emuhierarchy', function() {
 
     var elm, scope, tpl;
-    beforeEach(angular.mock.module('grazer'));
+    beforeEach(angular.mock.module('artic'));
 
     beforeEach(angular.mock.inject(function($rootScope, ViewStateService, HierarchyLayoutService, ConfigProviderService) {
         scope = $rootScope.$new();

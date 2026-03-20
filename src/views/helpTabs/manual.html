@@ -1,15 +1,15 @@
-<div ng-controller="ManualCtrl" class="grazer-text">
+<div ng-controller="ManualCtrl" class="artic-text">
     <div>
 		<h2>Table of contents:</h2>
 		<p>
 			<toc>
 			<ul>
 				<li ng-repeat="mdFile in listOfMarkdownFiles"><a href ng-click="setCurrentMdFile(mdFile)">{{mdFile.title}}</a></li>
-				<li><a href="/intro.html" target="_blank">EMU-webApp Tutorial</a></li>
+				<li><a href="/intro.html" target="_blank">Artic Tutorial</a></li>
 			</ul>
 			</toc>
 		</p>
-		<hr class="grazer-aboutHr" />
-		<!-- <btf-markdown class="grazer-markdown" ng-include="curMdFile.url"></btf-markdown> -->
+		<hr class="artic-aboutHr" />
+		<!-- <btf-markdown class="artic-markdown" ng-include="curMdFile.url"></btf-markdown> -->
 	</div>
 </div>

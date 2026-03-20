@@ -540,7 +540,7 @@
 
 <canvas
 	bind:this={canvas}
-	class="grazer-level-canvas-markup"
+	class="artic-level-canvas-markup"
 	onclick={onClick}
 	oncontextmenu={onContextMenu}
 	ondblclick={onDblClick}
@@ -554,7 +554,7 @@
 ></canvas>
 
 <style>
-	.grazer-level-canvas-markup {
+	.artic-level-canvas-markup {
 		position: absolute;
 		top: 0;
 		left: 0;

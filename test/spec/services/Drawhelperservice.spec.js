@@ -3,7 +3,7 @@
 describe('Service: DrawHelperService', function () {
 
   // load the controller's module
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
   
   var scope;
 
@@ -13,7 +13,7 @@ describe('Service: DrawHelperService', function () {
     scope.dhs = DrawHelperService;
     scope.vs = ViewStateService;
     scope.cps = ConfigProviderService;
-    scope.cps.design = defaultGrazerDesign;    
+    scope.cps.design = defaultArticDesign;    
     scope.cps.vals = {};
     scope.cps.vals.restrictions = {};
     scope.cps.vals.colors = {};

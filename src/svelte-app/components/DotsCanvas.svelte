@@ -304,7 +304,7 @@
 	});
 </script>
 
-<div class="grazer-twoDimCanvasContainer">
-	<canvas bind:this={staticCanvas} class="grazer-twoDimCanvasStatic" width="512" height="512"></canvas>
-	<canvas bind:this={dotsCanvas} class="grazer-twoDimCanvasDots" width="512" height="512"></canvas>
+<div class="artic-twoDimCanvasContainer">
+	<canvas bind:this={staticCanvas} class="artic-twoDimCanvasStatic" width="512" height="512"></canvas>
+	<canvas bind:this={dotsCanvas} class="artic-twoDimCanvasDots" width="512" height="512"></canvas>
 </div>

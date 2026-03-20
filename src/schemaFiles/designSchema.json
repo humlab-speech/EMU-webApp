@@ -1,6 +1,6 @@
 {
 	"$schema": "http://json-schema.org/draft-04/schema#",
-	"description": "Schema for the Design of grazer",
+	"description": "Schema for the Design of Artic",
 	"type": "object",
 	"properties": {
 		"color": {

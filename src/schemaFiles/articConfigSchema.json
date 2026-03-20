@@ -1,5 +1,5 @@
 {
-	"description": "Schema for grazerConfig file for grazer",
+	"description": "Schema for articConfig file for Artic",
 	"type": "object",
 	"properties": {
 		"main": {

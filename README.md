@@ -1,10 +1,10 @@
-# grazer
+# Artic
 
 Fork of [EMU-webApp](https://github.com/IPS-LMU/EMU-webApp) by Humlab, Umeå University.
 
 ## Introduction
 
-grazer is an online and offline web application for labeling, visualizing and correcting speech and derived speech data.
+Artic is an online and offline web application for labeling, visualizing and correcting speech and derived speech data.
 
 ## Quick start
 
@@ -13,8 +13,8 @@ Visit the demo and click the `open demo DB` button in the top menu to load one o
 ## Development
 
 * install [nodejs and npm](http://nodejs.org/)
-* clone this repo with `git clone https://github.com/humlab-speech/grazer.git`
-* `cd grazer && npm install`
+* clone this repo with `git clone https://github.com/humlab-speech/artic.git`
+* `cd artic && npm install`
 * `npm start` — dev server at `http://localhost:9000`
 * example WebSocket server: `cd exampleServers && node nodeEmuProtocolWsServer.js`
 * auto-connecting dev: `http://localhost:9000/?autoConnect=true`

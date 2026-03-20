@@ -3,7 +3,7 @@
 describe('Directive: bundleListSideBar', function() {
 
     var elm, tpl, scope;
-    beforeEach(angular.mock.module('grazer', 'grazer.templates'));
+    beforeEach(angular.mock.module('artic', 'artic.templates'));
 
     beforeEach(angular.mock.inject(function($rootScope, $compile) {
         scope = $rootScope.$new();
@@ -36,7 +36,7 @@ describe('Directive: bundleListSideBar', function() {
         scope.vs = ViewStateService;
         scope.vs.submenuOpen = true;
         compileDirective();
-        expect(elm.html()).toContain('grazer-filter');
+        expect(elm.html()).toContain('artic-filter');
         expect(elm.html()).toContain('input');
         expect(elm.html()).toContain('my-drop-zone');
         expect(elm.html()).toContain('my-drop-zone-input');

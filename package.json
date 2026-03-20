@@ -1,14 +1,14 @@
 {
-  "name": "grazer",
-  "version": "1.5.3-humlab-1.7.3",
-  "description": "grazer is an online and offline Web-App for labeling, visualizing and correcting speech and derived speech data.",
+  "name": "artic",
+  "version": "1.5.3-humlab-1.8.0",
+  "description": "Artic is an online and offline Web-App for labeling, visualizing and correcting speech and derived speech data.",
   "main": "app/scripts/app.js",
   "author": "Raphael Winkelmann, Georg Raess, Markus Jochim",
   "license": "MIT",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/humlab-speech/grazer"
+    "url": "https://github.com/humlab-speech/artic"
   },
   "dependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.0.0",
@@ -68,7 +68,7 @@
     "build:svelte": "vite build",
     "preview": "vite preview",
     "start:iframe-demo": "http-server iframe-demo --cors -p 7283 -c-1",
-    "build-docker-image": "docker build --no-cache -t visp-emu-webapp ../",
+    "build-docker-image": "docker build --no-cache -t visp-artic ../",
     "test": "npm run test:jest",
     "test:vitest": "vitest run",
     "test:jest": "jest",

@@ -14,10 +14,10 @@ describe('E2E: main page', function () {
 		browser.sleep(100);
 		element(by.id('fileDialog')).sendKeys(absolutePath1);
 		browser.sleep(500);
-		var elem = element.all(by.css('.grazer-level'));
+		var elem = element.all(by.css('.artic-level'));
 		expect(elem.count()).toBe(11);
 		element(by.id('clear')).click();
-		element(by.id('grazer-modal-confirm')).click();
+		element(by.id('artic-modal-confirm')).click();
 	});
 
 	it('should open demo1', function() {
@@ -32,7 +32,7 @@ describe('E2E: main page', function () {
 			.click()
 			.perform();
 		browser.sleep(1200);
-		var elem = element.all(by.css('.grazer-level'));
+		var elem = element.all(by.css('.artic-level'));
 		expect(elem.count()).toBe(2);
 	});
 

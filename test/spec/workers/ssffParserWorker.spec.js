@@ -4,7 +4,7 @@ describe('Worker: ssffParserWorker', function() {
 
   var worker, mockGlobal, wavData;
 
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
 
   beforeEach(function(){
     var DummyWorker = function() {};

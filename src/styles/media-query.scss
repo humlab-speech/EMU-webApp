@@ -2,13 +2,13 @@
 
 @media (min-width: 950px) {
    /* wide browser windows */
-     .grazer-mini-btn, .grazer-nav-wrap ul li  {
+     .artic-mini-btn, .artic-nav-wrap ul li  {
          width: 9%;
      }
-     .grazer-mini-btn-group{
+     .artic-mini-btn-group{
          width: 9%;
      }     
-     .grazer-mini-btn-group button{
+     .artic-mini-btn-group button{
          /*width: 100%;*/
      }
    
@@ -16,26 +16,26 @@
 
 @media (min-width: 450px) and (max-width: 950px) {
    /* netbooks/tablets */ 
-     .grazer-mini-btn, .grazer-nav-wrap ul li {
+     .artic-mini-btn, .artic-nav-wrap ul li {
          width: 7.5%;
      }
-    .grazer-mini-btn-group{
+    .artic-mini-btn-group{
          width: 7.5%;
      }     
-    .grazer-mini-btn-group button{
+    .artic-mini-btn-group button{
          /*width: 100%;*/
      }
 } 
 
 @media (max-width: 450px) {
      /* mobile devices */ 
-    .grazer-mini-btn, .grazer-nav-wrap ul li {
+    .artic-mini-btn, .artic-nav-wrap ul li {
         width: 6%;
     }
-    .grazer-mini-btn-group{
+    .artic-mini-btn-group{
         width: 6%;
     }     
-    .grazer-mini-btn-group button{
+    .artic-mini-btn-group button{
         /*width: 100%;*/
     }
 }

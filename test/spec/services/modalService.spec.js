@@ -3,7 +3,7 @@
 describe('Service: ModalService', function () {
 
   // load the controller's module
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
   
   var scope;
 

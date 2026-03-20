@@ -215,12 +215,12 @@ export class DragnDropService{
 		this.ViewStateService.setState('loadingSaving');
 		this.ViewStateService.somethingInProgress = true;
 		this.ViewStateService.somethingInProgressTxt = 'Loading local File: ' + this.DragnDropDataService.convertedBundles[this.DragnDropDataService.sessionDefault].name;
-		this.IoHandlerService.httpGetPath('configFiles/standalone_grazerConfig.json').then((resp) => {
+		this.IoHandlerService.httpGetPath('configFiles/standalone_articConfig.json').then((resp) => {
 			this.ViewStateService.curPerspectiveIdx = 0;
 			this.ConfigProviderService.setVals(resp.data.EMUwebAppConfig);
 			delete resp.data.EMUwebAppConfig;
 			var validRes;
-			validRes = this.ValidationService.validateJSO('grazerConfigSchema', this.ConfigProviderService.vals);
+			validRes = this.ValidationService.validateJSO('articConfigSchema', this.ConfigProviderService.vals);
 			if (validRes === true) {
 				this.ConfigProviderService.curDbConfig = resp.data;
 				this.ViewStateService.somethingInProgressTxt = 'Parsing audio file...';

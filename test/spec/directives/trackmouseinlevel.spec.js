@@ -7,7 +7,7 @@ describe('Directive: trackmouseinlevel', function () {
     var lvlName = 'Phonetic';
     var lvlType = 'SEGMENT';
 
-    beforeEach(angular.mock.module('grazer', 'grazer.templates'));
+    beforeEach(angular.mock.module('artic', 'artic.templates'));
 
     beforeEach(angular.mock.inject(function (_$compile_, _$rootScope_, SoundHandlerService, DataService, LevelService, ConfigProviderService, ViewStateService, HistoryService) {
         $compile = _$compile_;
@@ -16,7 +16,7 @@ describe('Directive: trackmouseinlevel', function () {
         scope.lvl = LevelService;
         scope.data = DataService;
         scope.cps = ConfigProviderService;
-        scope.cps.setVals(defaultGrazerConfig);
+        scope.cps.setVals(defaultArticConfig);
         scope.cps.curDbConfig = aeDbConfig;
         scope.vs = ViewStateService;
         scope.shs = SoundHandlerService;

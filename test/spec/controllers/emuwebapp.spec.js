@@ -3,7 +3,7 @@
 describe('Controller: MainController', function () {
 
   //load the controller's module
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
 
   var emptyObject = {};
 
@@ -37,7 +37,7 @@ describe('Controller: MainController', function () {
 
     // initiate the component controller and mock the scope
     scope = $rootScope.$new();
-    ctrl = $componentController('grazer', {
+    ctrl = $componentController('artic', {
       $scope: scope,
       $element: angular.element('<div></div>'),
       $window: _$window_,
@@ -59,14 +59,14 @@ describe('Controller: MainController', function () {
     ctrl.WavParserService = WavParserService;
     ctrl.DataService = DataService;
     ctrl.SoundHandlerService.audioBuffer.length = testSizeAll;
-    ctrl.ConfigProviderService.setVals(defaultGrazerConfig);
-    ctrl.ConfigProviderService.design = defaultGrazerDesign;
+    ctrl.ConfigProviderService.setVals(defaultArticConfig);
+    ctrl.ConfigProviderService.design = defaultArticDesign;
     ctrl.ConfigProviderService.curDbConfig = aeDbConfig;
 
     deferred = $q.defer();
     deferred.resolve('called');
     $httpBackend.whenGET("schemaFiles/annotationFileSchema.json").respond(annotationFileSchema);
-    $httpBackend.whenGET("schemaFiles/grazerConfigSchema.json").respond(grazerConfigSchema);
+    $httpBackend.whenGET("schemaFiles/articConfigSchema.json").respond(articConfigSchema);
     $httpBackend.whenGET("schemaFiles/DBconfigFileSchema.json").respond(DBconfigFileSchema);
     $httpBackend.whenGET("schemaFiles/bundleListSchema.json").respond(bundleListSchema);
     $httpBackend.whenGET("schemaFiles/bundleSchema.json").respond(bundleSchema);
@@ -76,8 +76,8 @@ describe('Controller: MainController', function () {
     $httpBackend.whenGET("views/error.html").respond('');
     $httpBackend.whenGET("views/connectModal.html").respond('');
     $httpBackend.whenGET("views/export.html").respond('');
-    $httpBackend.whenGET("configFiles/default_grazerConfig.json").respond(defaultGrazerConfig);
-    $httpBackend.whenGET("configFiles/default_emuwebappDesign.json").respond(defaultGrazerDesign);
+    $httpBackend.whenGET("configFiles/default_articConfig.json").respond(defaultArticConfig);
+    $httpBackend.whenGET("configFiles/default_articDesign.json").respond(defaultArticDesign);
   }));
 
   it('should react to $broadcast connectionDisrupted', angular.mock.inject(function ($rootScope) {
@@ -360,12 +360,12 @@ describe('Controller: MainController', function () {
 
   // getPerspectiveColor moved to perspectives-side-bar component
   xit('should getPerspectiveColor', function () {
-    expect(ctrl.getPerspectiveColor()).toEqual('grazer-curSelPerspLi');
+    expect(ctrl.getPerspectiveColor()).toEqual('artic-curSelPerspLi');
     // set curPerspectiveIdx
     ctrl.ViewStateService.curPerspectiveIdx = 0;
     expect(ctrl.getPerspectiveColor({
       name: 'test'
-    })).toEqual('grazer-perspLi');
+    })).toEqual('artic-perspLi');
     // reset curPerspectiveIdx
     ctrl.ViewStateService.curPerspectiveIdx = -1;
   });
@@ -655,7 +655,7 @@ describe('Controller: MainController', function () {
      spyOn(ctrl.DataService, 'setData');
      ctrl.ConfigProviderService.embeddedVals.audioGetUrl = 'test.wav';
      ctrl.loadFilesForEmbeddedApp();
-     ioDeferred.resolve({data: defaultGrazerConfig});
+     ioDeferred.resolve({data: defaultArticConfig});
      scope.$apply();
      expect(ctrl.ConfigProviderService.setVals).toHaveBeenCalled();
      wavDeferred.resolve({audioBuffer: {Data: [1, 2, 3], length: 3, sampleRate: 16000}, playbackBuffer: null});

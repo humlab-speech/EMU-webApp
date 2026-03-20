@@ -16,11 +16,11 @@
 	function onBlur() { viewStateService.cursorInTextField = false; }
 </script>
 
-<div class="grazer-modal-wrap">
-	<div class="grazer-modal-header-large grazer-modal-header">
+<div class="artic-modal-wrap">
+	<div class="artic-modal-header-large artic-modal-header">
 		<h3 id="modalHeading">Rename Level</h3>
 	</div>
-	<div class="grazer-modal-body">
+	<div class="artic-modal-body">
 		<p>Do you really wish to <i>rename</i> the level "{originalName}"?</p>
 		<p>
 			<input
@@ -32,8 +32,8 @@
 			/>
 		</p>
 	</div>
-	<div class="grazer-modal-footer">
-		<button class="grazer-mini-btn" id="modalCancelBtn" onclick={() => modalService.close()}>Cancel</button>
-		<button class="grazer-mini-btn" onclick={renameLevel}>Rename</button>
+	<div class="artic-modal-footer">
+		<button class="artic-mini-btn" id="modalCancelBtn" onclick={() => modalService.close()}>Cancel</button>
+		<button class="artic-mini-btn" onclick={renameLevel}>Rename</button>
 	</div>
 </div>

@@ -401,16 +401,16 @@
 	});
 </script>
 
-<div class="grazer-timeline">
-	<div class="grazer-timelineCanvasContainer">
-		<canvas bind:this={mainCanvas} class="grazer-timelineCanvasMain"></canvas>
+<div class="artic-timeline">
+	<div class="artic-timelineCanvasContainer">
+		<canvas bind:this={mainCanvas} class="artic-timelineCanvasMain"></canvas>
 		<canvas
 			bind:this={ssffCanvas}
-			class="grazer-timelineCanvasSSFF"
+			class="artic-timelineCanvasSSFF"
 					></canvas>
 		<canvas
 			bind:this={markupCanvas}
-			class="grazer-timelineCanvasMarkup"
+			class="artic-timelineCanvasMarkup"
 						role="presentation"
 			onmousedown={handleMouseDown}
 			onmouseup={handleMouseUp}

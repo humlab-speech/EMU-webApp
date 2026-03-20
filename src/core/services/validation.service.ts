@@ -12,7 +12,7 @@ export class ValidationService {
 	initDeps(deps: { ConfigProviderService: any }) {
 		Object.assign(this, deps);
 		this.schemasJsos = [];
-		this.names = ['annotationFileSchema', 'grazerConfigSchema', 'DBconfigFileSchema', 'bundleListSchema', 'bundleSchema', 'designSchema'];
+		this.names = ['annotationFileSchema', 'articConfigSchema', 'DBconfigFileSchema', 'bundleListSchema', 'bundleSchema', 'designSchema'];
 	}
 
 	/**

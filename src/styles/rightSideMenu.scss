@@ -1,10 +1,10 @@
-@import 'grazer-design';
+@import 'artic-design';
 @import 'font';
 @import 'mixins';
 
 /* rightSideMenu CSS */
 
-.grazer-right-menu {
+.artic-right-menu {
     position: absolute;
     top: 40px;
     right: -200px;
@@ -16,7 +16,7 @@
     color: var(--color-white);
     border-left: thin solid var(--color-black);
     z-index: 1000;
-    @extend .grazer-font-small;
+    @extend .artic-font-small;
     h3{
         font-size: 1.5em;
         padding-top: 15px;
@@ -62,7 +62,7 @@
             filter: invert(100%);
         }
     }
-    .grazer-curSelPerspLi{
+    .artic-curSelPerspLi{
         border-bottom:thin solid var(--color-transparent-grey);
         padding: 10px !important;
         margin: 4px !important;
@@ -70,7 +70,7 @@
         background-color: #999;
         color: var(--color-black);
     }
-    .grazer-perspLi{
+    .artic-perspLi{
         border-bottom:thin solid var(--color-transparent-grey);
         padding: 10px !important;
         margin: 4px !important;

@@ -1,13 +1,13 @@
-<div class="grazer-modal-wrap" ng-controller="ShowhierarchyCtrl">
-    <div class="grazer-modal-header-large grazer-modal-header">
-        <div class="grazer-nav-wrap" ng-repeat="(key, levelName) in standardFuncServ.reverseCopy(paths.possible[getSelIdx()])">
-            <div class="grazer-nav-wrap" style="margin-left: 5px;">
-				<ul class="grazer-dropdown-container">
+<div class="artic-modal-wrap" ng-controller="ShowhierarchyCtrl">
+    <div class="artic-modal-header-large artic-modal-header">
+        <div class="artic-nav-wrap" ng-repeat="(key, levelName) in standardFuncServ.reverseCopy(paths.possible[getSelIdx()])">
+            <div class="artic-nav-wrap" style="margin-left: 5px;">
+				<ul class="artic-dropdown-container">
 					<li class="left">
-						<button class="grazer-mini-btn full" ng-mouseover="dropdown[key] = true" ng-mouseleave="dropdown[key] = false" ng-click="dropdown[key] = !dropdown[key]">
-							{{levelName}} <span id="grazer-dropdown-arrow"></span>
+						<button class="artic-mini-btn full" ng-mouseover="dropdown[key] = true" ng-mouseleave="dropdown[key] = false" ng-click="dropdown[key] = !dropdown[key]">
+							{{levelName}} <span id="artic-dropdown-arrow"></span>
 						</button>
-						<ul class="grazer-dropdown-menu" ng-mouseover="dropdown[key] = true" ng-mouseleave="dropdown[key] = false" ng-init="dropdown[key] = false" ng-show="dropdown[key]">
+						<ul class="artic-dropdown-menu" ng-mouseover="dropdown[key] = true" ng-mouseleave="dropdown[key] = false" ng-init="dropdown[key] = false" ng-show="dropdown[key]">
 							<li class="divider"></li>
 							<li ng-repeat="(key2, attrDef) in getAllAttrDefs(levelName)" ng-click="setCurrentAttrDef(levelName, attrDef.name, $index); dropdown[key] = false;">
 								&rarr; {{attrDef.name}}
@@ -18,9 +18,9 @@
 			</div>
 		</div>
 	</div>
-	<div class="grazer-modal-body grazer-modal-hierarchy">
-    <div class="grazer-modal-select">
-        <select id="grazer-selection" name="grazer-selection" ng-model="paths.selected" ng-options="value for value in paths.possibleAsStr"></select>
+	<div class="artic-modal-body artic-modal-hierarchy">
+    <div class="artic-modal-select">
+        <select id="artic-selection" name="artic-selection" ng-model="paths.selected" ng-options="value for value in paths.possibleAsStr"></select>
     </div>
 		<history-action-popup ng-show="vs.historyActionTxt !=''"></history-action-popup>
 		<emuhierarchy 
@@ -36,9 +36,9 @@
 		attribute-definition-click-counter="attributeDefinitionClickCounter"
 		></emuhierarchy>
 	</div>
-	<div class="grazer-modal-footer">
-	    <button class="grazer-mini-btn" id="modalPlayBtn" ng-click="playSelection()">play selected</button>
-	    <button class="grazer-mini-btn" id="modalRotateBtn" ng-click="rotateHierarchy()">&orarr; rotate by 90&deg;</button>
-		<button class="grazer-mini-btn" id="modalCancelBtn" ng-click="modal.close();">close hierarchy</button>
+	<div class="artic-modal-footer">
+	    <button class="artic-mini-btn" id="modalPlayBtn" ng-click="playSelection()">play selected</button>
+	    <button class="artic-mini-btn" id="modalRotateBtn" ng-click="rotateHierarchy()">&orarr; rotate by 90&deg;</button>
+		<button class="artic-mini-btn" id="modalCancelBtn" ng-click="modal.close();">close hierarchy</button>
 	</div>
 </div>

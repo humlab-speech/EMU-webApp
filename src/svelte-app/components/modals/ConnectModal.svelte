@@ -47,28 +47,28 @@
 	function onBlur() { viewStateService.cursorInTextField = false; }
 </script>
 
-<div class="grazer-modal-wrap">
-	<div class="grazer-modal-header-large grazer-modal-header">
+<div class="artic-modal-wrap">
+	<div class="artic-modal-header-large artic-modal-header">
 		<h3 id="modalHeading">Connect to Server</h3>
 	</div>
-	<div class="grazer-modal-body">
-		<div class="grazer-text">
+	<div class="artic-modal-body">
+		<div class="artic-text">
 			<div>
 				Please enter URL:<br />&nbsp;<br />
 				<input
-					class="grazer-modal-URL-input"
+					class="artic-modal-URL-input"
 					type="text"
 					value={currentUrl}
 					oninput={onInput}
 					onfocus={onFocus}
 					onblur={onBlur}
 				/>
-				<button class="grazer-mini-btn-save" onclick={saveUrl}>(+)</button>
-				<button class="grazer-mini-btn-save" onclick={() => deleteUrl(currentUrl)}>(-)</button>
+				<button class="artic-mini-btn-save" onclick={saveUrl}>(+)</button>
+				<button class="artic-mini-btn-save" onclick={() => deleteUrl(currentUrl)}>(-)</button>
 				<br />&nbsp;<br />
 				<select
 					size="10"
-					class="grazer-modal-list"
+					class="artic-modal-list"
 					ondblclick={() => modalService.confirmContent()}
 				>
 					{#each urls as url}
@@ -78,8 +78,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="grazer-modal-footer">
-		<button id="grazer-modal-cancel" class="grazer-mini-btn" onclick={() => modalService.close()}>Cancel</button>
-		<button id="grazer-modal-confirm" class="grazer-mini-btn" onclick={() => modalService.confirmContent()}>Connect</button>
+	<div class="artic-modal-footer">
+		<button id="artic-modal-cancel" class="artic-mini-btn" onclick={() => modalService.close()}>Cancel</button>
+		<button id="artic-modal-confirm" class="artic-mini-btn" onclick={() => modalService.confirmContent()}>Connect</button>
 	</div>
 </div>

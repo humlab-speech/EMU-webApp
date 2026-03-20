@@ -32,7 +32,7 @@ export class HandleGlobalKeyStrokes{
         Object.assign(this, deps);
     }
     /**
-     * function called by emu-webapp.component that sets up keyboard bindings
+     * function called by artic.component that sets up keyboard bindings
      * to document
      */
     public bindGlobalKeys (){

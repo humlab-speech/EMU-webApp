@@ -1,4 +1,4 @@
-@import 'grazer-design';
+@import 'artic-design';
 
 /** 
     ###################################
@@ -8,7 +8,7 @@
 */
 
 
-.grazer-timeline {
+.artic-timeline {
     // background-color: white;
     position: absolute;  
     padding: 0;
@@ -17,7 +17,7 @@
     bottom: 0;
     height: 100%;
     width: 100%;
-    .grazer-timelineCanvasContainer {
+    .artic-timelineCanvasContainer {
         position: relative;
         float:left;
         height: 100%;
@@ -36,13 +36,13 @@
             width: 100%;
             height: 100%;
         }
-        .grazer-timelineCanvasMain {
+        .artic-timelineCanvasMain {
             top: 0; 
             left: 5px;
             background: var(--color-black);
             // border: 1px solid $color-grey;
         }
-        .grazer-timelineCanvasSSFF {
+        .artic-timelineCanvasSSFF {
             position: absolute;
             top: 0; 
             left: 5px;
@@ -50,7 +50,7 @@
             z-index: 2;
             // border: 1px solid $color-grey;
         }
-        .grazer-timelineCanvasMarkup {
+        .artic-timelineCanvasMarkup {
             position: absolute;
             top: 0px; 
             left: 5px;
@@ -60,7 +60,7 @@
             // border: 1px solid $color-grey;
         }
     }
-    .grazer-timelineCanvasButtons {
+    .artic-timelineCanvasButtons {
         float: left;
         width: 10px;
         min-height: 20px;

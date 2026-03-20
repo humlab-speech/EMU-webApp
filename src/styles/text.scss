@@ -1,8 +1,8 @@
-@import 'grazer-design';
+@import 'artic-design';
 @import 'font';
 @import 'mixins';
 
-.grazer-text {
+.artic-text {
   margin-left: 50px;
   margin-right: 50px;
   margin-top: 50px;
@@ -13,20 +13,20 @@
   input.ng-invalid.ng-touched {
     background-color: var(--color-red);
   }
-  @extend .grazer-font-small;
+  @extend .artic-font-small;
   .red {
   	color: #f00;
   }
-  .grazer-sort-line {
+  .artic-sort-line {
    border: 0;
     border-bottom: 1px dashed #ccc;
     background: #999;
   }
-    .grazer-sortOuter {
+    .artic-sortOuter {
       list-style-type: none;
       text-align: left;
     }
-    .grazer-sort {
+    .artic-sort {
       list-style-type: none;
       	width: 60%;
       	margin-top: 15px;
@@ -41,7 +41,7 @@
       }
     }
     input {
-        @extend .grazer-font-input;
+        @extend .artic-font-input;
         @include vendor-prefix(user-select, "none");
         @include vendor-prefix(box-sizing, "content-box");
         outline: none;
@@ -60,7 +60,7 @@
         }
         span {
             text-align: center;
-            @extend .grazer-font-small;
+            @extend .artic-font-small;
         }
     }
     img[alt=icon] {
@@ -74,7 +74,7 @@
       line-height: 1.255;
       display: block;
       //text-align: left;
-      @extend .grazer-font-large;
+      @extend .artic-font-large;
     }
     h1{
       font-size: $font-large-size * 1.7;
@@ -97,7 +97,7 @@
       display: block;
       text-align: left;
       font-weight: bold !important;
-      @extend .grazer-font-large;
+      @extend .artic-font-large;
     }
     h4 {
       position: relative;
@@ -108,7 +108,7 @@
       border-bottom: 1px solid #eee;
       display: block;
       text-align: left;
-      @extend .grazer-font-large;
+      @extend .artic-font-large;
     }
     pre {
 		padding: 16px;
@@ -118,7 +118,7 @@
 		border-radius: 3px;
 		word-wrap: normal;
 		font-size: 0.9em;
-		@extend .grazer-font-code;
+		@extend .artic-font-code;
     }
     img {
 		display: block;
@@ -163,7 +163,7 @@
 	    line-height: 0.85;
 	}
 	small {
-		@extend .grazer-font-small;
+		@extend .artic-font-small;
 		text-align: center;
 		font-size: 0.7em;
 	}
@@ -189,7 +189,7 @@
       text-align: center;
       text-decoration: underline;
       padding: 10px;
-      @extend .grazer-font-large;
+      @extend .artic-font-large;
     }
     tr{
       width: 500px !important;
@@ -206,7 +206,7 @@
       }
     }
     td {
-      @extend .grazer-font-large;
+      @extend .artic-font-large;
       padding: 10px;
       &:nth-child(even) {
         text-align: right;
@@ -216,6 +216,6 @@
   }
 
 }
-.grazer-link {
+.artic-link {
     cursor: pointer;
 }

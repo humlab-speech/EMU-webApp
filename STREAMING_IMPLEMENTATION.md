@@ -145,7 +145,7 @@ Audio Loading Pipeline (with Range Request Support)
 
 ### Configuration
 
-**File**: `src/configFiles/default_grazerConfig.json`
+**File**: `src/configFiles/default_articConfig.json`
 
 Add feature flag:
 ```json
@@ -158,7 +158,7 @@ Add feature flag:
 }
 ```
 
-**File**: `src/configFiles/default_grazerConfigSchema.json`
+**File**: `src/configFiles/default_articConfigSchema.json`
 
 Add schema validation:
 ```json
@@ -416,8 +416,8 @@ Server:
   exampleServers/nodeEmuProtocolWsServer.js    [FIXED] Range response bug
 
 Config:
-  src/configFiles/default_grazerConfig.json     [NEW] streaming flags
-  src/configFiles/default_grazerConfigSchema.json [NEW] schema validation
+  src/configFiles/default_articConfig.json     [NEW] streaming flags
+  src/configFiles/default_articConfigSchema.json [NEW] schema validation
 
 Services:
   src/app/services/streaming-audio.service.ts   [NEW] Streaming orchestration

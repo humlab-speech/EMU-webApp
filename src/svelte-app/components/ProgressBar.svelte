@@ -3,7 +3,7 @@
 </script>
 
 {#if open}
-<div class="grazer-progressBar">
+<div class="artic-progressBar">
 	{txt}
 </div>
 {/if}

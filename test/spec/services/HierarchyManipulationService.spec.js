@@ -2,7 +2,7 @@
 
 describe('Service: HierarchyManipulationService', function () {
 
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
 
   beforeEach(angular.mock.inject(function (ConfigProviderService) {
     ConfigProviderService.curDbConfig = aeDbConfig;

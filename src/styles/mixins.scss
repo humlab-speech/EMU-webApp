@@ -1,4 +1,4 @@
-// scss mixins used by EMU-webApp
+// scss mixins used by Artic
 
 @mixin vendor-prefix($name, $argument) {
   -webkit-#{$name}: #{$argument};

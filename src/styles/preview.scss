@@ -1,7 +1,7 @@
-@import 'grazer-design';
+@import 'artic-design';
 @import 'mixins';
 
-.grazer-preview {
+.artic-preview {
     position: relative;
     width:calc(100% - 30px); 
     height: 38px !important; 
@@ -9,11 +9,11 @@
     margin-top:5px;
     cursor: pointer;
     
-	> .grazer-preview-canvas {
+	> .artic-preview-canvas {
 		position: absolute;
 	}
 	
-	> .grazer-preview-canvas-markup {
+	> .artic-preview-canvas-markup {
 		position: absolute;
 		background-color: transparent;
 		width: 100%;

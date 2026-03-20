@@ -3,13 +3,13 @@
 describe('Directive: emuwebapp', function() {
 
     var httpBackend, elm, scope;
-    beforeEach(angular.mock.module('grazer', 'grazer.templates'));
+    beforeEach(angular.mock.module('artic', 'artic.templates'));
 
     beforeEach(angular.mock.inject(function($injector, $rootScope) {
         scope = $rootScope.$new();
         httpBackend = $injector.get('$httpBackend');
         httpBackend.whenGET('schemaFiles/annotationFileSchema.json').respond(annotationFileSchema);
-        httpBackend.whenGET('schemaFiles/grazerConfigSchema.json').respond(grazerConfigSchema);
+        httpBackend.whenGET('schemaFiles/articConfigSchema.json').respond(articConfigSchema);
         httpBackend.whenGET('schemaFiles/DBconfigFileSchema.json').respond(DBconfigFileSchema);
         httpBackend.whenGET('schemaFiles/bundleListSchema.json').respond(bundleListSchema);
         httpBackend.whenGET('schemaFiles/bundleSchema.json').respond(bundleSchema);
@@ -18,7 +18,7 @@ describe('Directive: emuwebapp', function() {
     }));
 
     function compileDirective(tpl) {
-        if (!tpl) tpl = '<grazer audio-get-url="/testData/oldFormat/msajc003/msajc003.wav" label-get-url="/testData/oldFormat/msajc003/msajc003.TextGrid" label-type="TEXTGRID"></grazer>';
+        if (!tpl) tpl = '<artic audio-get-url="/testData/oldFormat/msajc003/msajc003.wav" label-get-url="/testData/oldFormat/msajc003/msajc003.TextGrid" label-type="TEXTGRID"></artic>';
         angular.mock.inject(function($compile) {
             elm = $compile(tpl)(scope);
         });
@@ -26,7 +26,7 @@ describe('Directive: emuwebapp', function() {
     }
 
     it('should set correct values', angular.mock.inject(function ($rootScope, ViewStateService, ConfigProviderService) {
-        ConfigProviderService.setVals(defaultGrazerConfig);
+        ConfigProviderService.setVals(defaultArticConfig);
         ViewStateService.mouseInEmuWebApp = undefined;
         compileDirective();
         $rootScope.$digest();

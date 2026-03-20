@@ -3,15 +3,15 @@
 ////////////////////
 // config files
 
-// defaultGrazer config
+// defaultArtic config
 jasmine.getFixtures().fixturesPath = 'base/configFiles/';
-var f = readFixtures('default_grazerConfig.json');
-var defaultGrazerConfig = JSON.parse(f)
+var f = readFixtures('default_articConfig.json');
+var defaultArticConfig = JSON.parse(f)
 
 // designEmuwebapp config
 jasmine.getFixtures().fixturesPath = 'base/configFiles/';
-var f = readFixtures('default_emuwebappDesign.json');
-var defaultGrazerDesign = JSON.parse(f)
+var f = readFixtures('default_articDesign.json');
+var defaultArticDesign = JSON.parse(f)
 
 // ae
 jasmine.getFixtures().fixturesPath = 'base/demoDBs/ae/';
@@ -61,7 +61,7 @@ jasmine.getFixtures().fixturesPath = 'base/schemaFiles/';
 var f = readFixtures('bundleListSchema.json');
 var bundleListSchema = JSON.parse(f);
 
-// grazerConfigSchema
+// articConfigSchema
 jasmine.getFixtures().fixturesPath = 'base/schemaFiles/';
 var f = readFixtures('bundleSchema.json');
 var bundleSchema = JSON.parse(f);
@@ -76,12 +76,12 @@ jasmine.getFixtures().fixturesPath = 'base/schemaFiles/';
 var f = readFixtures('globalDBschema.json');
 var globalDBSchema = JSON.parse(f);
 
-// grazerConfigSchema
+// articConfigSchema
 jasmine.getFixtures().fixturesPath = 'base/schemaFiles/';
-var f = readFixtures('grazerConfigSchema.json');
-var grazerConfigSchema = JSON.parse(f);
+var f = readFixtures('articConfigSchema.json');
+var articConfigSchema = JSON.parse(f);
 
-// grazerConfigSchema
+// articConfigSchema
 jasmine.getFixtures().fixturesPath = 'base/schemaFiles/';
 var f = readFixtures('designSchema.json');
 var designSchema = JSON.parse(f);

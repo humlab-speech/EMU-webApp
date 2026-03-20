@@ -29,7 +29,7 @@ export class ConfigProviderService {
 	}
 
 	public initTheme() {
-		const savedTheme = localStorage.getItem('grazer-theme');
+		const savedTheme = localStorage.getItem('artic-theme');
 		if (savedTheme) {
 			this.setTheme(savedTheme as any);
 		}
@@ -37,7 +37,7 @@ export class ConfigProviderService {
 	}
 
 	public setTheme(theme: 'light' | 'dark') {
-		localStorage.setItem('grazer-theme', theme);
+		localStorage.setItem('artic-theme', theme);
 		const htmlElement = document.documentElement;
 		if (theme === 'light') {
 			htmlElement.setAttribute('data-theme', 'light');
@@ -47,7 +47,7 @@ export class ConfigProviderService {
 	}
 
 	public getTheme(): string {
-		const theme = localStorage.getItem('grazer-theme');
+		const theme = localStorage.getItem('artic-theme');
 		return theme || 'dark';
 	}
 

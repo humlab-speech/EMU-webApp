@@ -3,7 +3,7 @@
 describe('Directive: historyActionPopup', function() {
 
     var elm, scope;
-    beforeEach(angular.mock.module('grazer'));
+    beforeEach(angular.mock.module('artic'));
 
     beforeEach(angular.mock.inject(function($rootScope, $q, $compile, ViewStateService, ModalService) {
         scope = $rootScope.$new();
@@ -20,7 +20,7 @@ describe('Directive: historyActionPopup', function() {
 
     it('should be replaced correctly', function() {
         compileDirective(true);
-        expect(elm.hasClass('grazer-history')).toBe(true);
+        expect(elm.hasClass('artic-history')).toBe(true);
     });
 
 });

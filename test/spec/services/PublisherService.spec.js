@@ -3,10 +3,10 @@
 describe('Service: PublisherService', function () {
   var originalPostMessage;
 
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
 
   beforeEach(angular.mock.inject(function (ConfigProviderService) {
-    ConfigProviderService.setVals(defaultGrazerConfig);
+    ConfigProviderService.setVals(defaultArticConfig);
     // Save and replace window.parent.postMessage for isolation
     originalPostMessage = window.parent.postMessage;
     window.parent.postMessage = jest.fn();

@@ -74,7 +74,7 @@
 
 	function downloadAnnotation() {
 		if (!viewStateService.getPermission('downloadAnnotationBtnClick')) return;
-		if (validationService.validateJSO('grazerConfigSchema', dataService.getData())) {
+		if (validationService.validateJSO('articConfigSchema', dataService.getData())) {
 			modalService.open('views/export.html', loadedMetaDataService.getCurBndl().name + '_annot.json', JSON.stringify(dataService.getData(), null, 2));
 		}
 	}
@@ -99,7 +99,7 @@
 		ioHandlerService.getDBconfigFile(name).then((res: any) => {
 			viewStateService.curPerspectiveIdx = 0;
 			configProviderService.setVals(res.data.EMUwebAppConfig);
-			const validRes = validationService.validateJSO('grazerConfigSchema', configProviderService.vals);
+			const validRes = validationService.validateJSO('articConfigSchema', configProviderService.vals);
 			if (validRes === true) {
 				configProviderService.curDbConfig = res.data;
 				viewStateService.setCurLevelAttrDefs(configProviderService.curDbConfig.levelDefinitions);
@@ -119,7 +119,7 @@
 					modalService.open('views/error.html', 'Error validating DBconfig: ' + JSON.stringify(validRes2, null, 4)).then(() => appStateService.resetToInitState());
 				}
 			} else {
-				modalService.open('views/error.html', 'Error validating grazerConfig: ' + JSON.stringify(validRes, null, 4)).then(() => appStateService.resetToInitState());
+				modalService.open('views/error.html', 'Error validating articConfig: ' + JSON.stringify(validRes, null, 4)).then(() => appStateService.resetToInitState());
 			}
 			invalidate();
 		}, (err: any) => {
@@ -211,69 +211,69 @@
 	});
 </script>
 
-<div class="grazer-top-menu">
+<div class="artic-top-menu">
 	{#if activeButtons?.openMenu && !bundleListSideBarDisabled}
-		<button class="grazer-button-icon" id="bundleListSideBarOpen" style="float:left" onclick={toggleSidebar}>
+		<button class="artic-button-icon" id="bundleListSideBarOpen" style="float:left" onclick={toggleSidebar}>
 			<i class="material-icons">menu</i>
 		</button>
 	{/if}
 
 	{#if activeButtons?.saveBundle && bundleListSideBarDisabled}
-		<button class="grazer-mini-btn left" onclick={saveBundle} style="float:left; {unsavedChangesStyle}">
+		<button class="artic-mini-btn left" onclick={saveBundle} style="float:left; {unsavedChangesStyle}">
 			<i class="material-icons">save</i> Save
 		</button>
 	{/if}
 
 	{#if activeButtons?.addLevelSeg}
-		<button class="grazer-mini-btn left"
+		<button class="artic-mini-btn left"
 			disabled={!perms.addLevelSeg}
 			onclick={addLevelSeg}>add level (SEG.)</button>
 	{/if}
 
 	{#if activeButtons?.addLevelEvent}
-		<button class="grazer-mini-btn left"
+		<button class="artic-mini-btn left"
 			disabled={!perms.addLevelEvent}
 			onclick={addLevelEvent}>add level (EVENT)</button>
 	{/if}
 
 	{#if activeButtons?.renameSelLevel}
-		<button class="grazer-mini-btn left"
+		<button class="artic-mini-btn left"
 			disabled={!perms.renameSel}
 			onclick={renameSelLevel}>rename sel. level</button>
 	{/if}
 
 	{#if activeButtons?.downloadTextGrid}
-		<button class="grazer-mini-btn left" id="downloadTextgrid"
+		<button class="artic-mini-btn left" id="downloadTextgrid"
 			disabled={!perms.downloadTextGrid}
 			onclick={downloadTextGrid}><i class="material-icons">save</i>TextGrid</button>
 	{/if}
 
 	{#if activeButtons?.downloadAnnotation}
-		<button class="grazer-mini-btn left" id="downloadAnnotation"
+		<button class="artic-mini-btn left" id="downloadAnnotation"
 			disabled={!perms.downloadAnnotation}
 			onclick={downloadAnnotation}><i class="material-icons">save</i>annotJSON</button>
 	{/if}
 
 	{#if activeButtons?.specSettings}
-		<button class="grazer-mini-btn left" id="spectSettingsBtn"
+		<button class="artic-mini-btn left" id="spectSettingsBtn"
 			disabled={!perms.spectSettings}
 			onclick={openSettings}><i class="material-icons">settings</i> settings</button>
 	{/if}
 
 	{#if activeButtons?.openDemoDB}
-		<div class="grazer-nav-wrap"
+		<div class="artic-nav-wrap"
 			onmouseenter={() => dropdown = true}
 			onmouseleave={() => dropdown = false}
 			role="menu"
 			tabindex="-1"
 		>
-			<ul class="grazer-dropdown-container">
+			<ul class="artic-dropdown-container">
 				<li class="left">
-					<button type="button" class="grazer-mini-btn full" id="demoDB"
+					<button type="button" class="artic-mini-btn full" id="demoDB"
 						disabled={!perms.openDemo}
-						onclick={() => dropdown = !dropdown}>open demo <span id="grazer-dropdown-arrow"></span></button>
+						onclick={() => dropdown = !dropdown}>open demo <span id="artic-dropdown-arrow"></span></button>
 					{#if dropdown}
-						<ul class="grazer-dropdown-menu"
+						<ul class="artic-dropdown-menu"
 							onmouseenter={() => dropdown = true}
 							onmouseleave={() => dropdown = false}
 						>
@@ -288,31 +288,31 @@
 	{/if}
 
 	{#if activeButtons?.connect}
-		<button class="grazer-mini-btn left"
+		<button class="artic-mini-btn left"
 			disabled={!perms.connect}
 			onclick={connectBtn}><i class="material-icons">input</i>connect</button>
 	{/if}
 
 	{#if activeButtons?.showHierarchy}
-		<button class="grazer-mini-btn left" id="showHierarchy"
+		<button class="artic-mini-btn left" id="showHierarchy"
 			disabled={!perms.showHierarchy}
 			onclick={showHierarchy}><i class="material-icons" style="transform: rotate(180deg)">details</i>hierarchy</button>
 	{/if}
 
 	{#if activeButtons?.search}
-		<button class="grazer-mini-btn left"
+		<button class="artic-mini-btn left"
 			disabled={!perms.search}
 			onclick={searchBtn}><i class="material-icons">search</i>search</button>
 	{/if}
 
 	{#if activeButtons?.clear}
-		<button class="grazer-mini-btn left" id="clear"
+		<button class="artic-mini-btn left" id="clear"
 			disabled={!perms.clear}
 			onclick={clearBtn}><i class="material-icons">clear_all</i>clear</button>
 	{/if}
 
-	<button class="grazer-button-icon" id="aboutBtn" style="float: right;" onclick={aboutBtn}>
-		<img src="/assets/EMU-webAppEmu.svg" class="_35px" alt="About" />
+	<button class="artic-button-icon" id="aboutBtn" style="float: right;" onclick={aboutBtn}>
+		<img src="/assets/artic-emu.svg" class="_35px" alt="About" />
 	</button>
 </div>
 

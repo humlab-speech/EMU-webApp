@@ -29,7 +29,7 @@
 </script>
 
 {#if message}
-<div class="grazer-toast" class:grazer-toast-show={visible}>
+<div class="artic-toast" class:artic-toast-show={visible}>
 	<span>{message}</span>
 	<button onclick={dismiss}>&times;</button>
 </div>

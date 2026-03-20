@@ -8,7 +8,7 @@ describe('Service: AnagestService', function () {
 
 
 	// load the controller's module
-	beforeEach(angular.mock.module('grazer'));
+	beforeEach(angular.mock.module('artic'));
 
 	beforeEach(angular.mock.module(function ($provide) {
 		$provide.value('ModalService', mockDialogService);

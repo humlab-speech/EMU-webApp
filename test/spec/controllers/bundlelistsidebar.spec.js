@@ -5,7 +5,7 @@ describe('Controller: bundleListSideBarCtrl', function () {
   var ctrl, $componentController, $rootScope;
 
   // load the controller's module
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
 
   //Initialize the controller and a mock scope
   beforeEach(angular.mock.inject(function (_$componentController_, _$rootScope_, ViewStateService, LoadedMetaDataService, DbObjLoadSaveService, ConfigProviderService, HistoryService) {
@@ -13,7 +13,7 @@ describe('Controller: bundleListSideBarCtrl', function () {
     $rootScope = _$rootScope_;
 
     ctrl = $componentController('bundleListSideBar', {$scope: $rootScope, $element: angular.element('<div><div></div></div>')}, {});
-    ConfigProviderService.setVals(defaultGrazerConfig);
+    ConfigProviderService.setVals(defaultArticConfig);
     ConfigProviderService.curDbConfig = aeDbConfig;
   }));
 

@@ -4,7 +4,7 @@ describe('Service: HandleGlobalKeyStrokes — Hierarchy Editor Paths', function 
 
     var scope, HandleGlobalKeyStrokes, ViewStateService, LevelService, LinkService, HistoryService, ModalService, ConfigProviderService;
 
-    beforeEach(angular.mock.module('grazer'));
+    beforeEach(angular.mock.module('artic'));
 
     beforeEach(angular.mock.inject(function (_$rootScope_, _HandleGlobalKeyStrokes_, _ViewStateService_, _LevelService_, _LinkService_, _HistoryService_, _ModalService_, _ConfigProviderService_) {
         scope = _$rootScope_;

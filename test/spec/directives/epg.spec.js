@@ -5,14 +5,14 @@
 describe('Directive: epg', function () {
 
     var elm, scope, tpl;
-    beforeEach(angular.mock.module('grazer'));
+    beforeEach(angular.mock.module('artic'));
 
     beforeEach(angular.mock.inject(function ($rootScope, $compile, ViewStateService, fontScaleService, ConfigProviderService, SsffDataService, SoundHandlerService) {
         scope = $rootScope.$new();
         scope.cps = ConfigProviderService;
         scope.ssffds = SsffDataService;
-        scope.cps.setVals(defaultGrazerConfig);
-        scope.cps.design = defaultGrazerDesign;
+        scope.cps.setVals(defaultArticConfig);
+        scope.cps.design = defaultArticDesign;
         scope.shs = SoundHandlerService;
         scope.shs.audioBuffer.sampleRate = 1000;
         scope.fontImage = fontScaleService;

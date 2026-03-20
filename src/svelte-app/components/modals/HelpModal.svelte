@@ -30,29 +30,29 @@
 	});
 </script>
 
-<div class="grazer-modal-wrap">
-	<div class="grazer-modal-header-large grazer-modal-header">
-		<h3 id="modalHeading">EMU-webApp Help</h3>
+<div class="artic-modal-wrap">
+	<div class="artic-modal-header-large artic-modal-header">
+		<h3 id="modalHeading">Artic Help</h3>
 	</div>
-	<div class="grazer-modal-body">
-		<div id="tabs" class="grazer-tabbed">
-			<ul class="grazer-tabbed-menu">
+	<div class="artic-modal-body">
+		<div id="tabs" class="artic-tabbed">
+			<ul class="artic-tabbed-menu">
 				{#each tabs as tab, idx}
 					<li>
-						<a class="grazer-tabbed-link" href="#"
+						<a class="artic-tabbed-link" href="#"
 							class:active={activeTab === idx}
 							onclick={(e) => { e.preventDefault(); loadTab(idx); }}
 						>{tab.title}</a>
 					</li>
 				{/each}
 			</ul>
-			<div class="grazer-tabbed-view">
+			<div class="artic-tabbed-view">
 				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-				<div class="grazer-text">{@html htmlContent}</div>
+				<div class="artic-text">{@html htmlContent}</div>
 			</div>
 		</div>
 	</div>
-	<div class="grazer-modal-footer">
-		<button id="modalCancelBtn" class="grazer-mini-btn" onclick={() => modalService.close()}>Cancel</button>
+	<div class="artic-modal-footer">
+		<button id="modalCancelBtn" class="artic-mini-btn" onclick={() => modalService.close()}>Cancel</button>
 	</div>
 </div>

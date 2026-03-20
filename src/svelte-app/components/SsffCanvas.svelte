@@ -240,5 +240,5 @@
 	});
 </script>
 
-<canvas bind:this={canvas} class="grazer-timelineCanvasSSFF"></canvas>
+<canvas bind:this={canvas} class="artic-timelineCanvasSSFF"></canvas>
 

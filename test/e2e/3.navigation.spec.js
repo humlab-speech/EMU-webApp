@@ -38,7 +38,7 @@ describe('navigation', function () {
 	});*/
 
 	it('should load utterance msajc010', function () {
-		element.all(by.css('.grazer-bundle-item')).get(0).click();
+		element.all(by.css('.artic-bundle-item')).get(0).click();
 		element(by.model('filterText')).sendKeys('');
 		expect(browser.isElementPresent(by.id('Phonetic'))).toBe(true);
 		expect(browser.isElementPresent(by.id('Tone'))).toBe(true);
@@ -61,19 +61,19 @@ describe('navigation', function () {
 	it('should change loaded timeline view', function () {
 		browser.actions().keyDown(protractor.Key.SHIFT).sendKeys('o').keyUp(protractor.Key.SHIFT).perform();
 		browser.sleep(600);
-		element.all(by.css('.grazer-perspLi')).get(0).click();
+		element.all(by.css('.artic-perspLi')).get(0).click();
 		browser.sleep(1200);
 	});
 
 	it('should change loaded timeline view back to orig', function () {
 		browser.actions().keyDown(protractor.Key.SHIFT).sendKeys('o').keyUp(protractor.Key.SHIFT).perform();
 		browser.sleep(600);
-		element.all(by.css('.grazer-perspLi')).get(0).click();
+		element.all(by.css('.artic-perspLi')).get(0).click();
 		browser.sleep(1200);
 	});
 
 	it('should test all resize buttons', function () {
-		var elem = element.all(by.id('grazer-level-button-resize'));
+		var elem = element.all(by.id('artic-level-button-resize'));
 		expect(elem.count()).toBe(2);
 		for (i = 0; i < 2; i++) {
 			var button = elem.get(i);
@@ -86,7 +86,7 @@ describe('navigation', function () {
 		for (i = 0; i < 2; i++) {
 			element(by.id('zoomInBtn')).click();
 		}
-		var elem = element.all(by.css('.grazer-level-markup')).get(1);
+		var elem = element.all(by.css('.artic-level-markup')).get(1);
 
 		// on first
 		browser.actions().sendKeys('1').perform();
@@ -200,7 +200,7 @@ describe('navigation', function () {
 	});
 
 	it('should undo last 2 changes', function () {
-		var elem = element.all(by.css('.grazer-main'));
+		var elem = element.all(by.css('.artic-main'));
 		browser.actions()
 			.mouseMove(elem.get(0))
 			.click()
@@ -212,7 +212,7 @@ describe('navigation', function () {
 	});
 
 	it('should move dividing pane up and down', function () {
-		var elem = element.all(by.css('.grazer-split-handler'));
+		var elem = element.all(by.css('.artic-split-handler'));
 		expect(elem.count()).toBe(1);
 		browser.actions()
 			.mouseMove(elem.get(0))
@@ -255,7 +255,7 @@ describe('navigation', function () {
 		for (i = 0; i < 3; i++) {
 			element(by.id('zoomRightBtn')).click();
 		}
-    var elem = element.all(by.css('.grazer-level-markup')).get(0);
+    var elem = element.all(by.css('.artic-level-markup')).get(0);
 		browser.actions()
 			.mouseMove(elem)
 			.mouseMove( { x: -200, y: 0 }).click()
@@ -297,7 +297,7 @@ describe('navigation', function () {
 		for (i = 0; i < 3; i++) {
 			browser.actions().sendKeys('w').perform();
 		}
-		var elem = element.all(by.css('.grazer-preview-canvas-markup'));
+		var elem = element.all(by.css('.artic-preview-canvas-markup'));
 		expect(elem.count()).toBe(1);
 		browser.actions()
 			.mouseMove(elem.get(0))
@@ -419,7 +419,7 @@ describe('navigation', function () {
 			element(by.id('zoomInBtn')).click();
 			element(by.id('zoomRightBtn')).click();
 		}
-		var elem = element.all(by.css('.grazer-level-markup')).get(0);
+		var elem = element.all(by.css('.artic-level-markup')).get(0);
 		browser.actions()
 			.mouseMove(elem)
 			.click()
@@ -437,7 +437,7 @@ describe('navigation', function () {
 			element(by.id('zoomInBtn')).click();
 			element(by.id('zoomRightBtn')).click();
 		}
-		var elem = element.all(by.css('.grazer-level-markup')).get(0);
+		var elem = element.all(by.css('.artic-level-markup')).get(0);
 		browser.actions()
 			.mouseMove(elem)
 			.click()
@@ -451,7 +451,7 @@ describe('navigation', function () {
 	});
 
 	it('should move a element on EVENT level', function () {
-		var elem = element.all(by.css('.grazer-level-markup')).get(1);
+		var elem = element.all(by.css('.artic-level-markup')).get(1);
 		browser.actions()
 			.mouseMove(elem)
 			.click()
@@ -473,14 +473,14 @@ describe('navigation', function () {
 			element(by.id('zoomInBtn')).click();
 			element(by.id('zoomRightBtn')).click();
 		}
-		var elem = element.all(by.css('.grazer-level-markup')).get(0);
+		var elem = element.all(by.css('.artic-level-markup')).get(0);
 		browser.actions()
 			.mouseMove(elem)
 			.doubleClick()
 			.perform();
-		var area = by.css('.grazer-label-edit');
+		var area = by.css('.artic-label-edit');
 		expect(browser.isElementPresent(area)).toBe(true);
-		element(by.css('.grazer-label-edit')).sendKeys('TEST');
+		element(by.css('.artic-label-edit')).sendKeys('TEST');
 		browser.actions().sendKeys(protractor.Key.ENTER).perform();
 	});
 
@@ -489,7 +489,7 @@ describe('navigation', function () {
 			element(by.id('zoomInBtn')).click();
 			element(by.id('zoomRightBtn')).click();
 		}
-		var elem = element.all(by.css('.grazer-level-markup')).get(0);
+		var elem = element.all(by.css('.artic-level-markup')).get(0);
 		browser.actions()
 			.mouseMove(elem)
 			.mouseMove({
@@ -506,7 +506,7 @@ describe('navigation', function () {
 			element(by.id('zoomInBtn')).click();
 			element(by.id('zoomRightBtn')).click();
 		}
-		var elem = element.all(by.css('.grazer-level-markup')).get(0);
+		var elem = element.all(by.css('.artic-level-markup')).get(0);
 		browser.actions()
 			.mouseMove(elem)
 			.mouseMove({
@@ -528,12 +528,12 @@ describe('navigation', function () {
 			element(by.id('zoomInBtn')).click();
 			element(by.id('zoomRightBtn')).click();
 		}
-		var elem = element.all(by.css('.grazer-level-markup')).get(1);
+		var elem = element.all(by.css('.artic-level-markup')).get(1);
 		browser.actions()
 			.mouseMove(elem)
 			.click()
 			.perform();
-		elem = element.all(by.css('.grazer-level-markup')).get(0);
+		elem = element.all(by.css('.artic-level-markup')).get(0);
 		browser.actions()
 			.mouseMove(elem)
 			.mouseMove({
@@ -550,7 +550,7 @@ describe('navigation', function () {
 			element(by.id('zoomInBtn')).click();
 			element(by.id('zoomRightBtn')).click();
 		}
-		var elem = element.all(by.css('.grazer-level-markup')).get(1);
+		var elem = element.all(by.css('.artic-level-markup')).get(1);
 		browser.actions()
 			.mouseMove(elem)
 			.mouseMove({
@@ -559,9 +559,9 @@ describe('navigation', function () {
 			})
 			.doubleClick()
 			.perform();
-		var area = by.css('.grazer-label-edit');
+		var area = by.css('.artic-label-edit');
 		expect(browser.isElementPresent(area)).toBe(true);
-		element(by.css('.grazer-label-edit')).sendKeys('testElem');
+		element(by.css('.artic-label-edit')).sendKeys('testElem');
 		browser.actions().sendKeys(protractor.Key.ENTER).perform();
 	});
 
@@ -570,7 +570,7 @@ describe('navigation', function () {
 			element(by.id('zoomInBtn')).click();
 			element(by.id('zoomRightBtn')).click();
 		}
-		var elem = element.all(by.css('.grazer-level-markup')).get(1);
+		var elem = element.all(by.css('.artic-level-markup')).get(1);
 		browser.actions()
 			.mouseMove(elem)
 			.mouseMove({
@@ -587,7 +587,7 @@ describe('navigation', function () {
 			element(by.id('zoomInBtn')).click();
 			element(by.id('zoomRightBtn')).click();
 		}
-		var elem = element.all(by.css('.grazer-level-markup')).get(0);
+		var elem = element.all(by.css('.artic-level-markup')).get(0);
 		browser.actions()
 			.mouseMove(elem)
 			.mouseMove({
@@ -604,7 +604,7 @@ describe('navigation', function () {
 			element(by.id('zoomInBtn')).click();
 			element(by.id('zoomRightBtn')).click();
 		}
-		var elem = element.all(by.css('.grazer-level-markup')).get(0);
+		var elem = element.all(by.css('.artic-level-markup')).get(0);
 		browser.actions()
 			.mouseMove(elem)
 			.mouseMove({
@@ -624,7 +624,7 @@ describe('navigation', function () {
 	});
 
 	it('should select a range in the viewport', function () {
-		var elem = element.all(by.css('.grazer-level-markup')).get(0);
+		var elem = element.all(by.css('.artic-level-markup')).get(0);
 		browser.actions()
 			.mouseMove(elem)
 			.mouseMove({
@@ -645,7 +645,7 @@ describe('navigation', function () {
 	});
 
 	it('should play sound in selected viewport', function () {
-		var elem = element.all(by.css('.grazer-level-markup')).get(0);
+		var elem = element.all(by.css('.artic-level-markup')).get(0);
 		browser.actions().mouseMove(elem).mouseMove({
 			x: -250,
 			y: 0

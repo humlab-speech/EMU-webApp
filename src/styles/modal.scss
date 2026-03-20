@@ -1,8 +1,8 @@
-@import 'grazer-design';
+@import 'artic-design';
 @import 'font';
 @import 'mixins';
 
-.grazer-modal {
+.artic-modal {
     position: absolute;
     top: 0;
     right: 0;
@@ -16,7 +16,7 @@
     pointer-events: none;
     @include vendor-prefix(transition, "opacity "+calc($animation-period / 2)+"ms ease-in");
     > div,
-    > .grazer-modal-content {
+    > .artic-modal-content {
         width: 84%;
         height: 90%;
         position: relative;
@@ -25,7 +25,7 @@
         margin-top: 3%;
         background: #fff;
     }
-    .grazer-close-button {
+    .artic-close-button {
         background: transparent;
         border: none;
         color: var(--color-black);
@@ -41,7 +41,7 @@
         }
     }
 
-   .grazer-add-signal {
+   .artic-add-signal {
    		clear: both;
    		display: inline-block;
     	background: var(--color-white);
@@ -59,13 +59,13 @@
         }
     }
 
-   .grazer-delete-signal {
-    	@extend .grazer-add-signal;
+   .artic-delete-signal {
+    	@extend .artic-add-signal;
     	float: right;
     }
 
-    .grazer-delete {
-	    @extend .grazer-font-small;
+    .artic-delete {
+	    @extend .artic-font-small;
 	    float: right;
         position: relative;
         top: -10px;
@@ -75,7 +75,7 @@
     }
 
 
-    .grazer-modal-inner {
+    .artic-modal-inner {
         position: absolute;
         top:0;
         bottom:0;
@@ -84,7 +84,7 @@
         margin-top: 0;
         margin-bottom: 0;
     }
-    .grazer-signalcanvas {
+    .artic-signalcanvas {
     	list-style-type: none;
     	width: 50%;
     	margin-left: 25%;
@@ -97,11 +97,11 @@
     }
 }
 
-.grazer-modal-list {
+.artic-modal-list {
     width:  300px;
 }
 
-.grazer-modal-wrap {
+.artic-modal-wrap {
     width:  100%;
     height: 100%;
     position: absolute;
@@ -110,9 +110,9 @@
     left:0;
     right:0;
     margin: auto;
-    @extend .grazer-font-small;
+    @extend .artic-font-small;
 
-    > .grazer-modal-header {
+    > .artic-modal-header {
 		position: absolute;
 		background-color: var(--color-blue);
 		height: 60px;
@@ -122,28 +122,28 @@
 		h2 {
 			padding-top: 17px;
 			color: var(--color-black);
-			@extend .grazer-font-large;
+			@extend .artic-font-large;
 		}
 		h3 {
 			padding-top: 17px;
 			color: var(--color-black);
-			@extend .grazer-font-large;
+			@extend .artic-font-large;
 		}
 	}
 }
 
-.grazer-modal-open {
+.artic-modal-open {
 	opacity:1;
 	pointer-events: auto;
 }
 
-.grazer-modal-URL-input {
+.artic-modal-URL-input {
   min-width: 60%;
   overflow: auto;
 }
 
 
-.grazer-modal-body {
+.artic-modal-body {
     height: calc(100% - 120px);
     width: 100%;
     top: 60px;
@@ -170,11 +170,11 @@
 	}
 }
 
-.grazer-modal-hierarchy {
+.artic-modal-hierarchy {
     background: var(--color-lightGrey);
 }
 
-.grazer-modal-footer {
+.artic-modal-footer {
     height: 60px;
     width:100%;
     position: absolute;
@@ -187,7 +187,7 @@
 	}
 }
 
-.grazer-inline-modal-footer {
+.artic-inline-modal-footer {
     position:sticky;
     bottom: 0px;
     padding-bottom: 10px;
@@ -200,7 +200,7 @@
     }
 }
 
-.grazer-exportdata {
+.artic-exportdata {
     margin-left: 50px;
     margin-right: 50px;
     text-align: left;
@@ -212,22 +212,22 @@
     @include vendor-prefix(tab-size, "5");
 }
 
-.grazer-modalUl{
+.artic-modalUl{
 	padding: 10px;
 }
 
-.grazer-rgbTextInput {
+.artic-rgbTextInput {
 	width: 50px;
 	text-align: center;
 }
 
-.grazer-modalTable {
+.artic-modalTable {
 	 border: 1px solid rgba(0,0,0,0.1);
 	 text-align: left;
 	 margin: 0 auto;
 }
 
-.grazer-card {
+.artic-card {
 	width:100%;
 	margin-top: 10px;
 	background-color: transparent;
@@ -235,6 +235,6 @@
 	box-shadow: 2px 2px 5px #888888;
 }
 
-.grazer-card:hover{
+.artic-card:hover{
 	background-color:rgba(152, 152, 152, 0.28);
 }

@@ -1,4 +1,4 @@
-@import 'grazer-design';
+@import 'artic-design';
 @import 'font';
 @import 'mixins';
 
@@ -29,32 +29,32 @@ div.printTitle {
         padding: 0; 
     }
   
-    .grazer-bundleListSideBarOuter,
-    .grazer-progressBar,
-    .grazer-menuBarTop,
-    .grazer-menuBarBottom,
-    .grazer-split-handler,
-    .grazer-filter,
-    .grazer-bundle-outer,
-    .grazer-top-menu,
-    .grazer-right-menu,
-    .grazer-bottom-menu,
-    .grazer-timelineCanvasButtons,
-    .grazer-rightSideMenuOpenBtn,
-    .grazer-levelButtonsContainer,
-    .grazer-canvasSelectors,
-    .grazer-levelResizeBtn,
-    .grazer-levelButtonsContainer { 
+    .artic-bundleListSideBarOuter,
+    .artic-progressBar,
+    .artic-menuBarTop,
+    .artic-menuBarBottom,
+    .artic-split-handler,
+    .artic-filter,
+    .artic-bundle-outer,
+    .artic-top-menu,
+    .artic-right-menu,
+    .artic-bottom-menu,
+    .artic-timelineCanvasButtons,
+    .artic-rightSideMenuOpenBtn,
+    .artic-levelButtonsContainer,
+    .artic-canvasSelectors,
+    .artic-levelResizeBtn,
+    .artic-levelButtonsContainer { 
         display: none !important; 
         height: 0 !important;
         width: 0 !important;
     } 
   
-    .grazer-timeline-flexitem { 
+    .artic-timeline-flexitem { 
         margin-bottom: 3px;
     }  
    
-    .grazer-bottomPane { 
+    .artic-bottomPane { 
         margin-top: 0;
         background-color: pink;
     }

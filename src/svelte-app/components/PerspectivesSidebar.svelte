@@ -24,7 +24,7 @@
 </script>
 
 {#if showSidebar}
-<nav class="grazer-right-menu" class:grazer-expandWidthTo200px={isOpen} class:grazer-shrinkWidthTo0px={!isOpen}>
+<nav class="artic-right-menu" class:artic-expandWidthTo200px={isOpen} class:artic-shrinkWidthTo0px={!isOpen}>
 	<button onclick={toggleMenu}>
 		<span class="material-icons">menu</span>
 	</button>
@@ -32,7 +32,7 @@
 	<ul>
 		{#each perspectives as persp}
 			<li
-				class={curPerspIdx === -1 || perspectives[curPerspIdx]?.name === persp.name ? 'grazer-curSelPerspLi' : 'grazer-perspLi'}
+				class={curPerspIdx === -1 || perspectives[curPerspIdx]?.name === persp.name ? 'artic-curSelPerspLi' : 'artic-perspLi'}
 				onclick={() => changePerspective(persp)}
 				role="button"
 				tabindex="0"

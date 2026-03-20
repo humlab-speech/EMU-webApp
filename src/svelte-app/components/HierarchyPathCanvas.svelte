@@ -269,38 +269,38 @@
 </script>
 
 <div
-	class="grazer-level"
+	class="artic-level"
 	role="presentation"
 	onmouseleave={handleMouseLeave}
 >
-	<div class="grazer-level-container">
+	<div class="artic-level-container">
 		<canvas
 			bind:this={canvas}
-			class="grazer-level-canvas"
+			class="artic-level-canvas"
 			style="background: {COLOR_BLACK};"
 		></canvas>
 		<canvas
 			bind:this={markupCanvas}
-			class="grazer-level-markup"
+			class="artic-level-markup"
 			style="background-color: rgba(200, 200, 200, 0.3); filter: blur(1px);"
 		></canvas>
 	</div>
 </div>
 
 <style>
-	.grazer-level {
+	.artic-level {
 		position: relative;
 		width: 100%;
 		height: 256px;
 	}
 
-	.grazer-level-container {
+	.artic-level-container {
 		position: relative;
 		width: 100%;
 		height: 100%;
 	}
 
-	.grazer-level-canvas {
+	.artic-level-canvas {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -308,7 +308,7 @@
 		height: 100%;
 	}
 
-	.grazer-level-markup {
+	.artic-level-markup {
 		position: absolute;
 		top: 0;
 		left: 0;

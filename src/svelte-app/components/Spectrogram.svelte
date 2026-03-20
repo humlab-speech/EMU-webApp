@@ -212,9 +212,9 @@
 	});
 </script>
 
-<div class="grazer-timeline">
-	<div class="grazer-timelineCanvasContainer">
-		<canvas bind:this={canvas} class="grazer-timelineCanvasMain"></canvas>
+<div class="artic-timeline">
+	<div class="artic-timelineCanvasContainer">
+		<canvas bind:this={canvas} class="artic-timelineCanvasMain"></canvas>
 		<SsffCanvas {trackName} />
 		<SignalCanvasMarkup {trackName} />
 	</div>

@@ -1,10 +1,10 @@
-@import 'grazer-design';
+@import 'artic-design';
 @import 'font';
 @import 'mixins';
 
-.grazer-grid {
+.artic-grid {
     display: flex;
-    .grazer-grid-button {
+    .artic-grid-button {
         height: 30px;
         padding-top: 5px;
         border: 0;
@@ -17,11 +17,11 @@
             border-right: 0;
         }
     }
-    .grazer-grid-center {
+    .artic-grid-center {
         align-self: center;
     }
 }
-.grazer-timeline-flexcontainer {
+.artic-timeline-flexcontainer {
     padding: 0;
     margin: 0;
     height: 100%;
@@ -46,18 +46,18 @@
         position: relative;
     }
 }
-.grazer-grid-cell {
+.artic-grid-cell {
   flex: 1;
-  .grazer-grid-head {
+  .artic-grid-head {
     border: 0;
     margin-bottom: 12px;
     margin-top: 12px;
     text-align: left;
     padding: 0;
     text-decoration: underline;
-    @extend .grazer-font-large;
+    @extend .artic-font-large;
   }
-  .grazer-grid-dotted {
+  .artic-grid-dotted {
     overflow: auto;
     &:nth-child(even) {
         background: var(--color-white);
@@ -72,7 +72,7 @@
       padding-bottom: 4px;
       text-align: left;
       padding-left: 8%;
-      @extend .grazer-font-small;
+      @extend .artic-font-small;
       white-space: nowrap;
     }
 }

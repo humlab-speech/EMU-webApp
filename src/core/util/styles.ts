@@ -1,5 +1,5 @@
 /**
- * Design tokens extracted from grazer-design.scss :export block.
+ * Design tokens extracted from artic-design.scss :export block.
  * Framework-agnostic — no SCSS dependency.
  */
 export const styles = {

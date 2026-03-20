@@ -8,8 +8,8 @@ function loadJSON(relPath) {
 }
 
 // Config files
-global.defaultGrazerConfig = loadJSON('configFiles/default_grazerConfig.json');
-global.defaultGrazerDesign = loadJSON('configFiles/default_emuwebappDesign.json');
+global.defaultArticConfig = loadJSON('configFiles/default_articConfig.json');
+global.defaultArticDesign = loadJSON('configFiles/default_articDesign.json');
 
 // DB configs
 global.aeDbConfig = loadJSON('demoDBs/ae/ae_DBconfig.json');
@@ -28,7 +28,7 @@ global.bundleListSchema = loadJSON('schemaFiles/bundleListSchema.json');
 global.bundleSchema = loadJSON('schemaFiles/bundleSchema.json');
 global.DBconfigFileSchema = loadJSON('schemaFiles/DBconfigFileSchema.json');
 global.globalDBSchema = loadJSON('schemaFiles/globalDBschema.json');
-global.grazerConfigSchema = loadJSON('schemaFiles/grazerConfigSchema.json');
+global.articConfigSchema = loadJSON('schemaFiles/articConfigSchema.json');
 global.designSchema = loadJSON('schemaFiles/designSchema.json');
 
 // Hardcoded data from mockedData.js

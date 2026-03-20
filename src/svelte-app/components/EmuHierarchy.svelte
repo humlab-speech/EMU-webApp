@@ -13,7 +13,7 @@ import {
 	configProviderService,
 } from '../stores/services';
 
-// Color constants (from grazer-design.scss :export block)
+// Color constants (from artic-design.scss :export block)
 const COLOR_DARK_GREY = '#303030';
 const COLOR_WHITE = '#ffffff';
 const COLOR_BLUE = '#0DC5FF';
@@ -1191,13 +1191,13 @@ $effect(() => {
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
-	class="grazer-hierarchy-container"
+	class="artic-hierarchy-container"
 	bind:this={containerEl}
 	onmousemove={checkLink}
 ></div>
 
 <style>
-.grazer-hierarchy-container {
+.artic-hierarchy-container {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;

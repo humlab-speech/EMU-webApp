@@ -3,7 +3,7 @@
 describe('Service: MathHelperService', function () {
 
   // load the service's module
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
 
   // instantiate service
   var MathHelperService;

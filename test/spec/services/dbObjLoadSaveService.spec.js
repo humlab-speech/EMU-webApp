@@ -4,7 +4,7 @@ describe('Service: DbObjLoadSaveService', function () {
   var scope, deferred, deferred2, deferred3, deferred4;
 
   // load the controller's module
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
 
   beforeEach(angular.mock.inject(function (_$rootScope_, $q, DbObjLoadSaveService, ViewStateService, ConfigProviderService) {
      scope = _$rootScope_;
@@ -15,7 +15,7 @@ describe('Service: DbObjLoadSaveService', function () {
      scope.dbo = DbObjLoadSaveService;
      scope.vs = ViewStateService;
      scope.cps = ConfigProviderService;
-     scope.cps.setVals(defaultGrazerConfig);
+     scope.cps.setVals(defaultArticConfig);
      scope.cps.curDbConfig = aeDbConfig;   
      scope.vs.curPerspectiveIdx = 0;
   }));

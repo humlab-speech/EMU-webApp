@@ -3,7 +3,7 @@
 describe('Service: SoundHandlerService', function () {
     var scope, SoundHandlerService;
 
-    beforeEach(angular.mock.module('grazer'));
+    beforeEach(angular.mock.module('artic'));
 
     beforeEach(angular.mock.inject(function ($rootScope, _SoundHandlerService_) {
         scope = $rootScope.$new();

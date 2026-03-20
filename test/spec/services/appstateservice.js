@@ -2,7 +2,7 @@
 
 describe('Service: AppStateService', function () {
 
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
   
   var scope;
   var deferred;

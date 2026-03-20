@@ -59,7 +59,7 @@
 
 {#if visible}
 	<div
-		class="grazer-2d-map"
+		class="artic-2d-map"
 		style="width: {w}px; height: {h}px; top: calc(100% - {h}px);"
 	>
 		<!-- Corner resizer -->

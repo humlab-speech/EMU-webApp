@@ -1,10 +1,10 @@
-@import 'grazer-design';
+@import 'artic-design';
 @import 'font';
 @import 'mixins';
 
-.grazer-nav-wrap {
+.artic-nav-wrap {
 	z-index: 99999;
-	.grazer-dropdown-container:hover .grazer-mini-btn {
+	.artic-dropdown-container:hover .artic-mini-btn {
 	    background: var(--color-black);
 	    color: var(--color-white);
 	}
@@ -41,7 +41,7 @@
 	}
 }
 
-.grazer-label-edit {
+.artic-label-edit {
 	z-index:9999;
 	position: absolute;
 	font-size: 0.8em;
@@ -60,7 +60,7 @@
 	overflow-y: hidden;
 }
 
-.grazer-mini-btn {
+.artic-mini-btn {
 	display: inline-block;
     background: transparent;
     border-radius: 0;
@@ -73,7 +73,7 @@
     width: 120px;
     height: 30px;
     outline: none;
-    @extend .grazer-font-small;
+    @extend .artic-font-small;
     &:hover:enabled {
 		background-color: var(--color-black);
 		color: var(--color-white);
@@ -90,8 +90,8 @@
     }
 }
 
-.grazer-mini-btn-save {
-    @extend .grazer-mini-btn;
+.artic-mini-btn-save {
+    @extend .artic-mini-btn;
     width: 40px;
     height: 22px;
     position: relative;
@@ -106,7 +106,7 @@
     }    
 }
 
-.grazer-button-icon {
+.artic-button-icon {
     display:inline-block;
     position: relative;
 	background: transparent;

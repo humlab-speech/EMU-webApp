@@ -5,7 +5,7 @@ describe('Directive: handleglobalkeystrokes', function() {
     var elm, scope;
     var fakePCMtime = 123;
     var fakePCMclick = 25000;
-    beforeEach(angular.mock.module('grazer'));
+    beforeEach(angular.mock.module('artic'));
 
     beforeEach(angular.mock.inject(function ($rootScope,
                                 $compile,
@@ -29,8 +29,8 @@ describe('Directive: handleglobalkeystrokes', function() {
         scope.binary = BinaryDataManipHelperService;
 
         // load data
-        scope.cps.setVals(defaultGrazerConfig);
-        scope.cps.design = defaultGrazerDesign;
+        scope.cps.setVals(defaultArticConfig);
+        scope.cps.design = defaultArticDesign;
         scope.data.setData(msajc003_bndl.annotation);
         scope.shs.audioBuffer.length = 154964;
 

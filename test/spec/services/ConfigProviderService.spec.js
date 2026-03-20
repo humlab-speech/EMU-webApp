@@ -4,7 +4,7 @@ describe('Service: ConfigProviderService', function () {
 
   // load the controller's module
   beforeEach(function () {
-    angular.mock.module('grazer');
+    angular.mock.module('artic');
   });
 
   /**
@@ -26,16 +26,16 @@ describe('Service: ConfigProviderService', function () {
    *
    */
   it('check if initial set of vals works', angular.mock.inject(function (ConfigProviderService) {
-    ConfigProviderService.setVals(defaultGrazerConfig);
+    ConfigProviderService.setVals(defaultArticConfig);
     expect($.isEmptyObject(ConfigProviderService.vals)).toBe(false);
-    expect(JSON.stringify(ConfigProviderService.vals, undefined, 0)).toEqual(JSON.stringify(defaultGrazerConfig, undefined, 0));
+    expect(JSON.stringify(ConfigProviderService.vals, undefined, 0)).toEqual(JSON.stringify(defaultArticConfig, undefined, 0));
   }));
 
   /**
    *
    */
   it('check if vals overwrite works', angular.mock.inject(function (ConfigProviderService) {
-    ConfigProviderService.setVals(defaultGrazerConfig);
+    ConfigProviderService.setVals(defaultArticConfig);
     // single value
     var newVals = {
       'labelCanvasConfig': {
@@ -61,7 +61,7 @@ describe('Service: ConfigProviderService', function () {
    *
    */
   it('should getContourLimsOfTrack', angular.mock.inject(function (ViewStateService, ConfigProviderService) {
-    ConfigProviderService.setVals(defaultGrazerConfig);
+    ConfigProviderService.setVals(defaultArticConfig);
     ViewStateService.curPerspectiveIdx = 0;
     ConfigProviderService.vals.perspectives[ViewStateService.curPerspectiveIdx].levelCanvases = aeDbConfig.EMUwebAppConfig.perspectives[0].levelCanvases;
     expect(ConfigProviderService.getContourLimsOfTrack('SPEC')).toEqual({ });
@@ -71,7 +71,7 @@ describe('Service: ConfigProviderService', function () {
    *
    */
   it('should getAssignment', angular.mock.inject(function (ViewStateService, ConfigProviderService) {
-    ConfigProviderService.setVals(defaultGrazerConfig);
+    ConfigProviderService.setVals(defaultArticConfig);
     ViewStateService.curPerspectiveIdx = 0;
     // set
     ConfigProviderService.vals.perspectives[ViewStateService.curPerspectiveIdx].signalCanvases.assign = [{signalCanvasName: 'SPEC', ssffTrackName: 'FORMANTS'}];

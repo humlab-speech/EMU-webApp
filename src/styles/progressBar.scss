@@ -1,4 +1,4 @@
-@import 'grazer-design';
+@import 'artic-design';
 @import 'font';
 @import 'mixins';
 
@@ -7,12 +7,12 @@
     see: progress thing directive
     ############################### */
 
-.grazer-progressBar {
+.artic-progressBar {
     background-color: var(--color-grey);
     color: var(--color-white);
     width: 100%;
     height: 20px;
-    @extend .grazer-font-input;
+    @extend .artic-font-input;
     font-weight: 900;
 
     background-image: -webkit-linear-gradient(
@@ -56,7 +56,7 @@
         transparent
     );
     @include vendor-prefix(background-size, "50px 50px");
-    @include vendor-prefix(animation, "grazer-move 2s linear infinite");
+    @include vendor-prefix(animation, "artic-move 2s linear infinite");
     @include vendor-prefix(box-shadow, "inset 0 6px 6px "+var(--color-transparent-lightGrey));
     overflow: hidden;
 }
@@ -64,7 +64,7 @@
 /*
 Animate the stripes
 */   
-@-webkit-keyframes grazer-move{
+@-webkit-keyframes artic-move{
   0% {
     background-position: 0 0;
   }
@@ -72,7 +72,7 @@ Animate the stripes
     background-position: 50px 50px;
   }
 }    
-@-moz-keyframes grazer-move{
+@-moz-keyframes artic-move{
   0% {
     background-position: 0 0;
   }
@@ -80,7 +80,7 @@ Animate the stripes
     background-position: 50px 50px;
   }
 }    
-@-ms-keyframes grazer-move{
+@-ms-keyframes artic-move{
   0% {
     background-position: 0 0;
   }
@@ -88,7 +88,7 @@ Animate the stripes
     background-position: 50px 50px;
   }
 }    
-@keyframes grazer-move{
+@keyframes artic-move{
   0% {
     background-position: 0 0;
   }
@@ -97,10 +97,10 @@ Animate the stripes
   }
 }  
 
-.grazer-animationRunning {
+.artic-animationRunning {
     @include vendor-prefix(animation-play-state, "running");
 }
 
-.grazer-animationStopped {
+.artic-animationStopped {
     @include vendor-prefix(animation-play-state, "paused");
 }

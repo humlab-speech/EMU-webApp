@@ -18,7 +18,7 @@ export class IoHandlerService{
 		// Move privateToken from URL to sessionStorage to avoid leaking in referrer/logs
 		var searchObject = this.getSearchParams();
 		if (searchObject.privateToken) {
-			sessionStorage.setItem('grazer_privateToken', searchObject.privateToken);
+			sessionStorage.setItem('artic_privateToken', searchObject.privateToken);
 			const url = new URL(window.location.href);
 			url.searchParams.delete('privateToken');
 			window.history.replaceState({}, '', url.toString());
@@ -53,11 +53,11 @@ export class IoHandlerService{
 	}
 
 	private getPrivateToken(): string {
-		return sessionStorage.getItem('grazer_privateToken') || '';
+		return sessionStorage.getItem('artic_privateToken') || '';
 	}
 
 	public httpGetDefaultConfig() {
-		return httpGet('configFiles/default_grazerConfig.json');
+		return httpGet('configFiles/default_articConfig.json');
 	};
 
 	public httpGetPath(path, respType?, ignoreComMode: boolean = false) {
@@ -259,7 +259,7 @@ export class IoHandlerService{
 			}
 			var payload = {
 				branch: "master",
-				commit_message: "grazer save by user: " + searchObject.bundleListName + "; session: " + bundleData.session + "; bundle: " + bundleData.annotation.name + ";",
+				commit_message: "artic save by user: " + searchObject.bundleListName + "; session: " + bundleData.session + "; bundle: " + bundleData.annotation.name + ";",
 				actions: actions
 			};
 			getProm = fetch(searchObject.gitlabURL + '/api/v4/projects/' + searchObject.projectID + '/repository/commits', {

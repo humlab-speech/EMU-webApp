@@ -37,7 +37,7 @@ module.exports = function (config) {
     // the bootstrap jquery dep
     files: [
       'dist/vendor.bundle.js',
-      'dist/grazer.bundle.js',
+      'dist/artic.bundle.js',
       '../node_modules/jquery/dist/jquery.js',
       '../node_modules/jasmine-jquery/lib/jasmine-jquery.js',
       '../node_modules/angular-mocks/angular-mocks.js',
@@ -149,7 +149,7 @@ module.exports = function (config) {
       prependPrefix: '',
 
       // the name of the Angular module to create
-      moduleName: 'grazer.templates'
+      moduleName: 'artic.templates'
     },
 
 

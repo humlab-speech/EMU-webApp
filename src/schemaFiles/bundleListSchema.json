@@ -1,5 +1,5 @@
 {
-	"description": "Schema for bundleList for grazer",
+	"description": "Schema for bundleList for Artic",
 	"type": "array",
 	"items": {
 		"type": "object",

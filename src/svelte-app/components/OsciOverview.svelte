@@ -9,7 +9,7 @@
 	let startSample = -1;
 	let prevBundleName: string | undefined;
 
-	// Colors (matching grazer-design.scss)
+	// Colors (matching artic-design.scss)
 	const COLOR_TRANSPARENT_LIGHT_GREY = 'rgba(152, 152, 152, 0.18)';
 	const COLOR_WHITE = '#fff';
 
@@ -177,7 +177,7 @@
 </script>
 
 <div
-	class="grazer-preview"
+	class="artic-preview"
 	role="presentation"
 	onclick={handleClick}
 	onmousedown={handleMouseDown}
@@ -188,18 +188,18 @@
 	ontouchmove={handleTouchMove}
 	ontouchend={handleTouchEnd}
 >
-	<canvas bind:this={canvas} class="grazer-preview-canvas" style="background: #000; border: 1px solid gray; width: 100%; height: 100%;"></canvas>
-	<canvas bind:this={markupCanvas} class="grazer-preview-canvas-markup" style="width: 100%; height: 100%;"></canvas>
+	<canvas bind:this={canvas} class="artic-preview-canvas" style="background: #000; border: 1px solid gray; width: 100%; height: 100%;"></canvas>
+	<canvas bind:this={markupCanvas} class="artic-preview-canvas-markup" style="width: 100%; height: 100%;"></canvas>
 </div>
 
 <style>
-	.grazer-preview-canvas {
+	.artic-preview-canvas {
 		position: absolute;
 		top: 0;
 		left: 0;
 	}
 
-	.grazer-preview-canvas-markup {
+	.artic-preview-canvas-markup {
 		position: absolute;
 		top: 0;
 		left: 0;

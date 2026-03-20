@@ -1,9 +1,9 @@
-<div class="grazer-modal-wrap" ng-controller="searchAnnotCtrl">
-	<div class="grazer-modal-header-large grazer-modal-header">
+<div class="artic-modal-wrap" ng-controller="searchAnnotCtrl">
+	<div class="artic-modal-header-large artic-modal-header">
 	    <h3 id="modalHeading">Search Current Bundle Annotation</h3>
 	</div>
-	<div class="grazer-modal-body">
-	    <div class="grazer-text">
+	<div class="artic-modal-body">
+	    <div class="artic-text">
 	        <div>
 	            <h2>Select hierarchy path to search in</h2>
    	            <select ng-model="curHierPathIdx" ng-options="hierPaths.possibleAsStr.indexOf(selectedPath) as selectedPath for selectedPath in hierPaths.possibleAsStr" ng-change="changedHierPath()"></select>
@@ -28,7 +28,7 @@
 	        </div>
     	    <div>
 	            <h2>Search result</h2>
-	            <table class='grazer-modalTable' ng-if="resultTimeAnchors.length > 0">
+	            <table class='artic-modalTable' ng-if="resultTimeAnchors.length > 0">
 	            	<tr>
 	            		<td>search string</td>
 	            		<td>sample_start</td>
@@ -43,9 +43,9 @@
 	        </div>
 	    </div>
 	</div>
-	<div class="grazer-modal-footer">
-	    <button ng-click="ModalService.close()" class="grazer-mini-btn">Cancel</button>
-	    <button id="grazer-modal-save" ng-click="saveTimeAnchors()" class="grazer-mini-btn">Save search result as time anchors</button>
+	<div class="artic-modal-footer">
+	    <button ng-click="ModalService.close()" class="artic-mini-btn">Cancel</button>
+	    <button id="artic-modal-save" ng-click="saveTimeAnchors()" class="artic-mini-btn">Save search result as time anchors</button>
 	</div>
 </div>
 

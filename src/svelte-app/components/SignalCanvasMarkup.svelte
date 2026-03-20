@@ -357,7 +357,7 @@
 
 <canvas
 	bind:this={canvas}
-	class="grazer-timelineCanvasMarkup"
+	class="artic-timelineCanvasMarkup"
 	onmousedown={onMouseDown}
 	onmouseup={onMouseUp}
 	onmousemove={onMouseMove}

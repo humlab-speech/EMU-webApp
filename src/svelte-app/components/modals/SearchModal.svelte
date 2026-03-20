@@ -60,12 +60,12 @@
 	function onBlur() { viewStateService.setEditing(false); viewStateService.setcursorInTextField(false); }
 </script>
 
-<div class="grazer-modal-wrap">
-	<div class="grazer-modal-header-large grazer-modal-header">
+<div class="artic-modal-wrap">
+	<div class="artic-modal-header-large artic-modal-header">
 		<h3 id="modalHeading">Search Current Bundle Annotation</h3>
 	</div>
-	<div class="grazer-modal-body">
-		<div class="grazer-text">
+	<div class="artic-modal-body">
+		<div class="artic-text">
 			<h2>Select hierarchy path to search in</h2>
 			<select bind:value={curHierPathIdx} onchange={changedHierPath}>
 				{#each hierPaths.possibleAsStr as pathStr, idx}
@@ -94,7 +94,7 @@
 
 			{#if resultTimeAnchors.length > 0}
 				<h2>Search result</h2>
-				<table class="grazer-modalTable"><tbody>
+				<table class="artic-modalTable"><tbody>
 					<tr><td>search string</td><td>sample_start</td><td>sample_end</td></tr>
 					{#each resultTimeAnchors as ta}
 						<tr><td>{ta.label}</td><td>{ta.sample_start}</td><td>{ta.sample_end}</td></tr>
@@ -103,8 +103,8 @@
 			{/if}
 		</div>
 	</div>
-	<div class="grazer-modal-footer">
-		<button class="grazer-mini-btn" onclick={() => modalService.close()}>Cancel</button>
-		<button class="grazer-mini-btn" id="grazer-modal-save" onclick={saveTimeAnchors}>Save search result as time anchors</button>
+	<div class="artic-modal-footer">
+		<button class="artic-mini-btn" onclick={() => modalService.close()}>Cancel</button>
+		<button class="artic-mini-btn" id="artic-modal-save" onclick={saveTimeAnchors}>Save search result as time anchors</button>
 	</div>
 </div>

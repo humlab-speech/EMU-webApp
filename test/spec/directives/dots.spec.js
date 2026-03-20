@@ -3,14 +3,14 @@
 describe('Directive: dots', function() {
 
     var elm, scope, worker;
-    beforeEach(angular.mock.module('grazer'));
+    beforeEach(angular.mock.module('artic'));
 
     beforeEach(angular.mock.inject(function($rootScope, $compile, SoundHandlerService, ViewStateService, ConfigProviderService, DataService, LevelService, SsffDataService) {
         scope = $rootScope.$new();
         scope.lvl = LevelService;
         scope.cps = ConfigProviderService;
-        scope.cps.design = defaultGrazerDesign;
-        scope.cps.setVals(defaultGrazerConfig);
+        scope.cps.design = defaultArticDesign;
+        scope.cps.setVals(defaultArticConfig);
         scope.vs = ViewStateService;
         scope.vs.curPerspectiveIdx = 0;
         scope.data = DataService;
@@ -30,7 +30,7 @@ describe('Directive: dots', function() {
 
     it('should be replaced correctly', function() {
         compileDirective();
-        expect(elm.html()).toContain('<canvas class="grazer-twoDimCanvasStatic" width="512" height="512"></canvas><canvas class="grazer-twoDimCanvasDots" width="512" height="512"></canvas>');
+        expect(elm.html()).toContain('<canvas class="artic-twoDimCanvasStatic" width="512" height="512"></canvas><canvas class="artic-twoDimCanvasDots" width="512" height="512"></canvas>');
     });
     
     it('should setGlobalMinMaxVals', function() {

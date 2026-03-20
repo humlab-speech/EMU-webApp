@@ -3,12 +3,12 @@
 describe('Service: HistoryService', function () {
 
   // load the controller's module
-  beforeEach(angular.mock.module('grazer', function ($sceProvider) {
+  beforeEach(angular.mock.module('artic', function ($sceProvider) {
     $sceProvider.enabled(false);
   }));
 
   beforeEach(angular.mock.inject(function (ConfigProviderService) {
-    ConfigProviderService.setVals(defaultGrazerConfig);
+    ConfigProviderService.setVals(defaultArticConfig);
     ConfigProviderService.curDbConfig = aeDbConfig;
   }));
 

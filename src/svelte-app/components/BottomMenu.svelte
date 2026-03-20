@@ -77,54 +77,54 @@
 	let canPlay = $derived.by(() => { getTick(); return viewStateService.getPermission('playaudio'); });
 </script>
 
-<div class="grazer-bottom-menu">
+<div class="artic-bottom-menu">
 	<div>
 		<OsciOverview />
 	</div>
 
-	<button class="grazer-mini-btn left" id="zoomInBtn"
+	<button class="artic-mini-btn left" id="zoomInBtn"
 		disabled={!canZoom}
 		onclick={cmdZoomIn}>
 		<i class="material-icons">expand_less</i>in
 	</button>
-	<button class="grazer-mini-btn left" id="zoomOutBtn"
+	<button class="artic-mini-btn left" id="zoomOutBtn"
 		disabled={!canZoom}
 		onclick={cmdZoomOut}>
 		<i class="material-icons">expand_more</i>out
 	</button>
-	<button class="grazer-mini-btn left" id="zoomLeftBtn"
+	<button class="artic-mini-btn left" id="zoomLeftBtn"
 		disabled={!canZoom}
 		onclick={cmdZoomLeft}>
 		<i class="material-icons">chevron_left</i>left
 	</button>
-	<button class="grazer-mini-btn left" id="zoomRightBtn"
+	<button class="artic-mini-btn left" id="zoomRightBtn"
 		disabled={!canZoom}
 		onclick={cmdZoomRight}>
 		<i class="material-icons">chevron_right</i>right
 	</button>
-	<button class="grazer-mini-btn left" id="zoomAllBtn"
+	<button class="artic-mini-btn left" id="zoomAllBtn"
 		disabled={!canZoom}
 		onclick={cmdZoomAll}>
 		<i class="material-icons" style="transform: rotate(90deg)">unfold_less</i>all
 	</button>
-	<button class="grazer-mini-btn left" id="zoomSelBtn"
+	<button class="artic-mini-btn left" id="zoomSelBtn"
 		disabled={!canZoom}
 		onclick={cmdZoomSel}>
 		<i class="material-icons" style="transform: rotate(90deg)">unfold_more</i>selection
 	</button>
 
 	{#if restrictions?.playback}
-		<button class="grazer-mini-btn left" id="playViewBtn"
+		<button class="artic-mini-btn left" id="playViewBtn"
 			disabled={!canPlay}
 			onclick={cmdPlayView}>
 			<i class="material-icons">play_arrow</i>in view
 		</button>
-		<button class="grazer-mini-btn left" id="playSelBtn"
+		<button class="artic-mini-btn left" id="playSelBtn"
 			disabled={!canPlay}
 			onclick={cmdPlaySel}>
 			<i class="material-icons">play_circle_outline</i>selected
 		</button>
-		<button class="grazer-mini-btn left" id="playAllBtn"
+		<button class="artic-mini-btn left" id="playAllBtn"
 			disabled={!canPlay}
 			onclick={cmdPlayAll}>
 			<i class="material-icons">play_circle_filled</i>entire file

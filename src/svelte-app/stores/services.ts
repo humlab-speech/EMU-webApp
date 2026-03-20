@@ -361,5 +361,5 @@ export function initServices() {
 		return result;
 	};
 
-	console.log('[grazer] Core services initialized (38 services wired)');
+	console.log('[artic] Core services initialized (38 services wired)');
 }

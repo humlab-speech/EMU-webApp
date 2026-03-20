@@ -22,9 +22,9 @@
 </script>
 
 {#if isOpen}
-<div class="grazer-modal grazer-modal-open" role="dialog" aria-modal="true">
-	<div class="grazer-modal-content">
-		<button class="grazer-close-button" onclick={() => modalService.close()} aria-label="Close">&#x2715;</button>
+<div class="artic-modal artic-modal-open" role="dialog" aria-modal="true">
+	<div class="artic-modal-content">
+		<button class="artic-close-button" onclick={() => modalService.close()} aria-label="Close">&#x2715;</button>
 
 		{#if url === 'views/error.html'}
 			<ErrorModal />
@@ -55,12 +55,12 @@
 		{:else if url === 'views/showHierarchyModal.html'}
 			<HierarchyModal />
 		{:else if url}
-			<div class="grazer-modal-wrap">
-				<div class="grazer-modal-body">
+			<div class="artic-modal-wrap">
+				<div class="artic-modal-body">
 					<p>Modal: {url}</p>
 				</div>
-				<div class="grazer-modal-footer">
-					<button class="grazer-mini-btn" onclick={() => modalService.close()}>Close</button>
+				<div class="artic-modal-footer">
+					<button class="artic-mini-btn" onclick={() => modalService.close()}>Close</button>
 				</div>
 			</div>
 		{/if}

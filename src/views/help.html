@@ -1,23 +1,23 @@
 <script type="text/ng-template" id="node_template.html">
-<div ng-if="node.expanded"><a class="grazer-tabbed-link" href="#" ng-click="onClickTab(node)">{{hasChildren(node) ? '&#9662;' : '&nbsp;&nbsp;'}} &nbsp;{{node.title}}</a><ul><li data-ng-repeat="node in node.nodes" data-ng-include="'node_template.html'" ></li></ul></div>
-<div ng-if="!node.expanded"><a class="grazer-tabbed-link" href="#" ng-click="onClickTab(node)">{{hasChildren(node) ? '&#9656;' : '&nbsp;&nbsp;'}} &nbsp;{{node.title}}</a></div>
+<div ng-if="node.expanded"><a class="artic-tabbed-link" href="#" ng-click="onClickTab(node)">{{hasChildren(node) ? '&#9662;' : '&nbsp;&nbsp;'}} &nbsp;{{node.title}}</a><ul><li data-ng-repeat="node in node.nodes" data-ng-include="'node_template.html'" ></li></ul></div>
+<div ng-if="!node.expanded"><a class="artic-tabbed-link" href="#" ng-click="onClickTab(node)">{{hasChildren(node) ? '&#9656;' : '&nbsp;&nbsp;'}} &nbsp;{{node.title}}</a></div>
 </script>
-<div class="grazer-modal-wrap">
-	<div class="grazer-modal-header-large grazer-modal-header">
-		<h3 id="modalHeading">EMU-webApp Help</h3>
+<div class="artic-modal-wrap">
+	<div class="artic-modal-header-large artic-modal-header">
+		<h3 id="modalHeading">Artic Help</h3>
 	</div>
-	<div class="grazer-modal-body">
+	<div class="artic-modal-body">
 		<!-- tabbed header -->
-		<div id="tabs" class="grazer-tabbed" data-ng-controller="TabbedHelpCtrl">
-			<ul class="grazer-tabbed-menu">
+		<div id="tabs" class="artic-tabbed" data-ng-controller="TabbedHelpCtrl">
+			<ul class="artic-tabbed-menu">
         <li data-ng-repeat="node in tree" data-ng-include="'node_template.html'"></li>
     	</ul>
-			<div class="grazer-tabbed-view">
-				<div ng-bind-html="htmlStr" class="grazer-text"></div>
+			<div class="artic-tabbed-view">
+				<div ng-bind-html="htmlStr" class="artic-text"></div>
 			</div>
 		</div>
   </div>
-	<div class="grazer-modal-footer">
-	  <button id="modalCancelBtn" ng-click="modal.close();" class="grazer-mini-btn">Cancel</button>
+	<div class="artic-modal-footer">
+	  <button id="modalCancelBtn" ng-click="modal.close();" class="artic-mini-btn">Cancel</button>
 	</div>
 </div>

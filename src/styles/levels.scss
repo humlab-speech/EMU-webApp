@@ -1,4 +1,4 @@
-@import 'grazer-design';
+@import 'artic-design';
 @import 'mixins';
 
 /**
@@ -7,18 +7,18 @@
     ###################################
 */
 
-.grazer-level {
+.artic-level {
     width: 100%;
     height: 64px;
 
-    .grazer-level-container {
+    .artic-level-container {
         position: relative;
         float:left;
         width: calc(100% - 10px);
         height: 100%;
         padding: 5px;
     }
-    .grazer-level-canvas {
+    .artic-level-canvas {
         float: left;
         margin: 0;
         // border: 1px solid var(--color-grey);
@@ -26,7 +26,7 @@
         height: 100%;
         z-index: 1;
     }
-    .grazer-level-markup {
+    .artic-level-markup {
         position: absolute;
         top: 5px;
         left: 5px;
@@ -36,7 +36,7 @@
         height: calc(100% - 10px);
         z-index: 2;
     }
-    .grazer-level-buttons {
+    .artic-level-buttons {
         float: left;
         width: 10px;
         height: 100%;
@@ -46,10 +46,10 @@
   0%   { @include vendor-prefix(transform, "rotateX(0deg)"); }
   100% { @include vendor-prefix(transform, "rotateX(180deg)"); }
 }
-.grazer-level-animation {
+.artic-level-animation {
     @include animation('rotate-the-object .2s 1');
 }
-.grazer-level-button {
+.artic-level-button {
     float:left;
     width: 20px;
     height: calc(100% / 3);
@@ -64,7 +64,7 @@
         }
     }
 }
-.grazer-canvasSelectors {
+.artic-canvasSelectors {
     width: calc(100% - 40px);
     text-align: center;
     padding: 0;

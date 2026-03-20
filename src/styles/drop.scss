@@ -1,8 +1,8 @@
-@import 'grazer-design';
+@import 'artic-design';
 @import 'font';
 @import 'mixins';
 
-.grazer-dropzone {
+.artic-dropzone {
     height: 80%;
     border: 1px dashed var(--color-black);
     border-radius: 8px;
@@ -11,7 +11,7 @@
     padding: 15px;
     margin: 15px;
     line-height: 1.5;
-    @extend .grazer-font-small;
+    @extend .artic-font-small;
     &.not-available {
         background-color: #f00;
     }

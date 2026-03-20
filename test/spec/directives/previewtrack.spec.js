@@ -3,7 +3,7 @@
 describe('Directive: showMenu', function() {
 
     var elm, tpl, scope;
-    beforeEach(angular.mock.module('grazer'));
+    beforeEach(angular.mock.module('artic'));
 
     beforeEach(angular.mock.inject(function($rootScope, $compile) {
         scope = $rootScope.$new();

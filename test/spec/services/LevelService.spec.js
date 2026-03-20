@@ -4,17 +4,17 @@ describe('Service: LevelService', function () {
 
   // load the controller's module
 
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
 
   var item;
-  var aetmpDBconfig, epgdorsaltmpDbConfig, ematmpDbConfig, defaultGrazerConfigTmp;
+  var aetmpDBconfig, epgdorsaltmpDbConfig, ematmpDbConfig, defaultArticConfigTmp;
 
   beforeEach(angular.mock.inject(function (SoundHandlerService, ConfigProviderService, ViewStateService) {
       aetmpDBconfig = angular.copy(aeDbConfig);
       epgdorsaltmpDbConfig = angular.copy(epgdorsalDbConfig);
       ematmpDbConfig = angular.copy(emaDbConfig);
-      defaultGrazerConfigTmp = angular.copy(defaultGrazerConfig);
-      ConfigProviderService.setVals(defaultGrazerConfig);
+      defaultArticConfigTmp = angular.copy(defaultArticConfig);
+      ConfigProviderService.setVals(defaultArticConfig);
       ConfigProviderService.curDbConfig = epgdorsalDbConfig;
       ViewStateService.curPerspectiveIdx = 0;
       // Merge DB-specific EMUwebAppConfig perspectives into vals
@@ -439,7 +439,7 @@ describe('Service: LevelService', function () {
    */
   it('should delete a level', angular.mock.inject(function (DataService, LevelService, ConfigProviderService) {
     // test on msajc003_bndl.annotation
-    ConfigProviderService.setVals(defaultGrazerConfigTmp);
+    ConfigProviderService.setVals(defaultArticConfigTmp);
     DataService.setData(msajc003_bndl.annotation);
     expect(DataService.getLevelData().length).toEqual(9);
     LevelService.deleteLevel(0, 0);
@@ -463,7 +463,7 @@ describe('Service: LevelService', function () {
    */
   it('should add a level', angular.mock.inject(function (DataService, LevelService, ConfigProviderService) {
     // test on msajc003_bndl.annotation
-    ConfigProviderService.setVals(defaultGrazerConfigTmp);
+    ConfigProviderService.setVals(defaultArticConfigTmp);
     DataService.setData(msajc003_bndl.annotation);
     expect(DataService.getLevelData().length).toEqual(9);
     LevelService.insertLevel({
@@ -551,7 +551,7 @@ describe('Service: LevelService', function () {
   it('should rename a level', angular.mock.inject(function (DataService, LevelService, ConfigProviderService) {
     // test on msajc003_bndl.annotation
     DataService.setData(msajc003_bndl.annotation);
-    ConfigProviderService.setVals(defaultGrazerConfigTmp);
+    ConfigProviderService.setVals(defaultArticConfigTmp);
     LevelService.renameLevel('Phonetic', 'test', 0);
     expect(LevelService.getLevelDetails('test').type).toEqual('SEGMENT');
   }));

@@ -114,25 +114,25 @@
 			loadedMetaDataService.getBundleList().length > 0 &&
 			!configProviderService.vals.main.autoConnect &&
 			historyService.movesAwayFromLastSave > 0) {
-			return 'Do you really wish to leave/reload grazer? All unsaved changes will be lost...';
+			return 'Do you really wish to leave/reload Artic? All unsaved changes will be lost...';
 		}
 		return undefined;
 	}
 
-	// --- Core init logic ported from grazer.component.ts ---
+	// --- Core init logic ported from artic.component.ts ---
 
 	function loadDefaultConfig() {
-		console.log('[grazer] loadDefaultConfig called');
+		console.log('[artic] loadDefaultConfig called');
 		viewStateService.somethingInProgress = true;
 		viewStateService.somethingInProgressTxt = 'Loading schema files';
 		invalidate();
 		validationService.loadSchemas().then((replies: any) => {
-			console.log('[grazer] schemas loaded:', replies.length);
+			console.log('[artic] schemas loaded:', replies.length);
 			validationService.setSchemas(replies);
 			ioHandlerService.httpGetDefaultConfig().then((response: any) => {
-				console.log('[grazer] config loaded');
-				viewStateService.somethingInProgressTxt = 'Validating grazerConfig';
-				const validRes = validationService.validateJSO('grazerConfigSchema', response.data);
+				console.log('[artic] config loaded');
+				viewStateService.somethingInProgressTxt = 'Validating articConfig';
+				const validRes = validationService.validateJSO('articConfigSchema', response.data);
 				if (validRes === true) {
 					configProviderService.setVals(response.data);
 					Object.assign(configProviderService.initDbConfig, JSON.parse(JSON.stringify(configProviderService.vals)));
@@ -142,14 +142,14 @@
 					viewStateService.somethingInProgress = false;
 					invalidate();
 				} else {
-					modalService.open('views/error.html', 'Error validating / checking grazerConfigSchema: ' + JSON.stringify(validRes, null, 4)).then(() => {
+					modalService.open('views/error.html', 'Error validating / checking articConfigSchema: ' + JSON.stringify(validRes, null, 4)).then(() => {
 						appStateService.resetToInitState();
 						invalidate();
 					});
 					invalidate();
 				}
 			}, (response: any) => {
-				modalService.open('views/error.html', 'Could not get defaultConfig for grazer: status: ' + response.status).then(() => {
+				modalService.open('views/error.html', 'Could not get defaultConfig for Artic: status: ' + response.status).then(() => {
 					appStateService.resetToInitState();
 					invalidate();
 				});
@@ -251,7 +251,7 @@
 		ioHandlerService.getDBconfigFile().then((dbData: any) => {
 			viewStateService.curPerspectiveIdx = 0;
 			configProviderService.setVals(dbData.EMUwebAppConfig);
-			const validRes = validationService.validateJSO('grazerConfigSchema', configProviderService.vals);
+			const validRes = validationService.validateJSO('articConfigSchema', configProviderService.vals);
 			if (validRes === true) {
 				configProviderService.curDbConfig = dbData;
 				viewStateService.setCurLevelAttrDefs(configProviderService.curDbConfig.levelDefinitions);
@@ -286,7 +286,7 @@
 					});
 				}
 			} else {
-				modalService.open('views/error.html', 'Error validating grazerConfig: ' + JSON.stringify(validRes, null, 4)).then(() => {
+				modalService.open('views/error.html', 'Error validating articConfig: ' + JSON.stringify(validRes, null, 4)).then(() => {
 					appStateService.resetToInitState();
 				});
 			}
@@ -330,14 +330,14 @@
 		}
 
 		viewStateService.somethingInProgressTxt = 'Loading DB config...';
-		const DBconfigGetUrl = searchParams.get('DBconfigGetUrl') || 'configFiles/embedded_grazerConfig.json';
+		const DBconfigGetUrl = searchParams.get('DBconfigGetUrl') || 'configFiles/embedded_articConfig.json';
 
 		ioHandlerService.httpGetPath(DBconfigGetUrl).then((resp: any) => {
 			viewStateService.curPerspectiveIdx = 0;
 			configProviderService.setVals(resp.data.EMUwebAppConfig);
-			const validRes = validationService.validateJSO('grazerConfigSchema', configProviderService.vals);
+			const validRes = validationService.validateJSO('articConfigSchema', configProviderService.vals);
 			if (validRes !== true) {
-				modalService.open('views/error.html', 'Error validating grazerConfig: ' + JSON.stringify(validRes, null, 4));
+				modalService.open('views/error.html', 'Error validating articConfig: ' + JSON.stringify(validRes, null, 4));
 				return;
 			}
 			if (configProviderService.embeddedVals.fromUrlParams) {
@@ -448,8 +448,8 @@
 
 <svelte:window on:resize={onResize} on:beforeunload={onBeforeUnload} />
 
-<div class="grazer">
-<div class="grazer-main" id="MainCtrl"
+<div class="artic">
+<div class="artic-main" id="MainCtrl"
 	onmouseenter={() => viewStateService.mouseInEmuWebApp = true}
 	onmouseleave={() => viewStateService.mouseInEmuWebApp = false}
 	role="application"
@@ -460,17 +460,17 @@
 	<NewVersionHint />
 	<BundleListSidebar />
 
-	<div class="grazer-window" id="mainWindow">
+	<div class="artic-window" id="mainWindow">
 		<ProgressBar
 			open={somethingInProgress}
 			txt={somethingInProgressTxt}
 		/>
 
-		<div class="printTitle">grazer : {curBndlName}</div>
+		<div class="printTitle">artic : {curBndlName}</div>
 
 		<TopMenu />
 
-		<div class="grazer-canvas">
+		<div class="artic-canvas">
 			<HistoryActionPopup />
 			<SignalArea />
 			<TwoDimPanel />

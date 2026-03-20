@@ -3,7 +3,7 @@
 describe('Directive: mouseTrackAndCorrectionTool', function () {
 
   // load the directive's module
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
 
   var elm, scope;
 
@@ -124,7 +124,7 @@ describe('Directive: mouseTrackAndCorrectionTool', function () {
 
    it('should switchMarkupContext (OSCI)', angular.mock.inject(function ($compile, ConfigProviderService, ViewStateService, DrawHelperService) {
      compile('OSCI');
-     ConfigProviderService.setVals(defaultGrazerConfig);
+     ConfigProviderService.setVals(defaultArticConfig);
      ConfigProviderService.curDbConfig = aeDbConfig;
      spyOn(DrawHelperService, 'drawMovingBoundaryLine');
      spyOn(DrawHelperService, 'drawViewPortTimes');
@@ -139,7 +139,7 @@ describe('Directive: mouseTrackAndCorrectionTool', function () {
 
    it('should switchMarkupContext (SPEC)', angular.mock.inject(function ($compile, ConfigProviderService, ViewStateService, DrawHelperService) {
      compile('SPEC');
-     ConfigProviderService.setVals(defaultGrazerConfig);
+     ConfigProviderService.setVals(defaultArticConfig);
      ConfigProviderService.curDbConfig = aeDbConfig;
      spyOn(DrawHelperService, 'drawMovingBoundaryLine');
      spyOn(DrawHelperService, 'drawCurViewPortSelected');
@@ -154,7 +154,7 @@ describe('Directive: mouseTrackAndCorrectionTool', function () {
 
    it('should switchMarkupContext (other)', angular.mock.inject(function ($compile, SsffDataService, ConfigProviderService, ViewStateService, DrawHelperService) {
      compile('other');
-     ConfigProviderService.setVals(defaultGrazerConfig);
+     ConfigProviderService.setVals(defaultArticConfig);
      ConfigProviderService.curDbConfig = aeDbConfig;
      spyOn(DrawHelperService, 'drawMovingBoundaryLine');
      spyOn(DrawHelperService, 'drawCurViewPortSelected');

@@ -5,19 +5,19 @@ describe('Directive: level', function () {
     var elm, tpl, scope, curLvl, curLvlE;
     var lvlName = 'Phonetic';
     var lvlNameE = 'Tone';
-    beforeEach(angular.mock.module('grazer', 'grazer.templates'));
+    beforeEach(angular.mock.module('artic', 'artic.templates'));
 
     beforeEach(angular.mock.inject(function ($rootScope, $compile, LevelService, DataService, ConfigProviderService, ViewStateService, fontScaleService) {
         scope = $rootScope.$new();
         scope.lvl = LevelService;
         scope.cps = ConfigProviderService;
-        scope.cps.setVals(defaultGrazerConfig);
+        scope.cps.setVals(defaultArticConfig);
         scope.cps.curDbConfig = aeDbConfig;
         scope.vs = ViewStateService;
         scope.vs.curPerspectiveIdx = 0;
         scope.data = DataService;
         scope.data.setData(msajc003_bndl.annotation);
-        scope.cps.design = defaultGrazerDesign;
+        scope.cps.design = defaultArticDesign;
         scope.font = fontScaleService;
         curLvl = scope.lvl.getLevelDetails(lvlName);
         curLvlE = scope.lvl.getLevelDetails(lvlNameE);

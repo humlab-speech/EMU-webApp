@@ -22,11 +22,11 @@
 	function onBlur() { viewStateService.cursorInTextField = false; }
 </script>
 
-<div class="grazer-modal-wrap">
-	<div class="grazer-modal-header-large grazer-modal-header">
+<div class="artic-modal-wrap">
+	<div class="artic-modal-header-large artic-modal-header">
 		<h3 id="modalHeading">User Login</h3>
 	</div>
-	<div class="grazer-modal-body">
+	<div class="artic-modal-body">
 		Please enter:
 		<hr />
 		<table style="width: 100%; text-align: center;"><tbody>
@@ -42,8 +42,8 @@
 		<hr />
 		{#if errorMsg}<p style="color: red">{errorMsg}</p>{/if}
 	</div>
-	<div class="grazer-modal-footer">
-		<button class="grazer-mini-btn" id="modalCancelBtn" onclick={() => modalService.close()}>Cancel</button>
-		<button class="grazer-mini-btn" onclick={tryLogin}>Login</button>
+	<div class="artic-modal-footer">
+		<button class="artic-mini-btn" id="modalCancelBtn" onclick={() => modalService.close()}>Cancel</button>
+		<button class="artic-mini-btn" onclick={tryLogin}>Login</button>
 	</div>
 </div>

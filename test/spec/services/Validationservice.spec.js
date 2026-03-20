@@ -5,12 +5,12 @@ describe('Service: ValidationService', function () {
   var scope;
 
   // load the controller's module
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
 
   beforeEach(angular.mock.inject(function ($httpBackend, $rootScope, ValidationService) {
     scope = $rootScope.$new();
     $httpBackend.whenGET("schemaFiles/annotationFileSchema.json").respond(annotationFileSchema);
-    $httpBackend.whenGET("schemaFiles/grazerConfigSchema.json").respond(grazerConfigSchema);
+    $httpBackend.whenGET("schemaFiles/articConfigSchema.json").respond(articConfigSchema);
     $httpBackend.whenGET("schemaFiles/DBconfigFileSchema.json").respond(DBconfigFileSchema);
     $httpBackend.whenGET("schemaFiles/bundleListSchema.json").respond(bundleListSchema);
     $httpBackend.whenGET("schemaFiles/bundleSchema.json").respond(bundleSchema);
@@ -27,7 +27,7 @@ describe('Service: ValidationService', function () {
       name: 'test',
       data: {}
     });
-    expect(ValidationService.validateJSO('grazerConfigSchema', 'test')).toEqual(true);
+    expect(ValidationService.validateJSO('articConfigSchema', 'test')).toEqual(true);
   }));
 
   /**
@@ -35,7 +35,7 @@ describe('Service: ValidationService', function () {
    */
   it('should validateJSO', angular.mock.inject(function (ValidationService) {
     spyOn(ValidationService, 'getSchema').mockReturnValue(undefined);
-    expect(ValidationService.validateJSO('grazerConfigSchema', 'test')).toEqual('Schema: grazerConfigSchema is currently undefined! This is probably due to a misnamed schema file on the server...');
+    expect(ValidationService.validateJSO('articConfigSchema', 'test')).toEqual('Schema: articConfigSchema is currently undefined! This is probably due to a misnamed schema file on the server...');
   }));
 
   /**
@@ -43,7 +43,7 @@ describe('Service: ValidationService', function () {
    */
   it('should getSchema', angular.mock.inject(function (ValidationService) {
     // schema's not loaded yet... mabye write test with loaded schema too
-    expect(ValidationService.getSchema('grazerConfigSchema')).toEqual(undefined);
+    expect(ValidationService.getSchema('articConfigSchema')).toEqual(undefined);
   }));
 
   /**
@@ -51,7 +51,7 @@ describe('Service: ValidationService', function () {
    */
   it('should semCheckLoadedConfig', angular.mock.inject(function (ValidationService, ConfigProviderService) {
     // set default
-    ConfigProviderService.setVals(defaultGrazerConfig);
+    ConfigProviderService.setVals(defaultArticConfig);
 
     // console.log(JSON.stringify(emaDbConfig.levelDefinitions, undefined, 1));
     var tmpDBconfig = angular.copy(aeDbConfig);
@@ -166,7 +166,7 @@ describe('Service: ValidationService', function () {
    * Test duplicate attributeDefinition names in levelDefinitions
    */
   it('should fail semCheckLoadedConfigs on duplicate attributeDefinition names', angular.mock.inject(function (ValidationService, ConfigProviderService) {
-    ConfigProviderService.setVals(defaultGrazerConfig);
+    ConfigProviderService.setVals(defaultArticConfig);
     var tmpDBconfig = angular.copy(aeDbConfig);
     ConfigProviderService.curDbConfig = tmpDBconfig;
 
@@ -208,7 +208,7 @@ describe('Service: ValidationService', function () {
    * Test semCheckLoadedConfigs with undefined toDot in connectLines
    */
   it('should fail semCheckLoadedConfigs on undefined toDot in connectLines', angular.mock.inject(function (ValidationService, ConfigProviderService) {
-    ConfigProviderService.setVals(defaultGrazerConfig);
+    ConfigProviderService.setVals(defaultArticConfig);
     var tmpDBconfig = angular.copy(emaDbConfig);
     ConfigProviderService.curDbConfig = tmpDBconfig;
 

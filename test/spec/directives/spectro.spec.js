@@ -6,7 +6,7 @@ describe('Directive: spectro', function () {
 
     var elm, tpl, scope, curLvl;
     var lvlName = 'Phonetic';
-    beforeEach(angular.mock.module('grazer', 'grazer.templates'));
+    beforeEach(angular.mock.module('artic', 'artic.templates'));
     
     beforeEach(angular.mock.inject(function ($rootScope, $compile, DrawHelperService, DataService, LevelService, ConfigProviderService, ViewStateService, SoundHandlerService) {
         scope = $rootScope.$new();
@@ -15,9 +15,9 @@ describe('Directive: spectro', function () {
         scope.cps = ConfigProviderService;
         scope.shs = SoundHandlerService;
         scope.dhs = DrawHelperService;
-        scope.cps.setVals(defaultGrazerConfig);
+        scope.cps.setVals(defaultArticConfig);
         scope.cps.curDbConfig = aeDbConfig;
-        scope.cps.design = defaultGrazerDesign;
+        scope.cps.design = defaultArticDesign;
         scope.vs = ViewStateService;
         scope.data.setData(msajc003_bndl.annotation);
         scope.level = curLvl;           

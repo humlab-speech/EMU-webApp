@@ -7,13 +7,13 @@ describe('Controller: LoginCtrl', function () {
   var errorStr = 'ERR1';
   
     // load the controller's module
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
   
      //Initialize the controller and a mock scope
      beforeEach(angular.mock.inject(function ($controller, $rootScope, $q, ConfigProviderService, ModalService, ViewStateService, IoHandlerService) {
        scope = $rootScope.$new();
        scope.cps = ConfigProviderService;
-       scope.cps.setVals(defaultGrazerConfig);
+       scope.cps.setVals(defaultArticConfig);
        scope.cps.curDbConfig = aeDbConfig;
        scope.modal = ModalService;
        scope.vs = ViewStateService;

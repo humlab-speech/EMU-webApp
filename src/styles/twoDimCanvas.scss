@@ -1,10 +1,10 @@
-@import 'grazer-design';
+@import 'artic-design';
 @import 'font';
 @import 'mixins';
 
 /*2D + overtime canvases*/
 
-.grazer-twoDimCanvasContainer {
+.artic-twoDimCanvasContainer {
     position: absolute;
     top: 12px; // 10 + 2 px for border
     left: 12px; // 10 + 2 px for border
@@ -20,7 +20,7 @@
         height: 100%;
         //outline: 1px solid black;
     }
-    .grazer-twoDimCanvasStatic {
+    .artic-twoDimCanvasStatic {
         //float: left;
         z-index: 1;
         width: 100%;
@@ -29,7 +29,7 @@
         //border: 1px solid $color-grey;
     }
 
-    .grazer-twoDimCanvasDots{
+    .artic-twoDimCanvasDots{
         position: absolute;
         top: 0;
         left: 0;

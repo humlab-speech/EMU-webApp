@@ -1,20 +1,20 @@
-<div class="grazer-modal-wrap" ng-controller="ModalCtrl">
-    <div class="grazer-modal-header-large grazer-modal-header">
+<div class="artic-modal-wrap" ng-controller="ModalCtrl">
+    <div class="artic-modal-header-large artic-modal-header">
         <h3 id="modalHeading">
             Select label to link to
         </h3>
 	</div>
-	<div class="grazer-modal-body">
+	<div class="artic-modal-body">
 		<b>Please select one of the following options:</b>
-		<ul class="grazer-modalUl">
+		<ul class="artic-modalUl">
 			<li ng-repeat="(key, curOpt) in dataIn track by $index">
-				<div class="grazer-card" ng-click="modal.dataOut = $index; modal.confirmContent()">
+				<div class="artic-card" ng-click="modal.dataOut = $index; modal.confirmContent()">
 					{{curOpt}}
 				</div>
 			</li>
 		</ul>
 	</div>
-	<div class="grazer-modal-footer">
-	  <!--<button ng-click="modal.close();" id="modalCancelBtn" class="grazer-mini-btn">Cancel</button>-->
+	<div class="artic-modal-footer">
+	  <!--<button ng-click="modal.close();" id="modalCancelBtn" class="artic-mini-btn">Cancel</button>-->
 	</div>
 </div>

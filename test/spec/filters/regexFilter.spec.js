@@ -21,7 +21,7 @@ describe("Unit Testing: regex filters", function () {
   }];
 
   // load the module
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
 
   // load filter function into variable
   beforeEach(angular.mock.inject(function ($filter) {

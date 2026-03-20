@@ -489,7 +489,7 @@ export class LevelService{
 		}
 		const ta = document.createElement('textarea');
 		ta.id = textid;
-		ta.className = textid + ' grazer-label-edit';
+		ta.className = textid + ' artic-label-edit';
 		ta.setAttribute('autofocus', 'true');
 		ta.textContent = label;
 		for (const [prop, val] of Object.entries(cssObj)) {

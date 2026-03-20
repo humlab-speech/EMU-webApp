@@ -19,7 +19,7 @@ describe('Filter: startFromFilter', function () {
   }];
 
   // load the filter's module
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
 
   // initialize a new instance of the filter before each test
   var startFromFilter;

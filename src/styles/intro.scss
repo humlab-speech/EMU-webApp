@@ -1,7 +1,7 @@
-@import 'grazer-design';
+@import 'artic-design';
 @import 'mixins';
 
-.grazer-tutorial-intro {
+.artic-tutorial-intro {
     position: absolute; 
     height:75%; 
     width:72%; 
@@ -16,7 +16,7 @@
 }
 
 
-.grazer-tutorial {
+.artic-tutorial {
     position: absolute; 
     height:100%; 
     width:28%; 
@@ -29,48 +29,48 @@
     border-right: 1px dashed #aaa;
 }
 
-.grazer-tutorial h1 {
+.artic-tutorial h1 {
     font-size: 150%;
     text-decoration: underline;
     text-align: center;
 }
 
-.grazer-tutorial div {
+.artic-tutorial div {
     padding-left: 4px;
     padding-right: 12px;
 }
 
-.grazer-tutorial ul {
+.artic-tutorial ul {
     list-style: none;
     padding: 0;
     margin-top: 7px;
     margin-left: 7px;
 }
 
-.grazer-tutorial ul li {
+.artic-tutorial ul li {
 	padding: 0;
 	margin: 0;
 }
 
-.grazer-tutorial ul li:before {
+.artic-tutorial ul li:before {
     content: "\2192 \0020";
 }
 
-.grazer-tutorial-active {
+.artic-tutorial-active {
     font-size: 18px;
     color: rgba(196,32,32,0.8);
 }
 
-.grazer-tutorial-done {
+.artic-tutorial-done {
     color: rgba(128,128,128,0.5);
 }
 
-.grazer-tutorial-not-done {
+.artic-tutorial-not-done {
     color: rgba(128,128,128,0.5);
 }
 
 
-.grazer-tutorial-head {
+.artic-tutorial-head {
     position: relative; 
     text-align: left; 
     height:12%; 
@@ -80,7 +80,7 @@
     border-bottom: 1px solid var(--color-darkGrey);
 }
 
-.grazer-tutorial-head img {
+.artic-tutorial-head img {
     position: relative;
     left: 50%;
     margin-top: -22px;

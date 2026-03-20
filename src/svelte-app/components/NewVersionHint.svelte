@@ -12,9 +12,9 @@
 </script>
 
 {#if show}
-<div class="grazer-aboutHint">
-	<button class="grazer-aboutHint-hidden" onclick={onAboutClick}></button>
-	Welcome to the grazer Version {version}
-	<div class="grazer-aboutHint-arrow">click here for more information ⇧</div>
+<div class="artic-aboutHint">
+	<button class="artic-aboutHint-hidden" onclick={onAboutClick}></button>
+	Welcome to the artic Version {version}
+	<div class="artic-aboutHint-arrow">click here for more information ⇧</div>
 </div>
 {/if}

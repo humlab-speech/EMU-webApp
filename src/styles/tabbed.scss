@@ -1,8 +1,8 @@
-@import 'grazer-design';
+@import 'artic-design';
 @import 'font';
 @import 'mixins';
 
-.grazer-tabbed {
+.artic-tabbed {
     margin: 0;
     padding: 0;
     text-align: center;
@@ -11,7 +11,7 @@
     top: 0;
     left: 0;
     height: 100%;
-    .grazer-tabbed-menu {
+    .artic-tabbed-menu {
       height: 100%;
       width: 240px !important;
       background: var(--color-grey);
@@ -32,12 +32,12 @@
         text-decoration: underline;
         cursor: pointer;
     }
-    .grazer-tabbed-link {
+    .artic-tabbed-link {
       color: var(--color-white);
       text-decoration: none;
       cursor: pointer;
       background: transparent;
-      @extend .grazer-font-input;
+      @extend .artic-font-input;
     }
 /*    ::-webkit-scrollbar {
       width: 15px;
@@ -53,7 +53,7 @@
     ::-webkit-scrollbar-thumb {
         background: $color-transparent-black;
     }*/
-    .grazer-tabbed-view {
+    .artic-tabbed-view {
         border: 0;
         clear: both;
         overflow-y: -moz-scrollbars-vertical;
@@ -68,13 +68,13 @@
         top: 0;
         right: 0;
     }
-    .grazer-tabbed-error {
+    .artic-tabbed-error {
         color: var(--color-red);
         margin-left: 10px;
         width: 100%;
         font-size: 1.1em;
     }
-    .grazer-tabbed-rounded {
+    .artic-tabbed-rounded {
         border: 0;
         border-radius: 10px;
         text-align: left;
@@ -94,7 +94,7 @@
         border-style: dashed;
         padding-top: 25px;
     }
-    .grazer-tabbed-button {
+    .artic-tabbed-button {
         background: var(--color-blue);
         color: var(--color-white);
         line-height: 18px;
@@ -106,8 +106,8 @@
         @include vendor-prefix(box-shadow, "1px 1px 3px " + $color-blue);
         z-index: 99999;
     }
-    .grazer-tabbed-close {
-        @extend .grazer-tabbed-button;
+    .artic-tabbed-close {
+        @extend .artic-tabbed-button;
         position: absolute;
         right: -9px;
         top: -9px;
@@ -121,8 +121,8 @@
             text-decoration: none;
         }
     }
-    .grazer-tabbed-delete {
-        @extend .grazer-tabbed-button;
+    .artic-tabbed-delete {
+        @extend .artic-tabbed-button;
         display: inline-block;
         margin-left: 20px;
         &:hover {
@@ -135,65 +135,65 @@
             text-decoration: none;
         }
     }
-    .grazer-tabbed-delete-small {
-        @extend .grazer-tabbed-button;
+    .artic-tabbed-delete-small {
+        @extend .artic-tabbed-button;
         display: inline-block;
         margin-left: 10px;
         width: 9px;
         line-height: 9px;
         font-size: 0.5em;
     }
-    .grazer-tabbed-add {
-        @extend .grazer-tabbed-button;
+    .artic-tabbed-add {
+        @extend .artic-tabbed-button;
         display: inline-block;
     }
-    .grazer-tabbed-add-small {
-        @extend .grazer-tabbed-button;
+    .artic-tabbed-add-small {
+        @extend .artic-tabbed-button;
         display: inline-block;
         width: 9px;
         line-height: 9px;
         font-size: 0.5em;
     }
-    .grazer-tabbed-border {
+    .artic-tabbed-border {
         position: absolute;
         top: -12px;
         left: 5px;
         background-color: var(--color-white);
     }
-    .grazer-tabbed-table {
+    .artic-tabbed-table {
         display:table;
         width: 100%;
-        .grazer-tabbed-row {
+        .artic-tabbed-row {
             display:table-row;
             width: 100%;
             vertical-align: top;
         }
-        .grazer-tabbed-cell {
+        .artic-tabbed-cell {
             display:table-cell;
             width: 50%;
             vertical-align: top;
         }
-        .grazer-tabbed-cell3 {
+        .artic-tabbed-cell3 {
             display:table-cell;
             width: 33%;
             vertical-align: top;
         }
-        .grazer-tabbed-cell4 {
+        .artic-tabbed-cell4 {
             display:table-cell;
             width: 25%;
             vertical-align: top;
         }
-        .grazer-tabbed-cell5 {
+        .artic-tabbed-cell5 {
             display:table-cell;
             width: 20%;
             vertical-align: top;
         }
-        .grazer-align-right {
+        .artic-align-right {
             text-align: right;
             padding-right: 10px;
         }
     }
-    .grazer-tabbed-rowframe {
+    .artic-tabbed-rowframe {
         border: 0;
         border-radius: 10px;
         text-align: left;
@@ -201,7 +201,7 @@
         margin-bottom: 5px;
         padding: 5px;
     }
-    .grazer-tabbed-orderitem {
+    .artic-tabbed-orderitem {
         background: var(--color-white);
         border: 1px solid var(--color-blue);
         margin: 4px;
@@ -209,30 +209,30 @@
         cursor: move;
         width: 300px !important;
     }
-    .grazer-tabbed-order {
+    .artic-tabbed-order {
         @include vendor-prefix(box-sizing, "border-box");
         padding: 2px;
         width: 100%;
     }
-    .grazer-tabbed-text {
+    .artic-tabbed-text {
         overflow: hidden;
         @include vendor-prefix(box-sizing, "border-box");
         padding: 2px;
         background: var(--color-white);
     }
-    .grazer-tabbed-input-small {
-        @extend .grazer-tabbed-text;
+    .artic-tabbed-input-small {
+        @extend .artic-tabbed-text;
         width: 50%;
         font-size: 75%;
         border: 1px solid var(--color-grey);
     }
-    .grazer-tabbed-input {
-        @extend .grazer-tabbed-text;
+    .artic-tabbed-input {
+        @extend .artic-tabbed-text;
         font-size: 90%;
         border: 1px solid var(--color-grey);
     }
-    .grazer-tabbed-input-bold {
-        @extend .grazer-tabbed-text;
+    .artic-tabbed-input-bold {
+        @extend .artic-tabbed-text;
         font-size: 115%;
         border: 1px solid var(--color-blue);
     }

@@ -1,22 +1,22 @@
-<div class="grazer-modal-wrap" ng-controller="ModalCtrl">
-    <div class="grazer-modal-header-large grazer-modal-header">
+<div class="artic-modal-wrap" ng-controller="ModalCtrl">
+    <div class="artic-modal-header-large artic-modal-header">
         <h3 id="modalHeading">
             Please select a threshold
         </h3>
 	</div>
-	<div class="grazer-modal-body">
+	<div class="artic-modal-body">
 		<b>{{dataIn.description}}</b><br />&nbsp;<br />
 		<p>find threshold options are: 
-			<ul class="grazer-modalUl">
+			<ul class="artic-modalUl">
 				<li>minimum value: {{dataIn.minVal}}</li>
 				<li>maximum value: {{dataIn.maxVal}}</li>
 				<li>threshold value: {{dataIn.threshold}}</li>
 			</ul>
 		</p>
 		<b>Please select one of the following options:</b>
-		<ul class="grazer-modalUl">
+		<ul class="artic-modalUl">
 			<li ng-repeat="(key, curOpt) in dataIn.options">
-				<div class="grazer-card" ng-click="modal.select($index)">
+				<div class="artic-card" ng-click="modal.select($index)">
 					<div class="row">
 						<div class="col-md-6">
 							<line-chart 
@@ -25,7 +25,7 @@
 							></line-chart>
 						</div>
 						<div class="col-md-6">
-							<ul class="grazer-modalUl">
+							<ul class="artic-modalUl">
 								<li>Threshold index: {{curOpt.thresholdIdx}}</li> 
 								<li>Threshold value: {{curOpt.thresholdValue}}</li> 
 							</ul>
@@ -35,7 +35,7 @@
 			</li>
 		</ul>
 	</div>
-	<div class="grazer-modal-footer">
-	  <!-- <button ng-click="modal.close();" id="modalCancelBtn" class="grazer-mini-btn">Cancel</button> -->
+	<div class="artic-modal-footer">
+	  <!-- <button ng-click="modal.close();" id="modalCancelBtn" class="artic-mini-btn">Cancel</button> -->
 	</div>
 </div>

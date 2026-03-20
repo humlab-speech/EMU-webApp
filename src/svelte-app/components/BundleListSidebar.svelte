@@ -101,12 +101,12 @@
 </script>
 
 {#if sideBarOpen}
-<div class="grazer-bundle-outer">
+<div class="artic-bundle-outer">
 	<div>
 		<h3>
 			<div style="text-align: center; padding: 4px;">
 				<input
-					class="grazer-filter"
+					class="artic-filter"
 					type="text"
 					placeholder="&#x1f50d; Bundle Filter"
 					bind:value={filterText}
@@ -124,7 +124,7 @@
 				onchange={onFileSelected}
 				style="display: none;"
 			/>
-			<div class="grazer-dropzone"
+			<div class="artic-dropzone"
 				ondragover={onDragOver}
 				ondrop={onDrop}
 				onclick={onDropZoneClick}
@@ -135,10 +135,10 @@
 				<span>Drop your audio/video files here (paired with optional .TextGrid or annotJSON files) or click to open a file dialog</span>
 			</div>
 		{:else}
-			<div class="grazer-bundle-container">
+			<div class="artic-bundle-container">
 				{#each groupedBundles as group}
 					{#if group.session || groupedBundles.length > 1}
-					<div class="grazer-bundle-session" onclick={() => toggleSession(group.session)} role="button" tabindex="0">
+					<div class="artic-bundle-session" onclick={() => toggleSession(group.session)} role="button" tabindex="0">
 						<div>
 							<i class="material-icons" style="font-size: 14px; vertical-align: middle;">
 								{isSessionOpen(group.session) ? 'expand_more' : 'chevron_right'}
@@ -151,8 +151,8 @@
 						<ul>
 							{#each group.bundles as bndl, i}
 								{#if isFiltered(bndl)}
-									<li class="grazer-bundle-item"
-										class:grazer-bundle-last={i === group.bundles.length - 1}
+									<li class="artic-bundle-item"
+										class:artic-bundle-last={i === group.bundles.length - 1}
 										onclick={() => loadBundle(bndl)}
 										role="button"
 										tabindex="0"
@@ -160,7 +160,7 @@
 									>
 										<b>{bndl.name}{#if hasUnsavedChanges && curBndl === bndl} *{/if}</b>
 										{#if configProviderService.vals?.activeButtons?.saveBundle && curBndl === bndl}
-											<button class="grazer-saveBundleButton" onclick={(e) => saveBundle(bndl, e)}>
+											<button class="artic-saveBundleButton" onclick={(e) => saveBundle(bndl, e)}>
 												<i class="material-icons" style="font-size: 16px;">save</i>
 											</button>
 										{/if}

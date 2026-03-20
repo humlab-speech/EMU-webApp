@@ -1,28 +1,28 @@
-@import 'grazer-design';
+@import 'artic-design';
 @import 'font';
 @import 'mixins';
 
-.grazer-expandHeightTo20px{
+.artic-expandHeightTo20px{
     height: 20px;
     @include vendor-prefix(transition, "height "+$animation-period+"ms");
 }
 
-.grazer-shrinkHeightTo0px{
+.artic-shrinkHeightTo0px{
     height: 0;
     @include vendor-prefix(transition, "height "+$animation-period+"ms");
 }
 
-.grazer-expandWidthTo200px{
+.artic-expandWidthTo200px{
     right: 0;
     @include vendor-prefix(transition, "right "+$animation-period+"ms");
 }
 
-.grazer-shrinkWidthTo0px{
+.artic-shrinkWidthTo0px{
     right: -201px;
     @include vendor-prefix(transition, "right "+$animation-period+"ms");
 }
 
-.grazer-opacityTo1{
+.artic-opacityTo1{
     opacity: 1;
     @include vendor-prefix(transition, "opacity "+$animation-period+"ms");
 }

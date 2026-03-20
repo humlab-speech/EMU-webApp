@@ -4,7 +4,7 @@ describe('Directive: splitPaneView', function() {
 
     var elm, scope;
     var $rootScope, $compile;
-    beforeEach(angular.mock.module('grazer'));
+    beforeEach(angular.mock.module('artic'));
 
     beforeEach(angular.mock.inject(function(_$rootScope_, _$compile_, ViewStateService) {
         $rootScope = _$rootScope_;
@@ -20,7 +20,7 @@ describe('Directive: splitPaneView', function() {
             elm = $compile('<bg-splitter show-two-dim-cans="'+toggle+'">'+
                                 '<bg-pane type="topPane" min-size="80">top</bg-pane>'+
                                 '<bg-pane type="bottomPane" min-size="80"> bottom </bg-pane>'+
-                                '<bg-pane type="grazer-2d-map"> </bg-pane>'+
+                                '<bg-pane type="artic-2d-map"> </bg-pane>'+
                             '</bg-splitter>')($rootScope);
         });
         $rootScope.$digest();
@@ -39,14 +39,14 @@ describe('Directive: splitPaneView', function() {
      expect(elm.find('div').length).toBe(7);
    });
 
-   it('should resize bottomRightResizePane via grazer-split-handler', function () {
+   it('should resize bottomRightResizePane via artic-split-handler', function () {
      compileDirective(true);
      expect(elm.isolateScope()).toBeDefined();
      var event = document.createEvent('Event');
      event.initEvent('mousedown', true, true);
      spyOn(scope.vs, 'setdragBarActive');
      var divs = elm.find('div');
-     divs[1].dispatchEvent(event); // grazer-split-handler
+     divs[1].dispatchEvent(event); // artic-split-handler
      expect(scope.vs.setdragBarActive).toHaveBeenCalledWith(true);
    });
 
@@ -56,7 +56,7 @@ describe('Directive: splitPaneView', function() {
      event.initEvent('mousedown', true, true);
      spyOn(scope.vs, 'setdragBarActive');
      var divs = elm.find('div');
-     divs[1].dispatchEvent(event); // grazer-split-handler
+     divs[1].dispatchEvent(event); // artic-split-handler
      expect(scope.vs.setdragBarActive).toHaveBeenCalledWith(true);
      expect(elm.isolateScope()).toBeDefined();
      var event2 = document.createEvent('Event');
@@ -66,50 +66,24 @@ describe('Directive: splitPaneView', function() {
      expect(scope.vs.setdragBarHeight).toHaveBeenCalled();
    });
 
-   it('should resize bottomRightResizePane via grazer-bottomRightResizePaneTopResizer', function () {
+   it('should resize bottomRightResizePane via artic-bottomRightResizePaneTopResizer', function () {
      compileDirective(true);
      expect(elm.isolateScope()).toBeDefined();
      var event = document.createEvent('Event');
      event.initEvent('mousedown', true, true);
      spyOn(scope.vs, 'setdragBarActive');
      var divs = elm.find('div');
-     divs[5].dispatchEvent(event); // grazer-bottomRightResizePaneTopResizer
+     divs[5].dispatchEvent(event); // artic-bottomRightResizePaneTopResizer
      expect(scope.vs.setdragBarActive).toHaveBeenCalledWith(true);
    });
 
-   it('should watch element mousemove on grazer-bottomRightResizePaneTopResizer', function () {
+   it('should watch element mousemove on artic-bottomRightResizePaneTopResizer', function () {
      compileDirective(true);
      var event = document.createEvent('Event');
      event.initEvent('mousedown', true, true);
      spyOn(scope.vs, 'setdragBarActive');
      var divs = elm.find('div');
-     divs[5].dispatchEvent(event); // grazer-bottomRightResizePaneTopResizer
-     expect(scope.vs.setdragBarActive).toHaveBeenCalledWith(true);
-     expect(elm.isolateScope()).toBeDefined();
-     var event2 = document.createEvent('Event');
-     event2.initEvent('mousemove', true, true);
-     elm[0].dispatchEvent(event2);
-   });
-
-
-   it('should resize bottomRightResizePane via grazer-bottomRightResizePaneLeftResizer', function () {
-     compileDirective(true);
-     expect(elm.isolateScope()).toBeDefined();
-     var event = document.createEvent('Event');
-     event.initEvent('mousedown', true, true);
-     spyOn(scope.vs, 'setdragBarActive');
-     var divs = elm.find('div');
-     divs[6].dispatchEvent(event); // grazer-bottomRightResizePaneLeftResizer
-     expect(scope.vs.setdragBarActive).toHaveBeenCalledWith(true);
-   });
-
-   it('should watch element mousemove on grazer-bottomRightResizePaneLeftResizer', function () {
-     compileDirective(true);
-     var event = document.createEvent('Event');
-     event.initEvent('mousedown', true, true);
-     spyOn(scope.vs, 'setdragBarActive');
-     var divs = elm.find('div');
-     divs[6].dispatchEvent(event); // grazer-bottomRightResizePaneLeftResizer
+     divs[5].dispatchEvent(event); // artic-bottomRightResizePaneTopResizer
      expect(scope.vs.setdragBarActive).toHaveBeenCalledWith(true);
      expect(elm.isolateScope()).toBeDefined();
      var event2 = document.createEvent('Event');
@@ -117,24 +91,50 @@ describe('Directive: splitPaneView', function() {
      elm[0].dispatchEvent(event2);
    });
 
-   it('should resize bottomRightResizePane via grazer-bottomRightResizePaneCornerResizer', function () {
+
+   it('should resize bottomRightResizePane via artic-bottomRightResizePaneLeftResizer', function () {
      compileDirective(true);
      expect(elm.isolateScope()).toBeDefined();
      var event = document.createEvent('Event');
      event.initEvent('mousedown', true, true);
      spyOn(scope.vs, 'setdragBarActive');
      var divs = elm.find('div');
-     divs[4].dispatchEvent(event); // grazer-bottomRightResizePaneCornerResizer
+     divs[6].dispatchEvent(event); // artic-bottomRightResizePaneLeftResizer
      expect(scope.vs.setdragBarActive).toHaveBeenCalledWith(true);
    });
 
-   it('should watch element mousemove on grazer-bottomRightResizePaneCornerResizer', function () {
+   it('should watch element mousemove on artic-bottomRightResizePaneLeftResizer', function () {
      compileDirective(true);
      var event = document.createEvent('Event');
      event.initEvent('mousedown', true, true);
      spyOn(scope.vs, 'setdragBarActive');
      var divs = elm.find('div');
-     divs[4].dispatchEvent(event); // grazer-bottomRightResizePaneCornerResizer
+     divs[6].dispatchEvent(event); // artic-bottomRightResizePaneLeftResizer
+     expect(scope.vs.setdragBarActive).toHaveBeenCalledWith(true);
+     expect(elm.isolateScope()).toBeDefined();
+     var event2 = document.createEvent('Event');
+     event2.initEvent('mousemove', true, true);
+     elm[0].dispatchEvent(event2);
+   });
+
+   it('should resize bottomRightResizePane via artic-bottomRightResizePaneCornerResizer', function () {
+     compileDirective(true);
+     expect(elm.isolateScope()).toBeDefined();
+     var event = document.createEvent('Event');
+     event.initEvent('mousedown', true, true);
+     spyOn(scope.vs, 'setdragBarActive');
+     var divs = elm.find('div');
+     divs[4].dispatchEvent(event); // artic-bottomRightResizePaneCornerResizer
+     expect(scope.vs.setdragBarActive).toHaveBeenCalledWith(true);
+   });
+
+   it('should watch element mousemove on artic-bottomRightResizePaneCornerResizer', function () {
+     compileDirective(true);
+     var event = document.createEvent('Event');
+     event.initEvent('mousedown', true, true);
+     spyOn(scope.vs, 'setdragBarActive');
+     var divs = elm.find('div');
+     divs[4].dispatchEvent(event); // artic-bottomRightResizePaneCornerResizer
      expect(scope.vs.setdragBarActive).toHaveBeenCalledWith(true);
      expect(elm.isolateScope()).toBeDefined();
      var event2 = document.createEvent('Event');

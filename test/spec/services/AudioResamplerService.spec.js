@@ -2,7 +2,7 @@
 
 describe('Service: AudioResamplerService', function () {
 
-	beforeEach(angular.mock.module('grazer'));
+	beforeEach(angular.mock.module('artic'));
 
 	/**
 	 * Build a minimal 16-bit mono WAV ArrayBuffer from a Float32Array of samples.

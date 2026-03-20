@@ -5,13 +5,13 @@ describe('Controller: TabbedCtrl', function () {
   var TabbedCtrl, scope, deferred, deferred2;
   
     // load the controller's module
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
   
      //Initialize the controller and a mock scope
      beforeEach(angular.mock.inject(function ($controller, $rootScope, ConfigProviderService, ModalService, ViewStateService, ValidationService) {
        // initiate the controller and mock the scope
-       var tmpGrazerConfig = angular.copy(defaultGrazerConfig);
-       var tmpGrazerDesign = angular.copy(defaultGrazerDesign);
+       var tmpArticConfig = angular.copy(defaultArticConfig);
+       var tmpArticDesign = angular.copy(defaultArticDesign);
        var tmpaeDbConfig = angular.copy(aeDbConfig);
        scope = $rootScope.$new();
        scope.valid = ValidationService;
@@ -20,9 +20,9 @@ describe('Controller: TabbedCtrl', function () {
          $scope: scope
        });
        scope.cps = ConfigProviderService;
-       scope.cps.setVals(tmpGrazerConfig);
+       scope.cps.setVals(tmpArticConfig);
        scope.cps.curDbConfig = tmpaeDbConfig;
-       scope.cps.design = tmpGrazerDesign;
+       scope.cps.design = tmpArticDesign;
        scope.modal = ModalService;
        scope.vs = ViewStateService;
      }));  

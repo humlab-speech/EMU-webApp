@@ -151,7 +151,7 @@
 	const hasHierarchy = $derived(getTick() >= 0 && configProviderService.curDbConfig?.linkDefinitions?.length > 0);
 </script>
 
-<div class="grazer-text">
+<div class="artic-text">
 	{#if hasHierarchy}
 	<h1>Hierarchy Settings</h1>
 	<span>Show hierarchy path canvas:
@@ -167,7 +167,7 @@
 
 	<h2>Visible Attribute Definitions</h2>
 	{#each [...(hierarchySettings.paths.possible[getSelHierarchyPathIdx()] || [])].reverse() as levelName}
-		<div class="grazer-nav-wrap">
+		<div class="artic-nav-wrap">
 			{levelName}:
 			<select bind:value={hierarchySettings.paths.curVisAttributeDefs[levelName]}>
 				{#each configProviderService.getAttrDefsNames(levelName) || [] as attrDef}
@@ -227,14 +227,14 @@
 
 	<h2>Color Options</h2>
 	<span>Draw spectrogram in heat map colors: <input type="checkbox" bind:checked={modalVals.drawHeatMapColors} /></span>
-	<table class="grazer-modalTable" style={cssError(8)}><tbody>
+	<table class="artic-modalTable" style={cssError(8)}><tbody>
 		<tr><th></th><th>red</th><th>green</th><th>blue</th><th>resulting color</th></tr>
 		{#each [0, 1, 2] as anchorIdx}
 			<tr>
 				<td>{['First', 'Second', 'Third'][anchorIdx]} spectrogram color anchor:</td>
-				<td>r: <input type="text" class="grazer-rgbTextInput" bind:value={modalVals.heatMapColorAnchors[anchorIdx][0]} onkeyup={checkSpectroSettings} onfocus={onFocus} onblur={onBlur} /></td>
-				<td>g: <input type="text" class="grazer-rgbTextInput" bind:value={modalVals.heatMapColorAnchors[anchorIdx][1]} onkeyup={checkSpectroSettings} onfocus={onFocus} onblur={onBlur} /></td>
-				<td>b: <input type="text" class="grazer-rgbTextInput" bind:value={modalVals.heatMapColorAnchors[anchorIdx][2]} onkeyup={checkSpectroSettings} onfocus={onFocus} onblur={onBlur} /></td>
+				<td>r: <input type="text" class="artic-rgbTextInput" bind:value={modalVals.heatMapColorAnchors[anchorIdx][0]} onkeyup={checkSpectroSettings} onfocus={onFocus} onblur={onBlur} /></td>
+				<td>g: <input type="text" class="artic-rgbTextInput" bind:value={modalVals.heatMapColorAnchors[anchorIdx][1]} onkeyup={checkSpectroSettings} onfocus={onFocus} onblur={onBlur} /></td>
+				<td>b: <input type="text" class="artic-rgbTextInput" bind:value={modalVals.heatMapColorAnchors[anchorIdx][2]} onkeyup={checkSpectroSettings} onfocus={onFocus} onblur={onBlur} /></td>
 				<td><div style={viewStateService.getColorOfAnchor(modalVals.heatMapColorAnchors, anchorIdx)}></div></td>
 			</tr>
 		{/each}
@@ -242,7 +242,7 @@
 	{#if errorID[8]}<div><b style="color:#f00">Error:</b> Only Integers allowed.</div>{/if}
 </div>
 
-<div class="grazer-inline-modal-footer">
-	<button class="grazer-mini-btn" onclick={reset}>Cancel</button>
-	<button id="grazer-modal-save" class="grazer-mini-btn" onclick={saveSettings}>Save</button>
+<div class="artic-inline-modal-footer">
+	<button class="artic-mini-btn" onclick={reset}>Cancel</button>
+	<button id="artic-modal-save" class="artic-mini-btn" onclick={saveSettings}>Save</button>
 </div>

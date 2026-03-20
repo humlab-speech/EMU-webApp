@@ -11,7 +11,7 @@
 </script>
 
 {#if visible}
-<div class="grazer-largetextinputfield">
+<div class="artic-largetextinputfield">
 	<textarea value={label} oninput={onInput}></textarea>
 </div>
 {/if}

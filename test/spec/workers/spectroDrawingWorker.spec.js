@@ -46,7 +46,7 @@ describe('Worker: spectroDrawingWorker', function () {
 	var windowData, samples;
 
 
-	beforeEach(angular.mock.module('grazer'));
+	beforeEach(angular.mock.module('artic'));
 
 	beforeEach(function () {
 		var DummyWorker = function () {};

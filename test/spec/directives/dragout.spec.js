@@ -3,7 +3,7 @@
 describe('Directive: dragout', function() {
 
     var elm, scope;
-    beforeEach(angular.mock.module('grazer'));
+    beforeEach(angular.mock.module('artic'));
 
     beforeEach(angular.mock.inject(function($rootScope, $compile, ViewStateService, loadedMetaDataService, ConfigProviderService) {
         scope = $rootScope.$new();

@@ -302,18 +302,18 @@
 	});
 </script>
 
-<div class="grazer-level" onmouseleave={onMouseLeave}>
-	<div class="grazer-level-container">
+<div class="artic-level" onmouseleave={onMouseLeave}>
+	<div class="artic-level-container">
 		<canvas
 			bind:this={canvas}
-			class="grazer-level-canvas"
+			class="artic-level-canvas"
 		></canvas>
 		<LevelCanvasMarkup {levelName} {idx} />
 	</div>
 </div>
 
 {#if levelDef?.attributeDefinitions?.length > 1}
-<div class="grazer-canvasSelectors">
+<div class="artic-canvasSelectors">
 	<ul>
 		{#each levelDef.attributeDefinitions as attrDef, i}
 			<li>

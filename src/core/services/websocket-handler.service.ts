@@ -62,7 +62,7 @@ export class WebSocketHandlerService{
 			delete this.callbacks[messageObj.callbackID];
 		} else {
 			if(typeof messageObj.status === 'undefined'){
-				this.ModalService.open('views/error.html', 'Just got JSON message from server that grazer does not know how to deal with! This is not allowed!');
+				this.ModalService.open('views/error.html', 'Just got JSON message from server that artic does not know how to deal with! This is not allowed!');
 			}
 			else if (messageObj.status.type === 'ERROR:TIMEOUT') {
 				// do nothing

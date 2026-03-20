@@ -1,9 +1,9 @@
-@import 'grazer-design';
+@import 'artic-design';
 @import 'font';
 @import 'mixins';
 
 
-.grazer-history {
+.artic-history {
     position: absolute;
     display: flex;
     font-size: 150% !important;
@@ -31,7 +31,7 @@
         background-color: transparent;
     }
 }
-.grazer-history-fade {
+.artic-history-fade {
     z-index: 999999;
     opacity: 1;
     // @include vendor-prefix(transition, "all "+$animation-period+"ms ease-out");

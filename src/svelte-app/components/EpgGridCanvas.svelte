@@ -82,6 +82,6 @@
 	});
 </script>
 
-<div class="grazer-twoDimCanvasContainer">
+<div class="artic-twoDimCanvasContainer">
 	<canvas bind:this={canvas} width="512" height="512"></canvas>
 </div>

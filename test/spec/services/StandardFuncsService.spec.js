@@ -1,7 +1,7 @@
 'use strict';
 
 describe('Service: StandardFuncsService', function () {
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
 
   it('should remove underscore-prefixed keys from a flat object', angular.mock.inject(function (StandardFuncsService) {
     var obj = { a: 1, _b: 2, c: 3 };

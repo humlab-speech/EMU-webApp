@@ -5,12 +5,12 @@ describe('Service: DragnDropService', function () {
   var $q;
 
   // load the controller's module
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
 
   beforeEach(angular.mock.inject(function(_$rootScope_, _$q_, ConfigProviderService, ViewStateService) {
     $q = _$q_;
     $scope = _$rootScope_.$new();
-    ConfigProviderService.setVals(defaultGrazerConfig);
+    ConfigProviderService.setVals(defaultArticConfig);
     ConfigProviderService.curDbConfig = aeDbConfig;
     ViewStateService.curPerspectiveIdx = 0;
   }));
@@ -106,7 +106,7 @@ describe('Service: DragnDropService', function () {
     spyOn(ValidationService, 'validateJSO').mockReturnValue(true);
     DragnDropService.handleLocalFiles();
     expect(IoHandlerService.httpGetPath).toHaveBeenCalled();
-    var mockConfig = angular.copy(defaultGrazerConfig);
+    var mockConfig = angular.copy(defaultArticConfig);
     mockConfig.perspectives = [{levelCanvases: {order: ['Phonetic']}, signalCanvases: {order: ['OSCI'], assign: [], contourLims: []}}];
     defio.resolve({data: {EMUwebAppConfig: mockConfig, levelDefinitions: [], linkDefinitions: []}});
     $scope.$apply();

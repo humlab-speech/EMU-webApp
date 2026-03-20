@@ -3,11 +3,11 @@
 describe('Directive: preview', function () {
 
     var elm, tpl, scope;
-    beforeEach(angular.mock.module('grazer', 'grazer.templates'));
+    beforeEach(angular.mock.module('artic', 'artic.templates'));
 
     beforeEach(angular.mock.inject(function ($rootScope, $compile, ConfigProviderService) {
         scope = $rootScope.$new();
-        ConfigProviderService.setVals(defaultGrazerConfig);
+        ConfigProviderService.setVals(defaultArticConfig);
     }));
 
     function compileDirective(val) {
@@ -21,8 +21,8 @@ describe('Directive: preview', function () {
     it('should have correct html', angular.mock.inject(function (ViewStateService, SoundHandlerService, DrawHelperService) {
         compileDirective('ae');
         expect(elm.find('canvas').length).toBe(2);
-        expect(elm.html()).toContain('grazer-preview-canvas');
-        expect(elm.html()).toContain('grazer-preview-canvas-markup');
+        expect(elm.html()).toContain('artic-preview-canvas');
+        expect(elm.html()).toContain('artic-preview-canvas-markup');
     }));
 
     it('should watch curViewPort', angular.mock.inject(function (ViewStateService, SoundHandlerService, DataService, DrawHelperService) {

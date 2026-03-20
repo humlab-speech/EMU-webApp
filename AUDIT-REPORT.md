@@ -1,4 +1,4 @@
-# Grazer Fidelity Audit Report
+# Artic Fidelity Audit Report
 
 **Date:** 2026-03-19
 **Original:** https://ips-lmu.github.io/EMU-webApp/ (Angular)
@@ -39,8 +39,8 @@ The fork faithfully reproduces the original's **core layout, canvas structure, C
 | # | Finding | Location |
 |---|---------|----------|
 | m1 | Fork uses Svelte `{#if}` (removes from DOM) vs Angular `ng-show` (hides in DOM) for conditional buttons — functionally equivalent but Save, Add Level, Rename, Download TextGrid, Download Annotation buttons are completely absent from DOM when hidden | `TopMenu.svelte:213-247` |
-| m2 | CSS variable naming: fork uses camelCase (`--color-lightGrey`) vs original's kebab-case (`--color-light-grey`) — values are identical | `grazer-design.scss` |
-| m3 | Fork adds semantic tokens (`--bg-primary`, `--accent`, etc.) and light theme support not in original — no impact on default appearance | `grazer-design.scss:48-104` |
+| m2 | CSS variable naming: fork uses camelCase (`--color-lightGrey`) vs original's kebab-case (`--color-light-grey`) — values are identical | `artic-design.scss` |
+| m3 | Fork adds semantic tokens (`--bg-primary`, `--accent`, etc.) and light theme support not in original — no impact on default appearance | `artic-design.scss:48-104` |
 | m4 | Bundle list items render as `<button>` in fork vs `<li>` with `ng-click` in original — functionally equivalent | `BundleListSidebar.svelte` |
 | m5 | Perspectives sidebar items render as `<button>` in fork vs `<li>` in original — functionally equivalent | `PerspectivesSidebar.svelte` |
 
@@ -48,7 +48,7 @@ The fork faithfully reproduces the original's **core layout, canvas structure, C
 
 | # | Finding | Location |
 |---|---------|----------|
-| i1 | All 14 modals use correct structure: grazer-modal-wrap → header (60px, #0DC5FF) + body (#303030, overflow-y auto) + footer (60px, #0DC5FF) | `modal.scss`, all modal components |
+| i1 | All 14 modals use correct structure: artic-modal-wrap → header (60px, #0DC5FF) + body (#303030, overflow-y auto) + footer (60px, #0DC5FF) | `modal.scss`, all modal components |
 | i2 | Settings modal layout (84% width, 90% height, 8% margins) is mathematically correct per viewport — the issue in `current-config.png` may be viewport-dependent or resolved | `modal.scss:19-27` |
 | i3 | SettingsModal uses inline sticky footer (Cancel/Save) inside body PLUS an empty absolute footer — works correctly but differs structurally from standard modals | `SettingsModal.svelte:12`, `Settings.svelte:245-248` |
 

@@ -4,7 +4,7 @@ describe('Directive: myDropZoneInput', function() {
 
     var elm, scope;
     
-    beforeEach(angular.mock.module('grazer', 'grazer.templates'));
+    beforeEach(angular.mock.module('artic', 'artic.templates'));
     
     beforeEach(angular.mock.inject(function($rootScope) {
         scope = $rootScope.$new();

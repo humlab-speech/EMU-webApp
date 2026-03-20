@@ -1,10 +1,10 @@
-@import 'grazer-design';
+@import 'artic-design';
 @import 'font';
 @import 'mixins';
 
-/* grazer-split-panes CSS */
+/* artic-split-panes CSS */
 
-.grazer-2d-map {
+.artic-2d-map {
     position: absolute;
     right: 0px;
     top: calc(100% - 200px);
@@ -53,19 +53,19 @@
         cursor: ew-resize;
     }
 }
-.grazer-split-panes {
+.artic-split-panes {
     left: 0px;
     right: 0px;
     top: 0px;
     bottom: 0px;
     position: absolute;
-    > .grazer-split-handler {
+    > .artic-split-handler {
         background: var(--color-grey);
         position: absolute;
         z-index: 999;
     }
 /* Horizontal */
-    &.horizontal > .grazer-split-handler {
+    &.horizontal > .artic-split-handler {
         width: 4px;
         top: 0px;
         left: 50%;
@@ -85,7 +85,7 @@
         border-left: 1px solid var(--color-white);
     }
 /* Vertical */
-    &.vertical > .grazer-split-handler {
+    &.vertical > .artic-split-handler {
         height: 14px !important;
         width: 100%;
         top: 50%;

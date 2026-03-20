@@ -521,9 +521,9 @@ function mockModule(arg) {
     arg($provide);
     return function () { arg($provide); };
   }
-  // module('grazer') — create fresh services immediately
-  // (handles both `beforeEach(angular.mock.module('grazer'))` and
-  //  `beforeEach(function() { angular.mock.module('grazer'); })` patterns)
+  // module('artic') — create fresh services immediately
+  // (handles both `beforeEach(angular.mock.module('artic'))` and
+  //  `beforeEach(function() { angular.mock.module('artic'); })` patterns)
   registry = createFreshServices();
   return function () {
     registry = createFreshServices();

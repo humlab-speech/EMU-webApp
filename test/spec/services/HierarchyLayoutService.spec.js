@@ -5,7 +5,7 @@ describe('Service: HierarchyLayoutService', function () {
   var scope;
 
    // load the service's module
-   beforeEach(angular.mock.module('grazer'));
+   beforeEach(angular.mock.module('artic'));
 
   // instantiate service
     beforeEach(angular.mock.inject(function ($rootScope,
@@ -19,7 +19,7 @@ describe('Service: HierarchyLayoutService', function () {
         scope = $rootScope.$new();
         scope.data = DataService;
         scope.cps = ConfigProviderService;
-        scope.cps.setVals(defaultGrazerConfig);
+        scope.cps.setVals(defaultArticConfig);
         scope.cps.curDbConfig = aeDbConfig;
         scope.data.setData(msajc003_bndl.annotation);
         scope.hierarchy = HierarchyLayoutService;

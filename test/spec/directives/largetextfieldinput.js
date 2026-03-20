@@ -3,7 +3,7 @@
 describe('Directive: largeTextFieldInput', function () {
 
   // load the directive's module
-  beforeEach(angular.mock.module('grazer'));
+  beforeEach(angular.mock.module('artic'));
 
   var element,
     scope;

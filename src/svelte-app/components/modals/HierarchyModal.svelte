@@ -62,21 +62,21 @@
 	}
 </script>
 
-<div class="grazer-modal-wrap">
-	<div class="grazer-modal-header-large grazer-modal-header">
+<div class="artic-modal-wrap">
+	<div class="artic-modal-header-large artic-modal-header">
 		{#each [...currentPath].reverse() as levelName (levelName)}
-			<div class="grazer-nav-wrap" style="margin-left: 5px;">
-				<ul class="grazer-dropdown-container">
+			<div class="artic-nav-wrap" style="margin-left: 5px;">
+				<ul class="artic-dropdown-container">
 					<li class="left">
-						<button class="grazer-mini-btn full"
+						<button class="artic-mini-btn full"
 							onmouseenter={() => dropdownOpen[levelName] = true}
 							onmouseleave={() => dropdownOpen[levelName] = false}
 							onclick={() => dropdownOpen[levelName] = !dropdownOpen[levelName]}
 						>
-							{levelName} <span id="grazer-dropdown-arrow"></span>
+							{levelName} <span id="artic-dropdown-arrow"></span>
 						</button>
 						{#if dropdownOpen[levelName]}
-							<ul class="grazer-dropdown-menu"
+							<ul class="artic-dropdown-menu"
 								onmouseenter={() => dropdownOpen[levelName] = true}
 								onmouseleave={() => dropdownOpen[levelName] = false}
 							>
@@ -92,9 +92,9 @@
 			</div>
 		{/each}
 	</div>
-	<div class="grazer-modal-body grazer-modal-hierarchy">
-		<div class="grazer-modal-select">
-			<select id="grazer-selection" onchange={onPathChange} value={selectedPathIdx}>
+	<div class="artic-modal-body artic-modal-hierarchy">
+		<div class="artic-modal-select">
+			<select id="artic-selection" onchange={onPathChange} value={selectedPathIdx}>
 				{#each possiblePathsAsStr as pathStr, idx (idx)}
 					<option value={idx}>{pathStr}</option>
 				{/each}
@@ -102,9 +102,9 @@
 		</div>
 		<EmuHierarchy />
 	</div>
-	<div class="grazer-modal-footer">
-		<button class="grazer-mini-btn" onclick={playSelection}>play selected</button>
-		<button class="grazer-mini-btn" onclick={rotateHierarchy}>&#x21BB; rotate by 90&deg;</button>
-		<button class="grazer-mini-btn" onclick={() => modalService.close()}>close hierarchy</button>
+	<div class="artic-modal-footer">
+		<button class="artic-mini-btn" onclick={playSelection}>play selected</button>
+		<button class="artic-mini-btn" onclick={rotateHierarchy}>&#x21BB; rotate by 90&deg;</button>
+		<button class="artic-mini-btn" onclick={() => modalService.close()}>close hierarchy</button>
 	</div>
 </div>

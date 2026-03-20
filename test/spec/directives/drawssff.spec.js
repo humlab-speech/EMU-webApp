@@ -3,14 +3,14 @@
 describe('Directive: drawssff', function() {
 
     var elm, scope, worker;
-    beforeEach(angular.mock.module('grazer'));
+    beforeEach(angular.mock.module('artic'));
 
     beforeEach(angular.mock.inject(function($rootScope, $compile, ViewStateService, DataService, ConfigProviderService, LevelService, SsffDataService) {
         scope = $rootScope.$new();
         scope.lvl = LevelService;
         scope.cps = ConfigProviderService;
-        scope.cps.setVals(defaultGrazerConfig);
-        scope.cps.design = defaultGrazerDesign;
+        scope.cps.setVals(defaultArticConfig);
+        scope.cps.design = defaultArticDesign;
         scope.vs = ViewStateService;
         scope.data = DataService;
         scope.ssffds = SsffDataService; 
