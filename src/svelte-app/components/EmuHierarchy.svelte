@@ -1,5 +1,7 @@
 <script lang="ts">
-import * as d3 from 'd3';
+import { select } from 'd3-selection';
+import { zoom as d3zoom, zoomTransform, zoomIdentity } from 'd3-zoom';
+import { pointer } from 'd3-selection';
 import { getTick } from '../stores/app-state.svelte';
 import { scheduleUpdate } from '../../core/util/schedule-update';
 import {
@@ -168,7 +170,7 @@ function limitPanning(t: any) {
 }
 
 function zoom() {
-	let t = d3.zoomTransform(zoomer.node());
+	let t = zoomTransform(zoomer.node());
 	t = limitPanning(t);
 
 	viewStateService.hierarchyState.translate = [t.x, t.y];
@@ -191,7 +193,7 @@ function zoom() {
 }
 
 function rotate() {
-	const t = d3.zoomTransform(zoomer.node());
+	const t = zoomTransform(zoomer.node());
 
 	let percentageAwayTimeAxis: number;
 	let percentageAwayCrossAxis: number;
@@ -212,12 +214,12 @@ function rotate() {
 	if (vertical === true) {
 		zoomer.call(
 			zoomListener.transform,
-			d3.zoomIdentity.translate(percentageAwayTimeAxis, percentageAwayCrossAxis).scale(t.k),
+			zoomIdentity.translate(percentageAwayTimeAxis, percentageAwayCrossAxis).scale(t.k),
 		);
 	} else {
 		zoomer.call(
 			zoomListener.transform,
-			d3.zoomIdentity.translate(percentageAwayCrossAxis, percentageAwayTimeAxis).scale(t.k),
+			zoomIdentity.translate(percentageAwayCrossAxis, percentageAwayTimeAxis).scale(t.k),
 		);
 	}
 
@@ -228,7 +230,7 @@ function rotate() {
 
 function getOrientatedTransform(zoomInProgress: boolean) {
 	let transform = '';
-	let t = d3.zoomTransform(zoomer.node());
+	let t = zoomTransform(zoomer.node());
 	t = limitPanning(t);
 
 	if (vertical) {
@@ -320,7 +322,7 @@ function getOrientatedTextY() {
 }
 
 function getOrientatedLevelCaptionLayerTransform() {
-	let t = d3.zoomTransform(zoomer.node());
+	let t = zoomTransform(zoomer.node());
 	t = limitPanning(t);
 	if (vertical) {
 		return 'translate(0, ' + t.y + ')';
@@ -359,7 +361,7 @@ function getOrientatedTimeLevelBackgroundHeight() {
 }
 
 function getOrientatedMousePosition(mouse: [number, number]) {
-	let t = d3.zoomTransform(zoomer.node());
+	let t = zoomTransform(zoomer.node());
 	t = limitPanning(t);
 	if (vertical) {
 		return [mouse[1] - t.y, mouse[0] - t.x];
@@ -434,7 +436,7 @@ function depthToX(depth: number) {
 }
 
 function posInLevelToY(posInLevel: number) {
-	let t = d3.zoomTransform(zoomer.node());
+	let t = zoomTransform(zoomer.node());
 	t = limitPanning(t);
 	let offset: number;
 	let timeAxisSize: number;
@@ -456,7 +458,7 @@ function posInLevelToY(posInLevel: number) {
 function svgOnMouseMove(event: MouseEvent) {
 	if (newLinkSrc !== undefined) {
 		const mouse = getOrientatedMousePosition(
-			d3.pointer(event, svgRootEl) as [number, number],
+			pointer(event, svgRootEl) as [number, number],
 		);
 		const x = mouse[0];
 		const y = mouse[1];
@@ -629,13 +631,13 @@ function renderSelectionOnly() {
 function render() {
 	if (!_inited || !zoomer || !svg) return;
 
-	let t = d3.zoomTransform(zoomer.node());
+	let t = zoomTransform(zoomer.node());
 	t = limitPanning(t);
 	lastScaleFactor = t.k;
 
 	// Get current dimensions from SVG element
-	width = parseInt(d3.select(svgRootEl).style('width'), 10);
-	height = parseInt(d3.select(svgRootEl).style('height'), 10);
+	width = parseInt(select(svgRootEl).style('width'), 10);
+	height = parseInt(select(svgRootEl).style('height'), 10);
 
 	// Set orientation transform
 	if (transition.rotation) {
@@ -1111,7 +1113,7 @@ $effect(() => {
 	width = 0;
 	height = 0;
 
-	zoomListener = d3.zoom().scaleExtent(scaleExtent).on('zoom', zoom);
+	zoomListener = d3zoom().scaleExtent(scaleExtent).on('zoom', zoom);
 
 	// The SVG is appended into containerEl's first div child
 	const rootG = d3
@@ -1126,8 +1128,8 @@ $effect(() => {
 		.on('click', svgOnClick)
 		.append('g');
 
-	// Store reference to the raw SVG element for d3.pointer()
-	svgRootEl = (d3.select(containerEl).select('svg').node() as SVGSVGElement) ?? null;
+	// Store reference to the raw SVG element for pointer()
+	svgRootEl = (select(containerEl).select('svg').node() as SVGSVGElement) ?? null;
 
 	zoomer = rootG
 		.append('rect')
@@ -1154,10 +1156,10 @@ $effect(() => {
 	svg = rootG.append('g').style('z-index', 1);
 
 	// Restore previous zoom/pan state
-	const existingT = d3.zoomTransform(zoomer.node());
+	const existingT = zoomTransform(zoomer.node());
 	zoomer.call(
 		zoomListener.transform,
-		d3.zoomIdentity.translate(existingT.x, existingT.y).scale(existingT.k),
+		zoomIdentity.translate(existingT.x, existingT.y).scale(existingT.k),
 	);
 
 	_inited = true;

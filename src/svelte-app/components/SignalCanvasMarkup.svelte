@@ -175,7 +175,20 @@
 		}
 	}
 
+	let rafPending = false;
+	let latestMouseEvent: MouseEvent;
+
 	function onMouseMove(event: MouseEvent) {
+		latestMouseEvent = event;
+		if (rafPending) return;
+		rafPending = true;
+		requestAnimationFrame(() => {
+			rafPending = false;
+			handleMouseMove(latestMouseEvent);
+		});
+	}
+
+	function handleMouseMove(event: MouseEvent) {
 		let mbutton = 0;
 		drawCrossHairs = true;
 		if (event.buttons === undefined) {

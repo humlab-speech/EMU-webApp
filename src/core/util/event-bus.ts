@@ -1,22 +1,25 @@
-import { Subject, Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-
-interface AppEvent {
-	type: string;
-	data?: any;
+interface Subscription {
+	unsubscribe: () => void;
 }
 
-const eventSubject = new Subject<AppEvent>();
+interface ObservableLike<T> {
+	subscribe: (cb: (data: T) => void) => Subscription;
+}
+
+const target = new EventTarget();
 
 export const eventBus = {
 	emit(type: string, data?: any): void {
-		eventSubject.next({ type, data });
+		target.dispatchEvent(new CustomEvent(type, { detail: data }));
 	},
 
-	on(type: string): Observable<any> {
-		return eventSubject.pipe(
-			filter(e => e.type === type),
-			map(e => e.data)
-		);
+	on(type: string): ObservableLike<any> {
+		return {
+			subscribe(cb: (data: any) => void): Subscription {
+				const handler = (e: Event) => cb((e as CustomEvent).detail);
+				target.addEventListener(type, handler);
+				return { unsubscribe: () => target.removeEventListener(type, handler) };
+			}
+		};
 	}
 };

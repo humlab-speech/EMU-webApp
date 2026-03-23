@@ -15,6 +15,7 @@ export class HistoryService {
 	PublisherService!: any;
 
 	// private misc vars
+	private static readonly MAX_UNDO = 50;
 	private undoStack = [];
 	private redoStack = [];
 	private curChangeObj = {};
@@ -330,6 +331,7 @@ export class HistoryService {
 		// add to undoStack
 		if (Object.keys(this.curChangeObj).length > 0) {
 			this.undoStack.push(this.curChangeObj);
+			if (this.undoStack.length > HistoryService.MAX_UNDO) this.undoStack.shift();
 			this.movesAwayFromLastSave += 1;
 			this.PublisherService.publishUnsavedBundleToParentWindow();
 		}
@@ -349,6 +351,7 @@ export class HistoryService {
 		// add to undoStack
 		if (Object.keys(tmpObj).length > 0) {
 			this.undoStack.push(tmpObj);
+			if (this.undoStack.length > HistoryService.MAX_UNDO) this.undoStack.shift();
 			this.movesAwayFromLastSave += 1;
 			this.PublisherService.publishUnsavedBundleToParentWindow();
 		}

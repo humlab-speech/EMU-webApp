@@ -33,7 +33,9 @@
 		return (viewStateService.curViewPort.eS + 1 - viewStateService.curViewPort.sS) / canvas.width;
 	}
 
-	function killSpectroRenderingThread() {
+	let renderJobId = 0;
+
+	function showRenderingOverlay() {
 		ctx.fillStyle = styles.colorBlack;
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		fontScaleService.drawUndistortedText(
@@ -46,32 +48,19 @@
 			styles.colorBlack,
 			true
 		);
-		if (primeWorker !== null) {
-			primeWorker.kill();
-			primeWorker = null;
-		}
 	}
 
-	function setupEvent() {
-		const imageData = ctx.createImageData(canvas.width, canvas.height);
-		const samplesPerPxlSnapshot = calcSamplesPerPxl();
-		primeWorker.says((event: any) => {
-			if (event.status === undefined) {
-				if (samplesPerPxlSnapshot === event.samplesPerPxl) {
-					const tmp = new Uint8ClampedArray(event.img);
-					imageData.data.set(tmp);
-					ctx.putImageData(imageData, 0, 0);
-				}
-			} else {
-				console.error('Error rendering spectrogram:', event.status.message);
-			}
-		});
+	function ensureWorker() {
+		if (primeWorker === null) {
+			primeWorker = new SpectroDrawingWorker();
+		}
 	}
 
 	function startSpectroRenderingThread(buffer: Float32Array) {
 		if (buffer.length === 0) return;
 
-		primeWorker = new SpectroDrawingWorker();
+		ensureWorker();
+		const currentJob = ++renderJobId;
 		let parseData: Float32Array;
 		let fftN = mathHelperService.calcClosestPowerOf2Gt(
 			soundHandlerService.audioBuffer.sampleRate * viewStateService.spectroSettings.windowSizeInSecs
@@ -125,7 +114,18 @@
 			);
 		}
 
-		setupEvent();
+		const imageData = ctx.createImageData(canvas.width, canvas.height);
+		primeWorker.worker.onmessage = (e: MessageEvent) => {
+			const event = e.data;
+			if (currentJob !== renderJobId) return; // stale result
+			if (event.status === undefined) {
+				const tmp = new Uint8ClampedArray(event.img);
+				imageData.data.set(tmp);
+				ctx.putImageData(imageData, 0, 0);
+			} else {
+				console.error('Error rendering spectrogram:', event.status.message);
+			}
+		};
 		primeWorker.tell({
 			'windowSizeInSecs': viewStateService.spectroSettings.windowSizeInSecs,
 			'fftN': fftN,
@@ -150,7 +150,7 @@
 	}
 
 	function drawSpectro(buffer: Float32Array) {
-		killSpectroRenderingThread();
+		showRenderingOverlay();
 		startSpectroRenderingThread(buffer);
 	}
 
