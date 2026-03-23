@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getTick } from '../stores/app-state.svelte';
+	import { getConfigTick } from '../stores/app-state.svelte';
 	import { viewStateService, dragnDropService } from '../stores/services';
 
 	function onDragOver(e: DragEvent) {
@@ -19,7 +19,7 @@
 		}
 	}
 
-	let showDropZone = $derived(getTick() >= 0 && viewStateService.showDropZone);
+	let showDropZone = $derived(getConfigTick() >= 0 && viewStateService.showDropZone);
 </script>
 
 <svelte:window on:dragover={onDragOver} />

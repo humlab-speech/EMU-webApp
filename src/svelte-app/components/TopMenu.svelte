@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getTick, invalidate } from '../stores/app-state.svelte';
+	import { getConfigTick, invalidate } from '../stores/app-state.svelte';
 	import {
 		configProviderService,
 		viewStateService,
@@ -186,21 +186,21 @@
 	}
 
 	// Reactive bridge: spread to create new object references so Svelte detects changes
-	let activeButtons = $derived(getTick() >= 0 && configProviderService.vals?.activeButtons ? {...configProviderService.vals.activeButtons} : undefined);
-	let restrictions = $derived(getTick() >= 0 && configProviderService.vals?.restrictions ? {...configProviderService.vals.restrictions} : undefined);
+	let activeButtons = $derived(getConfigTick() >= 0 && configProviderService.vals?.activeButtons ? {...configProviderService.vals.activeButtons} : undefined);
+	let restrictions = $derived(getConfigTick() >= 0 && configProviderService.vals?.restrictions ? {...configProviderService.vals.restrictions} : undefined);
 	let demoDBs = $derived.by(() => {
-		if (getTick() < 0) return undefined;
+		if (getConfigTick() < 0) return undefined;
 		const base = configProviderService.vals?.demoDBs ?? [];
 		if (!configProviderService.devMode) return base;
 		const dev = configProviderService.vals?.devDemoDBs ?? [];
 		return [...base, ...dev].sort();
 	});
-	let bundleListSideBarDisabled = $derived(getTick() >= 0 ? viewStateService.bundleListSideBarDisabled : true);
-	let unsavedChangesStyle = $derived(getTick() >= 0 && historyService.movesAwayFromLastSave !== 0 ? 'background-color: #f00; color: white;' : '');
+	let bundleListSideBarDisabled = $derived(getConfigTick() >= 0 ? viewStateService.bundleListSideBarDisabled : true);
+	let unsavedChangesStyle = $derived(getConfigTick() >= 0 && historyService.movesAwayFromLastSave !== 0 ? 'background-color: #f00; color: white;' : '');
 
 	// Reactive permission map — getTick() triggers re-evaluation on state changes
 	let perms = $derived.by(() => {
-		getTick();
+		getConfigTick();
 		return {
 			addLevelSeg: viewStateService.getPermission('addLevelSegBtnClick'),
 			addLevelEvent: viewStateService.getPermission('addLevelPointBtnClick'),

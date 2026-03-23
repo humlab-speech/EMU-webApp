@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getTick } from '../stores/app-state.svelte';
+	import { getViewportTick } from '../stores/app-state.svelte';
 	import {
 		viewStateService,
 		configProviderService,
@@ -233,7 +233,7 @@
 	}
 
 	$effect(() => {
-		getTick();
+		getViewportTick();
 		if (!canvas) return;
 		syncCanvasSize();
 		handleUpdate();

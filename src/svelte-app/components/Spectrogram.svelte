@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { getTick } from '../stores/app-state.svelte';
+	import { getViewportTick } from '../stores/app-state.svelte';
 	import {
 		viewStateService,
 		soundHandlerService,
@@ -186,7 +186,7 @@
 	}
 
 	$effect(() => {
-		getTick();
+		getViewportTick();
 		if (!canvas) return;
 		if (!ctx) ctx = canvas.getContext('2d')!;
 		if (!soundHandlerService.audioBuffer?.getChannelData) return;

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getTick } from '../stores/app-state.svelte';
+	import { getDataTick } from '../stores/app-state.svelte';
 	import {
 		viewStateService,
 		loadedMetaDataService,
@@ -14,17 +14,17 @@
 
 	// Reactive state from services
 	let sideBarOpen = $derived.by(() => {
-		getTick();
+		getDataTick();
 		return !viewStateService.bundleListSideBarDisabled && viewStateService.getBundleListSideBarOpen();
 	});
 
 	let showDropZone = $derived.by(() => {
-		getTick();
+		getDataTick();
 		return viewStateService.showDropZone;
 	});
 
 	let groupedBundles = $derived.by(() => {
-		getTick();
+		getDataTick();
 		const list = loadedMetaDataService.getBundleList();
 		if (!list || list.length === 0) return [];
 		const groups: Map<string, any[]> = new Map();
@@ -37,11 +37,11 @@
 	});
 
 	let curBndl = $derived.by(() => {
-		getTick();
+		getDataTick();
 		return loadedMetaDataService.getCurBndl();
 	});
 
-	let hasUnsavedChanges = $derived(getTick() >= 0 && historyService.movesAwayFromLastSave !== 0);
+	let hasUnsavedChanges = $derived(getDataTick() >= 0 && historyService.movesAwayFromLastSave !== 0);
 
 	function loadBundle(bndl: any) {
 		if (historyService.movesAwayFromLastSave !== 0) {

@@ -11,26 +11,26 @@
 		levelService,
 		soundHandlerService,
 	} from '../stores/services';
-	import { getTick } from '../stores/app-state.svelte';
+	import { getViewportTick } from '../stores/app-state.svelte';
 	import { safeGetItem } from '../../core/util/safe-storage';
 
 	// Read current perspective config reactively — spread to create new array refs
 	let signalOrder = $derived.by(() => {
-		getTick();
+		getViewportTick();
 		try {
 			return [...(configProviderService.vals?.perspectives?.[viewStateService.curPerspectiveIdx]?.signalCanvases?.order ?? [])];
 		} catch { return []; }
 	});
 
 	let levelOrder = $derived.by(() => {
-		getTick();
+		getViewportTick();
 		try {
 			return [...(configProviderService.vals?.perspectives?.[viewStateService.curPerspectiveIdx]?.levelCanvases?.order ?? [])];
 		} catch { return []; }
 	});
 
 	let showHierarchy = $derived.by(() => {
-		getTick();
+		getViewportTick();
 		return safeGetItem('showHierarchyPathCanvas') === 'true'
 			&& viewStateService.getPermission('zoom')
 			&& configProviderService.curDbConfig?.linkDefinitions?.length > 0;

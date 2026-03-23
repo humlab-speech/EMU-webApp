@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { getTick } from '../../stores/app-state.svelte';
+	import { getConfigTick } from '../../stores/app-state.svelte';
 	import { modalService } from '../../stores/services';
 
-	let filename = $derived(getTick() >= 0 ? (modalService.dataIn || '') : '');
-	let content = $derived(getTick() >= 0 ? modalService.dataExport : undefined);
+	let filename = $derived(getConfigTick() >= 0 ? (modalService.dataIn || '') : '');
+	let content = $derived(getConfigTick() >= 0 ? modalService.dataExport : undefined);
 
 	function doExport() {
 		const blob = new Blob([JSON.stringify(content, null, 2)], { type: 'application/json' });

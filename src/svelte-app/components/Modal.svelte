@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getTick } from '../stores/app-state.svelte';
+	import { getConfigTick } from '../stores/app-state.svelte';
 	import { modalService } from '../stores/services';
 
 	import ErrorModal from './modals/ErrorModal.svelte';
@@ -17,8 +17,8 @@
 	import SettingsModal from './modals/SettingsModal.svelte';
 	import HierarchyModal from './modals/HierarchyModal.svelte';
 
-	let isOpen = $derived(getTick() >= 0 && modalService.isOpen);
-	let url = $derived(getTick() >= 0 ? (modalService.getTemplateUrl() || '') : '');
+	let isOpen = $derived(getConfigTick() >= 0 && modalService.isOpen);
+	let url = $derived(getConfigTick() >= 0 ? (modalService.getTemplateUrl() || '') : '');
 </script>
 
 {#if isOpen}

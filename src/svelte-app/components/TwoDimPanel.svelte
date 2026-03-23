@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getTick } from '../stores/app-state.svelte';
+	import { getViewportTick } from '../stores/app-state.svelte';
 	import {
 		viewStateService,
 		configProviderService,
@@ -43,13 +43,13 @@
 
 	// Visibility: only show when twoDimCanvases.order has entries
 	let visible = $derived.by(() => {
-		getTick();
+		getViewportTick();
 		const persp = configProviderService.vals?.perspectives?.[viewStateService.curPerspectiveIdx];
 		return persp?.twoDimCanvases?.order?.length > 0;
 	});
 
 	let canvasType = $derived.by(() => {
-		getTick();
+		getViewportTick();
 		const persp = configProviderService.vals?.perspectives?.[viewStateService.curPerspectiveIdx];
 		return persp?.twoDimCanvases?.order?.[0] ?? '';
 	});

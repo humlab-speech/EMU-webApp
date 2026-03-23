@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { getTick, invalidate } from '../stores/app-state.svelte';
+	import { getDataTick, invalidate } from '../stores/app-state.svelte';
 	import {
 		viewStateService,
 		soundHandlerService,
@@ -271,7 +271,7 @@
 
 	// reactive redraw
 	$effect(() => {
-		const tick = getTick();
+		const tick = getDataTick();
 		if (!canvas) return;
 		if (!ctx) ctx = canvas.getContext('2d')!;
 		const curLevel = levelService.getLevelDetails(levelName);

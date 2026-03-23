@@ -14,5 +14,14 @@ export default defineConfig({
 	},
 	build: {
 		outDir: 'dist',
+		rollupOptions: {
+			output: {
+				manualChunks(id) {
+					if (id.includes('d3-selection') || id.includes('d3-zoom') || id.includes('d3-interpolate') || id.includes('d3-transition') || id.includes('d3-dispatch') || id.includes('d3-timer') || id.includes('d3-color') || id.includes('d3-ease')) {
+						return 'd3';
+					}
+				},
+			},
+		},
 	},
 });

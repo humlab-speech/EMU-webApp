@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getTick, invalidate } from '../../stores/app-state.svelte';
+	import { getConfigTick, invalidate } from '../../stores/app-state.svelte';
 	import {
 		viewStateService,
 		historyService,
@@ -25,12 +25,12 @@
 
 	// Reactive bridge: derive current path from tick so Svelte detects changes (RC3)
 	let currentPath = $derived.by(() => {
-		getTick();
+		getConfigTick();
 		return [...(viewStateService.hierarchyState.path || [])];
 	});
 
 	$effect(() => {
-		getTick();
+		getConfigTick();
 		selectedPathIdx = viewStateService.hierarchyState.curPathIdx || 0;
 	});
 
@@ -61,7 +61,7 @@
 	}
 
 	let viewportSyncLabel = $derived.by(() => {
-		getTick();
+		getConfigTick();
 		return viewStateService.hierarchyState.viewportSync ? 'synced to zoom' : 'show all';
 	});
 

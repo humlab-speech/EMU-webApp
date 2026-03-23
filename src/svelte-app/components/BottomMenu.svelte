@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getTick, invalidate } from '../stores/app-state.svelte';
+	import { getConfigTick, invalidate } from '../stores/app-state.svelte';
 	import {
 		viewStateService,
 		levelService,
@@ -71,10 +71,10 @@
 		invalidate();
 	}
 
-	let restrictions = $derived(getTick() >= 0 && configProviderService.vals?.restrictions ? {...configProviderService.vals.restrictions} : undefined);
+	let restrictions = $derived(getConfigTick() >= 0 && configProviderService.vals?.restrictions ? {...configProviderService.vals.restrictions} : undefined);
 
-	let canZoom = $derived.by(() => { getTick(); return viewStateService.getPermission('zoom'); });
-	let canPlay = $derived.by(() => { getTick(); return viewStateService.getPermission('playaudio'); });
+	let canZoom = $derived.by(() => { getConfigTick(); return viewStateService.getPermission('zoom'); });
+	let canPlay = $derived.by(() => { getConfigTick(); return viewStateService.getPermission('playaudio'); });
 </script>
 
 <div class="artic-bottom-menu">

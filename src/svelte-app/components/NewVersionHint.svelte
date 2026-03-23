@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { getTick } from '../stores/app-state.svelte';
+	import { getConfigTick } from '../stores/app-state.svelte';
 	import { appcacheHandlerService } from '../stores/services';
 	import { version } from '../../../package.json';
 
-	let show = $derived(getTick() >= 0 && appcacheHandlerService.newVersionAvailable);
+	let show = $derived(getConfigTick() >= 0 && appcacheHandlerService.newVersionAvailable);
 
 	interface Props {
 		onAboutClick?: () => void;

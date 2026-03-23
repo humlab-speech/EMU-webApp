@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getTick, getMarkupTick } from '../stores/app-state.svelte';
+	import { getViewportTick, getMarkupTick } from '../stores/app-state.svelte';
 	import {
 		viewStateService,
 		configProviderService,
@@ -76,7 +76,7 @@
 	}
 
 	$effect(() => {
-		getTick();
+		getViewportTick();
 		getMarkupTick();
 		drawEpgGrid();
 	});

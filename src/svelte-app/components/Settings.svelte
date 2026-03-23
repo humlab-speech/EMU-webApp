@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getTick } from '../stores/app-state.svelte';
+	import { getConfigTick } from '../stores/app-state.svelte';
 	import { viewStateService, soundHandlerService, mathHelperService, hierarchyLayoutService, configProviderService, standardFuncsService, dataService, modalService } from '../stores/services';
 	import { safeGetItem, safeSetItem } from '../../core/util/safe-storage';
 
@@ -148,7 +148,7 @@
 	function onFocus() { viewStateService.setEditing(true); viewStateService.setcursorInTextField(true); }
 	function onBlur() { viewStateService.setEditing(false); viewStateService.setcursorInTextField(false); }
 
-	const hasHierarchy = $derived(getTick() >= 0 && configProviderService.curDbConfig?.linkDefinitions?.length > 0);
+	const hasHierarchy = $derived(getConfigTick() >= 0 && configProviderService.curDbConfig?.linkDefinitions?.length > 0);
 </script>
 
 <div class="artic-text">

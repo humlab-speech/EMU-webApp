@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getTick, getMarkupTick } from '../stores/app-state.svelte';
+	import { getViewportTick, getMarkupTick } from '../stores/app-state.svelte';
 	import {
 		viewStateService,
 		configProviderService,
@@ -289,7 +289,7 @@
 	let prevDataLen = -1;
 
 	$effect(() => {
-		getTick();
+		getViewportTick();
 		getMarkupTick();
 		if (!dotsCanvas) return;
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { getTick, getMarkupTick, invalidate, invalidateMarkup } from '../stores/app-state.svelte';
+	import { getViewportTick, getMarkupTick, invalidate, invalidateMarkup } from '../stores/app-state.svelte';
 	import {
 		viewStateService,
 		configProviderService,
@@ -359,7 +359,7 @@
 
 	// reactive redraw — respond to both data changes (tick) and mouse-only changes (markupTick)
 	$effect(() => {
-		getTick();
+		getViewportTick();
 		getMarkupTick();
 		if (ctx && !isEmptyObj(soundHandlerService.audioBuffer)) {
 			syncCanvasSize();

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { getTick } from '../../stores/app-state.svelte';
+	import { getConfigTick } from '../../stores/app-state.svelte';
 	import { modalService, levelService, historyService, viewStateService } from '../../stores/services';
 
-	let originalName = $derived(getTick() >= 0 ? (modalService.dataIn || '') : '');
+	let originalName = $derived(getConfigTick() >= 0 ? (modalService.dataIn || '') : '');
 	let newName = $state('');
 
 	function renameLevel() {

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { getTick } from '../../stores/app-state.svelte';
+	import { getConfigTick } from '../../stores/app-state.svelte';
 	import { modalService, viewStateService } from '../../stores/services';
 
-	let placeholder = $derived(getTick() >= 0 ? (modalService.dataIn || '') : '');
+	let placeholder = $derived(getConfigTick() >= 0 ? (modalService.dataIn || '') : '');
 	let inputVal = $state('');
 
 	function onFocus() { viewStateService.cursorInTextField = true; }

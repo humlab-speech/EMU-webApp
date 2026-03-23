@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { getTick } from '../stores/app-state.svelte';
+	import { getViewportTick } from '../stores/app-state.svelte';
 	import { viewStateService, soundHandlerService, drawHelperService } from '../stores/services';
 
 	let canvas: HTMLCanvasElement;
@@ -153,7 +153,7 @@
 	}
 
 	$effect(() => {
-		const _tick = getTick();
+		const _tick = getViewportTick();
 		if (!canvas || !markupCanvas) return;
 		syncCanvasSize(canvas);
 		syncCanvasSize(markupCanvas);

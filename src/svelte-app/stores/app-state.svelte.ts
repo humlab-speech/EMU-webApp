@@ -4,33 +4,69 @@
  * Services mutate their own state (viewStateService.curViewPort.sS = 123).
  * Svelte components need reactive signals to know when to re-render.
  *
- * Solution: a "tick" counter that increments whenever services change state.
- * Components use $effect(() => { tick; redraw(); }) to react.
+ * Four tick channels (from most frequent to least):
+ * - markupTick: mouse-only changes (crosshair, hover — only markup canvases react)
+ * - viewportTick: viewport/zoom/pan changes (canvas renderers react)
+ * - dataTick: annotation data changes (levels, hierarchy, bundle list)
+ * - configTick: config/perspective/UI state changes (menus, modals, sidebars)
  *
- * Two tick channels:
- * - tick: incremented on data/viewport changes (all canvases react)
- * - markupTick: incremented on mouse-only changes (only markup canvases react)
+ * invalidate() broadcasts all non-markup channels for backward compat.
+ * getTick() returns a combined tick for components not yet migrated.
  */
 
-let tick = $state(0);
+let viewportTick = $state(0);
+let dataTick = $state(0);
+let configTick = $state(0);
 let markupTick = $state(0);
 
-/** Increment to trigger ALL Svelte component re-renders */
-export function invalidate() {
-	tick++;
+// --- Granular invalidation ---
+
+/** Viewport/zoom/pan changed — canvas renderers should redraw */
+export function invalidateViewport() {
+	viewportTick++;
 }
 
-/** Increment to trigger only markup canvas re-renders (mouse movement etc.) */
+/** Annotation data changed — levels, hierarchy, bundle list should update */
+export function invalidateData() {
+	dataTick++;
+}
+
+/** Config/perspective/UI state changed — menus, modals, sidebars should update */
+export function invalidateConfig() {
+	configTick++;
+}
+
+/** Mouse-only change — only markup canvases (crosshairs etc.) should redraw */
 export function invalidateMarkup() {
 	markupTick++;
 }
 
-/** Read in $effect/$derived to establish reactive dependency on all changes */
-export function getTick(): number {
-	return tick;
+/** Broadcast: increment ALL non-markup channels. Use as fallback during migration. */
+export function invalidate() {
+	viewportTick++;
+	dataTick++;
+	configTick++;
 }
 
-/** Read in $effect/$derived to establish reactive dependency on markup-only changes */
+// --- Granular readers ---
+
+export function getViewportTick(): number {
+	return viewportTick;
+}
+
+export function getDataTick(): number {
+	return dataTick;
+}
+
+export function getConfigTick(): number {
+	return configTick;
+}
+
 export function getMarkupTick(): number {
 	return markupTick;
+}
+
+/** Combined tick — for components not yet migrated to granular channels */
+export function getTick(): number {
+	return viewportTick + dataTick + configTick;
 }

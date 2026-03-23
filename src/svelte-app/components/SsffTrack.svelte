@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { getTick, getMarkupTick, invalidateMarkup } from '../stores/app-state.svelte';
+	import { getViewportTick, getMarkupTick, invalidateMarkup } from '../stores/app-state.svelte';
 	import {
 		viewStateService,
 		configProviderService,
@@ -384,7 +384,7 @@
 	}
 
 	$effect(() => {
-		getTick();
+		getViewportTick();
 		if (!mainCanvas || !ssffCanvas || !markupCanvas) return;
 		syncCanvasSize(mainCanvas);
 		syncCanvasSize(ssffCanvas);

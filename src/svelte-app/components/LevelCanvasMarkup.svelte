@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { getTick, getMarkupTick, invalidate, invalidateMarkup } from '../stores/app-state.svelte';
+	import { getViewportTick, getMarkupTick, invalidate, invalidateMarkup } from '../stores/app-state.svelte';
 	import {
 		viewStateService,
 		soundHandlerService,
@@ -529,7 +529,7 @@
 
 	// Keep canvas size synced and draw markup reactively
 	$effect(() => {
-		getTick();
+		getViewportTick();
 		getMarkupTick();
 		if (!canvas) return;
 		if (!ctx) ctx = canvas.getContext('2d')!;

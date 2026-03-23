@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getTick } from '../../stores/app-state.svelte';
+	import { getConfigTick } from '../../stores/app-state.svelte';
 	import { modalService, configProviderService, viewStateService } from '../../stores/services';
 	import { safeGetItem, safeSetItem } from '../../../core/util/safe-storage';
 
@@ -13,10 +13,10 @@
 	}
 
 	let urls = $state<string[]>(getStoredUrls());
-	let currentUrl = $state(getTick() >= 0 ? configProviderService.vals.main.serverUrl : '');
+	let currentUrl = $state(getConfigTick() >= 0 ? configProviderService.vals.main.serverUrl : '');
 
 	$effect(() => {
-		getTick();
+		getConfigTick();
 		if (!currentUrl) currentUrl = configProviderService.vals.main.serverUrl || '';
 		modalService.dataOut = currentUrl;
 	});

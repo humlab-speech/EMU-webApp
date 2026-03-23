@@ -105,7 +105,7 @@ export {
 	handleGlobalKeystrokesService,
 };
 
-import { invalidate } from './app-state.svelte';
+import { invalidate, invalidateConfig } from './app-state.svelte';
 import { setPostUpdate } from '../../core/util/schedule-update';
 
 let initialized = false;
@@ -312,25 +312,25 @@ export function initServices() {
 	const origModalOpen = modalService.open.bind(modalService);
 	modalService.open = function(...args: any[]) {
 		const result = origModalOpen(...args);
-		invalidate();
+		invalidateConfig();
 		return result;
 	};
 	const origModalClose = modalService.close.bind(modalService);
 	modalService.close = function(...args: any[]) {
 		const result = origModalClose(...args);
-		invalidate();
+		invalidateConfig();
 		return result;
 	};
 	const origModalConfirm = modalService.confirm.bind(modalService);
 	modalService.confirm = function(...args: any[]) {
 		const result = origModalConfirm(...args);
-		invalidate();
+		invalidateConfig();
 		return result;
 	};
 	const origModalCloseAndResolve = modalService.closeAndResolve.bind(modalService);
 	modalService.closeAndResolve = function(...args: any[]) {
 		const result = origModalCloseAndResolve(...args);
-		invalidate();
+		invalidateConfig();
 		return result;
 	};
 	const origResetToInit = appStateService.resetToInitState.bind(appStateService);

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { getTick, invalidate } from '../stores/app-state.svelte';
+	import { getConfigTick, invalidate } from '../stores/app-state.svelte';
 	import { viewStateService, configProviderService } from '../stores/services';
 
-	let isOpen = $derived(getTick() >= 0 && viewStateService.getPerspectivesSideBarOpen());
-	let perspectives = $derived(getTick() >= 0 ? (configProviderService.vals?.perspectives || []) : []);
-	let showSidebar = $derived(getTick() >= 0 && configProviderService.vals?.restrictions?.showPerspectivesSidebar);
+	let isOpen = $derived(getConfigTick() >= 0 && viewStateService.getPerspectivesSideBarOpen());
+	let perspectives = $derived(getConfigTick() >= 0 ? (configProviderService.vals?.perspectives || []) : []);
+	let showSidebar = $derived(getConfigTick() >= 0 && configProviderService.vals?.restrictions?.showPerspectivesSidebar);
 
 	function changePerspective(persp: any) {
 		const newIdx = configProviderService.vals.perspectives.findIndex((p: any) => p.name === persp.name);
@@ -20,7 +20,7 @@
 		invalidate();
 	}
 
-	let curPerspIdx = $derived.by(() => { getTick(); return viewStateService.curPerspectiveIdx; });
+	let curPerspIdx = $derived.by(() => { getConfigTick(); return viewStateService.curPerspectiveIdx; });
 </script>
 
 {#if showSidebar}

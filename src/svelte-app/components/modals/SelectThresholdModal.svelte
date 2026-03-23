@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { getTick } from '../../stores/app-state.svelte';
+	import { getConfigTick } from '../../stores/app-state.svelte';
 	import { modalService } from '../../stores/services';
 
-	let dataIn = $derived(getTick() >= 0 ? (modalService.dataIn || {}) : {});
+	let dataIn = $derived(getConfigTick() >= 0 ? (modalService.dataIn || {}) : {});
 </script>
 
 <div class="artic-modal-wrap">
