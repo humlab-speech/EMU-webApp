@@ -723,7 +723,10 @@ function render() {
 
 	// Compute nodes
 	const nodes: any[] = [];
-	hierarchyLayoutService.calculateWeightsBottomUp(viewStateService.hierarchyState.path);
+	const vpRange = viewStateService.hierarchyState.viewportSync
+		? { sS: viewStateService.curViewPort.sS, eS: viewStateService.curViewPort.eS }
+		: undefined;
+	hierarchyLayoutService.calculateWeightsBottomUp(viewStateService.hierarchyState.path, vpRange);
 
 	for (let i = 0; i < viewStateService.hierarchyState.path.length; ++i) {
 		const levelItems = levelService.getLevelDetails(viewStateService.hierarchyState.path[i]).items;

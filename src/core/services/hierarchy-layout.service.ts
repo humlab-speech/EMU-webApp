@@ -157,14 +157,14 @@ export class HierarchyLayoutService {
 	 * This is most likely rather slow and -definitely needs- could
 	 * use some tweaking
 	 */
-	public calculateWeightsBottomUp(selectedPath) {
+	public calculateWeightsBottomUp(selectedPath, viewportRange?: { sS: number, eS: number }) {
 		var i, ii;
 
 		/////
 		// Make sure all items have proper _parents and
 		// _visibile attributes
 		this.findParents(selectedPath);
-		this.findVisibility(selectedPath);
+		this.findVisibility(selectedPath, viewportRange);
 
 		/////
 		// Iterate through levels bottom-up
@@ -342,7 +342,7 @@ export class HierarchyLayoutService {
 	 * Will add a boolean attribute _visible to all items on the
 	 * currently selected path.
 	 */
-	public findVisibility (selectedPath) {
+	public findVisibility (selectedPath, viewportRange?: { sS: number, eS: number }) {
 		if (selectedPath !== undefined && selectedPath.length > 0) {
 			var rootLevelItems = [];
 
@@ -387,6 +387,78 @@ export class HierarchyLayoutService {
 				}
 
 				currentItem._visible = true;
+			}
+
+			// Viewport-based filtering: hide time-bearing items
+			// (SEGMENT/EVENT) outside the current zoom range.
+			// ITEM-type nodes (no time info) keep their collapse-based
+			// visibility so structural context is preserved. A second
+			// pass then hides ITEM parents whose entire subtree of
+			// time-bearing descendants is outside the viewport.
+			if (viewportRange) {
+				// Pass 1: hide SEGMENT/EVENT items outside viewport
+				for (var vi = 0; vi < selectedPath.length; ++vi) {
+					level = this.LevelService.getLevelDetails(selectedPath[vi]);
+					for (var vii = 0; vii < level.items.length; ++vii) {
+						var item = level.items[vii];
+						if (!item._visible) continue;
+
+						if (item.sampleStart !== undefined && item.sampleDur !== undefined) {
+							// SEGMENT: hide if entirely outside viewport
+							if (item.sampleStart + item.sampleDur <= viewportRange.sS ||
+								item.sampleStart >= viewportRange.eS) {
+								item._visible = false;
+							}
+						} else if (item.samplePoint !== undefined) {
+							// EVENT: hide if point outside viewport
+							if (item.samplePoint < viewportRange.sS || item.samplePoint > viewportRange.eS) {
+								item._visible = false;
+							}
+						}
+					}
+				}
+
+				// Pass 2 (bottom-up): hide ITEM parents only if they
+				// have no visible descendants anywhere below them on
+				// the path. Walk from level 1 upward; for each parent,
+				// check children on ALL levels below it on the path.
+				var allLinks = this.DataService.getData().links;
+				for (var pi = 1; pi < selectedPath.length; ++pi) {
+					var parentLevel = this.LevelService.getLevelDetails(selectedPath[pi]);
+					for (var pii = 0; pii < parentLevel.items.length; ++pii) {
+						var parentItem = parentLevel.items[pii];
+						if (!parentItem._visible) continue;
+
+						// Collect all descendant IDs reachable via links
+						// on levels below this one on the path
+						var hasVisibleDescendant = false;
+						var frontier = [parentItem.id];
+						for (var ci = pi - 1; ci >= 0 && !hasVisibleDescendant; --ci) {
+							var childLvl = this.LevelService.getLevelDetails(selectedPath[ci]);
+							var nextFrontier = [];
+							for (var fi = 0; fi < frontier.length && !hasVisibleDescendant; ++fi) {
+								for (var li = 0; li < allLinks.length; ++li) {
+									if (allLinks[li].fromID === frontier[fi]) {
+										for (var cii = 0; cii < childLvl.items.length; ++cii) {
+											if (childLvl.items[cii].id === allLinks[li].toID) {
+												if (childLvl.items[cii]._visible) {
+													hasVisibleDescendant = true;
+													break;
+												}
+												nextFrontier.push(childLvl.items[cii].id);
+											}
+										}
+										if (hasVisibleDescendant) break;
+									}
+								}
+							}
+							frontier = nextFrontier;
+						}
+						if (!hasVisibleDescendant) {
+							parentItem._visible = false;
+						}
+					}
+				}
 			}
 		}
 	};

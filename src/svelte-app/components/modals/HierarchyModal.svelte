@@ -55,6 +55,16 @@
 		invalidate();
 	}
 
+	function toggleViewportSync() {
+		viewStateService.hierarchyState.toggleViewportSync();
+		invalidate();
+	}
+
+	let viewportSyncLabel = $derived.by(() => {
+		getTick();
+		return viewStateService.hierarchyState.viewportSync ? 'synced to zoom' : 'show all';
+	});
+
 	function setCurrentAttrDef(levelName: string, attrName: string, index: number) {
 		viewStateService.setCurAttrDef(levelName, attrName, index);
 		dropdownOpen[levelName] = false;
@@ -104,6 +114,7 @@
 	</div>
 	<div class="artic-modal-footer">
 		<button class="artic-mini-btn" onclick={playSelection}>play selected</button>
+		<button class="artic-mini-btn" onclick={toggleViewportSync}>{viewportSyncLabel}</button>
 		<button class="artic-mini-btn" onclick={rotateHierarchy}>&#x21BB; rotate by 90&deg;</button>
 		<button class="artic-mini-btn" onclick={() => modalService.close()}>close hierarchy</button>
 	</div>
