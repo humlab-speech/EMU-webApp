@@ -170,7 +170,7 @@ export class ViewStateService{
 			curPathIdx: 0,
 			curNrOfPaths: 0,
 			rotated: true,
-			viewportSync: false,
+			viewportSync: true,
 			playing: 0,
 			resize: 0,
 			closeContextMenu: () => { this.hierarchyState.contextMenuID = undefined; },
@@ -189,7 +189,7 @@ export class ViewStateService{
 				this.hierarchyState.translate = [0, 0];
 				this.hierarchyState.contextMenuID = undefined;
 				this.hierarchyState.newLinkFromID = undefined;
-				this.hierarchyState.viewportSync = false;
+				this.hierarchyState.viewportSync = true;
 			},
 			isRotated: () => { return this.hierarchyState.rotated; },
 			toggleRotation: () => { this.hierarchyState.rotated = !this.hierarchyState.rotated; },

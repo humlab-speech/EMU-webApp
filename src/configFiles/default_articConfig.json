@@ -132,5 +132,6 @@
         "showHierarchy": false,
         "editEMUwebAppConfig": false
     },
-    "demoDBs": ["ae", "ema", "epgdorsal"]
+    "demoDBs": ["ae", "ema", "epgdorsal"],
+    "devDemoDBs": ["ae_mp4", "aef", "aeg", "aem"]
 }

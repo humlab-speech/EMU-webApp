@@ -7,6 +7,7 @@ export class ConfigProviderService {
 	public curDbConfig;
 	public initDbConfig;
 	public embeddedVals;
+	public devMode: boolean = false;
 
 	constructor() {
 		this.resetState();

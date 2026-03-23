@@ -674,6 +674,12 @@
 			"items": {
 				"type": "string"
 			}
+		},
+		"devDemoDBs": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			}
 		}
 	},
 	"required": ["perspectives"],

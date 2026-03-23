@@ -56,6 +56,9 @@
 	if (params.has('disableBundleListSidebar')) {
 		viewStateService.bundleListSideBarDisabled = true;
 	}
+	if (params.get('dev') === 'true') {
+		configProviderService.devMode = true;
+	}
 
 	// Check for new version
 	appcacheHandlerService.checkForNewVersion();

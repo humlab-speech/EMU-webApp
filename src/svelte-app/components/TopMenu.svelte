@@ -188,7 +188,13 @@
 	// Reactive bridge: spread to create new object references so Svelte detects changes
 	let activeButtons = $derived(getTick() >= 0 && configProviderService.vals?.activeButtons ? {...configProviderService.vals.activeButtons} : undefined);
 	let restrictions = $derived(getTick() >= 0 && configProviderService.vals?.restrictions ? {...configProviderService.vals.restrictions} : undefined);
-	let demoDBs = $derived(getTick() >= 0 ? configProviderService.vals?.demoDBs : undefined);
+	let demoDBs = $derived.by(() => {
+		if (getTick() < 0) return undefined;
+		const base = configProviderService.vals?.demoDBs ?? [];
+		if (!configProviderService.devMode) return base;
+		const dev = configProviderService.vals?.devDemoDBs ?? [];
+		return [...base, ...dev].sort();
+	});
 	let bundleListSideBarDisabled = $derived(getTick() >= 0 ? viewStateService.bundleListSideBarDisabled : true);
 	let unsavedChangesStyle = $derived(getTick() >= 0 && historyService.movesAwayFromLastSave !== 0 ? 'background-color: #f00; color: white;' : '');
 
