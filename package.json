@@ -1,9 +1,14 @@
 {
   "name": "artic",
-  "version": "1.5.3-humlab-1.8.7",
+  "version": "1.5.3-humlab-1.8.8",
   "description": "Artic is an online and offline Web-App for labeling, visualizing and correcting speech and derived speech data.",
   "main": "app/scripts/app.js",
-  "author": "Raphael Winkelmann, Georg Raess, Markus Jochim",
+  "contributors": [
+    "Raphael Winkelmann",
+    "Georg Raess",
+    "Markus Jochim",
+    "Fredrik Nylén"
+  ],
   "license": "MIT",
   "readmeFilename": "README.md",
   "repository": {

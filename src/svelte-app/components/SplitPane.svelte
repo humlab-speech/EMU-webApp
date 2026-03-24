@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import { invalidateViewport } from '../stores/app-state.svelte';
 
 	let {
 		topMinSize = 80,
@@ -31,11 +32,18 @@
 	}
 
 	function onMouseUp() {
-		dragging = false;
+		if (dragging) {
+			dragging = false;
+			invalidateViewport();
+		}
+	}
+
+	function onResize() {
+		invalidateViewport();
 	}
 </script>
 
-<svelte:window on:mousemove={onMouseMove} on:mouseup={onMouseUp} />
+<svelte:window on:mousemove={onMouseMove} on:mouseup={onMouseUp} on:resize={onResize} />
 
 <div class="split-container" bind:this={container}>
 	<div class="split-top" style="height: {splitRatio * 100}%;">
