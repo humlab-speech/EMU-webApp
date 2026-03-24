@@ -4,7 +4,12 @@ Fork of [EMU-webApp](https://github.com/IPS-LMU/EMU-webApp) by Humlab, Umeå Uni
 
 ## Introduction
 
-Artic is an online and offline web application for labeling, visualizing and correcting speech and derived speech data.
+Artic is an online and offline web application for labeling, visualizing, and correcting speech and derived speech data.
+It has been rewritten from the ground up to eliminate some overhead of the framework used in the original implementation, 
+and has a three-tier audio signal processing pipeline, which enables it to support databases in many more audio (and video) formats
+to be managed as efficiently as possible by the application.
+
+
 
 ## Quick start
 
