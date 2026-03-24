@@ -1116,8 +1116,7 @@ $effect(() => {
 	zoomListener = d3zoom().scaleExtent(scaleExtent).on('zoom', zoom);
 
 	// The SVG is appended into containerEl's first div child
-	const rootG = d3
-		.select(containerEl)
+	const rootG = select(containerEl)
 		.append('svg')
 		.attr('width', '100%')
 		.attr('height', '100%')
