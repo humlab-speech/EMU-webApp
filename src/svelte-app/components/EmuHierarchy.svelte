@@ -2,7 +2,7 @@
 import { select } from 'd3-selection';
 import { zoom as d3zoom, zoomTransform, zoomIdentity } from 'd3-zoom';
 import { pointer } from 'd3-selection';
-import { getDataTick } from '../stores/app-state.svelte';
+import { getDataTick, getViewportTick } from '../stores/app-state.svelte';
 import { scheduleUpdate } from '../../core/util/schedule-update';
 import {
 	viewStateService,
@@ -1179,6 +1179,7 @@ $effect(() => {
 // Reactive update — re-render when tick changes or vertical rotation changes
 $effect(() => {
 	const t = getDataTick();
+	getViewportTick(); // also react to zoom/pan for viewport sync
 	if (!_inited || t < 0) return;
 
 	const newVertical = viewStateService.hierarchyState.isRotated
