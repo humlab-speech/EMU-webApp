@@ -143,18 +143,18 @@
 
 	function onClick(event: MouseEvent) {
 		event.preventDefault();
-		setLastMove(event, true);
+		setLastMove(event, true, true);
 		setLastClick(event);
 	}
 
 	function onContextMenu(event: MouseEvent) {
 		event.preventDefault();
-		setLastMove(event, true);
+		setLastMove(event, true, true);
 		setLastRightClick(event);
 	}
 
 	function onDblClick(event: MouseEvent) {
-		setLastMove(event, true);
+		setLastMove(event, true, true);
 		if (configProviderService.vals.restrictions.editItemName) {
 			setLastDblClick(event);
 		} else {
@@ -321,17 +321,17 @@
 
 	function onMouseDown(event: MouseEvent) {
 		viewStateService.movingBoundary = true;
-		setLastMove(event, true);
+		setLastMove(event, true, true);
 	}
 
 	function onMouseUp(event: MouseEvent) {
 		viewStateService.movingBoundary = false;
-		setLastMove(event, true);
+		setLastMove(event, true, true);
 	}
 
 	function onMouseOut(event: MouseEvent) {
 		viewStateService.movingBoundary = false;
-		setLastMove(event, true);
+		setLastMove(event, true, true);
 	}
 
 	// --- touch handlers ---
@@ -345,7 +345,7 @@
 			_touchStartY = t.clientY;
 		}
 		viewStateService.movingBoundary = true;
-		setLastMove(event, true);
+		setLastMove(event, true, true);
 	}
 
 	function onTouchMove(event: TouchEvent) {
@@ -417,7 +417,7 @@
 			const now = Date.now();
 			if (now - _lastTapTime < 300) {
 				// double-tap
-				setLastMove(event, true);
+				setLastMove(event, true, true);
 				if (configProviderService.vals.restrictions.editItemName) {
 					setLastDblClick(event);
 				} else {
@@ -426,12 +426,12 @@
 				_lastTapTime = 0;
 			} else {
 				// single tap
-				setLastMove(event, true);
+				setLastMove(event, true, true);
 				setLastClick(event);
 				_lastTapTime = now;
 			}
 		}
-		setLastMove(event, true);
+		setLastMove(event, true, true);
 	}
 
 	function syncCanvasSize() {

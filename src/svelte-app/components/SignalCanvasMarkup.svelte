@@ -94,6 +94,7 @@
 		// formant correction highlights
 		if (correctionTrack) {
 			const curChangeObj = historyService.curChangeObj;
+			if (curChangeObj && Object.keys(curChangeObj).length > 0) {
 			const sRaSt = ssffDataService.getSampleRateAndStartTimeOfTrack(correctionTrack.name);
 
 			for (const key in curChangeObj) {
@@ -131,6 +132,7 @@
 				ctx.stroke();
 				ctx.fill();
 			}
+			}
 		}
 
 		drawHelperService.drawMovingBoundaryLine(ctx);
@@ -153,7 +155,6 @@
 			);
 			viewStateService.curViewPort.movingE = viewStateService.curViewPort.movingS;
 			viewStateService.select(viewStateService.curViewPort.movingS, viewStateService.curViewPort.movingE);
-			drawMarkup();
 			invalidate();
 		}
 	}
@@ -170,7 +171,6 @@
 			if (curSample >= viewStateService.curViewPort.selectE - selectDist / 2) {
 				viewStateService.curViewPort.selectE = curSample;
 			}
-			drawMarkup();
 			invalidate();
 		}
 	}
@@ -307,7 +307,6 @@
 		);
 		viewStateService.curViewPort.movingE = viewStateService.curViewPort.movingS;
 		viewStateService.select(viewStateService.curViewPort.movingS, viewStateService.curViewPort.movingE);
-		drawMarkup();
 		invalidate();
 	}
 

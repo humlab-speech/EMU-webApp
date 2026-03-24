@@ -23,6 +23,7 @@
 	let canvas: HTMLCanvasElement;
 	let markupCanvas: HTMLCanvasElement;
 	let resizeCleanup: (() => void) | undefined;
+	let hierarchyWorker: HierarchyWorker;
 
 	function isEmptyObj(obj: any): boolean {
 		return !obj || (typeof obj === 'object' && Object.keys(obj).length === 0);
@@ -53,7 +54,7 @@
 		const vpES = viewStateService.curViewPort.eS;
 
 		try {
-			const hierarchyWorker = new HierarchyWorker();
+			if (!hierarchyWorker) hierarchyWorker = new HierarchyWorker();
 			const reducedAnnotation = await hierarchyWorker.reduceAnnotationToViewableTimeAndPath(annotation, path, vpSS, vpES);
 
 			const nrOfPxlsPerLevel = 1024 / path.length;
