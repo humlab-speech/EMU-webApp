@@ -978,7 +978,7 @@ function render() {
 		if (!foreignObject.empty()) {
 			const inputNode = foreignObject.select('input').node() as HTMLInputElement | null;
 			if (inputNode) {
-				inputNode.focus();
+				inputNode.focus({ preventScroll: true });
 				inputNode.select();
 			}
 		}
